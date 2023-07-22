@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\PublicSystem">
+      <UniqueIdentifier>{1fba37ca-ae7d-4132-addc-f1f2fd622150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PrivateSystem">
+      <UniqueIdentifier>{0d1afdee-7df4-4628-9632-8e9ec5d0ef2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PrivateSystem\Manager">
+      <UniqueIdentifier>{4d155bca-0c5a-4b57-971f-51658a2f6e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PrivateSystem">
+      <UniqueIdentifier>{8cd681c2-39e9-4c02-9fba-a6264dafd100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PublicSystem">
+      <UniqueIdentifier>{11bb6d73-0db0-4a9e-b8fc-f917b8d50e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PrivateSystem\Manager">
+      <UniqueIdentifier>{393e188b-4d8f-4765-851c-531ebbf46c89}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyInput.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_KeyInputManager.cpp">
+      <Filter>ソース ファイル\PrivateSystem\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_TimeManager.cpp">
+      <Filter>ソース ファイル\PrivateSystem\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyInput.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyName.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_KeyInputManager.h">
+      <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_TimeManager.h">
+      <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
