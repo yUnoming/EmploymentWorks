@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Systems">
+      <UniqueIdentifier>{75897d08-c8a8-496f-84f2-5f74ef94a444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{96bb9503-e137-4a93-9d62-e86ec1ac2127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\yUno_SystemManager">
+      <UniqueIdentifier>{85644570-1281-423b-b04b-35a3106ed3e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\yUno_SystemManager">
+      <UniqueIdentifier>{910ee958-55b3-44aa-8161-d12166f07c72}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Component.h">
+      <Filter>ヘッダー ファイル\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ヘッダー ファイル\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyInput.h">
+      <Filter>ヘッダー ファイル\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ヘッダー ファイル\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_TimeManager.h">
+      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyName.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_KeyInputManager.h">
+      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Component.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_TimeManager.cpp">
+      <Filter>ソース ファイル\yUno_SystemManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyInput.cpp">
+      <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_KeyInputManager.cpp">
+      <Filter>ソース ファイル\yUno_SystemManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
