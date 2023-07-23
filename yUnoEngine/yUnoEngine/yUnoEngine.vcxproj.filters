@@ -54,6 +54,12 @@
     <ClCompile Include="Component.cpp">
       <Filter>ソース ファイル\PrivateSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_MainManager.cpp">
+      <Filter>ソース ファイル\PrivateSystem\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -75,6 +81,12 @@
       <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
     </ClInclude>
     <ClInclude Include="yUno_TimeManager.h">
+      <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_MainManager.h">
       <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
     </ClInclude>
   </ItemGroup>
