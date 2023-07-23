@@ -1,13 +1,19 @@
 #pragma once
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include "yUno_SceneManager.h"
+
 
 class yUno_MainManager
 {
 	private:
 		// ----- variables ----- //
+		// 現在の開いているシーン
+		yUno_SceneManager* m_NowScene;
 
-
-		// ----- methods ----- //
-		void Change_Mode();
+		// デモプレイ中かどうか
+		static bool m_DemoPlay;
 
 	public:
 		// ----- methods ----- //

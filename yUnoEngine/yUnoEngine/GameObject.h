@@ -8,20 +8,18 @@ class Component;
 class GameObject
 {
 	public :
-		// ＊＊＊＊＊ variable ＊＊＊＊＊ //
+		// ----- variables ----- //
 		// コンポーネントのリスト
 		std::list<Component*> m_ComponentList;
 
-		// ＊＊＊＊＊ function ＊＊＊＊＊ //
-		// コンストラクタ
+		// ----- methods ----- //
 		GameObject() {};
-		// デストラクタ
 		virtual ~GameObject();
 
-		// 更新
-		void Update();
-		// 描画
-		void Draw();
+		virtual void Init();		// 初期化
+		virtual void UnInit();		// 終了
+		virtual void Update() {};	// 更新
+		virtual void Draw() {};		// 描画
 
 		// コンポーネント取得
 		template<class T>

@@ -60,6 +60,9 @@
     <ClCompile Include="yUno_MainManager.cpp">
       <Filter>ソース ファイル\PrivateSystem\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="yUno_SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="yUno_MainManager.h">
       <Filter>ヘッダー ファイル\PrivateSystem\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

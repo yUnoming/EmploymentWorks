@@ -67,6 +67,7 @@ namespace System
 		Escape = 1,			// Escape
 		BackSpace = 14,		// BackSpace
 		Tab = 15,			// Tab
+		Enter = 28,			// Enter
 		LeftShift = 42,		// ç∂ë§Ç…Ç†ÇÈShift
 		RightShift = 310,	// âEë§Ç…Ç†ÇÈShift
 		LeftControl = 29,	// ç∂ë§Ç…Ç†ÇÈControl

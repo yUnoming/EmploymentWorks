@@ -10,7 +10,25 @@ GameObject::~GameObject()
 		delete com;
 }
 
-// 　内容：オブジェクトが持っている各種コンポーネントを更新処理を実行する
+// 　内容：オブジェクトが持っている各種コンポーネントの初期化処理を実行する
+// 　引数：なし
+// 戻り値：なし
+void GameObject::Init()
+{
+	for (auto com : m_ComponentList)
+		com->Init();
+}
+
+// 　内容：オブジェクトが持っている各種コンポーネントの終了処理を実行する
+// 　引数：なし
+// 戻り値：なし
+void GameObject::UnInit()
+{
+	for (auto com : m_ComponentList)
+		com->UnInit();
+}
+
+// 　内容：オブジェクトが持っている各種コンポーネントの更新処理を実行する
 // 　引数：なし
 // 戻り値：なし
 void GameObject::Update()

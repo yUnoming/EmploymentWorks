@@ -18,6 +18,12 @@ using namespace yUno_SystemManager;
 using namespace System;
 
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　   staticメンバ変数の定義        //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+bool yUno_MainManager::m_DemoPlay;
+
+
 void yUno_MainManager::Init()
 {
     // ＝＝＝＝＝ システムの初期化処理 ＝＝＝＝＝ //
@@ -39,16 +45,25 @@ void yUno_MainManager::Update()
     yUno_KeyInputManager::Update();
 
     // ＝＝＝＝＝ エンジンの更新処理 ＝＝＝＝＝ //
-    // KeyInputのテスト：LShiftが押された？
-    if (KeyInput::GetKeyDown_Trigger(KeyName::LeftShift))
-    {
-        std::cout << "Pushed LShift" << std::endl;
-    }
+    // ----- デモプレイの切り替え----- //
+    // 仮）Enterキーが押された？
+    if (KeyInput::GetKeyDown_Trigger(KeyName::Enter))
+        m_DemoPlay ^= true;  // デモプレイの状態を切り替える
 
-    // KeyInputのテスト：RShiftが押された？
-    if (KeyInput::GetKeyDown_Trigger(KeyName::RightShift))
+    // デモプレイ中？
+    if (m_DemoPlay)
     {
-        std::cout << "Pushed RShift" << std::endl;
+        // KeyInputのテスト：LShiftが押された？
+        if (KeyInput::GetKeyDown_Trigger(KeyName::LeftShift))
+        {
+            std::cout << "Pushed LShift" << std::endl;
+        }
+
+        // KeyInputのテスト：RShiftが押された？
+        if (KeyInput::GetKeyDown_Trigger(KeyName::RightShift))
+        {
+            std::cout << "Pushed RShift" << std::endl;
+        }
     }
 
     // 現在のキー入力状態を保存する
@@ -58,10 +73,4 @@ void yUno_MainManager::Update()
 void yUno_MainManager::Draw()
 {
 }
-
-void yUno_MainManager::Change_Mode()
-{
-
-}
-
 
