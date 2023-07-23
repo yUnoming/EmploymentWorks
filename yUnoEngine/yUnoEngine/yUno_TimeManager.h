@@ -8,8 +8,8 @@ namespace yUno_SystemManager
 			static void Init();
 			static void Update();
 
-	private:
-		static double m_Last_Time;	// 前回ループ時の時間
+		private:
+			static double m_Last_Time;	// 前回ループ時の時間
 	};
 }
 
