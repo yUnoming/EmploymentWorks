@@ -135,6 +135,7 @@
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
+    <ClCompile Include="yUno_SceneManager.cpp" />
     <ClCompile Include="yUno_TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="Time.h" />
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
+    <ClInclude Include="yUno_SceneManager.h" />
     <ClInclude Include="yUno_TimeManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
