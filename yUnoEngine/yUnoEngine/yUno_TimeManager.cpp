@@ -32,11 +32,11 @@ void yUno_SystemManager::yUno_TimeManager::Update()
 	timeEndPeriod(1);				// 精度を元に戻す
 
 	// 現在時刻-前回時刻で求めた値をデルタタイムに代入
-	System::Time::DeltaTime = Now_Time - m_Last_Time;
+	PublicSystem::Time::DeltaTime = Now_Time - m_Last_Time;
 
 	//＊-----デルタタイムの調整-----＊//
-	if (System::Time::DeltaTime <= 0)	// デルタタイムが０以下？
-		System::Time::DeltaTime = 1;	// 値を１に調整
+	if (PublicSystem::Time::DeltaTime <= 0)	// デルタタイムが０以下？
+		PublicSystem::Time::DeltaTime = 1;	// 値を１に調整
 
 	m_Last_Time = Now_Time;			// 現在時刻を保存
 }

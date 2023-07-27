@@ -15,7 +15,7 @@
 // @@		 usingéŒ¾ 	    	  //
 //  //
 using namespace yUno_SystemManager;
-using namespace System;
+using namespace PublicSystem;
 
 
 //  //

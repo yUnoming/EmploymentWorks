@@ -1,49 +1,49 @@
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "GameObject.h"
 
-// 　内容：GameObjectクラスのデストラクタ
-// 　引数：なし
-// 戻り値：なし
-GameObject::~GameObject()
+
+void PublicSystem::GameObject::InitBase()
 {
-	// コンポーネントの数だけループ
-	for (auto com : m_ComponentList)
-		delete com;
+	// オブジェクトの初期化処理
+	Init();
 }
 
-// 　内容：オブジェクトが持っている各種コンポーネントの初期化処理を実行する
-// 　引数：なし
-// 戻り値：なし
-void GameObject::Init()
+void PublicSystem::GameObject::UnInitBase()
 {
+	// リスト内のコンポーネント取得
 	for (auto com : m_ComponentList)
-		com->Init();
+	{
+		com->UnInit();	// 終了処理
+		delete com;		// 削除
+	}
+
+	// リストをクリア
+	m_ComponentList.clear();
+
+	// オブジェクトの終了処理
+	UnInit();
 }
 
-// 　内容：オブジェクトが持っている各種コンポーネントの終了処理を実行する
-// 　引数：なし
-// 戻り値：なし
-void GameObject::UnInit()
+void PublicSystem::GameObject::UpdateBase()
 {
+	// リスト内のコンポーネント取得
 	for (auto com : m_ComponentList)
-		com->UnInit();
+		com->Update();	// 更新処理
+
+	// オブジェクトの更新処理
+	Update();
 }
 
-// 　内容：オブジェクトが持っている各種コンポーネントの更新処理を実行する
-// 　引数：なし
-// 戻り値：なし
-void GameObject::Update()
+void PublicSystem::GameObject::DrawBase(DirectX::SimpleMath::Matrix _parentMatrix)
 {
+	// リスト内のコンポーネント取得
 	for (auto com : m_ComponentList)
-		com->Update();
-}
+		com->Draw();	// 描画処理
 
-// 　内容：オブジェクトが持っている各種コンポーネントの描画処理を実行する
-// 　引数：なし
-// 戻り値：なし
-void GameObject::Draw()
-{
-	for (auto com : m_ComponentList)
-		com->Draw();
+	// オブジェクトの描画処理
+	Draw();
 }
 
 // 　内容：オブジェクトが持っているコンポーネントを取得する
@@ -51,7 +51,7 @@ void GameObject::Draw()
 // 戻り値：コンポーネントを持っている場合 ===>>   持っているコンポーネントを全て返す
 //		   コンポーネントを持っていない場合 ===>> nullptrを返す
 template<class T>
-T* GameObject::GetComponent()
+T* PublicSystem::GameObject::GetComponent()
 {
 	for (auto com : m_ComponentList)
 	{
@@ -66,7 +66,7 @@ T* GameObject::GetComponent()
 // 　引数：なし
 // 戻り値：追加したコンポーネント
 template<class T>
-T* GameObject::AddComponent()
+T* PublicSystem::GameObject::AddComponent()
 {
 	T* Component = new T();
 	m_ComponentList.push_back(Component);
@@ -78,7 +78,7 @@ T* GameObject::AddComponent()
 // 　引数：なし
 // 戻り値：nullptr
 template<class T>
-T* GameObject::DeleteComponent()
+T* PublicSystem::GameObject::DeleteComponent()
 {
 	for (auto com : m_ComponentList)
 	{

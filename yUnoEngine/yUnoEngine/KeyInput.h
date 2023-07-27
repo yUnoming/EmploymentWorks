@@ -1,8 +1,11 @@
 #pragma once
-
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "KeyName.h"
 
-namespace System
+
+namespace PublicSystem
 {
 	// キー入力クラス
 	class KeyInput

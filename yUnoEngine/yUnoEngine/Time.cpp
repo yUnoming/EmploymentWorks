@@ -1,3 +1,3 @@
 #include "Time.h"
 
-double System::Time::DeltaTime;
+double PublicSystem::Time::DeltaTime;

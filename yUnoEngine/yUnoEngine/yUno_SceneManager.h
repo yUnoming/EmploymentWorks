@@ -1,13 +1,17 @@
 #pragma once
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
 #include <array>
 #include "GameObject.h"
+
 
 class yUno_SceneManager
 {
 	protected:
 		// シーン内のオブジェクト
-		std::array<std::list<GameObject*>, 4> m_SceneObject;
+		std::array<std::list<PublicSystem::GameObject*>, 4> m_SceneObject;
 
 	public:
 		// ----- methods ----- //

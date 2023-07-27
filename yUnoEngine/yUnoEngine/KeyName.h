@@ -1,6 +1,6 @@
 #pragma once
 
-namespace System
+namespace PublicSystem
 {
 	// ŠeíƒL[”Ô†
 	enum KeyName

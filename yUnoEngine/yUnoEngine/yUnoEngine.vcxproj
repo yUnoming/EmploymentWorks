@@ -70,6 +70,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\directxtk\include</IncludePath>
+    <LibraryPath>C:\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\directxtk\include</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -132,7 +139,9 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
     <ClCompile Include="yUno_SceneManager.cpp" />
@@ -144,7 +153,9 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="KeyName.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
     <ClInclude Include="yUno_SceneManager.h" />
