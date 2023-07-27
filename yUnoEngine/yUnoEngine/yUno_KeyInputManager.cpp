@@ -23,7 +23,7 @@ int yUno_SystemManager::yUno_KeyInputManager::Up_KeyType_Index;
 //	　　　　　グローバル宣言			//
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // このCPP内でKeyInputの変数を使用するためにグローバル宣言
-System::KeyInput g_KeyInput;
+PublicSystem::KeyInput g_KeyInput;
 
 
 void yUno_SystemManager::yUno_KeyInputManager::Update()
@@ -37,7 +37,7 @@ void yUno_SystemManager::yUno_KeyInputManager::Update()
 		for (int i = 0; i < Down_KeyType_Index; i++)
 		{
 			// キーの押されている時間を計算
-			Now_KeyInfo[Down_KeyType->at(i)].KeyState_ElapsedTime += System::Time::DeltaTime * 0.0001f;
+			Now_KeyInfo[Down_KeyType->at(i)].KeyState_ElapsedTime += PublicSystem::Time::DeltaTime * 0.0001f;
 		}
 	}
 	// ＊ 離されているキー ＊ //
@@ -48,7 +48,7 @@ void yUno_SystemManager::yUno_KeyInputManager::Update()
 		for (int i = 0; i < Up_KeyType_Index; i++)
 		{
 			// キーの離されている時間を計算
-			Now_KeyInfo[Up_KeyType->at(i)].KeyState_ElapsedTime += System::Time::DeltaTime * 0.0001f;
+			Now_KeyInfo[Up_KeyType->at(i)].KeyState_ElapsedTime += PublicSystem::Time::DeltaTime * 0.0001f;
 		}
 	}
 }
@@ -123,7 +123,7 @@ void yUno_SystemManager::yUno_KeyInputManager::Set_KeyUp(int _key)
 	}
 }
 
-bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Trigger(System::KeyName _key)
+bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Trigger(PublicSystem::KeyName _key)
 {
 	// 前回キーは離されていたが、現在は押されている？
 	if (Late_KeyInfo[_key].KeyState != Down && Now_KeyInfo[_key].KeyState == Down)
@@ -131,7 +131,7 @@ bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Trigger(System::KeyNam
 	return false;
 }
 
-bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(System::KeyName _key)
+bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(PublicSystem::KeyName _key)
 {
 	// 現在キーは押されている？
 	if (Now_KeyInfo[_key].KeyState == Down)
@@ -139,7 +139,7 @@ bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(System::KeyName _key)
 	return false;
 }
 
-double yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Time(System::KeyName _key)
+double yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Time(PublicSystem::KeyName _key)
 {
 	// キーが押されている？
 	if (Now_KeyInfo[_key].KeyState == Down)
@@ -150,7 +150,7 @@ double yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Time(System::KeyName
 	return 0;
 }
 
-bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Trigger(System::KeyName _key)
+bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Trigger(PublicSystem::KeyName _key)
 {
 	// 前回キーは押されていたが、現在は離されている？
 	if (Late_KeyInfo[_key].KeyState == Down && Now_KeyInfo[_key].KeyState != Down)
@@ -158,7 +158,7 @@ bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Trigger(System::KeyName 
 	return false;
 }
 
-bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp(System::KeyName _key)
+bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp(PublicSystem::KeyName _key)
 {
 	// 現在キーは離されている？
 	if (Now_KeyInfo[_key].KeyState == NoStatus || Now_KeyInfo[_key].KeyState == Up)
@@ -166,7 +166,7 @@ bool yUno_SystemManager::yUno_KeyInputManager::GetKeyUp(System::KeyName _key)
 	return false;
 }
 
-double yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Time(System::KeyName _key)
+double yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Time(PublicSystem::KeyName _key)
 {
 	// キーが離されている？
 	if (Now_KeyInfo[_key].KeyState == Up)

@@ -1,25 +1,43 @@
 #pragma once
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
+#include <SimpleMath.h>
 #include "Component.h"
 
-// 前方参照
-class Component;
 
-class GameObject
+namespace PublicSystem
 {
-	public :
+	class GameObject
+	{
+	private:
 		// ----- variables ----- //
 		// コンポーネントのリスト
 		std::list<Component*> m_ComponentList;
 
+	protected:
+		// ----- variables ----- //
+		// オブジェクトのアクティブ状態を表す
+		// true: 通常動作 false: 機能停止・非表示
+		bool m_Active = true;
+
+	public:
 		// ----- methods ----- //
 		GameObject() {};
-		virtual ~GameObject();
+		virtual ~GameObject() {};
 
-		virtual void Init();		// 初期化
-		virtual void UnInit();		// 終了
+		// オブジェクト単体に関わる処理
+		virtual void Init() {};		// 初期化
+		virtual void UnInit() {};		// 終了
 		virtual void Update() {};	// 更新
 		virtual void Draw() {};		// 描画
+
+		// オブジェクト全体に関わる処理
+		void InitBase();
+		void UnInitBase();
+		void UpdateBase();
+		void DrawBase(DirectX::SimpleMath::Matrix _parentMatrix);
 
 		// コンポーネント取得
 		template<class T>
@@ -30,4 +48,5 @@ class GameObject
 		// コンポーネント削除
 		template<class T>
 		T* DeleteComponent();
-};
+	};
+}

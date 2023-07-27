@@ -38,18 +38,18 @@ namespace yUno_SystemManager
 			static void Set_KeyUp(int _key);
 
 			// キーが押された瞬間かどうかを返す関数
-			static bool GetKeyDown_Trigger(System::KeyName _key);
+			static bool GetKeyDown_Trigger(PublicSystem::KeyName _key);
 			// キーが押されているかどうかを返す関数
-			static bool GetKeyDown(System::KeyName _key);
+			static bool GetKeyDown(PublicSystem::KeyName _key);
 			// キーが押されている時間を返す関数
-			static double GetKeyDown_Time(System::KeyName _key);
+			static double GetKeyDown_Time(PublicSystem::KeyName _key);
 
 			// キーが離された瞬間かどうかを返す関数
-			static bool GetKeyUp_Trigger(System::KeyName _key);
+			static bool GetKeyUp_Trigger(PublicSystem::KeyName _key);
 			// キーが離されているかどうかを返す関数
-			static bool GetKeyUp(System::KeyName _key);
+			static bool GetKeyUp(PublicSystem::KeyName _key);
 			// キーが離されている時間を返す関数
-			static double GetKeyUp_Time(System::KeyName _key);
+			static double GetKeyUp_Time(PublicSystem::KeyName _key);
 
 		private:
 			// 現在のキー情報を代入する配列
