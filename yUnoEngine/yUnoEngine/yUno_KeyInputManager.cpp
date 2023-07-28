@@ -28,8 +28,8 @@ PublicSystem::KeyInput g_KeyInput;
 
 void yUno_SystemManager::yUno_KeyInputManager::Update()
 {
-	// ＝＝＝＝＝ 各キー状態の経過時間を測定 ＝＝＝＝＝ //
-	// ＊ 押されているキー ＊ //
+	// ===== 各キー状態の経過時間を測定 ===== //
+	//**  押されているキー  **//
 	// キーが押されている？（押されていない場合は処理を行わない）
 	if (!Down_KeyType->empty())
 	{
@@ -40,7 +40,7 @@ void yUno_SystemManager::yUno_KeyInputManager::Update()
 			Now_KeyInfo[Down_KeyType->at(i)].KeyState_ElapsedTime += PublicSystem::Time::DeltaTime * 0.0001f;
 		}
 	}
-	// ＊ 離されているキー ＊ //
+	//**  離されているキー  **//
 	// キーが離されている（判定を行っているキーが存在する）？（離されていない（判定を行っているキーが存在しない）場合は処理を行わない）
 	if (!Up_KeyType->empty())
 	{

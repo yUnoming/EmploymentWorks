@@ -27,7 +27,7 @@ bool yUno_MainManager::m_DemoPlay;
 
 void yUno_MainManager::Init(Application* app)
 {
-    // ＝＝＝＝＝ システムの初期化処理 ＝＝＝＝＝ //
+    // ===== システムの初期化処理 ===== //
     // 時間
     yUno_TimeManager::Init();
     
@@ -41,14 +41,14 @@ void yUno_MainManager::UnInit()
 
 void yUno_MainManager::Update()
 {
-    // ＝＝＝＝＝ システム内部の更新処理 ＝＝＝＝＝ //
+    // ===== システムの更新処理 ===== //
     // 時間
     yUno_TimeManager::Update();
 
     // キー入力
     yUno_KeyInputManager::Update();
 
-    // ＝＝＝＝＝ エンジンの更新処理 ＝＝＝＝＝ //
+    // ===== エンジンの更新処理 ===== //
     // ----- デモプレイの切り替え----- //
     // 仮）Enterキーが押された？
     if (KeyInput::GetKeyDown_Trigger(KeyName::Enter))

@@ -59,9 +59,13 @@ void Application::UnInitApp()
 
 bool Application::InitWnd()
 {
-    // ＝＝＝＝＝ ウィンドウの設定・作成 ＝＝＝＝＝ //
+    // ===== ウィンドウの設定・作成 ===== //
     // インスタンスハンドルを取得
     auto hInst = GetModuleHandle(nullptr);
+
+    // ウィンドウの幅を設定
+    m_Wnd_Width = WINDOW_WIDTH;     // 横幅
+    m_Wnd_Height = WINDOW_HEIGHT;   // 縦幅
 
     // ウィンドウの設定
     WNDCLASSEX wc = {};
@@ -134,7 +138,7 @@ void Application::UnInitWnd()
 
 void Application::MainLoop()
 {
-    // ----- 初期化処理 ----- //
+    // ===== 初期化処理 ===== //
     yUno_MainManager::Init(this);
 
     MSG msg = {};
@@ -150,15 +154,15 @@ void Application::MainLoop()
         }
         else
         {
-            // ----- 更新処理 ------ //
+            // ===== 更新処理 ====== //
             yUno_MainManager::Update();
 
-            // ----- 描画処理 ----- //
+            // ===== 描画処理 ===== //
             yUno_MainManager::Draw();
         }
     }
 
-    // ----- 終了処理 ----- //
+    // ===== 終了処理 ===== //
     yUno_MainManager::UnInit();
 }
 
