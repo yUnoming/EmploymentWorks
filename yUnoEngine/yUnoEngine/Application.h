@@ -9,8 +9,10 @@ class Application
 {
 	private:
 		// ----- variables ----- //
-		HINSTANCE   m_hInst;    // インスタンスハンドル
-		HWND        m_hWnd;		// ウィンドウハンドル
+		HINSTANCE   m_hInst;		// インスタンスハンドル
+		HWND        m_hWnd;			// ウィンドウハンドル
+		UINT		m_Wnd_Width;	// ウィンドウの横幅
+		UINT		m_Wnd_Height;	// ウィンドウの縦幅
 
 		// ----- methods ----- //
 		bool InitApp();		// アプリケーションの初期化
@@ -24,10 +26,15 @@ class Application
 
 	public:
 		// ----- methods ----- //
-		// アプリケーションを開始する関数
+		// アプリケーションの開始
 		void Run();
 
-		// ウィンドウハンドルを返す
+		// ウィンドウハンドルを取得
 		HWND Get_Window() { return m_hWnd; };
+
+		// ウィンドウの縦幅を取得
+		UINT Get_WindowWidth() { return m_Wnd_Width; };
+		// ウィンドウの横幅を取得
+		UINT Get_WindowHeight() { return m_Wnd_Height; };
 };
 
