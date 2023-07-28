@@ -5,6 +5,7 @@
 #include <list>
 #include <SimpleMath.h>
 #include "Component.h"
+#include "Vector3.h"
 
 
 namespace PublicSystem
@@ -22,6 +23,10 @@ namespace PublicSystem
 		// true: 通常動作 false: 機能停止・非表示
 		bool m_Active = true;
 
+		Vector3 m_Position = Vector3(0.0f, 0.0f, 0.0f);	// 位置
+		Vector3 m_Rotation = Vector3(0.0f, 0.0f, 0.0f);	// 回転
+		Vector3 m_Scale = Vector3(1.0f, 1.0f, 1.0f);	// 大きさ
+
 	public:
 		// ----- methods ----- //
 		GameObject() {};
@@ -29,7 +34,7 @@ namespace PublicSystem
 
 		// オブジェクト単体に関わる処理
 		virtual void Init() {};		// 初期化
-		virtual void UnInit() {};		// 終了
+		virtual void UnInit() {};	// 終了
 		virtual void Update() {};	// 更新
 		virtual void Draw() {};		// 描画
 

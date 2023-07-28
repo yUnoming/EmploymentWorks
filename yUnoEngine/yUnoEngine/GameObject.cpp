@@ -2,6 +2,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "GameObject.h"
+#include <d3d11.h>
 
 
 void PublicSystem::GameObject::InitBase()
@@ -38,6 +39,13 @@ void PublicSystem::GameObject::UpdateBase()
 
 void PublicSystem::GameObject::DrawBase(DirectX::SimpleMath::Matrix _parentMatrix)
 {
+	// マトリックス設定
+	DirectX::SimpleMath::Matrix world, trans, rot, scl;
+	trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_Position.x, m_Position.y, m_Position.z);
+	rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	scl = DirectX::SimpleMath::Matrix::CreateScale(m_Scale.x, m_Scale.y, m_Scale.z);
+	world = trans * rot * scl * _parentMatrix;
+
 	// リスト内のコンポーネント取得
 	for (auto com : m_ComponentList)
 		com->Draw();	// 描画処理
