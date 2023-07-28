@@ -135,7 +135,7 @@ void Application::UnInitWnd()
 void Application::MainLoop()
 {
     // ----- ‰Šú‰»ˆ— ----- //
-    yUno_MainManager::Init();
+    yUno_MainManager::Init(this);
 
     MSG msg = {};
 

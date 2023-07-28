@@ -17,7 +17,7 @@ class yUno_MainManager
 
 	public:
 		// ----- methods ----- //
-		static void Init();
+		static void Init(Application* app);
 		static void UnInit();
 		static void Update();
 		static void Draw();

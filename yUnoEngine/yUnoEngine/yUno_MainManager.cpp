@@ -2,6 +2,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <Windows.h>
+#include "renderer.h"
 
 #include "yUno_MainManager.h"
 #include "yUno_TimeManager.h"
@@ -24,11 +25,14 @@ using namespace PublicSystem;
 bool yUno_MainManager::m_DemoPlay;
 
 
-void yUno_MainManager::Init()
+void yUno_MainManager::Init(Application* app)
 {
     // ＝＝＝＝＝ システムの初期化処理 ＝＝＝＝＝ //
     // 時間
     yUno_TimeManager::Init();
+    
+    // レンダラー
+    Renderer::Init(app);
 }
 
 void yUno_MainManager::UnInit()
@@ -72,5 +76,10 @@ void yUno_MainManager::Update()
 
 void yUno_MainManager::Draw()
 {
+    Renderer::Begin();
+
+    // シーンの描画処理をこの下に記述すること
+
+    Renderer::End();
 }
 
