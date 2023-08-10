@@ -11,19 +11,23 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // ----- ウィンドウ初期サイズ -----//
 #define WINDOW_HEIGHT 540   // 縦幅
-#define WINDOW_WIDTH 960    // 横幅
+#define WINDOW_WIDTH  960    // 横幅
 
 // ----- 命名 ----- //
 // ウィンドウクラス名
-#define WINDOWCLASS_NAME L"yUnoEngine"
+#define WINDOWCLASS_NAME TEXT("yUnoEngine")
 // ウィンドウ名
-#define WINDOW_NAME L"yUnoEngine"
+#define WINDOW_NAME TEXT("yUnoEngine")
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　       using宣言      　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 using namespace yUno_SystemManager;
+
+
+UINT Application::m_Wnd_Width;	// ウィンドウの横幅
+UINT Application::m_Wnd_Height;	// ウィンドウの縦幅
 
 
 void Application::Run()
@@ -83,17 +87,20 @@ bool Application::InitWnd()
     if (!RegisterClassEx(&wc))
         return false;   // 正常に行えなかったことを伝える
 
+    // インスタンスハンドルを代入
+    m_hInst = hInst;
+
     // ウィンドウのサイズを設定
     RECT rc = {};
-    rc.right = static_cast<LONG>(WINDOW_WIDTH);     // 横幅
-    rc.bottom = static_cast<LONG>(WINDOW_HEIGHT);   // 縦幅
+    rc.right = static_cast<LONG>(m_Wnd_Width);     // 横幅
+    rc.bottom = static_cast<LONG>(m_Wnd_Height);   // 縦幅
 
     // ウィンドウサイズを調整
     auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
     AdjustWindowRect(&rc, style, FALSE);
 
     // ウィンドウを作成
-    HWND hWnd = CreateWindowEx(
+    m_hWnd = CreateWindowEx(
         0,                          // 拡張ウィンドウスタイル
         WINDOWCLASS_NAME,           // ウィンドウクラス名
         WINDOW_NAME,                // ウィンドウ名
@@ -108,17 +115,17 @@ bool Application::InitWnd()
         nullptr);                   // ウィンドウに渡される値へのポインター
 
     // ウィンドウが作成出来なかった？
-    if (hWnd == nullptr)
+    if (m_hWnd == nullptr)
         return false;   // 正常に行えなかったことを伝える
 
     // ウィンドウを表示.
-    ShowWindow(hWnd, SW_SHOWNORMAL);
+    ShowWindow(m_hWnd, SW_SHOWNORMAL);
 
     // ウィンドウを更新.
-    UpdateWindow(hWnd);
+    UpdateWindow(m_hWnd);
 
     // ウィンドウにフォーカスを設定.
-    SetFocus(hWnd);
+    SetFocus(m_hWnd);
 
     // 正常に行えたことを伝える
     return true;
@@ -128,9 +135,7 @@ void Application::UnInitWnd()
 {
     // ウィンドウの登録を解除.
     if (m_hInst != nullptr)
-    {
         UnregisterClass(WINDOWCLASS_NAME, m_hInst);
-    }
 
     m_hInst = nullptr;
     m_hWnd = nullptr;
@@ -173,7 +178,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
         // ウィンドウを閉じるアクションが発生した場合
         case WM_CLOSE:
             // 終了確認で「OK」が押された？
-            if (MessageBox(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
+            if (MessageBox(NULL, "終了しますか？", "終了確認", MB_OKCANCEL) == IDOK)
             {
                 // ウィンドウを閉じる
                 DestroyWindow(hWnd);

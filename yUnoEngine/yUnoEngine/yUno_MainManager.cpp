@@ -8,9 +8,7 @@
 #include "yUno_TimeManager.h"
 #include "yUno_KeyInputManager.h"
 
-#include "KeyInput.h"
-#include "KeyName.h"
-#include <iostream>
+#include "SampleScene.h"
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		 using宣言 	    	  //
@@ -23,6 +21,7 @@ using namespace PublicSystem;
 // 　　   staticメンバ変数の定義        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 bool yUno_MainManager::m_DemoPlay;
+yUno_SceneManager*  yUno_MainManager::m_NowScene;
 
 
 void yUno_MainManager::Init(Application* app)
@@ -33,10 +32,35 @@ void yUno_MainManager::Init(Application* app)
     
     // レンダラー
     Renderer::Init(app);
+
+    ID3D11VertexShader* VertexShader{};
+    ID3D11PixelShader* PixelShader{};
+    ID3D11InputLayout* VertexLayout{};
+
+    // ----- shader設定 ----- //
+    Renderer::CreateVertexShader(&VertexShader, &VertexLayout, "Assets\\Shaders\\unlitTextureVS.cso");
+    Renderer::CreatePixelShader(&PixelShader, "Assets\\Shaders\\unlitTexturePS.cso");
+
+    // 入力レイアウト設定
+    Renderer::GetDeviceContext()->IASetInputLayout(VertexLayout);
+
+    // シェーダ設定
+    Renderer::GetDeviceContext()->VSSetShader(VertexShader, nullptr, 0);
+    Renderer::GetDeviceContext()->PSSetShader(PixelShader, nullptr, 0);
+
+    // ===== メインの初期化処理 ===== //
+    // シーンを立ち上げる
+    m_NowScene = new yUno_SceneManager();
+    m_NowScene->LoadScene<SampleScene>();
 }
 
 void yUno_MainManager::UnInit()
 {
+    // ===== メインの初期化処理 ===== //
+    // シーンの終了
+    m_NowScene->UnInitBase();
+    // シーンの削除
+    delete m_NowScene;
 }
 
 void yUno_MainManager::Update()
@@ -48,27 +72,14 @@ void yUno_MainManager::Update()
     // キー入力
     yUno_KeyInputManager::Update();
 
-    // ===== エンジンの更新処理 ===== //
+    // ===== メインの更新処理 ===== //
     // ----- デモプレイの切り替え----- //
     // 仮）Enterキーが押された？
-    if (KeyInput::GetKeyDown_Trigger(KeyName::Enter))
-        m_DemoPlay ^= true;  // デモプレイの状態を切り替える
+    //if (KeyInput::GetKeyDown_Trigger(KeyName::Enter))
+    //    m_DemoPlay ^= true;  // デモプレイの状態を切り替える
 
-    // デモプレイ中？
-    if (m_DemoPlay)
-    {
-        // KeyInputのテスト：LShiftが押された？
-        if (KeyInput::GetKeyDown_Trigger(KeyName::LeftShift))
-        {
-            std::cout << "Pushed LShift" << std::endl;
-        }
-
-        // KeyInputのテスト：RShiftが押された？
-        if (KeyInput::GetKeyDown_Trigger(KeyName::RightShift))
-        {
-            std::cout << "Pushed RShift" << std::endl;
-        }
-    }
+    // シーンの更新
+    m_NowScene->UpdateBase();
 
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::Keep_Now_KeyInfo();
@@ -76,10 +87,14 @@ void yUno_MainManager::Update()
 
 void yUno_MainManager::Draw()
 {
+    // ===== メインの描画処理 ===== //
+    // 描画の前処理
     Renderer::Begin();
 
-    // シーンの描画処理をこの下に記述すること
+    // シーンの描画
+    m_NowScene->DrawBase();
 
+    // 描画の後処理
     Renderer::End();
 }
 

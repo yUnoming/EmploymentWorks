@@ -31,6 +31,12 @@
     <Filter Include="ヘッダー ファイル\yUno_SystemManager">
       <UniqueIdentifier>{393e188b-4d8f-4765-851c-531ebbf46c89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\yUno_SceneManagement">
+      <UniqueIdentifier>{77eea612-2da2-4c7d-865c-233f3de19135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\yUno_SceneManagement">
+      <UniqueIdentifier>{240b10ac-fccf-435e-9077-0145bec65e23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -57,9 +63,6 @@
     <ClCompile Include="Application.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="yUno_MainManager.cpp">
-      <Filter>ソース ファイル\yUno_SystemManager</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>ソース ファイル\PublicSystem</Filter>
     </ClCompile>
@@ -69,7 +72,31 @@
     <ClCompile Include="Vector3.cpp">
       <Filter>ソース ファイル\PublicSystem</Filter>
     </ClCompile>
+    <ClCompile Include="SampleScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_MainManager.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル\yUno_SceneManagement</Filter>
+    </ClCompile>
     <ClCompile Include="renderer.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="modelRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="utftosjisconv.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,9 +125,6 @@
     <ClInclude Include="Application.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="yUno_MainManager.h">
-      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
@@ -110,7 +134,31 @@
     <ClInclude Include="Vector3.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
+    <ClInclude Include="SampleScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>ヘッダー ファイル\yUno_SceneManagement</Filter>
+    </ClInclude>
     <ClInclude Include="renderer.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_MainManager.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="modelRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="utftosjisconv.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

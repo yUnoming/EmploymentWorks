@@ -5,30 +5,33 @@
 #include <list>
 #include <SimpleMath.h>
 #include "Component.h"
-#include "Vector3.h"
+#include "vector3.h"
 
+using namespace PublicSystem;
 
-namespace PublicSystem
+class GameObject
 {
-	class GameObject
-	{
 	private:
-		// ----- variables ----- //
+		// ----- variables / 変数 ----- //
+		// オブジェクト名
+		const char* m_Name = 0;
+
 		// コンポーネントのリスト
 		std::list<Component*> m_ComponentList;
 
 	protected:
-		// ----- variables ----- //
+		// ----- variables / 変数 ----- //
 		// オブジェクトのアクティブ状態を表す
 		// true: 通常動作 false: 機能停止・非表示
 		bool m_Active = true;
 
-		Vector3 m_Position = Vector3(0.0f, 0.0f, 0.0f);	// 位置
+		// 基本のオブジェクト情報
+		Vector3 m_Position = Vector3(0.0f, 0.0f, 0.0f);	// 座標
 		Vector3 m_Rotation = Vector3(0.0f, 0.0f, 0.0f);	// 回転
 		Vector3 m_Scale = Vector3(1.0f, 1.0f, 1.0f);	// 大きさ
 
 	public:
-		// ----- methods ----- //
+		// ----- functions / 関数 ----- //
 		GameObject() {};
 		virtual ~GameObject() {};
 
@@ -44,14 +47,56 @@ namespace PublicSystem
 		void UpdateBase();
 		void DrawBase(DirectX::SimpleMath::Matrix _parentMatrix);
 
-		// コンポーネント取得
+		//**  コンポーネント操作  **//
+
+		// 　内容：オブジェクトが持っているコンポーネントを取得する
+		// 　引数：なし
+		// 戻り値：コンポーネントを持っている場合 ===>>   持っているコンポーネントを全て返す
+		//		   コンポーネントを持っていない場合 ===>> nullptrを返す
 		template<class T>
-		T* GetComponent();
-		// コンポーネント追加
+		T* GetComponent()
+		{
+			for (auto com : m_ComponentList)
+			{
+				T* Component = dynamic_cast<T*>(com);
+				if (Component != nullptr)
+					return Component;
+			}
+			return nullptr;
+		}
+
+		// 　内容：オブジェクトに新たにコンポーネントを追加する
+		// 　引数：なし
+		// 戻り値：追加したコンポーネント
 		template<class T>
-		T* AddComponent();
-		// コンポーネント削除
+		T* AddComponent()
+		{
+			T* com = new T();
+			m_ComponentList.push_back(com);
+			((Component*)com)->Init();
+			return com;
+		}
+
+		// 　内容：オブジェクトが持っているコンポーネントを削除する
+		// 　引数：なし
+		// 戻り値：nullptr
 		template<class T>
-		T* DeleteComponent();
-	};
+		T* DeleteComponent()
+		{
+			for (auto com : m_ComponentList)
+			{
+				T* Component = dynamic_cast<T*>(com);
+				if (Component != nullptr)
+				{
+					Component->UnInit();
+					delete Component;
+					return nullptr;
+				}
+			}
+			return nullptr;
+		}
+};
+namespace PublicSystem
+{
+
 }

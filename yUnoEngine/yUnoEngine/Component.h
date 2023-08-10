@@ -1,19 +1,27 @@
 #pragma once
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
 
-// 前方参照
+
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		  前方参照  		  //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 class GameObject;
+
 
 class Component
 {
 	public:
-		// ＊＊＊＊＊ variable ＊＊＊＊＊ //
-		// オブジェクトのリスト定義
-		std::list<GameObject*> m_GameObjectList;
-		// 自身
+		// ----- variables / 変数 ----- //
+		// 自身の親であるオブジェクト
 		GameObject* Parent = nullptr;
 
-		// ＊＊＊＊＊ function ＊＊＊＊＊ //
+		// よく使われるコンポーネントは呼び出さるようにしておく
+
+
+		// ----- functions / 関数 ----- //
 		// コンストラクタ
 		Component() {};
 		// デストラクタ

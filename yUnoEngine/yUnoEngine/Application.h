@@ -11,8 +11,8 @@ class Application
 		// ----- variables ----- //
 		HINSTANCE   m_hInst;		// インスタンスハンドル
 		HWND        m_hWnd;			// ウィンドウハンドル
-		UINT		m_Wnd_Width;	// ウィンドウの横幅
-		UINT		m_Wnd_Height;	// ウィンドウの縦幅
+		static UINT		m_Wnd_Width;	// ウィンドウの横幅
+		static UINT		m_Wnd_Height;	// ウィンドウの縦幅
 
 		// ----- methods ----- //
 		bool InitApp();		// アプリケーションの初期化
