@@ -5,12 +5,12 @@ namespace PublicSystem
 	class Vector3
 	{
 		public:
-			// ----- variables ----- //
+			// ----- variables / •Ï” ----- //
 			float x = 1.0f;
 			float y = 1.0f;
 			float z = 1.0f;
 
-			// ----- methods ----- //
+			// ----- methods / ŠÖ” ----- //
 			Vector3() {};
 			Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 			virtual ~Vector3() {};

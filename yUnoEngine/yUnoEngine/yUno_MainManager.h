@@ -4,19 +4,18 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_SceneManager.h"
 
-
 class yUno_MainManager
 {
 	private:
-		// ----- variables ----- //
-		// 現在の開いているシーン
-		yUno_SceneManager* m_NowScene;
+		// ----- variables / 変数 ----- //
+		// 現在のシーン
+		static yUno_SceneManager* m_NowScene;
 
 		// デモプレイ中かどうか
 		static bool m_DemoPlay;
 
 	public:
-		// ----- methods ----- //
+		// ----- methods / 関数 ----- //
 		static void Init(Application* app);
 		static void UnInit();
 		static void Update();

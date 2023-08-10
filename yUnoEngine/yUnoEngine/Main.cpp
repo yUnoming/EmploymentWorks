@@ -32,7 +32,7 @@ int main()
     //SetMenu(hWnd, hMenu);
 
 
-    // アプリケーション実行
+    //**  アプリケーション実行  **//
     Application app;
     app.Run();
 
