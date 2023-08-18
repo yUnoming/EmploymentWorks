@@ -2,26 +2,22 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "Component.h"
-#include "Vector3.h"
-#include <SimpleMath.h>
+#include "EachFunction.h"
 
 
 namespace PublicSystem
 {
-	class Camera : public Component
+	class Camera : public EachFunction
 	{
 		private:
-			// ----- variables / 変数 ----- //
-			// ビュー行列
-			DirectX::SimpleMath::Matrix m_ViewMatrix{};
+			void Draw() override;
 
 		public:
-			// ----- functions / 関数 ----- //
-			void Init()   override;	// 初期化
-			void UnInit() override; // 終了
-			void Update() override;	// 更新
-			void Draw()   override;	// 描画
+			// ----- variables / 変数 ----- //
+			float NearClip = 1.0f;		// カメラが描画する最も近い地点
+			float FarClip = 10.0f;	// カメラが描画する最も遠い地点
+			
+			float FieldOfView = 45.0f;	// 視野角
 	};
 }
 

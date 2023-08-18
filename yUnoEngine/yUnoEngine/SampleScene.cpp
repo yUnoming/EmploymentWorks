@@ -4,6 +4,7 @@
 #include "KeyName.h"
 #include "modelRenderer.h"
 #include "Transform.h"
+#include "SpectatorCamera.h"
 
 #include "Test.h"
 #include <iostream>
@@ -12,7 +13,8 @@ using namespace PublicSystem;
 
 void SampleScene::Init()
 {
-    AddObject<Test>(1);
+    AddObject<SpectatorCamera>(0);
+    Test* test = AddObject<Test>(1);
 }
 
 void SampleScene::Update()
