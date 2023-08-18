@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "component.h"
+#include "EachFunction.h"
 #include "utftosjisconv.h"
 #include "renderer.h"
 
@@ -47,7 +47,7 @@ struct MODEL
 	unsigned int	SubsetNum;
 };
 
-class ModelRenderer : public Component
+class ModelRenderer : public EachFunction
 {
 private:
 
@@ -63,9 +63,6 @@ public:
 
 	static void Preload( const char *FileName );
 	static void UnloadAll();
-
-
-	using Component::Component;
 
 	void Load( const char *FileName );
 

@@ -21,7 +21,7 @@ namespace yUno_SceneManagement
 		yUno_SceneManager* m_LoadedScene;
 
 	public:
-		// ----- methods / 関数 ----- //
+		// ----- functions / 関数 ----- //
 		yUno_SceneManager() : m_LoadedScene(nullptr) {}// コンストラクタ
 		virtual ~yUno_SceneManager() {};	// デストラクタ
 

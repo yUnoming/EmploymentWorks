@@ -5,19 +5,17 @@
 #include <list>
 #include <SimpleMath.h>
 #include "Component.h"
-#include "vector3.h"
-
-using namespace PublicSystem;
+//#include "Transform.h"
 
 class GameObject
 {
 	private:
 		// ----- variables / 変数 ----- //
+		// コンポーネントのリスト
+		std::list<Component*> m_Component_List;
+
 		// オブジェクト名
 		const char* m_Name = 0;
-
-		// コンポーネントのリスト
-		std::list<Component*> m_ComponentList;
 
 	protected:
 		// ----- variables / 変数 ----- //
@@ -25,14 +23,12 @@ class GameObject
 		// true: 通常動作 false: 機能停止・非表示
 		bool m_Active = true;
 
-		// 基本のオブジェクト情報
-		Vector3 m_Position = Vector3(0.0f, 0.0f, 0.0f);	// 座標
-		Vector3 m_Rotation = Vector3(0.0f, 0.0f, 0.0f);	// 回転
-		Vector3 m_Scale = Vector3(1.0f, 1.0f, 1.0f);	// 大きさ
+				// 基本のオブジェクト情報
+		class Transform* transform = nullptr;
 
 	public:
 		// ----- functions / 関数 ----- //
-		GameObject() {};
+		GameObject();
 		virtual ~GameObject() {};
 
 		// オブジェクト単体に関わる処理
@@ -56,7 +52,7 @@ class GameObject
 		template<class T>
 		T* GetComponent()
 		{
-			for (auto com : m_ComponentList)
+			for (auto com : m_Component_List)
 			{
 				T* Component = dynamic_cast<T*>(com);
 				if (Component != nullptr)
@@ -72,7 +68,10 @@ class GameObject
 		T* AddComponent()
 		{
 			T* com = new T();
-			m_ComponentList.push_back(com);
+			com->Myself = this;
+			if(transform != nullptr)
+				com->transform = transform;
+			m_Component_List.push_back(com);
 			((Component*)com)->Init();
 			return com;
 		}
@@ -81,22 +80,16 @@ class GameObject
 		// 　引数：なし
 		// 戻り値：nullptr
 		template<class T>
-		T* DeleteComponent()
+		void DeleteComponent()
 		{
-			for (auto com : m_ComponentList)
+			for (auto com : m_Component_List)
 			{
 				T* Component = dynamic_cast<T*>(com);
 				if (Component != nullptr)
 				{
 					Component->UnInit();
 					delete Component;
-					return nullptr;
 				}
 			}
-			return nullptr;
 		}
 };
-namespace PublicSystem
-{
-
-}

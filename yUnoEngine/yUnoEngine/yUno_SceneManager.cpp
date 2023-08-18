@@ -54,34 +54,6 @@ void yUno_SceneManager::DrawBase()
 {
 	DirectX::SimpleMath::Matrix matrix = DirectX::SimpleMath::Matrix::Identity;
 
-	// ビュー変換後列作成
-	DirectX::SimpleMath::Matrix m_ViewMatrix;
-
-	// DIRECTXTKのメソッドは右手系　20230511 by suzuki.tomoki
-	// 右手系にすると３角形頂点が反時計回りになるので描画されなくなるので注意
-	// このコードは確認テストのために残す
-	//	m_ViewMatrix = m_ViewMatrix.CreateLookAt(m_Position, m_Target, up);					
-
-	Renderer::SetViewMatrix(&m_ViewMatrix);
-
-	//プロジェクション行列の生成
-	constexpr float fieldOfView = DirectX::XMConvertToRadians(45.0f);    // 視野角
-
-	float aspectRatio = static_cast<float>(960) / static_cast<float>(540);	// アスペクト比	
-	float nearPlane = 1.0f;       // ニアクリップ
-	float farPlane = 1000.0f;      // ファークリップ
-
-	//プロジェクション行列の生成
-	DirectX::SimpleMath::Matrix projectionMatrix;
-	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(fieldOfView, aspectRatio, nearPlane, farPlane);	// 左手系にした　20230511 by suzuki.tomoki
-
-	// DIRECTXTKのメソッドは右手系　20230511 by suzuki.tomoki
-	// 右手系にすると３角形頂点が反時計回りになるので描画されなくなるので注意
-	// このコードは確認テストのために残す
-//	projectionMatrix = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlane, farPlane);
-
-	Renderer::SetProjectionMatrix(&projectionMatrix);
-
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_LoadedScene->m_SceneObject)
 	{
