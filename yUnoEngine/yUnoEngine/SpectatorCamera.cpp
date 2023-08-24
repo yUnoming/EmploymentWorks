@@ -6,7 +6,9 @@
 #include "Camera.h"
 
 #include "KeyInput.h"
-#include "KeyName.h"
+#include "InputPartsName.h"
+#include "MouseInput.h"
+#include "ScreenInput.h"
 
 
 //  //
@@ -22,8 +24,17 @@ void SpectatorCamera::Init()
 
 void SpectatorCamera::Update()
 {
-	if (KeyInput::GetKeyDown(S))
-		transform->Position.y -= 0.001f;
 	if (KeyInput::GetKeyDown(W))
-		transform->Position.y += 0.001f;
+		transform->Position.y += 0.01f;
+	if (KeyInput::GetKeyDown(A))
+		transform->Position.x -= 0.01f;
+	if (KeyInput::GetKeyDown(S))
+		transform->Position.y -= 0.01f;
+	if (KeyInput::GetKeyDown(D))
+		transform->Position.x += 0.01f;
+
+	if (MouseInput::GetMouseDown_Trigger(LeftButton))
+	{
+		Vector2 ClickedPosition = ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition());
+	}
 }

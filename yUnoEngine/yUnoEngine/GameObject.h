@@ -5,7 +5,22 @@
 #include <list>
 #include <SimpleMath.h>
 #include "Component.h"
-//#include "Transform.h"
+
+
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		  前方宣言		 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+namespace PublicSystem
+{
+	class Transform;	// PublicSystem::Transformを使うために前方宣言
+}
+
+
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		 using宣言		 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+using namespace PublicSystem;
+
 
 class GameObject
 {
@@ -24,7 +39,7 @@ class GameObject
 		bool m_Active = true;
 
 				// 基本のオブジェクト情報
-		class Transform* transform = nullptr;
+		Transform* transform = nullptr;
 
 	public:
 		// ----- functions / 関数 ----- //

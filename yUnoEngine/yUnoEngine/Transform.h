@@ -5,21 +5,17 @@
 #include "EachFunction.h"
 #include "Vector3.h"
 
-using namespace PublicSystem;
 
-class Transform : public EachFunction
+namespace PublicSystem
 {
+	class Transform : public EachFunction
+	{
 	public:
 
 		// ----- variables / •Ï” ----- //
 		Vector3 Position = Vector3(0.0f, 0.0f, 0.0f);	// ˆÊ’u
 		Vector3 Rotation = Vector3(0.0f, 0.0f, 0.0f);	// ‰ñ“]
 		Vector3 Scale = Vector3(1.0f, 1.0f, 1.0f);		// ‘å‚«‚³
-};
-
-
-namespace PublicSystem
-{
-
+	};
 }
 

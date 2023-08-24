@@ -37,11 +37,14 @@
     <Filter Include="ヘッダー ファイル\yUno_SceneManagement">
       <UniqueIdentifier>{240b10ac-fccf-435e-9077-0145bec65e23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\PublicSystem\Inheritance&quot;EachFunction&quot;">
+      <UniqueIdentifier>{8a28de4d-f182-4575-8d1f-6711415297c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\PublicSystem\Inheritance&quot;EachFunction&quot;">
+      <UniqueIdentifier>{54653d98-b0a0-42a5-888f-a31d2cd39bba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>ソース ファイル\PublicSystem</Filter>
     </ClCompile>
@@ -60,9 +63,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>ソース ファイル\PrivateSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>ソース ファイル\PublicSystem</Filter>
     </ClCompile>
@@ -75,9 +75,6 @@
     <ClCompile Include="SampleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="yUno_MainManager.cpp">
       <Filter>ソース ファイル\PrivateSystem</Filter>
     </ClCompile>
@@ -86,12 +83,6 @@
     </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル\PrivateSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="modelRenderer.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="utftosjisconv.cpp">
       <Filter>ソース ファイル</Filter>
@@ -102,7 +93,34 @@
     <ClCompile Include="SpectatorCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
     <ClCompile Include="EachFunction.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="modelRenderer.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>ソース ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenInput.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_MouseInputManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,13 +128,10 @@
     <ClInclude Include="Component.h">
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>ヘッダー ファイル\PublicSystem</Filter>
-    </ClInclude>
     <ClInclude Include="KeyInput.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
-    <ClInclude Include="KeyName.h">
+    <ClInclude Include="InputPartsName.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
@@ -127,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="yUno_TimeManager.h">
       <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Matrix.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
@@ -143,9 +155,6 @@
     <ClInclude Include="SampleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>ヘッダー ファイル\yUno_SceneManagement</Filter>
     </ClInclude>
@@ -154,12 +163,6 @@
     </ClInclude>
     <ClInclude Include="yUno_MainManager.h">
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="modelRenderer.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="utftosjisconv.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -170,7 +173,34 @@
     <ClInclude Include="SpectatorCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="modelRenderer.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
     <ClInclude Include="EachFunction.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ヘッダー ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>ヘッダー ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenInput.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_MouseInputManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

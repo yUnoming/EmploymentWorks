@@ -2,7 +2,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "KeyName.h"
+#include "InputPartsName.h"
 
 
 namespace PublicSystem

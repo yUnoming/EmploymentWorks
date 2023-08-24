@@ -6,6 +6,11 @@
 #include "Transform.h"
 #include <SimpleMath.h>
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		  using宣言		 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+using namespace PublicSystem;
+
 
 void PublicSystem::Camera::Draw()
 {

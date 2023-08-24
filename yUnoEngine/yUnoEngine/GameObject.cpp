@@ -9,7 +9,7 @@ using namespace PublicSystem;
 
 GameObject::GameObject()
 {
-	transform = AddComponent<Transform>();
+	transform = AddComponent <PublicSystem::Transform> ();
 }
 
 void GameObject::InitBase()
