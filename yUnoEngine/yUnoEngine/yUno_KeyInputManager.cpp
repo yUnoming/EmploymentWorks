@@ -88,11 +88,6 @@ void yUno_SystemManager::yUno_KeyInputManager::Set_KeyDown(int _key)
 		// —v‘f”‚ğ‘‚â‚·
 		Down_KeyType_Index++;
 	}
-	else
-	{
-		int a = 0;
-		a = a;
-	}
 }
 
 void yUno_SystemManager::yUno_KeyInputManager::Set_KeyUp(int _key)

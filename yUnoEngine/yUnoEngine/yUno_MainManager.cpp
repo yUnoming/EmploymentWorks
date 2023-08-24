@@ -7,6 +7,7 @@
 #include "yUno_MainManager.h"
 #include "yUno_TimeManager.h"
 #include "yUno_KeyInputManager.h"
+#include "yUno_MouseInputManager.h"
 
 #include "SampleScene.h"
 
@@ -83,6 +84,8 @@ void yUno_MainManager::Update()
 
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::Keep_Now_KeyInfo();
+    // 現在のマウス入力状態を保存する
+    yUno_MouseInputManager::Keep_Now_MouseStatus();
 }
 
 void yUno_MainManager::Draw()

@@ -3,7 +3,7 @@
 //  //
 #include "KeyInput.h"
 #include "yUno_KeyInputManager.h"
-#include "KeyName.h"
+#include "InputPartsName.h"
 
 
 //  //

@@ -1,7 +1,7 @@
 #include "SampleScene.h"
 #include "GameObject.h"
 #include "KeyInput.h"
-#include "KeyName.h"
+#include "InputPartsName.h"
 #include "modelRenderer.h"
 #include "Transform.h"
 #include "SpectatorCamera.h"

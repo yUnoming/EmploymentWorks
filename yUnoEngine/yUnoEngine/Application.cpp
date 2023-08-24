@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "yUno_MainManager.h"
 #include "yUno_KeyInputManager.h"
+#include "yUno_MouseInputManager.h"
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -26,6 +27,10 @@
 using namespace yUno_SystemManager;
 
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　   staticメンバ変数の定義        //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+HWND Application::m_hWnd;		// ウィンドウハンドル
 UINT Application::m_Wnd_Width;	// ウィンドウの横幅
 UINT Application::m_Wnd_Height;	// ウィンドウの縦幅
 
@@ -225,6 +230,42 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
             yUno_KeyInputManager::Set_KeyUp(KeyID);
             break;
         }
+
+        // マウスの左ボタンが押された場合
+        case WM_LBUTTONDOWN:
+            // 左ボタンが押されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseDown(LeftButton);
+            break;
+
+        // マウスの左ボタンが離された場合
+        case WM_LBUTTONUP:
+            // 左ボタンが離されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseUp(LeftButton);
+            break;
+
+        // マウスのスクロールホイールボタンが押された場合
+        case WM_MBUTTONDOWN:
+            // スクロールホイールボタンが押されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseDown(ScrollWheelButton);
+            break;
+
+        // マウスのスクロールホイールボタンが離された場合
+        case WM_MBUTTONUP:
+            // スクロールホイールボタンが離されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseUp(ScrollWheelButton);
+            break;
+
+        // マウスの右ボタンが押された場合
+        case WM_RBUTTONDOWN:
+            // 右ボタンが押されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseDown(RightButton);
+            break;
+
+        // マウスの右ボタンが離された場合
+        case WM_RBUTTONUP:
+            // 右ボタンが離されたことを設定する関数を実行
+            yUno_MouseInputManager::Set_MouseUp(RightButton);
+            break;
 
         default:
             break;

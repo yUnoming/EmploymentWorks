@@ -6,11 +6,11 @@ namespace PublicSystem
 	{
 		public:
 			// ----- variables / •Ï” ----- //
-			float x = 1.0f;
-			float y = 1.0f;
-			float z = 1.0f;
+			float x = 0.0f;
+			float y = 0.0f;
+			float z = 0.0f;
 
-			// ----- methods / ŠÖ” ----- //
+			// ----- functions / ŠÖ” ----- //
 			Vector3() {};
 			Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 			virtual ~Vector3() {};

@@ -145,17 +145,21 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
+    <ClCompile Include="MouseInput.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="SampleScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ScreenInput.cpp" />
     <ClCompile Include="SpectatorCamera.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="utftosjisconv.cpp" />
+    <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
+    <ClCompile Include="yUno_MouseInputManager.cpp" />
     <ClCompile Include="yUno_SceneManager.cpp" />
     <ClCompile Include="yUno_TimeManager.cpp" />
   </ItemGroup>
@@ -166,20 +170,24 @@
     <ClInclude Include="EachFunction.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyInput.h" />
-    <ClInclude Include="KeyName.h" />
+    <ClInclude Include="InputPartsName.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="modelRenderer.h" />
+    <ClInclude Include="MouseInput.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="SampleScene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ScreenInput.h" />
     <ClInclude Include="SpectatorCamera.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utftosjisconv.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
+    <ClInclude Include="yUno_MouseInputManager.h" />
     <ClInclude Include="yUno_SceneManager.h" />
     <ClInclude Include="yUno_TimeManager.h" />
   </ItemGroup>

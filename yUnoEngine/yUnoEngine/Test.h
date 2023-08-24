@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include "modelRenderer.h"
 
+using namespace PublicSystem;
+
 
 class Test : public GameObject
 {

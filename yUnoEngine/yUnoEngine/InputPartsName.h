@@ -92,4 +92,12 @@ namespace PublicSystem
 		Hiragana = 16496,	// ひらがな
 		Romaji = 16496,		// ローマ字
 	};
+
+	// マウスのボタン名
+	enum MouseButtonName
+	{
+		LeftButton,			// 左ボタン
+		ScrollWheelButton,	// スクロールホイールボタン
+		RightButton			// 右ボタン
+	};
 }

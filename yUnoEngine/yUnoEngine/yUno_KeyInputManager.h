@@ -2,7 +2,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　   ファイルのインクルード        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "KeyName.h"
+#include "InputPartsName.h"
 #include <vector>
 
 namespace yUno_SystemManager
@@ -28,6 +28,8 @@ namespace yUno_SystemManager
 	class yUno_KeyInputManager
 	{
 		public:
+			// ----- functions / 関数 ----- //
+
 			static void Update();		// 更新処理
 
 			// 現在のキー入力状態を保存するための関数
@@ -52,6 +54,8 @@ namespace yUno_SystemManager
 			static double GetKeyUp_Time(PublicSystem::KeyName _key);
 
 		private:
+			// ----- functions / 関数 ----- //
+			
 			// 現在のキー情報を代入する配列
 			static KEY_INFO Now_KeyInfo[400];
 			// 前回のキー情報を代入する配列
