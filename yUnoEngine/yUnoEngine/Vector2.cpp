@@ -51,24 +51,24 @@ PublicSystem::Vector2 PublicSystem::Vector2::operator+=(const Vector2& _vec)
 PublicSystem::Vector2 PublicSystem::Vector2::operator-(int _i)
 {
     Vector2 vec;
-    vec.x = vec.x - _i;
-    vec.y = vec.y - _i;
+    vec.x = x - _i;
+    vec.y = y - _i;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator-(float _f)
 {
     Vector2 vec;
-    vec.x = vec.x - _f;
-    vec.y = vec.y - _f;
+    vec.x = x - _f;
+    vec.y = y - _f;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator-(const Vector2& _vec)
 {
     Vector2 vec;
-    vec.x = vec.x - _vec.x;
-    vec.y = vec.y - _vec.y;
+    vec.x = x - _vec.x;
+    vec.y = y - _vec.y;
     return vec;
 }
 
@@ -96,24 +96,24 @@ PublicSystem::Vector2 PublicSystem::Vector2::operator-=(const Vector2& _vec)
 PublicSystem::Vector2 PublicSystem::Vector2::operator*(int _i)
 {
     Vector2 vec;
-    vec.x = vec.x * _i;
-    vec.y = vec.y * _i;
+    vec.x = x * _i;
+    vec.y = y * _i;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator*(float _f)
 {
     Vector2 vec;
-    vec.x = vec.x * _f;
-    vec.y = vec.y * _f;
+    vec.x = x * _f;
+    vec.y = y * _f;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator*(const Vector2& _vec)
 {
     Vector2 vec;
-    vec.x = vec.x * _vec.x;
-    vec.y = vec.y * _vec.y;
+    vec.x = x * _vec.x;
+    vec.y = y * _vec.y;
     return vec;
 }
 
@@ -141,24 +141,24 @@ PublicSystem::Vector2 PublicSystem::Vector2::operator*=(const Vector2& _vec)
 PublicSystem::Vector2 PublicSystem::Vector2::operator/(int _i)
 {
     Vector2 vec;
-    vec.x = vec.x / _i;
-    vec.y = vec.y / _i;
+    vec.x = x / _i;
+    vec.y = y / _i;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator/(float _f)
 {
     Vector2 vec;
-    vec.x = vec.x / _f;
-    vec.y = vec.y / _f;
+    vec.x = x / _f;
+    vec.y = y / _f;
     return vec;
 }
 
 PublicSystem::Vector2 PublicSystem::Vector2::operator/(const Vector2& _vec)
 {
     Vector2 vec;
-    vec.x = vec.x / _vec.x;
-    vec.y = vec.y / _vec.y;
+    vec.x = x / _vec.x;
+    vec.y = y / _vec.y;
     return vec;
 }
 

@@ -255,6 +255,11 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
             yUno_MouseInputManager::Set_MouseUp(ScrollWheelButton);
             break;
 
+        // マウススクロールホイールボタンが回転した場合
+        case WM_MOUSEWHEEL:
+            yUno_MouseInputManager::Set_MouseWheel_Status(HIWORD(wParam) % 120 / 16);
+            break;
+
         // マウスの右ボタンが押された場合
         case WM_RBUTTONDOWN:
             // 右ボタンが押されたことを設定する関数を実行

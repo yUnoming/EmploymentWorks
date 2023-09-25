@@ -4,12 +4,24 @@
 #include "GameObject.h"
 #include "renderer.h"
 #include "Transform.h"
+#include "BoxCollider.h"
+#include "yUno_SceneManager.h"
+#include <algorithm>
 
 using namespace PublicSystem;
 
 GameObject::GameObject()
 {
+	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform> ();
+}
+
+GameObject::GameObject(yUno_SceneManager* _nowScene)
+{
+	// Transformコンポーネントを追加
+	transform = AddComponent <PublicSystem::Transform>();
+	// 現在シーンを代入する
+	m_MyScene = _nowScene;
 }
 
 void GameObject::InitBase()
@@ -36,9 +48,9 @@ void GameObject::UnInitBase()
 
 void GameObject::UpdateBase()
 {
-	// リスト内のコンポーネント取得
+	// 各コンポーネントの更新処理
 	for (auto com : m_Component_List)
-		com->Update();	// 更新処理
+		com->Update();
 
 	// オブジェクトの更新処理
 	Update();

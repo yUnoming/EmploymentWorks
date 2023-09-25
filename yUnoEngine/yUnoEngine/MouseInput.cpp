@@ -28,13 +28,31 @@ PublicSystem::Vector2 PublicSystem::MouseInput::GetCursorPosition()
 
 bool PublicSystem::MouseInput::GetMouseDown_Trigger(MouseButtonName _mb)
 {
-    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚½uŠÔ‚È‚çtrue‚ğ•Ô‚·
-    return yUno_MouseInputManager::Now_MouseStatus[_mb] == DOWN && 
-        (yUno_MouseInputManager::Late_MouseStatus[_mb] == UP || yUno_MouseInputManager::Late_MouseStatus[_mb] == NOSTATUS);
+    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚½uŠÔ‚È‚çhhtruehh‚ğ•Ô‚·
+    return yUno_MouseInputManager::Now_Mouse_Status[_mb] == DOWN && 
+        (yUno_MouseInputManager::Late_Mouse_Status[_mb] == UP || yUno_MouseInputManager::Late_Mouse_Status[_mb] == NOSTATUS);
 }
 
 bool PublicSystem::MouseInput::GetMouseDown(MouseButtonName _mb)
 {
-    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚çtrue‚ğ•Ô‚·
-    return yUno_MouseInputManager::Now_MouseStatus[_mb] == DOWN;
+    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
+    return yUno_MouseInputManager::Now_Mouse_Status[_mb] == DOWN;
+}
+
+bool PublicSystem::MouseInput::GetWheelRotation()
+{
+    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ª‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
+    return yUno_MouseInputManager::MouseWheel_Status == FORWARD_ROTATION || yUno_MouseInputManager::MouseWheel_Status == BACKWARD_ROTATION;
+}
+
+bool PublicSystem::MouseInput::GetWheelRotation_Forward()
+{
+    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ª‘O•û‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
+    return yUno_MouseInputManager::MouseWheel_Status == FORWARD_ROTATION;
+}
+
+bool PublicSystem::MouseInput::GetWheelRotation_Backward()
+{
+    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ªŒã•û‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
+    return yUno_MouseInputManager::MouseWheel_Status == BACKWARD_ROTATION;
 }

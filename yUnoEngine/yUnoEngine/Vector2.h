@@ -2,6 +2,9 @@
 
 namespace PublicSystem
 {
+	/// <summary>
+	/// XY平面の座標値を扱うためのクラス
+	/// </summary>
 	class Vector2
 	{
 		public:
@@ -9,7 +12,7 @@ namespace PublicSystem
 			float x = 0.0f;
 			float y = 0.0f;
 
-			// ----- methods / 関数 ----- //
+			// ----- functions / 関数 ----- //
 			Vector2() {};
 			Vector2(float _x, float _y) : x(_x), y(_y){};
 			virtual ~Vector2() {};
