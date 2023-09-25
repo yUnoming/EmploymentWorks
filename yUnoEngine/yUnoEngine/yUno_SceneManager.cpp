@@ -4,7 +4,10 @@
 #include "yUno_SceneManager.h"
 #include "SampleScene.h"
 #include "GameObject.h"
+#include "BoxCollider.h"
 #include <SimpleMath.h>
+
+std::array<std::list<GameObject*>, 4> yUno_SceneManager::m_SceneObject;
 
 
 void yUno_SceneManager::InitBase()
@@ -32,6 +35,9 @@ void yUno_SceneManager::UnInitBase()
 
 void yUno_SceneManager::UpdateBase()
 {
+	// Box型の当たり判定用リストを作成
+	std::list<BoxCollider*> BoxCollider_List;
+
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_LoadedScene->m_SceneObject)
 	{
@@ -39,9 +45,36 @@ void yUno_SceneManager::UpdateBase()
 		for (GameObject* object : objectList)
 		{
 			object->UpdateBase();	// 更新処理
+			
+			// "BoxCollider"コンポーネントを取得
+			BoxCollider *boxcol = object->GetComponent<BoxCollider>();
+			// 取得出来た？
+			if (boxcol != nullptr)
+				BoxCollider_List.push_back(boxcol);	// リストに格納しておく
 		}
 
 		//objectList.remove_if([](GameObject* object) {return object->Destroy(); });	//ラムダ式
+	}
+
+	// 相手側の当たり判定用リストを作成
+	std::list<BoxCollider*> Other_BoxCollider_List = BoxCollider_List;
+	Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
+
+	// ===== "BoxCollider"同士の当たり判定 ===== //
+	for (auto my_BoxCol : BoxCollider_List)
+	{
+		// 当たり判定を全通り行った？
+		if (Other_BoxCollider_List.empty())
+			break;	// 判定終了
+
+		for (auto other_BoxCol : Other_BoxCollider_List)
+		{
+			my_BoxCol->CalcCollision(other_BoxCol);	// 計算処理
+		}
+
+		// 当たり判定の相手用リストの０番目（始めに格納されている情報）を削除する
+		// ※当たり判定を重複して判定することを阻止するため
+		Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 	}
 
 	// 現在シーンの更新処理

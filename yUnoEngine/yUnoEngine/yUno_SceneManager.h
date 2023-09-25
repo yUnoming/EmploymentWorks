@@ -10,13 +10,11 @@ namespace yUno_SceneManagement
 {
 	class yUno_SceneManager
 	{
-	private:
-		// ----- variables / 変数 ----- //
-		// シーン内のオブジェクト
-		std::array<std::list<GameObject*>, 4> m_SceneObject;
-
 	protected:
 		// ----- variables / 変数 ----- //
+		// シーン内のオブジェクト
+		static std::array<std::list<GameObject*>, 4> m_SceneObject;
+
 		// ロードされたシーン
 		yUno_SceneManager* m_LoadedScene;
 
@@ -38,17 +36,28 @@ namespace yUno_SceneManagement
 		void DrawBase();	// 描画
 
 		//**  シーン関係  **//
-		// 選択されたシーンをロードする
+		/// <summary>
+		/// 選択されたシーンをロード
+		/// </summary>
 		template<class T> void LoadScene();
 
 		//**  オブジェクト関係  **//
-		// オブジェクトを追加する
+		/// <summary>
+		/// オブジェクトを追加
+		/// </summary>
 		template<class T> T* AddObject(int _layer);
 
-		// オブジェクトを取得する
+		/// <summary>
+		/// オブジェクトを取得
+		/// </summary>
 		template<class T> T* GetObject();
-	};
 
+		/// <summary>
+		/// 現在シーンに存在するオブジェクトを全取得
+		/// </summary>
+		template<class T> std::array<std::list<GameObject*>, 4> GetAllObjects();
+
+	};
 
 	template<class T>
 	void yUno_SceneManager::LoadScene()
@@ -74,6 +83,7 @@ namespace yUno_SceneManagement
 		// 生成したオブジェクトを返す
 		return obj;
 	}
+	
 	template<class T>
 	T* yUno_SceneManager::GetObject()
 	{
@@ -89,6 +99,12 @@ namespace yUno_SceneManagement
 		}
 
 		return nullptr;
+	}
+	
+	template<class T>
+	inline std::array<std::list<GameObject*>, 4> yUno_SceneManager::GetAllObjects()
+	{
+		return std::array<std::list<GameObject*>, 4>();
 	}
 }
 

@@ -120,8 +120,17 @@
     <ClCompile Include="MouseInput.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="yUno_MouseInputManager.cpp">
+    <ClCompile Include="BoxCollider.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Test2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculationHit.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yUno_MouseInputManager.cpp">
+      <Filter>ソース ファイル\yUno_SystemManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,17 +200,26 @@
     <ClInclude Include="GameObject.h">
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenInput.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MouseInput.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="yUno_MouseInputManager.h">
+    <ClInclude Include="BoxCollider.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Test2.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculationHit.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_MouseInputManager.h">
+      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenInput.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,6 @@
 
 int main()
 {
-
     // ＝＝＝＝＝ メニューの設定・作成 ＝＝＝＝＝ //
     //HMENU hMenu = CreateMenu(); // メニュー作成
     //const UINT ID_MENU_1 = 1;

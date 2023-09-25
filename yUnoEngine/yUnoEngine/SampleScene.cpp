@@ -7,6 +7,7 @@
 #include "SpectatorCamera.h"
 
 #include "Test.h"
+#include "Test2.h"
 #include <iostream>
 
 using namespace PublicSystem;
@@ -14,7 +15,8 @@ using namespace PublicSystem;
 void SampleScene::Init()
 {
     AddObject<SpectatorCamera>(0);
-    Test* test = AddObject<Test>(1);
+    AddObject<Test>(1);
+    AddObject<Test2>(1);
 }
 
 void SampleScene::Update()

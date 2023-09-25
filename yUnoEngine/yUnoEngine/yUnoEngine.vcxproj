@@ -137,6 +137,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="CalculationHit.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EachFunction.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="ScreenInput.cpp" />
     <ClCompile Include="SpectatorCamera.cpp" />
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Test2.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="utftosjisconv.cpp" />
@@ -165,6 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="CalculationHit.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EachFunction.h" />
@@ -180,6 +185,7 @@
     <ClInclude Include="ScreenInput.h" />
     <ClInclude Include="SpectatorCamera.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="Test2.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utftosjisconv.h" />
