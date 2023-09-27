@@ -7,6 +7,7 @@
 #include <WICTextureLoader.h>
 #include "renderer.h"
 #include "modelRenderer.h"
+#include "Material.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -15,6 +16,8 @@ std::unordered_map<std::string, MODEL*> ModelRenderer::m_ModelPool;
 
 void ModelRenderer::Draw()
 {
+	// マテリアルを取得
+	Material* material = GetComponent<Material>();
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -30,8 +33,13 @@ void ModelRenderer::Draw()
 
 	for( unsigned int i = 0; i < m_Model->SubsetNum; i++ )
 	{
-		// マテリアル設定
-		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material );
+		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->Material_Color.r;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->Material_Color.g;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->Material_Color.b;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->Material_Color.a;
+
+
+		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
 		// テクスチャ設定
 		if(m_Model->SubsetArray[i].Material.Texture)
@@ -387,7 +395,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 				s = strtok( nullptr, "/" );	
 				ModelObj->VertexArray[vc].Normal = normalArray[ atoi( s ) - 1 ];
 
-				ModelObj->VertexArray[vc].Diffuse = Color( 1.0f, 1.0f, 1.0f, 1.0f );
+				ModelObj->VertexArray[vc].Diffuse = DirectX::SimpleMath::Color( 1.0f, 1.0f, 1.0f, 1.0f );
 
 				ModelObj->IndexArray[ic] = vc;
 				ic++;

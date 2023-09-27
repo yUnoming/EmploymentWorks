@@ -7,6 +7,7 @@
 
 namespace PublicSystem
 {
+	// ‰æ–Ê“ü—Í‚ÉŠÖ‚·‚éˆ—‚ğ‚Ü‚Æ‚ß‚½ƒNƒ‰ƒX
 	class ScreenInput
 	{
 		public:

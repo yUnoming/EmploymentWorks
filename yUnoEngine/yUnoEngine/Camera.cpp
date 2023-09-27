@@ -18,34 +18,30 @@ using namespace PublicSystem;
 
 void PublicSystem::Camera::Draw()
 {
-	AddComponent<Transform>();
-	// ビュー変換行列作成
-	DirectX::SimpleMath::Matrix ViewMatrix;
-
-	DirectX::XMFLOAT3 position;
+	// ビュー行列生成に必要な変数
+	DirectX::XMFLOAT3 position = transform->Position;
 	DirectX::XMFLOAT3 target = DirectX::XMFLOAT3(transform->Position.x, transform->Position.y, transform->Position.z + 10.0f);
 	DirectX::XMFLOAT3 up = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
 
-	position.x = transform->Position.x;
-	position.y = transform->Position.y;
-	position.z = transform->Position.z;
-
+	// XMVECTOR型に変換
 	DirectX::XMVECTOR Eye = DirectX::XMLoadFloat3(&position);
 	DirectX::XMVECTOR Focus = DirectX::XMLoadFloat3(&target);
 	DirectX::XMVECTOR Up = DirectX::XMLoadFloat3(&up);
 
+	// ビュー行列の生成
+	DirectX::SimpleMath::Matrix ViewMatrix;
 	ViewMatrix = DirectX::XMMatrixLookAtLH(Eye, Focus, Up);
-
+	// ビュー行列をセット
 	Renderer::SetViewMatrix(&ViewMatrix);
 	
-	//プロジェクション行列の生成
+	//プロジェクション行列に必要な変数
 	float Fov = FieldOfView * 3.14159265f / 180.0f;
 	float aspectRatio = static_cast<float>(960) / static_cast<float>(540);	// アスペクト比	
 
 	//プロジェクション行列の生成
 	DirectX::SimpleMath::Matrix projectionMatrix;
 	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(Fov, aspectRatio, NearClip, FarClip);
-
+	//プロジェクション行列をセット
 	Renderer::SetProjectionMatrix(&projectionMatrix);
 }
 
@@ -74,17 +70,14 @@ GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 _screenPoint)
 	WorldPoint_Position.y = transform->Position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
 	WorldPoint_Position.z = FarClip;
 
-	printf("X: %f, Y: %f, Z: %f\n", WorldPoint_Position.x, WorldPoint_Position.y, WorldPoint_Position.z);
-
-	std::array<std::list<GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();
-	//SceneObjects.
 
 	// ----- ヒット処理の前準備 ----- //
-	Vector3 RaySpeed = (WorldPoint_Position - transform->Position) * 0.01f;
-	Vector3 RayPoint = transform->Position;
-	Vector3 Late_RayPoint = transform->Position;
-	bool IsHit = true;							// 当たったかどうかを表す
-	std::list<GameObject*> HitObjects;			// 当たったオブジェクトを入れるためのリスト
+	std::array<std::list<GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();	// 現在シーン内のオブジェクト情報
+	Vector3 RaySpeed = (WorldPoint_Position - transform->Position) * 0.01f;					// レイの速度
+	Vector3 RayPoint = transform->Position;													// レイの移動後の座標
+	Vector3 Late_RayPoint = transform->Position;											// レイの移動前の座標
+	bool IsHit = true;								// 当たったかどうかを表す
+	std::list<GameObject*> HitObjects;				// 当たったオブジェクトを入れるためのリスト
 	
 	// ===== ヒット処理 ===== //
 	do

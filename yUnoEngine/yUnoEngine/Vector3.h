@@ -1,7 +1,13 @@
 #pragma once
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include <DirectXMath.h>
+
 
 namespace PublicSystem
 {
+	// ３次元のベクトルを表すクラス
 	class Vector3
 	{
 		public:
@@ -10,13 +16,15 @@ namespace PublicSystem
 			float y = 1.0f;
 			float z = 1.0f;
 
+
 			// ----- functions / 関数 ----- //
 			Vector3() {};
 			Vector3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {};
 			Vector3(float _x, float _y) : x(_x), y(_y) {};
 			virtual ~Vector3() {};
 
-			// 演算子のオーバーロード群
+
+			// ----- 演算子のオーバーロード群 ----- //
 			//**  assignment / 代入  **//
 			Vector3 operator=(const Vector3& _vec);
 
@@ -63,6 +71,10 @@ namespace PublicSystem
 			//**  equal,not equal / 等値,非等値  **//
 			bool operator==(const Vector3& _vec);
 			bool operator!=(const Vector3& _vec);
+
+
+			// ----- キャスト演算子 ----- //
+			operator DirectX::XMFLOAT3() const;
 	};
 }
 

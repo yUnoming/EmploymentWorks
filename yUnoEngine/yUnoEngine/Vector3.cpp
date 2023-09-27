@@ -2,6 +2,7 @@
 // 　　   ファイルのインクルード        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "Vector3.h"
+#include <DirectXMath.h>
 
 PublicSystem::Vector3 PublicSystem::Vector3::operator=(const Vector3& _vec)
 {
@@ -223,4 +224,10 @@ bool PublicSystem::Vector3::operator==(const Vector3& _vec)
 bool PublicSystem::Vector3::operator!=(const Vector3& _vec)
 {
     return !(x == _vec.x && y == _vec.y && z == _vec.z);
+}
+
+PublicSystem::Vector3::operator DirectX::XMFLOAT3() const
+{
+    DirectX::XMFLOAT3 New_Param = DirectX::XMFLOAT3(x, y, z);
+    return New_Param;
 }
