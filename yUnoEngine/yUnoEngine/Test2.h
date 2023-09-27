@@ -5,6 +5,7 @@
 #include "BoxCollider.h"
 #include "KeyInput.h"
 #include "InputPartsName.h"
+#include "Material.h"
 
 
 using namespace PublicSystem;
@@ -17,6 +18,7 @@ class Test2 : public GameObject
 		{
 			AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
 			AddComponent<BoxCollider>();
+			AddComponent<Material>();
 
 			transform->Position.z = 3.5f;
 		}

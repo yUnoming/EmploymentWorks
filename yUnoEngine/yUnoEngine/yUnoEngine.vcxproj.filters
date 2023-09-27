@@ -132,6 +132,12 @@
     <ClCompile Include="yUno_MouseInputManager.cpp">
       <Filter>ソース ファイル\yUno_SystemManager</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -221,5 +227,15 @@
     <ClInclude Include="ScreenInput.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Assets\Shaders\unlitTexturePS.hlsl" />
+    <FxCompile Include="Assets\Shaders\unlitTextureVS.hlsl" />
   </ItemGroup>
 </Project>

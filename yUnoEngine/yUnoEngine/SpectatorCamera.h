@@ -15,10 +15,11 @@ class SpectatorCamera : public GameObject
 	private:
 		// ----- variables / 変数 ----- //
 		///<summary>
-		///クリックされたオブジェクトを代入する変数	///</summary>
-		const GameObject* Clicked_Object;
+		///クリックされたオブジェクトを代入する変数	</summary>
+		GameObject* m_Clicked_Object = nullptr;
 
 	public:
+		void Init();
 		void Update();
 };
 

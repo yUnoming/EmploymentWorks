@@ -21,10 +21,10 @@ struct VERTEX_3D
 // ƒ}ƒeƒŠƒAƒ‹
 struct MATERIAL
 {
-	DirectX::SimpleMath::Color	Ambient;
-	DirectX::SimpleMath::Color	Diffuse;
-	DirectX::SimpleMath::Color	Specular;
-	DirectX::SimpleMath::Color	Emission;
+	DirectX::XMFLOAT4	Ambient;
+	DirectX::XMFLOAT4	Diffuse;
+	DirectX::XMFLOAT4	Specular;
+	DirectX::XMFLOAT4	Emission;
 	float		Shininess;
 	BOOL		TextureEnable;
 	float		Dummy[2]{};
