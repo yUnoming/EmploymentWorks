@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -143,6 +143,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EachFunction.cpp" />
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -157,6 +158,8 @@
     <ClCompile Include="SpectatorCamera.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Test2.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="utftosjisconv.cpp" />
@@ -166,6 +169,7 @@
     <ClCompile Include="yUno_MainManager.cpp" />
     <ClCompile Include="yUno_MouseInputManager.cpp" />
     <ClCompile Include="yUno_SceneManager.cpp" />
+    <ClCompile Include="yUno_TextRendererManager.cpp" />
     <ClCompile Include="yUno_TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +180,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EachFunction.h" />
+    <ClInclude Include="FileReader.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="InputPartsName.h" />
@@ -190,6 +195,8 @@
     <ClInclude Include="SpectatorCamera.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Test2.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utftosjisconv.h" />
@@ -199,6 +206,7 @@
     <ClInclude Include="yUno_MainManager.h" />
     <ClInclude Include="yUno_MouseInputManager.h" />
     <ClInclude Include="yUno_SceneManager.h" />
+    <ClInclude Include="yUno_TextRendererManager.h" />
     <ClInclude Include="yUno_TimeManager.h" />
   </ItemGroup>
   <ItemGroup>

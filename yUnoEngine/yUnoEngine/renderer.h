@@ -3,6 +3,9 @@
 #include	<d3d11.h>
 #include	<SimpleMath.h>
 #include	"Application.h"
+#include "Vector3.h"
+#include "Vector2.h"
+#include "Color.h"
 
 // リンクすべき外部ライブラリ
 #pragma comment(lib,"directxtk.lib")

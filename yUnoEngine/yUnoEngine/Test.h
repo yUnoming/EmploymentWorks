@@ -22,13 +22,5 @@ class Test : public GameObject
 			transform->Position.x = 0.0f;
 			transform->Position.z = 3.0f;
 		}
-
-		void Update()
-		{
-			if (KeyInput::GetKeyDown_Trigger(Enter))
-			{
-				printf("X : %f, Y : %f, Z : %f", transform->Position.x, transform->Position.y, transform->Position.z);
-			}
-		}
 };
 

@@ -15,6 +15,8 @@ namespace PublicSystem
 			Color Material_Color = Color(1.0f, 1.0f, 1.0f, 1.0f);	// マテリアルの色
 
 			// ----- functions / 関数 ----- //
+			void Draw();
+
 			/// <summary>
 			/// マテリアルの色を変更する	</summary>
 			/// <param name = "_colorParam">

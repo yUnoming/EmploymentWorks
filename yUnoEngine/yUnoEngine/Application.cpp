@@ -183,7 +183,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
         // ウィンドウを閉じるアクションが発生した場合
         case WM_CLOSE:
             // 終了確認で「OK」が押された？
-            if (MessageBox(NULL, "終了しますか？", "終了確認", MB_OKCANCEL) == IDOK)
+            if (MessageBox(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
             {
                 // ウィンドウを閉じる
                 DestroyWindow(hWnd);
