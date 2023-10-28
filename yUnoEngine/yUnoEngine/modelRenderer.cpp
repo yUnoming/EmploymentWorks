@@ -198,9 +198,9 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 
 
-	Vector3	*positionArray;
-	Vector3	*normalArray;
-	Vector2	*texcoordArray;
+	DirectX::SimpleMath::Vector3	*positionArray;
+	DirectX::SimpleMath::Vector3	*normalArray;
+	DirectX::SimpleMath::Vector2	*texcoordArray;
 
 	unsigned int	positionNum = 0;
 	unsigned int	normalNum = 0;
@@ -271,9 +271,9 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 
 	//ÉÅÉÇÉäämï€
-	positionArray = new Vector3[ positionNum ];
-	normalArray = new Vector3[ normalNum ];
-	texcoordArray = new Vector2[ texcoordNum ];
+	positionArray = new DirectX::SimpleMath::Vector3[ positionNum ];
+	normalArray = new DirectX::SimpleMath::Vector3[ normalNum ];
+	texcoordArray = new DirectX::SimpleMath::Vector2[ texcoordNum ];
 
 
 	ModelObj->VertexArray = new VERTEX_3D[ vertexNum ];
@@ -289,9 +289,9 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 
 	//óvëfì«çû
-	Vector3 *position = positionArray;
-	Vector3	*normal = normalArray;
-	Vector2	*texcoord = texcoordArray;
+	DirectX::SimpleMath::Vector3 *position = positionArray;
+	DirectX::SimpleMath::Vector3	*normal = normalArray;
+	DirectX::SimpleMath::Vector2	*texcoord = texcoordArray;
 
 	unsigned int vc = 0;
 	unsigned int ic = 0;

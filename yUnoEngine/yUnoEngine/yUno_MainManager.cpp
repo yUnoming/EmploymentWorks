@@ -3,6 +3,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <Windows.h>
 #include "renderer.h"
+#include "FileReader.h"
 
 #include "yUno_MainManager.h"
 #include "yUno_TimeManager.h"
@@ -48,6 +49,10 @@ void yUno_MainManager::Init(Application* app)
     // シェーダ設定
     Renderer::GetDeviceContext()->VSSetShader(VertexShader, nullptr, 0);
     Renderer::GetDeviceContext()->PSSetShader(PixelShader, nullptr, 0);
+
+
+    // ----- 標準フォント設定 ----- //
+    FileReader::Read_ttfFile(L"Assets\\Fonts\\calibri.ttf", "Calibri");
 
     // ===== メインの初期化処理 ===== //
     // シーンを立ち上げる

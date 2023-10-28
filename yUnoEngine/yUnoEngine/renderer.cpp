@@ -28,7 +28,6 @@ ID3D11BlendState*		Renderer::m_BlendStateATC{};
 
 Application*			Renderer::m_Application;
 
-
 void Renderer::Init(Application* ap)
 {
 	HRESULT hr = S_OK;

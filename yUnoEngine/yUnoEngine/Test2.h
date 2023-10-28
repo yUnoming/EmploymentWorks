@@ -6,7 +6,7 @@
 #include "KeyInput.h"
 #include "InputPartsName.h"
 #include "Material.h"
-
+#include "Text.h"
 
 using namespace PublicSystem;
 
@@ -16,11 +16,10 @@ class Test2 : public GameObject
 	public:
 		void Init()
 		{
-			AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
-			AddComponent<BoxCollider>();
+			//AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
+			//AddComponent<BoxCollider>();
 			AddComponent<Material>();
-
-			transform->Position.z = 3.5f;
+			AddComponent<Text>()->m_text = "abcdef";
 		}
 };
 
