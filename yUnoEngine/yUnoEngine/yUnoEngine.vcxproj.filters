@@ -37,11 +37,11 @@
     <Filter Include="ヘッダー ファイル\yUno_SceneManagement">
       <UniqueIdentifier>{240b10ac-fccf-435e-9077-0145bec65e23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\PublicSystem\Inheritance&quot;EachFunction&quot;">
-      <UniqueIdentifier>{8a28de4d-f182-4575-8d1f-6711415297c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\PublicSystem\Inheritance&quot;EachFunction&quot;">
+    <Filter Include="ソース ファイル\PublicSystem\EachFunctions">
       <UniqueIdentifier>{54653d98-b0a0-42a5-888f-a31d2cd39bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PublicSystem\EachFunctions">
+      <UniqueIdentifier>{8a28de4d-f182-4575-8d1f-6711415297c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,49 +106,49 @@
       <Filter>ソース ファイル\PrivateSystem</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+      <Filter>ソース ファイル\PublicSystem\EachFunctions</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>ソース ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\PublicSystem\EachFunctions</Filter>
     </ClCompile>
     <ClCompile Include="Test2.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CalculationHit.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="yUno_MouseInputManager.cpp">
       <Filter>ソース ファイル\yUno_SystemManager</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Color.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="FileReader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>ソース ファイル\PublicSystem\EachFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="CalculationHit.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="FileReader.cpp">
+      <Filter>ソース ファイル\PrivateSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>ソース ファイル\PublicSystem\EachFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseInput.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenInput.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
+    </ClCompile>
     <ClCompile Include="Text.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\PublicSystem\EachFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>ソース ファイル\PublicSystem</Filter>
     </ClCompile>
     <ClCompile Include="yUno_TextRendererManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\yUno_SystemManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,27 +210,15 @@
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+      <Filter>ヘッダー ファイル\PublicSystem\EachFunctions</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>ヘッダー ファイル\PublicSystem\Inheritance"EachFunction"</Filter>
+      <Filter>ヘッダー ファイル\PublicSystem\EachFunctions</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseInput.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Test2.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CalculationHit.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="yUno_MouseInputManager.h">
@@ -239,23 +227,35 @@
     <ClInclude Include="ScreenInput.h">
       <Filter>ヘッダー ファイル\PublicSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FileReader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="TextRenderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Text.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>ヘッダー ファイル\PublicSystem\EachFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculationHit.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="FileReader.h">
+      <Filter>ヘッダー ファイル\PrivateSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル\PublicSystem\EachFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseInput.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ヘッダー ファイル\PublicSystem</Filter>
+    </ClInclude>
     <ClInclude Include="yUno_TextRendererManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

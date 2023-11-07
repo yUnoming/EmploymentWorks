@@ -10,21 +10,21 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　staticメンバ変数の定義　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-std::vector<HFONT> yUno_SystemManager::yUno_TextRendererManager::m_CreateFonts;
-int yUno_SystemManager::yUno_TextRendererManager::m_Now_Font_Index;
+std::vector<HFONT> yUno_SystemManager::yUno_TextRendererManager::m_createFonts;
+int yUno_SystemManager::yUno_TextRendererManager::m_nowFontIndex;
 
 
 
-ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::Get_FontTexture(const char* _chara)
+ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(const char* text)
 {
 	// ===== 現在のウィンドウにフォントを適用 ===== //
 	// デバイスコンテキスト取得
 	HDC hdc = GetDC(NULL);
 	// フォント取得
-	HFONT oldFont = (HFONT)SelectObject(hdc, m_CreateFonts[m_Now_Font_Index]);
+	HFONT oldFont = (HFONT)SelectObject(hdc, m_createFonts[m_nowFontIndex]);
 
 	// テクスチャに書き込む文字をセット
-	UINT code = (UINT)*_chara;
+	UINT code = (UINT)*text;
 
 	// ===== フォントビットマップ取得 ===== //
 	TEXTMETRIC tm;		// テキストメトリック取得用変数
@@ -65,7 +65,7 @@ ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::Get_FontTexture(c
 
 	// デバイスコンテキストとフォントハンドルの解放
 	SelectObject(hdc, oldFont);
-	DeleteObject(m_CreateFonts[m_Now_Font_Index]);
+	DeleteObject(m_createFonts[m_nowFontIndex]);
 	ReleaseDC(NULL, hdc);
 
 	// CPUで書き込みができるテクスチャを作成
@@ -157,7 +157,7 @@ ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::Get_FontTexture(c
 	return Texture2D;
 }
 
-ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::Get_ShaderResourceView(ID3D11Texture2D* _fontTexture)
+ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(ID3D11Texture2D* fontTexture)
 {
 	// シェーダーリソースビューの情報を設定
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -168,10 +168,10 @@ ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::Get_Shad
 	srvDesc.Texture2D.MipLevels = 1;
 
 	// シェーダーリソースビュー変数
-	ID3D11ShaderResourceView* Shader_Resource_View;
+	ID3D11ShaderResourceView* shaderResourceView;
 
 	// シェーダーリソースビューの作成
-	HRESULT hr = Renderer::GetDevice()->CreateShaderResourceView(_fontTexture, &srvDesc, &Shader_Resource_View);
+	HRESULT hr = Renderer::GetDevice()->CreateShaderResourceView(fontTexture, &srvDesc, &shaderResourceView);
 
 	// シェーダーリソースビューの作成に失敗した？
 	if (hr != S_OK)
@@ -180,11 +180,11 @@ ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::Get_Shad
 		return NULL;
 	}
 
-	return Shader_Resource_View;
+	return shaderResourceView;
 }
 
-void yUno_SystemManager::yUno_TextRendererManager::Set_Font(HFONT _addFont)
+void yUno_SystemManager::yUno_TextRendererManager::SetFont(HFONT addFont)
 {
 	// 引数で受け取ったフォントを追加する
-	m_CreateFonts.push_back(_addFont);
+	m_createFonts.push_back(addFont);
 }

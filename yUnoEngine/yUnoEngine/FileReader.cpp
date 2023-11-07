@@ -8,12 +8,12 @@
 #include <tchar.h>
 
 
-void FileReader::Read_ttfFile(const wchar_t* _filePath, const char* _fontName)
+void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 {
 	// システムにフォントリソースを追加する
 	// 追加されたフォントの数を取得しておく
 	int Font_Num = AddFontResourceEx(
-		_filePath,				// 追加したいフォントの参照パス
+		filePath,				// 追加したいフォントの参照パス
 		FR_PRIVATE,				// 追加するフォントの特性
 		0						// 0指定でOK
 	);
@@ -40,7 +40,7 @@ void FileReader::Read_ttfFile(const wchar_t* _filePath, const char* _fontName)
 		CLIP_DEFAULT_PRECIS,			// クリッピングの精度
 		PROOF_QUALITY,					// 出力品質
 		DEFAULT_PITCH | FF_DONTCARE,	// フォントのピッチとファミリ
-		*_fontName						// フォントのタイプフェイス名
+		*fontName						// フォントのタイプフェイス名
 	};
 
 	// フォントの作成

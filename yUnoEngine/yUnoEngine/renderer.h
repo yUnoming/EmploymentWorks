@@ -1,5 +1,11 @@
 #pragma once
-
+//
+//
+// 授業サンプルから取得したファイルです。
+// 変更、修正している箇所はありますが、
+// 私が０から作成したものではございません。
+//
+//
 #include	<d3d11.h>
 #include	<SimpleMath.h>
 #include	"Application.h"

@@ -11,32 +11,32 @@
 //  //
 class yUno_KeyInputManager;
 
-bool PublicSystem::KeyInput::GetKeyDown_Trigger(KeyName _key)
+bool PublicSystem::KeyInput::GetKeyDownTrigger(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Trigger(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDownTrigger(key);
 }
 
-bool PublicSystem::KeyInput::GetKeyDown(KeyName _key)
+bool PublicSystem::KeyInput::GetKeyDown(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(key);
 }
 
-double PublicSystem::KeyInput::GetKeyDown_Time(KeyName _key)
+double PublicSystem::KeyInput::GetKeyDownTime(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDown_Time(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyDownTime(key);
 }
 
-bool PublicSystem::KeyInput::GetKeyUp_Trigger(KeyName _key)
+bool PublicSystem::KeyInput::GetKeyUpTrigger(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Trigger(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUpTrigger(key);
 }
 
-bool PublicSystem::KeyInput::GetKeyUp(KeyName _key)
+bool PublicSystem::KeyInput::GetKeyUp(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUp(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUp(key);
 }
 
-double PublicSystem::KeyInput::GetKeyUp_Time(KeyName _key)
+double PublicSystem::KeyInput::GetKeyUpTime(KeyName key)
 {
-	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUp_Time(_key);
+	return yUno_SystemManager::yUno_KeyInputManager::GetKeyUpTime(key);
 }

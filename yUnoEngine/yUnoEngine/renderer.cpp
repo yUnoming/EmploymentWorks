@@ -38,13 +38,13 @@ void Renderer::Init(Application* ap)
 	// デバイス、スワップチェーン作成
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 	swapChainDesc.BufferCount = 1;
-	swapChainDesc.BufferDesc.Width = m_Application->Get_WindowWidth();
-	swapChainDesc.BufferDesc.Height = m_Application->Get_WindowHeight();
+	swapChainDesc.BufferDesc.Width = m_Application->GetWindowWidth();
+	swapChainDesc.BufferDesc.Height = m_Application->GetWindowHeight();
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.OutputWindow = m_Application->Get_Window();
+	swapChainDesc.OutputWindow = m_Application->GetWindow();
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = TRUE;
@@ -103,8 +103,8 @@ void Renderer::Init(Application* ap)
 
 	// ビューポート設定
 	D3D11_VIEWPORT viewport;
-	viewport.Width = (FLOAT)m_Application->Get_WindowWidth();
-	viewport.Height = (FLOAT)m_Application->Get_WindowHeight();
+	viewport.Width = (FLOAT)m_Application->GetWindowWidth();
+	viewport.Height = (FLOAT)m_Application->GetWindowHeight();
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0;
@@ -348,8 +348,8 @@ void Renderer::SetWorldViewProjection2D()
 	// 2D描画を左上原点にする  (20230512 update by tomoki.suzuki　
 	projection = DirectX::XMMatrixOrthographicOffCenterLH(
 		0.0f,
-		static_cast<float>(m_Application->Get_WindowWidth()),					// ビューボリュームの最小Ｘ
-		static_cast<float>(m_Application->Get_WindowHeight()),					// ビューボリュームの最小Ｙ
+		static_cast<float>(m_Application->GetWindowWidth()),					// ビューボリュームの最小Ｘ
+		static_cast<float>(m_Application->GetWindowHeight()),					// ビューボリュームの最小Ｙ
 		0.0f,															// ビューボリュームの最大Ｙ
 		0.0f,
 		1.0f);

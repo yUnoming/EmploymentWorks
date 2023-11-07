@@ -14,7 +14,7 @@ PublicSystem::Vector2 PublicSystem::ScreenInput::GetScreenPosition(Vector2 _para
     POINT ScreenPosition = {_paramPosition.x, _paramPosition.y};
 
     // スクリーン座標を取得
-    ScreenToClient(Application::Get_Window(), &ScreenPosition);
+    ScreenToClient(Application::GetWindow(), &ScreenPosition);
     // ** 上記関数の補足 **
     // ScreenはPCの画面などの事を指し、
     // Clientはアプリの画面（ScreenInputのScreenに値するもの）を指している。

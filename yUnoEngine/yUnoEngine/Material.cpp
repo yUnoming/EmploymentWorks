@@ -5,12 +5,12 @@
 void PublicSystem::Material::Draw()
 {
 	MATERIAL Material;
-	Material.Diffuse = Material_Color;	// 色・α値を設定
+	Material.Diffuse = materialColor;	// 色・α値を設定
 	Material.TextureEnable = true;
 	Renderer::SetMaterial(Material);
 }
 
-void PublicSystem::Material::SetMateiralColor(PublicSystem::Color _colorParam)
+void PublicSystem::Material::SetMaterialColor(PublicSystem::Color colorParam)
 {
-	Material_Color = _colorParam;
+	materialColor = colorParam;
 }

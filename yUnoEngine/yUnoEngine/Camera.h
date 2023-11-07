@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		Camera.h
+* @brief	Cameraクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.01
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -9,24 +15,35 @@
 
 namespace PublicSystem
 {
+	/// <summary>
+	/// カメラに持たせたい要素をまとめたクラス</summary>
 	class Camera : public EachFunction
 	{
 		private:
+			// ----- functions / 関数 ----- //
+			/// <summary>
+			/// 描画	</summary>
 			void Draw() override;
 
 		public:
 			// ----- variables / 変数 ----- //
-			float NearClip = 1.0f;		// カメラが描画する最も近い地点
-			float FarClip = 10.0f;		// カメラが描画する最も遠い地点
+			/// <summary>
+			/// カメラが描画する最も近い地点	</summary>
+			float nearClip = 1.0f;
+			/// <summary>
+			///	カメラが描画する最も遠い地点	</summary>
+			float farClip = 10.0f;
 			
-			float FieldOfView = 45.0f;	// 視野角
+			/// <summary>
+			/// 視野角	</summary>
+			float fieldOfView = 45.0f;
 
 			// ----- functions / 関数 ----- //
 			/// <summary>
-			/// 引数に指定したスクリーン座標にある一番近いオブジェクトを取得する関数
-			/// 引数：指定したいスクリーン座標
-			/// </summary>
-			GameObject* GetScreenPointObject(Vector2 _screenPoint);
+			/// 引数に指定したスクリーン座標にある一番近いオブジェクトを取得	</summary>
+			/// <param name="screenPoint">
+			/// スクリーン座標	</param>
+			GameObject* GetScreenPointObject(Vector2 screenPoint);
 	};
 }
 

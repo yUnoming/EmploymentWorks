@@ -4,230 +4,230 @@
 #include "Vector3.h"
 #include <DirectXMath.h>
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator=(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator=(const Vector3& vec)
 {
-    x = _vec.x;
-    y = _vec.y;
-    z = _vec.z;
+    x = vec.x;
+    y = vec.y;
+    z = vec.z;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+(int i)
 {
-    Vector3 vec;
-    vec.x = x + _i;
-    vec.y = y + _i;
-    vec.z = z + _i;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x + i;
+    tmp.y = y + i;
+    tmp.z = z + i;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+(float f)
 {
-    Vector3 vec;
-    vec.x = x + _f;
-    vec.y = y + _f;
-    vec.z = z + _f;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x + f;
+    tmp.y = y + f;
+    tmp.z = z + f;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+(const Vector3 &_vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+(const Vector3 &vec)
 {
-    Vector3 vec;
-    vec.x = x + _vec.x;
-    vec.y = y + _vec.y;
-    vec.z = z + _vec.z;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x + vec.x;
+    tmp.y = y + vec.y;
+    tmp.z = z + vec.z;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+=(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+=(int i)
 {
-    x += _i;
-    y += _i;
-    z += _i;
+    x += i;
+    y += i;
+    z += i;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+=(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+=(float f)
 {
-    x += _f;
-    y += _f;
-    z += _f;
+    x += f;
+    y += f;
+    z += f;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator+=(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator+=(const Vector3& vec)
 {
-    x += _vec.x;
-    y += _vec.y;
-    z += _vec.z;
+    x += vec.x;
+    y += vec.y;
+    z += vec.z;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-(int i)
 {
-    Vector3 vec;
-    vec.x = x - _i;
-    vec.y = y - _i;
-    vec.z = z - _i;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x - i;
+    tmp.y = y - i;
+    tmp.z = z - i;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-(float f)
 {
-    Vector3 vec;
-    vec.x = x - _f;
-    vec.y = y - _f;
-    vec.z = z - _f;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x - f;
+    tmp.y = y - f;
+    tmp.z = z - f;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-(const Vector3& vec)
 {
-    Vector3 vec;
-    vec.x = x - _vec.x;
-    vec.y = y - _vec.y;
-    vec.z = z - _vec.z;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x - vec.x;
+    tmp.y = y - vec.y;
+    tmp.z = z - vec.z;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-=(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-=(int i)
 {
-    x -= _i;
-    y -= _i;
-    z -= _i;
+    x -= i;
+    y -= i;
+    z -= i;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-=(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-=(float f)
 {
-    x -= _f;
-    y -= _f;
-    z -= _f;
+    x -= f;
+    y -= f;
+    z -= f;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator-=(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator-=(const Vector3& vec)
 {
-    x -= _vec.x;
-    y -= _vec.y;
-    z -= _vec.z;
+    x -= vec.x;
+    y -= vec.y;
+    z -= vec.z;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*(int i)
 {
-    Vector3 vec;
-    vec.x = x * _i;
-    vec.y = y * _i;
-    vec.z = z * _i;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x * i;
+    tmp.y = y * i;
+    tmp.z = z * i;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*(float f)
 {
-    Vector3 vec;
-    vec.x = x * _f;
-    vec.y = y * _f;
-    vec.z = z * _f;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x * f;
+    tmp.y = y * f;
+    tmp.z = z * f;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*(const Vector3& vec)
 {
-    Vector3 vec;
-    vec.x = x * _vec.x;
-    vec.y = y * _vec.y;
-    vec.z = z * _vec.z;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x * vec.x;
+    tmp.y = y * vec.y;
+    tmp.z = z * vec.z;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*=(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*=(int i)
 {
-    x *= _i;
-    y *= _i;
-    z *= _i;
+    x *= i;
+    y *= i;
+    z *= i;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*=(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*=(float f)
 {
-    x *= _f;
-    y *= _f;
-    z *= _f;
+    x *= f;
+    y *= f;
+    z *= f;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator*=(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator*=(const Vector3& vec)
 {
-    x *= _vec.x;
-    y *= _vec.y;
-    z *= _vec.z;
+    x *= vec.x;
+    y *= vec.y;
+    z *= vec.z;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/(int i)
 {
-    Vector3 vec;
-    vec.x = x / _i;
-    vec.y = y / _i;
-    vec.z = z / _i;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x / i;
+    tmp.y = y / i;
+    tmp.z = z / i;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/(float f)
 {
-    Vector3 vec;
-    vec.x = x / _f;
-    vec.y = y / _f;
-    vec.z = z / _f;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x / f;
+    tmp.y = y / f;
+    tmp.z = z / f;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/(const Vector3& vec)
 {
-    Vector3 vec;
-    vec.x = x / _vec.x;
-    vec.y = y / _vec.y;
-    vec.z = z / _vec.z;
-    return vec;
+    Vector3 tmp;
+    tmp.x = x / vec.x;
+    tmp.y = y / vec.y;
+    tmp.z = z / vec.z;
+    return tmp;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/=(int _i)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/=(int i)
 {
-    x /= _i;
-    y /= _i;
-    z /= _i;
+    x /= i;
+    y /= i;
+    z /= i;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/=(float _f)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/=(float f)
 {
-    x /= _f;
-    y /= _f;
-    z /= _f;
+    x /= f;
+    y /= f;
+    z /= f;
     return *this;
 }
 
-PublicSystem::Vector3 PublicSystem::Vector3::operator/=(const Vector3& _vec)
+PublicSystem::Vector3 PublicSystem::Vector3::operator/=(const Vector3& vec)
 {
-    x /= _vec.x;
-    y /= _vec.y;
-    z /= _vec.z;
+    x /= vec.x;
+    y /= vec.y;
+    z /= vec.z;
     return *this;
 }
 
-bool PublicSystem::Vector3::operator==(const Vector3& _vec)
+bool PublicSystem::Vector3::operator==(const Vector3& vec)
 {
-    return x == _vec.x && y == _vec.y && z == _vec.z;
+    return x == vec.x && y == vec.y && z == vec.z;
 }
 
-bool PublicSystem::Vector3::operator!=(const Vector3& _vec)
+bool PublicSystem::Vector3::operator!=(const Vector3& vec)
 {
-    return !(x == _vec.x && y == _vec.y && z == _vec.z);
+    return !(x == vec.x && y == vec.y && z == vec.z);
 }
 
 PublicSystem::Vector3::operator DirectX::XMFLOAT3() const
 {
-    DirectX::XMFLOAT3 New_Param = DirectX::XMFLOAT3(x, y, z);
-    return New_Param;
+    DirectX::XMFLOAT3 newParam = DirectX::XMFLOAT3(x, y, z);
+    return newParam;
 }

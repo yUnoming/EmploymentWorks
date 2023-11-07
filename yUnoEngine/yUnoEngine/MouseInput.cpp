@@ -18,41 +18,46 @@ PublicSystem::Vector2 PublicSystem::MouseInput::GetCursorPosition()
 {
     Vector2 Return_CursorPos;   // Vector2‚Å’l‚ğ•Ô‚·‚½‚ß‚Ì•Ï”
     POINT CursorPos;
-    GetCursorPos(&CursorPos);
+    GetCursorPos(&CursorPos);   // ƒJ[ƒ\ƒ‹À•W‚ğæ“¾
 
+    // ’l‘ã“ü
     Return_CursorPos.x = CursorPos.x;
     Return_CursorPos.y = CursorPos.y;
 
     return Return_CursorPos;
 }
 
-bool PublicSystem::MouseInput::GetMouseDown_Trigger(MouseButtonName _mb)
+bool PublicSystem::MouseInput::GetMouseDownTrigger(PublicSystem::MouseButtonName button)
 {
-    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚½uŠÔ‚È‚çhhtruehh‚ğ•Ô‚·
-    return yUno_MouseInputManager::Now_Mouse_Status[_mb] == DOWN && 
-        (yUno_MouseInputManager::Late_Mouse_Status[_mb] == UP || yUno_MouseInputManager::Late_Mouse_Status[_mb] == NOSTATUS);
+    return yUno_MouseInputManager::GetMouseDownTrigger(button)
 }
 
-bool PublicSystem::MouseInput::GetMouseDown(MouseButtonName _mb)
+bool PublicSystem::MouseInput::GetMouseDown(PublicSystem::MouseButtonName button)
 {
-    // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
-    return yUno_MouseInputManager::Now_Mouse_Status[_mb] == DOWN;
+    return yUno_MouseInputManager::GetMouseDown(button);
+}
+
+bool PublicSystem::MouseInput::GetMouseUpTrigger(PublicSystem::MouseButtonName button)
+{
+    return yUno_MouseInputManager::GetMouseUpTrigger(button);
+}
+
+bool PublicSystem::MouseInput::GetMouseUp(PublicSystem::MouseButtonName button)
+{
+    return yUno_MouseInputManager::GetMouseUp(button);
 }
 
 bool PublicSystem::MouseInput::GetWheelRotation()
 {
-    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ª‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
-    return yUno_MouseInputManager::MouseWheel_Status == FORWARD_ROTATION || yUno_MouseInputManager::MouseWheel_Status == BACKWARD_ROTATION;
+    return yUno_MouseInputManager::GetWheelRotation();
 }
 
-bool PublicSystem::MouseInput::GetWheelRotation_Forward()
+bool PublicSystem::MouseInput::GetWheelRotationForward()
 {
-    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ª‘O•û‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
-    return yUno_MouseInputManager::MouseWheel_Status == FORWARD_ROTATION;
+    return yUno_MouseInputManager::GetWheelRotationForward();
 }
 
-bool PublicSystem::MouseInput::GetWheelRotation_Backward()
+bool PublicSystem::MouseInput::GetWheelRotationBackward()
 {
-    // ƒ}ƒEƒXƒzƒC[ƒ‹‚ªŒã•û‰ñ“]‚³‚ê‚Ä‚¢‚½‚çhhtruehh‚ğ•Ô‚·
-    return yUno_MouseInputManager::MouseWheel_Status == BACKWARD_ROTATION;
+    return yUno_MouseInputManager::GetWheelRotationBackward();
 }

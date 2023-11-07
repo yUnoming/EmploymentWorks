@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		yUno_MouseInputManager.h
+* @brief	yUno_MouseInputManagerクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.07
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -7,57 +13,114 @@
 
 namespace yUno_SystemManager
 {
-	// マウスの状態
-	enum MOUSE_STATUS
-	{
-		NOSTATUS,	// まだ押されていない or 判定超過
-		UP,			// キーが離されている
-		DOWN,		// キーが押されている
-	};
-
-	// マウスホイールの状態
-	enum MOUSEWHEEL_STATUS
-	{
-		FORWARD_ROTATION,	// 前方回転
-		BACKWARD_ROTATION,	// 後方回転
-		NOT_ROTATION,		// 回転していない
-	};
-
+	/// <summary>
+	///	マウス入力を判定するための処理を管理するクラス	</summary>
 	class yUno_MouseInputManager
 	{
-		public:
+		private:
+			/// <summary>
+			///	マウスの状態	</summary>
+			enum MouseStatus
+			{
+				/// <summary>
+				///	まだ押されていない／判定超過	</summary>
+				NoStatus,
+				/// <summary>
+				/// 離されている		</summary>
+				Up,
+				/// <summary>
+				///	押されている	</summary>
+				Down
+			};
+			/// <summary>
+			///	マウスホイールの状態	</summary>
+			enum MouseWheelStatus
+			{
+				ForwardRotation,	// 前方回転
+				BackwardRotation,	// 後方回転
+				NotRotation			// 回転していない
+			};
+
 			// ----- variables / 変数 ----- //
+			/// <summary>
+			///	現在のマウスの状態	</summary>
+			static MouseStatus m_nowMouseState[3];
+			/// <summary>
+			/// 前回のマウスの状態	</summary>
+			static MouseStatus m_lateMouseState[3];	
+			/// <summary>
+			/// マウスホイールの入力値
+			/// 正の値：前方に回転
+			/// 負の値：後方に回転	</summary>
+			static MouseWheelStatus m_mouseWheelState;
 
-			// 現在のマウスの状態
-			static MOUSE_STATUS Now_Mouse_Status[3];
-
-			// 前回のマウスの状態
-			static MOUSE_STATUS Late_Mouse_Status[3];
-
-			// マウスホイールの入力値
-			// 正の値：前方に回転
-			// 負の値：後方に回転
-			static MOUSEWHEEL_STATUS MouseWheel_Status;
-
+		public:
 			// ----- functions / 関数 ----- //
 			/// <summary>
-			/// 現在のマウスの状態を保存する
-			/// </summary>
-			static void Keep_Now_MouseStatus();
+			/// 現在のマウスの状態を保存	</summary>
+			static void KeepNowMouseState();
 			/// <summary>
-			/// マウスが押されたことをセットする
-			/// </summary>
-			/// <param name = "_mb">／セットしたいマウスのボタン名</param>
-			static void Set_MouseDown(PublicSystem::MouseButtonName _mb);
+			/// マウスが押されたことをセット	</summary>
+			/// <param name = "button">
+			/// 押されたマウスのボタン名	</param>
+			static void SetMouseDown(PublicSystem::MouseButtonName button);
 			/// <summary>
-			/// マウスが離されたことをセットする関数
+			/// マウスが離されたことをセット
 			/// </summary>
-			/// <param name = "_mb">／セットしたいマウスのボタン名</param>
-			static void Set_MouseUp(PublicSystem::MouseButtonName _mb);
+			/// <param name = "button">
+			/// 離されたマウスのボタン名</param>
+			static void SetMouseUp(PublicSystem::MouseButtonName button);
 			/// <summary>
-			/// マウスホイールの入力値をセットする
-			/// </summary>
-			static void Set_MouseWheel_Status(int _wheelParam);
+			/// マウスホイールの状態をセット	</summary>
+			/// <param name="mouseWheelParam">
+			/// マウスホイールの入力値	</param>
+			static void SetMouseWheelState(int mouseWheelParam);
+
+			/// <summary>
+			/// マウスが押された瞬間かどうかを判定	</summary>
+			/// <param name = "button">
+			/// 判定するマウスのボタン名	</param>
+			/// <returns>
+			/// 押された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseDownTrigger(PublicSystem::MouseButtonName button);
+			/// <summary>
+			/// マウスが押されているかどうかを判定	</summary>
+			/// <param name = "button">
+			/// 判定するマウスのボタン名	</param>
+			/// <returns>
+			/// 押されているならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseDown(PublicSystem::MouseButtonName button);
+
+			/// <summary>
+			///	マウスが離された瞬間かどうかを判定	</summary>
+			/// <param name="button">
+			///	判定するマウスのボタン名	</param>
+			/// <returns>
+			///	離された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseUpTrigger(PublicSystem::MouseButtonName button);
+			/// <summary>
+			///	マウスが離されているかどうかを判定	</summary>
+			/// <param name="button">
+			///	判定するマウスのボタン名	</param>
+			/// <returns>
+			///	離されているならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseUp(PublicSystem::MouseButtonName button);
+
+			/// <summary>
+			/// マウスホイールが回転されているかどうかを判定	</summary>
+			/// <returns>
+			/// 回転されているならtrue、それ以外ならfalse	</returns>
+			static bool GetWheelRotation();
+			/// <summary>
+			/// マウスホイールが前方回転されているかどうかを判定	</summary>
+			/// <returns>
+			/// 前方回転されているならtrue、それ以外ならfalse	</returns>
+			static bool GetWheelRotationForward();
+			/// <summary>
+			/// マウスホイールが後方回転されているかどうかを判定	</summary>
+			/// <returns>
+			/// 後方回転されているならtrue、それ以外ならfalse	</returns>
+			static bool GetWheelRotationBackward();
 
 	};
 }

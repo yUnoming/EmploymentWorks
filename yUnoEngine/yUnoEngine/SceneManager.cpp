@@ -2,5 +2,5 @@
 
 std::array<std::list<GameObject*>, 4> PublicSystem::SceneManager::GetSceneObjectAll()
 {
-	return m_SceneObject;
+	return m_sceneObject;
 }

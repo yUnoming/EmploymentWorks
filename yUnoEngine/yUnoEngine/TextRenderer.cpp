@@ -61,14 +61,14 @@ void TextRenderer::Init()
 void TextRenderer::Update()
 {
 	// 表示するテキストが変更された？
-	if (m_lateText == NULL || strcmp(m_text, m_lateText) != 0)
+	if (m_lateText == NULL || strcmp(text, m_lateText) != 0)
 	{
 		// 新たに表示するテキストを作成
-		Create_Text(m_text);
+		CreateText(text);
 	}
 
 	// 現在表示されているテキストを保存する
-	m_lateText = m_text;
+	m_lateText = text;
 }
 
 void TextRenderer::Draw()
@@ -92,11 +92,11 @@ void TextRenderer::Draw()
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }
 
-void TextRenderer::Create_Text(const char* _text)
+void TextRenderer::CreateText(const char* text)
 {
 	// ===== テキスト描画に必要な情報を取得 ===== //
 	// フォントテクスチャ
-	m_fontTexture = yUno_SystemManager::yUno_TextRendererManager::Get_FontTexture(_text);
+	m_fontTexture = yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(text);
 	// シェーダーリソースビュー
-	m_shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::Get_ShaderResourceView(m_fontTexture);
+	m_shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(m_fontTexture);
 }

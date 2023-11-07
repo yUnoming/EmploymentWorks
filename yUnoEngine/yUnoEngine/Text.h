@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		Text.h
+* @brief	Textクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.07
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -7,12 +13,10 @@
 
 namespace PublicSystem
 {
-	// テキストに関する操作を行うためのクラス
+	/// <summary>
+	/// テキストに関する操作をまとめたクラス	</summary>
 	class Text : public TextRenderer
 	{
-		public:
-			// ----- functions / 関数 ----- //
-
 	};
 }
 

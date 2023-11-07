@@ -7,7 +7,7 @@
 #include "BoxCollider.h"
 #include <SimpleMath.h>
 
-std::array<std::list<GameObject*>, 4> yUno_SceneManager::m_SceneObject;
+std::array<std::list<GameObject*>, 4> yUno_SceneManager::m_sceneObject;
 
 
 void yUno_SceneManager::InitBase()
@@ -19,7 +19,7 @@ void yUno_SceneManager::InitBase()
 void yUno_SceneManager::UnInitBase()
 {
 	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_LoadedScene->m_SceneObject)
+	for (auto& objectList : m_loadedScene->m_sceneObject)
 	{
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
@@ -30,7 +30,7 @@ void yUno_SceneManager::UnInitBase()
 		objectList.clear();	//リストのクリア
 	}
 	// 現在シーンの終了処理
-	m_LoadedScene->UnInit();
+	m_loadedScene->UnInit();
 }
 
 void yUno_SceneManager::UpdateBase()
@@ -39,7 +39,7 @@ void yUno_SceneManager::UpdateBase()
 	std::list<BoxCollider*> BoxCollider_List;
 
 	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_LoadedScene->m_SceneObject)
+	for (auto& objectList : m_loadedScene->m_sceneObject)
 	{
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
@@ -78,7 +78,7 @@ void yUno_SceneManager::UpdateBase()
 	}
 
 	// 現在シーンの更新処理
-	m_LoadedScene->Update();
+	m_loadedScene->Update();
 }
 
 
@@ -88,7 +88,7 @@ void yUno_SceneManager::DrawBase()
 	DirectX::SimpleMath::Matrix matrix = DirectX::SimpleMath::Matrix::Identity;
 
 	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_LoadedScene->m_SceneObject)
+	for (auto& objectList : m_loadedScene->m_sceneObject)
 	{
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
@@ -98,5 +98,5 @@ void yUno_SceneManager::DrawBase()
 	}
 
 	// 現在シーンの描画処理
-	m_LoadedScene->Draw();
+	m_loadedScene->Draw();
 }

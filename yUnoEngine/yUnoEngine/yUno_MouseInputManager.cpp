@@ -9,34 +9,78 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　   staticメンバ変数の定義        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-yUno_SystemManager::MOUSE_STATUS yUno_SystemManager::yUno_MouseInputManager::Now_Mouse_Status[3];
-yUno_SystemManager::MOUSE_STATUS yUno_SystemManager::yUno_MouseInputManager::Late_Mouse_Status[3];
-yUno_SystemManager::MOUSEWHEEL_STATUS yUno_SystemManager::yUno_MouseInputManager::MouseWheel_Status;
+yUno_SystemManager::yUno_MouseInputManager::MouseStatus yUno_SystemManager::yUno_MouseInputManager::m_nowMouseState[3];
+yUno_SystemManager::yUno_MouseInputManager::MouseStatus yUno_SystemManager::yUno_MouseInputManager::m_lateMouseState[3];
+yUno_SystemManager::yUno_MouseInputManager::MouseWheelStatus yUno_SystemManager::yUno_MouseInputManager::m_mouseWheelState;
 
 
-void yUno_SystemManager::yUno_MouseInputManager::Keep_Now_MouseStatus()
+void yUno_SystemManager::yUno_MouseInputManager::KeepNowMouseState()
 {
 	// 現在のマウスの状態をセット
-	memcpy(Late_Mouse_Status, Now_Mouse_Status, sizeof(Now_Mouse_Status));
+	memcpy(m_lateMouseState, m_nowMouseState, sizeof(m_nowMouseState));
 	
 	// マウスホイールの回転判定を終了
-	MouseWheel_Status = NOT_ROTATION;
+	m_mouseWheelState = NotRotation;
 }
 
-void yUno_SystemManager::yUno_MouseInputManager::Set_MouseDown(PublicSystem::MouseButtonName _mb)
+void yUno_SystemManager::yUno_MouseInputManager::SetMouseDown(PublicSystem::MouseButtonName button)
 {
 	// マウスが押されている状態に変更
-	Now_Mouse_Status[_mb] = yUno_SystemManager::DOWN;
+	m_nowMouseState[button] = Down;
 }
 
-void yUno_SystemManager::yUno_MouseInputManager::Set_MouseUp(PublicSystem::MouseButtonName _mb)
+void yUno_SystemManager::yUno_MouseInputManager::SetMouseUp(PublicSystem::MouseButtonName button)
 {
 	// マウスが離されている状態に変更
-	Now_Mouse_Status[_mb] = yUno_SystemManager::UP;
+	m_nowMouseState[button] = Up;
 }
 
-void yUno_SystemManager::yUno_MouseInputManager::Set_MouseWheel_Status(int _wheelParam)
+void yUno_SystemManager::yUno_MouseInputManager::SetMouseWheelState(int mouseWheelParam)
 {
 	// 現在のマウスホイールの入力値をセット
-	MouseWheel_Status = (MOUSEWHEEL_STATUS)_wheelParam;
+	m_mouseWheelState = (MouseWheelStatus)mouseWheelParam;
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetMouseDownTrigger(PublicSystem::MouseButtonName button)
+{
+	// マウスが押された瞬間ならtrue
+	return m_nowMouseState[button] == Down &&
+		(m_lateMouseState[button] == Up || m_lateMouseState[button] == NoStatus);
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetMouseDown(PublicSystem::MouseButtonName button)
+{
+	// マウスが押されていたらtrue
+	return m_nowMouseState[button] == Down;
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetMouseUpTrigger(PublicSystem::MouseButtonName button)
+{
+	// マウスが離された瞬間ならtrue
+	return m_nowMouseState[button] == Up &&
+		(m_lateMouseState[button] == Down || m_lateMouseState[button] == NoStatus);
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetMouseUp(PublicSystem::MouseButtonName button)
+{
+	// マウスが離されていたらtrue
+	return m_nowMouseState[button] == Up || m_nowMouseState[button] == NoStatus;
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetWheelRotation()
+{
+	// マウスホイールが回転されていたらtrue
+	return m_mouseWheelState == ForwardRotation || m_mouseWheelState == BackwardRotation;
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetWheelRotationForward()
+{
+	// マウスホイールが前方回転されていたらtrue
+	return m_mouseWheelState == ForwardRotation;
+}
+
+bool yUno_SystemManager::yUno_MouseInputManager::GetWheelRotationBackward()
+{
+	// マウスホイールが後方回転されていたらtrue
+	return m_mouseWheelState == BackwardRotation;
 }

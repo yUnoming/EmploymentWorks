@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		yUno_KeyInputManager.h
+* @brief	yUno_KeyInputManagerクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.06
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　   ファイルのインクルード        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -7,68 +13,128 @@
 
 namespace yUno_SystemManager
 {
-	// 各種キー入力状態
-	enum KEY_STATUS
-	{
-		NoStatus,	// まだ押されていない or 判定超過
-		Up,			// キーが離されている
-		Down,		// キーが押されている
-	};
-
-	// 各種キー情報
-	struct KEY_INFO
-	{
-		// キーの入力状態
-		KEY_STATUS KeyState = NoStatus;
-
-		// 現在の入力状態になってからの経過時間
-		double KeyState_ElapsedTime = 0.0;
-	};
-
+	/// <summary>
+	///	キー入力を判定するための処理を管理するクラス	</summary>
 	class yUno_KeyInputManager
 	{
+		private:
+			/// <summary>
+			///	キー入力状態	</summary>
+			enum KeyStatus
+			{
+				/// <summary>
+				/// まだ押されていない or 判定超過</summary>
+				NoStatus,
+				/// <summary>
+				///	キーが離されている	</summary>
+				Up,
+				/// <summary>
+				///	キーが押されている	</summary>
+				Down,
+			};
+
+			/// <summary>
+			/// キー情報	</summary>
+			struct KeyInfo
+			{
+				/// <summary>
+				///	キーの入力状態	</summary>
+				KeyStatus keyState = NoStatus;
+				/// <summary>
+				///	現在の入力状態になってからの経過時間	</summary>
+				double nowStateElapsedTime = 0.0;
+			};
+
+			/// <summary>
+			/// 入力判定中のキー情報	</summary>
+			struct CheckKeyInfo
+			{
+				/// <summary>
+				///	判定中のキーの種類	</summary>
+				std::vector<int> keyType[400];
+				/// <summary>
+				///	判定中のキーの種類	</summary>
+				int keyIndex;
+			};
+
+			// ----- variables / 変数 ----- //
+			/// <summary>
+			/// 現在の各種キー情報	</summary>
+			static KeyInfo m_nowKeyInfo[400];
+			 /// <summary>
+			 /// 前回の各種キー情報	</summary>
+			static KeyInfo m_lateKeyInfo[400];
+
+			/// <summary>
+			///	現在押されていると判定中のキー情報	</summary>
+			static CheckKeyInfo m_downStateKeyInfo;
+			/// <summary>
+			/// 現在離されていると判定中のキー情報	</summary>
+			static CheckKeyInfo m_upStateKeyInfo;
+
 		public:
 			// ----- functions / 関数 ----- //
+			/// <summary>
+			///	更新	</summary>
+			static void Update();
+			/// <summary>
+			/// 現在のキー入力状態を保存	</summary>
+			static void KeepNowKeyInfo();
 
-			static void Update();		// 更新処理
+			/// <summary>
+			/// 指定したキーを押された状態に遷移	</summary>
+			/// <param name="key">
+			/// キー名	</param>
+			static void SetKeyDown(int key);
+			/// <summary>
+			///	指定したキーを離された状態に遷移	</summary>
+			/// <param name="key">
+			/// キー名	</param>
+			static void SetKeyUp(int key);
 
-			// 現在のキー入力状態を保存するための関数
-			static void Keep_Now_KeyInfo();
+			/// <summary>
+			/// キーが押された瞬間かどうかを判定	</summary>
+			/// <param name="key">
+			///	判定したいキー名	</param>
+			/// <returns>
+			///	押された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetKeyDownTrigger(PublicSystem::KeyName key);
+			/// <summary>
+			/// キーが押されているかどうかを判定	</summary>
+			/// <param name="key">
+			///	判定したいキー名	</param>
+			/// <returns>
+			///	押されていたらtrue、それ以外ならfalse	</returns>
+			static bool GetKeyDown(PublicSystem::KeyName key);
+			/// <summary>
+			/// キーが押されている時間を取得	</summary>
+			/// <param name="key">
+			///	取得したいキー名	</param>
+			/// <returns>
+			///	押されている時間、押されていない場合は0	</returns>
+			static double GetKeyDownTime(PublicSystem::KeyName key);
 
-			// キーの入力状態を代入する関数
-			static void Set_KeyDown(int _key);
-			static void Set_KeyUp(int _key);
-
-			// キーが押された瞬間かどうかを返す関数
-			static bool GetKeyDown_Trigger(PublicSystem::KeyName _key);
-			// キーが押されているかどうかを返す関数
-			static bool GetKeyDown(PublicSystem::KeyName _key);
-			// キーが押されている時間を返す関数
-			static double GetKeyDown_Time(PublicSystem::KeyName _key);
-
-			// キーが離された瞬間かどうかを返す関数
-			static bool GetKeyUp_Trigger(PublicSystem::KeyName _key);
-			// キーが離されているかどうかを返す関数
-			static bool GetKeyUp(PublicSystem::KeyName _key);
-			// キーが離されている時間を返す関数
-			static double GetKeyUp_Time(PublicSystem::KeyName _key);
-
-		private:
-			// ----- functions / 関数 ----- //
-			
-			// 現在のキー情報を代入する配列
-			static KEY_INFO Now_KeyInfo[400];
-			// 前回のキー情報を代入する配列
-			static KEY_INFO Late_KeyInfo[400];
-
-			// 押されているキーの種類
-			static std::vector<int> Down_KeyType[400];
-			// 押されているキーの種類の要素数
-			static int Down_KeyType_Index;
-			// 離されているキーの種類
-			static std::vector<int> Up_KeyType[400];
-			// 離されているキーの種類の要素数
-			static int Up_KeyType_Index;
+			/// <summary>
+			/// キーが離された瞬間かどうかを判定	</summary>
+			/// <param name="key">
+			///	判定したいキー名	</param>
+			/// <returns>
+			/// 離された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetKeyUpTrigger(PublicSystem::KeyName key);
+			/// <summary>
+			/// キーが離されているかどうかを判定	</summary>
+			/// <param name="key">
+			/// 判定したいキー名	</param>
+			/// <returns>
+			///	離されていたらtrue、それ以外ならfalse	</returns>
+			static bool GetKeyUp(PublicSystem::KeyName key);
+			/// <summary>
+			/// キーが離されている時間を取得　※一定時間超過で計測終了することに注意	</summary>
+			/// <param name="key">
+			/// 取得したいキー名	</param>
+			/// <returns>
+			/// 離されている時間、離されていないor時間超過の場合は0</returns>
+			static double GetKeyUpTime(PublicSystem::KeyName key);
 	};
 }
 
