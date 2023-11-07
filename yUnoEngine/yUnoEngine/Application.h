@@ -1,43 +1,86 @@
 #pragma once
+/**
+* @file		Application.h
+* @brief	Applicationクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.10.29
+*/
+
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <Windows.h>
 
-
+/// <summary>
+/// アプリケーション起動に必要な処理を行うクラス	</summary>
 class Application
 {
 	private:
 		// ----- variables / 変数 ----- //
-
-		HINSTANCE   m_hInst;			// インスタンスハンドル
-		static HWND        m_hWnd;		// ウィンドウハンドル
-		static UINT		m_Wnd_Width;	// ウィンドウの横幅
-		static UINT		m_Wnd_Height;	// ウィンドウの縦幅
+		/// <summary>
+		///	インスタンスハンドル	</summary>
+		HINSTANCE		m_hInst;
+		/// <summary>
+		/// ウィンドウハンドル	</summary>
+		static HWND     m_hWnd;
+		/// <summary>
+		/// ウィンドウの横幅	</summary>
+		static UINT		m_wndWidth;
+		/// <summary>
+		///	ウィンドウの縦幅	</summary>
+		static UINT		m_wndHeight;
 
 		// ----- functions / 関数 ----- //
+		/// <summary>
+		/// アプリケーションの初期化	</summary>
+		bool InitApp();
+		/// <summary>
+		///	アプリケーションの終了		</summary>
+		void UnInitApp();
+		/// <summary>
+		///	ウィンドウの初期化			</summary>
+		bool InitWnd();
+		/// <summary>
+		/// ウィンドウの終了			</summary>
+		void UnInitWnd();
+		/// <summary>
+		///	メインループ				</summary>
+		void MainLoop();
 
-		bool InitApp();		// アプリケーションの初期化
-		void UnInitApp();	// アプリケーションの終了
-		bool InitWnd();		// ウィンドウの初期化
-		void UnInitWnd();	// ウィンドウの終了
-		void MainLoop();	// メインループ
-
-		// ウィンドウズプロシージャ
+		/// <summary>
+		/// ウィンドウズプロシージャ	</summary>
+		/// <param name="hWnd">
+		/// ウィンドウハンドル			</param>
+		/// <param name="msg">
+		/// メッセージ					</param>
+		/// <param name="wp">
+		/// メッセージ情報				</param>
+		/// <param name="lp">
+		/// メッセージ情報				</param>
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 
 	public:
 		// ----- functions / 関数 ----- //
-		
-		// アプリケーションの開始
+		/// <summary>
+		/// アプリケーションの開始	</summary>
 		void Run();
 
-		// ウィンドウハンドルを取得
-		static HWND Get_Window() { return m_hWnd; };
+		/// <summary>
+		/// ウィンドウハンドルを取得
+		/// </summary>
+		/// <returns>
+		/// 現在のウィンドウハンドル</returns>
+		static HWND GetWindow() { return m_hWnd; };
 
-		// ウィンドウの縦幅を取得
-		static UINT Get_WindowWidth() { return m_Wnd_Width; };
-		// ウィンドウの横幅を取得
-		static UINT Get_WindowHeight() { return m_Wnd_Height; };
+		/// <summary>
+		/// ウィンドウの縦幅を取得		</summary>
+		/// <returns>
+		///	現在のウィンドウの縦幅		</returns>
+		static UINT GetWindowWidth() { return m_wndWidth; };
+		/// <summary>
+		/// ウィンドウの横幅を取得		</summary>
+		/// <returns>
+		/// 現在のウィンドウの横幅		</returns>
+		static UINT GetWindowHeight() { return m_wndHeight; };
 };
 

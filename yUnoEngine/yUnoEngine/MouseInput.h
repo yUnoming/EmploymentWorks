@@ -1,56 +1,75 @@
 #pragma once
+/**
+* @file		MouseInput.h
+* @brief	MouseInputクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.05
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "Vector2.h"
-#include "InputPartsName.h"
 
 
 namespace PublicSystem
 {
+	/// <summary>
+	///	マウス入力を判定するための機能をまとめたクラス	</summary>
 	class MouseInput
 	{
 		public:
 			// ----- functions / 関数 ----- //
-
 			/// <summary>
-			/// 現在のカーソル座標を取得する	</summary>
+			/// 現在のカーソル座標を取得	</summary>
 			/// <returns>
-			/// 現在のカーソル座標を””Vector2””で返す	</returns>
+			/// 現在のカーソル座標	</returns>
 			static Vector2 GetCursorPosition();
 
 			/// <summary>
-			/// マウスが押された瞬間かどうかを取得する	</summary>
-			/// <param name = "_mb">
-			/// ／取得したいマウスのボタン名	</param>
+			/// マウスが押された瞬間かどうかを判定	</summary>
+			/// <param name = "button">
+			/// 判定するマウスのボタン名	</param>
 			/// <returns>
-			/// 押された瞬間なら""true""、それ以外は""false""を返す	</returns>
-			static bool GetMouseDown_Trigger(MouseButtonName _mb);
+			/// 押された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseDownTrigger(PublicSystem::MouseButtonName button);
 			/// <summary>
-			/// マウスが押されているかどうかを取得する	</summary>
-			/// <param name = "_mb">
-			/// ／取得したいマウスのボタン名	</param>
+			/// マウスが押されているかどうかを判定	</summary>
+			/// <param name = "button">
+			/// 判定するマウスのボタン名	</param>
 			/// <returns>
-			/// 押されているなら""true""、それ以外は""false""を返す	</returns>
-			static bool GetMouseDown(MouseButtonName _mb);
+			/// 押されているならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseDown(PublicSystem::MouseButtonName button);
 			
 			/// <summary>
-			/// マウスホイールが回転されているかどうかを取得する	</summary>
+			///	マウスが離された瞬間かどうかを判定	</summary>
+			/// <param name="button">
+			///	判定するマウスのボタン名	</param>
 			/// <returns>
-			/// 回転されているなら""true""、それ以外は""false""を返す	</returns>
+			///	離された瞬間ならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseUpTrigger(PublicSystem::MouseButtonName button);
+			/// <summary>
+			///	マウスが離されているかどうかを判定	</summary>
+			/// <param name="button">
+			///	判定するマウスのボタン名	</param>
+			/// <returns>
+			///	離されているならtrue、それ以外ならfalse	</returns>
+			static bool GetMouseUp(PublicSystem::MouseButtonName button);
+
+			/// <summary>
+			/// マウスホイールが回転されているかどうかを判定	</summary>
+			/// <returns>
+			/// 回転されているならtrue、それ以外ならfalse	</returns>
 			static bool GetWheelRotation();
-
 			/// <summary>
-			/// マウスホイールが前方回転されているかどうかを取得する	</summary>
+			/// マウスホイールが前方回転されているかどうかを判定	</summary>
 			/// <returns>
-			/// 前方回転されているなら""true""、それ以外は""false""を返す	</returns>
-			static bool GetWheelRotation_Forward();
-
+			/// 前方回転されているならtrue、それ以外ならfalse	</returns>
+			static bool GetWheelRotationForward();
 			/// <summary>
-			/// マウスホイールが後方回転されているかどうかを取得する	</summary>
+			/// マウスホイールが後方回転されているかどうかを判定	</summary>
 			/// <returns>
-			/// 後方回転されているなら""true""、それ以外は""false""を返す	</returns>
-			static bool GetWheelRotation_Backward();
+			/// 後方回転されているならtrue、それ以外ならfalse	</returns>
+			static bool GetWheelRotationBackward();
 	};
 }
 

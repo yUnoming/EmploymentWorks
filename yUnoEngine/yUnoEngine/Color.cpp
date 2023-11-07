@@ -2,32 +2,32 @@
 #include <direct.h>
 #include <DirectXMath.h>
 
-PublicSystem::Color::Color(float _r, float _g, float _b, float _a) : r(_r), g(_g), b(_b), a(_a)
+PublicSystem::Color::Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a)
 {
 	// ===== ’l‚ğ‚O`‚P‚Ì”ÍˆÍ‚Éû‚ß‚é ===== //
 	// ----- ÔF ----- //
 	if (r < 0.f)	// ‚OˆÈ‰ºH
-		r = 0.f;
+		this->r = 0.f;
 	if (r > 1.f)	// ‚PˆÈãH
-		r = 1.f;
+		this->r = 1.f;
 
 	// ----- ÂF ----- //
 	if (g < 0.f)	// ‚OˆÈ‰ºH
-		g = 0.f;
+		this->g = 0.f;
 	if (g > 1.f)	// ‚PˆÈãH
-		g = 1.f;
+		this->g = 1.f;
 
 	// ----- —ÎF ----- //
 	if (b < 0.f)	// ‚OˆÈ‰ºH
-		b = 0.f;
+		this->b = 0.f;
 	if (b > 1.f)	// ‚PˆÈãH
-		b = 1.f;
+		this->b = 1.f;
 
 	// ----- “§–¾“x ----- //
 	if (a < 0.f)	// ‚OˆÈ‰ºH
-		a = 0.f;
+		this->a = 0.f;
 	if (a > 1.f)	// ‚PˆÈãH
-		a = 1.f;
+		this->a = 1.f;
 }
 
 PublicSystem::Color::operator DirectX::XMFLOAT4() const

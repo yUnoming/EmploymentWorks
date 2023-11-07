@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		GameObject.h
+* @brief	GameObjectクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.01
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -10,101 +16,134 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		  前方宣言		 　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+/// <summary>
+/// ユーザーが使えるシステム </summary>
 namespace PublicSystem
 {
 	class Transform;	// PublicSystem::Transformを使うための前方宣言
 }
 
-namespace yUno_SceneManagement
-{
-	class yUno_SceneManager;	// yUno_SceneManagement::yUno_SceneManagerを使うための前方宣言
-}
+class yUno_SceneManager;	// yUno_SceneManagerを使うための前方宣言
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		 using宣言		 　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 using namespace PublicSystem;
-using namespace yUno_SceneManagement;
 
-
+/// <summary>
+/// オブジェクトに持たせたい要素をまとめたクラス	</summary>
 class GameObject
 {
 	private:
 		// ----- variables / 変数 ----- //
-		// コンポーネントのリスト
-		std::list<Component*> m_Component_List;
+		/// <summary>
+		/// 保持しているコンポーネントを格納するリスト		</summary>
+		std::list<Component*> m_componentList;
 
-		// オブジェクト名
-		const char* m_Name = 0;
+		/// <summary>
+		/// オブジェクト名	</summary>
+		const char* m_name = 0;
 
-		// 自身がいるシーンの情報
-		yUno_SceneManager* m_MyScene = nullptr;
-
-
-		// ----- functions / 関数 ----- //
+		/// <summary>
+		/// 自身がいるシーンの情報		</summary>
+		yUno_SceneManager* m_myScene = nullptr;
 
 	protected:
 		// ----- variables / 変数 ----- //
-		// オブジェクトのアクティブ状態を表す
-		// true: 通常動作 false: 機能停止・非表示
-		bool m_Active = true;
+		/// <summary>
+		/// オブジェクトのアクティブ状態
+		/// （true: アクティブ false: 非アクティブ）</summary>
+		bool m_active = true;
 
 	public:
 		// ----- variables / 変数 ----- //
-		// 基本のオブジェクト情報
+		/// <summary>
+		/// トランスフォーム	</summary>
 		Transform* transform = nullptr;
 
 		// ----- functions / 関数 ----- //
+		/// <summary>
+		/// コンストラクタ		</summary>
 		GameObject();
-		GameObject(yUno_SceneManager* _nowScene);
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="_nowScene">
+		///	現在のシーン	</param>
+		GameObject(yUno_SceneManager* nowScene);
+		/// <summary>
+		/// デストラクタ	</summary>
 		virtual ~GameObject() {};
 
 		// オブジェクト単体に関わる処理
-		virtual void Init() {};			// 初期化
-		virtual void UnInit() {};		// 終了
-		virtual void Update() {};		// 更新
-		virtual void Draw() {};			// 描画
-		
-		// 当たり判定が当たった場合
+		/// <summary>
+		///	初期化	</summary>
+		virtual void Init() {};
+		/// <summary>
+		///	終了	</summary>
+		virtual void UnInit() {};
+		/// <summary>
+		///	更新	</summary>
+		virtual void Update() {};
+		/// <summary>
+		///	描画	</summary>
+		virtual void Draw() {};	
+		/// <summary>
+		/// 当たり判定時	</summary>
 		virtual void HitCollision()
 		{
-			for (auto com : m_Component_List)
+			// リスト内のコンポーネントを一つずつ取得
+			for (auto com : m_componentList)
 			{
 				com->HitCollision();
 			}
 		};
 
 		// オブジェクト全体に関わる処理
+		/// <summary>
+		/// ベースの初期化処理	</summary>
 		void InitBase();
+		/// <summary>
+		/// ベースの終了処理	</summary>
 		void UnInitBase();
+		/// <summary>
+		/// ベースの更新処理	</summary>
+		/// </summary>
 		void UpdateBase();
-		void DrawBase(DirectX::SimpleMath::Matrix _parentMatrix);
+		/// <summary>
+		/// ベースの描画処理	</summary>
+		/// <param name="parentMatrix">
+		///	親の座標行列（親がいない場合は正規化された座標行列）	</param>
+		void DrawBase(DirectX::SimpleMath::Matrix parentMatrix);
 
 		//**  コンポーネント操作  **//
 		/// <summary>
-		// 　内容：オブジェクトが持っているコンポーネントを取得する
-		// 　引数：なし
-		// 戻り値：コンポーネントを持っている場合 ===>>   持っているコンポーネントを返す
-		//		   コンポーネントを持っていない場合 ===>> nullptrを返す
-		/// </summary>
+		/// コンポーネントを取得 </summary>
+		/// <param name="GetComponent&lt;&gt;();">
+		/// &lt;&gt;内に取得したいコンポーネントを記述		</param>
+		/// <returns>
+		/// 取得したコンポーネント </returns>
 		template<class T>
 		T* GetComponent()
 		{
-			for (auto com : m_Component_List)
+			// リスト内のコンポーネントを一つずつ取得
+			for (auto com : m_componentList)
 			{
-				T* Component = dynamic_cast<T*>(com);
-				if (Component != nullptr)
-					return Component;
+				T* component = dynamic_cast<T*>(com);
+				
+				// 取得したいコンポーネントと合致した？
+				if (component != nullptr)
+					return component;
 			}
 			return nullptr;
 		}
-
 		/// <summary>
-		// 　内容：オブジェクトに新たにコンポーネントを追加する
-		// 　引数：なし
-		// 戻り値：追加したコンポーネント
+		/// コンポーネントを追加
 		/// </summary>
+		/// <param name="AddComponent&lt;&gt;();">
+		/// &lt;&gt;内に追加したいコンポーネントを記述		</param>
+		/// <returns>
+		/// 追加したコンポーネント		</returns>
 		template<class T>
 		T* AddComponent()
 		{
@@ -113,30 +152,32 @@ class GameObject
 			// コンポーネントに自身が追加されるオブジェクトを代入
 			com->Myself = this;
 
-			if(transform != nullptr)			// Transformコンポーネントが自身に追加されている？
+			// Transformコンポーネントが自身に追加されている？
+			if(transform != nullptr)
 				com->transform = transform;		// 追加するコンポーネントにTransform情報を代入
 
-			m_Component_List.push_back(com);	// コンポーネントリストに追加
-			//Set_FitComponentList<T>(com);		// 適したリストに入れる関数を実行
+			m_componentList.push_back(com);	// コンポーネントリストに追加
 
-			((Component*)com)->Init();
+			((Component*)com)->Init();			// コンポーネントの初期化処理
 			return com;
 		}
-
 		/// <summary>
-		// 　内容：オブジェクトが持っているコンポーネントを削除する
-		// 　引数：なし
-		// 戻り値：nullptr
+		/// コンポーネントを削除
 		/// </summary>
+		/// <param name="DeleteComponent&lt;&gt;();">
+		/// &lt;&gt;内に削除したいコンポーネントを記述		</param>
 		template<class T>
 		void DeleteComponent()
 		{
-			for (auto com : m_Component_List)
+			// リスト内のコンポーネントを一つずつ取得
+			for (auto com : m_componentList)
 			{
 				T* Component = dynamic_cast<T*>(com);
+				
+				// 取得したいコンポーネントと合致した？
 				if (Component != nullptr)
 				{
-					Component->UnInit();
+					Component->UnInit();		// コンポーネントの終了処理
 					delete Component;
 				}
 			}

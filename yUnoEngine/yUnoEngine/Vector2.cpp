@@ -3,193 +3,200 @@
 // ÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅÅ //
 #include "Vector2.h"
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator+(int _i)
+PublicSystem::Vector2 PublicSystem::Vector2::operator=(const Vector2& vec)
 {
-    Vector2 vec;
-    vec.x = x + _i;
-    vec.y = y + _i;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator+(float _f)
-{
-    Vector2 vec;
-    vec.x = x + _f;
-    vec.y = y + _f;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator+(const Vector2& _vec)
-{
-    Vector2 vec;
-    vec.x = x + _vec.x;
-    vec.y = y + _vec.y;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator+=(int _i)
-{
-    x += _i;
-    y += _i;
+    x = vec.x;
+    y = vec.y;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator+=(float _f)
+PublicSystem::Vector2 PublicSystem::Vector2::operator+(int i)
 {
-    x += _f;
-    y += _f;
+    Vector2 tmp;
+    tmp.x = x + i;
+    tmp.y = y + i;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator+(float f)
+{
+    Vector2 tmp;
+    tmp.x = x + f;
+    tmp.y = y + f;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator+(const Vector2& vec)
+{
+    Vector2 tmp;
+    tmp.x = x + vec.x;
+    tmp.y = y + vec.y;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator+=(int i)
+{
+    x += i;
+    y += i;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator+=(const Vector2& _vec)
+PublicSystem::Vector2 PublicSystem::Vector2::operator+=(float f)
 {
-    x += _vec.x;
-    y += _vec.y;
+    x += f;
+    y += f;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator-(int _i)
+PublicSystem::Vector2 PublicSystem::Vector2::operator+=(const Vector2& vec)
 {
-    Vector2 vec;
-    vec.x = x - _i;
-    vec.y = y - _i;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator-(float _f)
-{
-    Vector2 vec;
-    vec.x = x - _f;
-    vec.y = y - _f;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator-(const Vector2& _vec)
-{
-    Vector2 vec;
-    vec.x = x - _vec.x;
-    vec.y = y - _vec.y;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator-=(int _i)
-{
-    x -= _i;
-    y -= _i;
+    x += vec.x;
+    y += vec.y;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator-=(float _f)
+PublicSystem::Vector2 PublicSystem::Vector2::operator-(int i)
 {
-    x -= _f;
-    y -= _f;
+    Vector2 tmp;
+    tmp.x = x - i;
+    tmp.y = y - i;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator-(float f)
+{
+    Vector2 tmp;
+    tmp.x = x - f;
+    tmp.y = y - f;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator-(const Vector2& vec)
+{
+    Vector2 tmp;
+    tmp.x = x - vec.x;
+    tmp.y = y - vec.y;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator-=(int i)
+{
+    x -= i;
+    y -= i;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator-=(const Vector2& _vec)
+PublicSystem::Vector2 PublicSystem::Vector2::operator-=(float f)
 {
-    x -= _vec.x;
-    y -= _vec.y;
+    x -= f;
+    y -= f;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator*(int _i)
+PublicSystem::Vector2 PublicSystem::Vector2::operator-=(const Vector2& vec)
 {
-    Vector2 vec;
-    vec.x = x * _i;
-    vec.y = y * _i;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator*(float _f)
-{
-    Vector2 vec;
-    vec.x = x * _f;
-    vec.y = y * _f;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator*(const Vector2& _vec)
-{
-    Vector2 vec;
-    vec.x = x * _vec.x;
-    vec.y = y * _vec.y;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator*=(int _i)
-{
-    x *= _i;
-    y *= _i;
+    x -= vec.x;
+    y -= vec.y;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator*=(float _f)
+PublicSystem::Vector2 PublicSystem::Vector2::operator*(int i)
 {
-    x *= _f;
-    y *= _f;
+    Vector2 tmp;
+    tmp.x = x * i;
+    tmp.y = y * i;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator*(float f)
+{
+    Vector2 tmp;
+    tmp.x = x * f;
+    tmp.y = y * f;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator*(const Vector2& vec)
+{
+    Vector2 tmp;
+    tmp.x = x * vec.x;
+    tmp.y = y * vec.y;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator*=(int i)
+{
+    x *= i;
+    y *= i;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator*=(const Vector2& _vec)
+PublicSystem::Vector2 PublicSystem::Vector2::operator*=(float f)
 {
-    x *= _vec.x;
-    y *= _vec.y;
+    x *= f;
+    y *= f;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator/(int _i)
+PublicSystem::Vector2 PublicSystem::Vector2::operator*=(const Vector2& vec)
 {
-    Vector2 vec;
-    vec.x = x / _i;
-    vec.y = y / _i;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator/(float _f)
-{
-    Vector2 vec;
-    vec.x = x / _f;
-    vec.y = y / _f;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator/(const Vector2& _vec)
-{
-    Vector2 vec;
-    vec.x = x / _vec.x;
-    vec.y = y / _vec.y;
-    return vec;
-}
-
-PublicSystem::Vector2 PublicSystem::Vector2::operator/=(int _i)
-{
-    x /= _i;
-    y /= _i;
+    x *= vec.x;
+    y *= vec.y;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator/=(float _f)
+PublicSystem::Vector2 PublicSystem::Vector2::operator/(int i)
 {
-    x /= _f;
-    y /= _f;
+    Vector2 tmp;
+    tmp.x = x / i;
+    tmp.y = y / i;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator/(float f)
+{
+    Vector2 tmp;
+    tmp.x = x / f;
+    tmp.y = y / f;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator/(const Vector2& vec)
+{
+    Vector2 tmp;
+    tmp.x = x / vec.x;
+    tmp.y = y / vec.y;
+    return tmp;
+}
+
+PublicSystem::Vector2 PublicSystem::Vector2::operator/=(int i)
+{
+    x /= i;
+    y /= i;
     return *this;
 }
 
-PublicSystem::Vector2 PublicSystem::Vector2::operator/=(const Vector2& _vec)
+PublicSystem::Vector2 PublicSystem::Vector2::operator/=(float f)
 {
-    x /= _vec.x;
-    y /= _vec.y;
+    x /= f;
+    y /= f;
     return *this;
 }
 
-bool PublicSystem::Vector2::operator==(const Vector2& _vec)
+PublicSystem::Vector2 PublicSystem::Vector2::operator/=(const Vector2& vec)
 {
-    return x == _vec.x && y == _vec.y;
+    x /= vec.x;
+    y /= vec.y;
+    return *this;
 }
 
-bool PublicSystem::Vector2::operator!=(const Vector2& _vec)
+bool PublicSystem::Vector2::operator==(const Vector2& vec)
 {
-    return !(x == _vec.x && y == _vec.y);
+    return x == vec.x && y == vec.y;
+}
+
+bool PublicSystem::Vector2::operator!=(const Vector2& vec)
+{
+    return !(x == vec.x && y == vec.y);
 }
 

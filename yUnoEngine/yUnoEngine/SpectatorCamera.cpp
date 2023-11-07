@@ -48,56 +48,53 @@ void SpectatorCamera::Update()
 
 	// ===== クリックしたオブジェクトを取得 ===== //
 	// 左クリックされた？
-	if (MouseInput::GetMouseDown_Trigger(LeftButton))
+	if (MouseInput::GetMouseDownTrigger(LeftButton))
 	{
 		// クリックしたオブジェクトを一時的に代入する変数
-		GameObject* Tmp_Clicked_Object;
+		GameObject* tmpClickedObject;
 
 		// クリックした位置にオブジェクトがある場合、そのオブジェクトを取得
 		// 取得された状態でオブジェクトがない場所がクリックされたら、取得を解除する
-		Tmp_Clicked_Object = GetComponent<Camera>()->GetScreenPointObject(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
+		tmpClickedObject = GetComponent<Camera>()->GetScreenPointObject(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
 		
 		// 別のオブジェクトがクリックされた？
-		if (m_Clicked_Object && Tmp_Clicked_Object != m_Clicked_Object)
+		if (tmpClickedObject && m_clickedObject && tmpClickedObject != m_clickedObject)
 		{
 			// クリックされていたオブジェクトのマテリアルを変更
-			m_Clicked_Object->GetComponent<Material>()->SetMateiralColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 			
 			// クリックされたオブジェクトをメンバ変数に代入
-			m_Clicked_Object = Tmp_Clicked_Object;
+			m_clickedObject = tmpClickedObject;
 			// クリックされたオブジェクトのマテリアルを変更
-			m_Clicked_Object->GetComponent<Material>()->SetMateiralColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 		// オブジェクトがクリックされた？
-		else if (Tmp_Clicked_Object)
+		else if (tmpClickedObject)
 		{
 			// クリックされたオブジェクトをメンバ変数に代入
-			m_Clicked_Object = Tmp_Clicked_Object;
+			m_clickedObject = tmpClickedObject;
 			// クリックされたオブジェクトのマテリアルを変更
-			m_Clicked_Object->GetComponent<Material>()->SetMateiralColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 		// オブジェクトが解除された？
-		else if (!Tmp_Clicked_Object && m_Clicked_Object)
+		else if (!tmpClickedObject && m_clickedObject)
 		{
 			// クリックされていたオブジェクトのマテリアルを変更
-			m_Clicked_Object->GetComponent<Material>()->SetMateiralColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 		}
 	}
-
 
 	// ===== クリックしたオブジェクトの操作 ===== //
 	// オブジェクトを取得している？
-	if (m_Clicked_Object)
+	if (m_clickedObject)
 	{
 		if (KeyInput::GetKeyDown(W))
-			m_Clicked_Object->transform->Position.z += 0.01f;
+			m_clickedObject->transform->Position.z += 0.01f;
 		if (KeyInput::GetKeyDown(A))
-			m_Clicked_Object->transform->Position.x -= 0.01f;
+			m_clickedObject->transform->Position.x -= 0.01f;
 		if (KeyInput::GetKeyDown(S))
-			m_Clicked_Object->transform->Position.z -= 0.01f;
+			m_clickedObject->transform->Position.z -= 0.01f;
 		if (KeyInput::GetKeyDown(D))
-			m_Clicked_Object->transform->Position.x += 0.01f;
-
-	}
-		
+			m_clickedObject->transform->Position.x += 0.01f;
+	}	
 }

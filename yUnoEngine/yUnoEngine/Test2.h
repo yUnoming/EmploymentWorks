@@ -19,6 +19,9 @@ class Test2 : public GameObject
 			//AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
 			//AddComponent<BoxCollider>();
 			AddComponent<Material>();
+
+			transform->Position.x = 0.0f;
+			transform->Position.z = 3.0f;
 			AddComponent<Text>()->m_text = "abcdef";
 		}
 };

@@ -16,12 +16,12 @@ GameObject::GameObject()
 	transform = AddComponent <PublicSystem::Transform> ();
 }
 
-GameObject::GameObject(yUno_SceneManager* _nowScene)
+GameObject::GameObject(yUno_SceneManager* nowScene)
 {
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform>();
 	// 現在シーンを代入する
-	m_MyScene = _nowScene;
+	m_myScene = nowScene;
 }
 
 void GameObject::InitBase()
@@ -33,14 +33,14 @@ void GameObject::InitBase()
 void GameObject::UnInitBase()
 {
 	// リスト内のコンポーネント取得
-	for (auto com : m_Component_List)
+	for (auto com : m_componentList)
 	{
 		com->UnInit();	// 終了処理
 		delete com;		// 削除
 	}
 
 	// リストをクリア
-	m_Component_List.clear();
+	m_componentList.clear();
 
 	// オブジェクトの終了処理
 	UnInit();
@@ -49,7 +49,7 @@ void GameObject::UnInitBase()
 void GameObject::UpdateBase()
 {
 	// 各コンポーネントの更新処理
-	for (auto com : m_Component_List)
+	for (auto com : m_componentList)
 		com->Update();
 
 	// オブジェクトの更新処理
@@ -68,7 +68,7 @@ void GameObject::DrawBase(DirectX::SimpleMath::Matrix _parentMatrix)
 	Renderer::SetWorldMatrix(&world);
 
 	// リスト内のコンポーネント取得
-	for (auto com : m_Component_List)
+	for (auto com : m_componentList)
 		com->Draw();	// 描画処理
 
 	// オブジェクトの描画処理

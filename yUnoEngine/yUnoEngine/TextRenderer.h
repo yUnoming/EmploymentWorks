@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		TextRenderer.h
+* @brief	TextRendererクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.01
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -6,7 +12,8 @@
 #include "renderer.h"
 
 
-// テキストを描画するためのクラス
+/// <summary>
+///	テキスト描画の処理を行うクラス	</summary>
 class TextRenderer : public EachFunction
 {
 	private:
@@ -32,15 +39,23 @@ class TextRenderer : public EachFunction
 		//  ----- variables / 変数 ----- //
 		/// <summary>
 		/// 表示するテキスト </summary>
-		const char* m_text;
+		const char* text;
 
 		// ----- functions / 関数 ----- //
+		/// <summary>
+		///	初期化	</summary>
 		void Init();
+		/// <summary>
+		///	更新	</summary>
 		void Update();
+		/// <summary>
+		///	描画	</summary>
 		void Draw();
 
 		/// <summary>
 		/// 描画するテキストを作成する </summary>
-		void Create_Text(const char* _text);
+		/// <param name="text">
+		///	描画したい文字列	</param>
+		void CreateText(const char* text);
 };
 

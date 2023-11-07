@@ -33,10 +33,10 @@ void ModelRenderer::Draw()
 
 	for( unsigned int i = 0; i < m_Model->SubsetNum; i++ )
 	{
-		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->Material_Color.r;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->Material_Color.g;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->Material_Color.b;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->Material_Color.a;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->materialColor.r;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->materialColor.g;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->materialColor.b;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->materialColor.a;
 
 
 		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
@@ -192,7 +192,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 	char dir[MAX_PATH];
 	strcpy (dir, FileName );
-	PathRemoveFileSpec(dir);
+	PathRemoveFileSpecA(dir);
 
 
 
@@ -437,7 +437,7 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 
 	char dir[MAX_PATH];
 	strcpy(dir, FileName);
-	PathRemoveFileSpec(dir);
+	PathRemoveFileSpecA(dir);
 
 
 

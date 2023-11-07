@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file		Color.h
+* @brief	Colorクラスのヘッダーファイル
+* @author	Kojima, Kosei
+* @date		2023.11.05
+*/
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -7,15 +13,24 @@
 
 namespace PublicSystem
 {
-	// 色（rgba）を表すクラス
+	/// <summary>
+	///	色（rgba）を表すクラス	</summary>
 	class Color
 	{
 		public:
 			// ----- variables / 変数 ----- //
-			float r = 1.0f;		//   Red / 赤
-			float g = 1.0f;		// Green / 緑
-			float b = 1.0f;		//  Blue / 青
-			float a = 1.0f;		// Alpha / 透明度
+			/// <summary>
+			///	Red / 赤	</summary>
+			float r = 1.0f;
+			/// <summary>
+			///	Green / 緑	</summary>
+			float g = 1.0f;
+			/// <summary>
+			///	Blue / 青	</summary>
+			float b = 1.0f;
+			/// <summary>
+			///	Alpha / 透明度	</summary>
+			float a = 1.0f;
 
 
 			// ----- functions / 関数 ----- //
@@ -23,16 +38,16 @@ namespace PublicSystem
 			/// 通常コンストラクタ	</summary>
 			Color() {};
 			/// <summary>
-			/// 各値に代入が行えるコンストラクタ	</summary>
-			///<param name = "_r">
-			/// ／赤色の強さ	</param>
-			///<param name = "_g">
-			/// ／緑色の強さ	</param>
-			///<param name = "_b">
-			/// ／青色の強さ	</param>
-			///<param name = "_a">
-			/// ／透明度の強さ	</param>
-			Color(float _r, float _g, float _b, float _a);
+			/// 引数付きコンストラクタ	</summary>
+			///<param name = "r">
+			/// 赤色の強さ	</param>
+			///<param name = "g">
+			/// 緑色の強さ	</param>
+			///<param name = "b">
+			/// 青色の強さ	</param>
+			///<param name = "a">
+			/// 透明度の強さ	</param>
+			Color(float r, float g, float b, float a);
 
 
 			// ----- キャスト演算子 ----- //

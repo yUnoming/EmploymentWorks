@@ -35,40 +35,40 @@ void PublicSystem::Camera::Draw()
 	Renderer::SetViewMatrix(&ViewMatrix);
 	
 	//プロジェクション行列に必要な変数
-	float Fov = FieldOfView * 3.14159265f / 180.0f;
+	float Fov = fieldOfView * 3.14159265f / 180.0f;
 	float aspectRatio = static_cast<float>(960) / static_cast<float>(540);	// アスペクト比	
 
 	//プロジェクション行列の生成
 	DirectX::SimpleMath::Matrix projectionMatrix;
-	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(Fov, aspectRatio, NearClip, FarClip);
+	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(Fov, aspectRatio, nearClip, farClip);
 	//プロジェクション行列をセット
 	Renderer::SetProjectionMatrix(&projectionMatrix);
 }
 
-GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 _screenPoint)
+GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 screenPoint)
 {
 	// ===== 引数で受け取ったスクリーン座標をワールド座標に変換する処理 ===== //
 	// カメラの最遠描画地点の幅を求める
 	Vector2 ViewScreen_Wide = Vector2
 		(
-			FarClip * tanf(FieldOfView / 2 * 3.14159265f / 180.0f) * (960.0f / 540.0f),	// 横幅
-			FarClip * tanf(FieldOfView / 2 * 3.14159265f / 180.0f)						// 縦幅
+			farClip * tanf(fieldOfView / 2 * 3.14159265f / 180.0f) * (960.0f / 540.0f),	// 横幅
+			farClip * tanf(fieldOfView / 2 * 3.14159265f / 180.0f)						// 縦幅
 		);
 
 	// クライアント領域を取得
 	RECT rect;
-	GetClientRect(Application::Get_Window(), &rect);
+	GetClientRect(Application::GetWindow(), &rect);
 
 	// スクリーンの中心座標を計算
 	Vector2 Screen_CenterPosition = Vector2(rect.right / 2, rect.bottom / 2);
-	Vector2 Center_To_Point_Length = _screenPoint - Screen_CenterPosition;
+	Vector2 Center_To_Point_Length = screenPoint - Screen_CenterPosition;
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
 	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
 	Vector3 WorldPoint_Position = Vector3();
 	WorldPoint_Position.x = transform->Position.x + ViewScreen_Wide.x * LengthRate.x;
 	WorldPoint_Position.y = transform->Position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
-	WorldPoint_Position.z = FarClip;
+	WorldPoint_Position.z = farClip;
 
 
 	// ----- ヒット処理の前準備 ----- //
@@ -105,7 +105,7 @@ GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 _screenPoint)
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while(IsHit && RayPoint.z < FarClip);
+	while(IsHit && RayPoint.z < farClip);
 
 	if (HitObjects.empty())
 		return nullptr;

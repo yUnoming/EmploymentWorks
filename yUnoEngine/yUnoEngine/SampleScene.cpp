@@ -14,21 +14,21 @@ using namespace PublicSystem;
 
 void SampleScene::Init()
 {
-    AddObject<SpectatorCamera>(0);
-    AddObject<Test>(1);
-    AddObject<Test2>(1);
+    AddSceneObject<SpectatorCamera>(0);
+    AddSceneObject<Test>(1);
+    AddSceneObject<Test2>(1);
 }
 
 void SampleScene::Update()
 {
     // KeyInputのテスト：LShiftが押された？
-    if (KeyInput::GetKeyDown_Trigger(KeyName::LeftShift))
+    if (KeyInput::GetKeyDownTrigger(KeyName::LeftShift))
     {
         std::cout << "Pushed LShift" << std::endl;
     }
 
     // KeyInputのテスト：RShiftが押された？
-    if (KeyInput::GetKeyDown_Trigger(KeyName::RightShift))
+    if (KeyInput::GetKeyDownTrigger(KeyName::RightShift))
     {
         std::cout << "Pushed RShift" << std::endl;
     }

@@ -31,8 +31,8 @@ using namespace yUno_SystemManager;
 // 　　   staticメンバ変数の定義        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 HWND Application::m_hWnd;		// ウィンドウハンドル
-UINT Application::m_Wnd_Width;	// ウィンドウの横幅
-UINT Application::m_Wnd_Height;	// ウィンドウの縦幅
+UINT Application::m_wndWidth;	// ウィンドウの横幅
+UINT Application::m_wndHeight;	// ウィンドウの縦幅
 
 
 void Application::Run()
@@ -73,8 +73,8 @@ bool Application::InitWnd()
     auto hInst = GetModuleHandle(nullptr);
 
     // ウィンドウの幅を設定
-    m_Wnd_Width = WINDOW_WIDTH;     // 横幅
-    m_Wnd_Height = WINDOW_HEIGHT;   // 縦幅
+    m_wndWidth = WINDOW_WIDTH;     // 横幅
+    m_wndHeight = WINDOW_HEIGHT;   // 縦幅
 
     // ウィンドウの設定
     WNDCLASSEX wc = {};
@@ -97,8 +97,8 @@ bool Application::InitWnd()
 
     // ウィンドウのサイズを設定
     RECT rc = {};
-    rc.right = static_cast<LONG>(m_Wnd_Width);     // 横幅
-    rc.bottom = static_cast<LONG>(m_Wnd_Height);   // 縦幅
+    rc.right = static_cast<LONG>(m_wndWidth);     // 横幅
+    rc.bottom = static_cast<LONG>(m_wndHeight);   // 縦幅
 
     // ウィンドウサイズを調整
     auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
@@ -209,7 +209,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
                 KeyID -= 32768;  // 欲しい値にさらに修正する
 
             // 押されたキーを保存する関数を実行
-            yUno_KeyInputManager::Set_KeyDown(KeyID);
+            yUno_KeyInputManager::SetKeyDown(KeyID);
             break;
         }
 
@@ -227,49 +227,49 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
                 KeyID -= 32768;  // 欲しい値にさらに修正する
 
             // 離されたキーを保存する関数を実行
-            yUno_KeyInputManager::Set_KeyUp(KeyID);
+            yUno_KeyInputManager::SetKeyUp(KeyID);
             break;
         }
 
         // マウスの左ボタンが押された場合
         case WM_LBUTTONDOWN:
             // 左ボタンが押されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseDown(LeftButton);
+            yUno_MouseInputManager::SetMouseDown(LeftButton);
             break;
 
         // マウスの左ボタンが離された場合
         case WM_LBUTTONUP:
             // 左ボタンが離されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseUp(LeftButton);
+            yUno_MouseInputManager::SetMouseUp(LeftButton);
             break;
 
         // マウスのスクロールホイールボタンが押された場合
         case WM_MBUTTONDOWN:
             // スクロールホイールボタンが押されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseDown(ScrollWheelButton);
+            yUno_MouseInputManager::SetMouseDown(ScrollWheelButton);
             break;
 
         // マウスのスクロールホイールボタンが離された場合
         case WM_MBUTTONUP:
             // スクロールホイールボタンが離されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseUp(ScrollWheelButton);
+            yUno_MouseInputManager::SetMouseUp(ScrollWheelButton);
             break;
 
         // マウススクロールホイールボタンが回転した場合
         case WM_MOUSEWHEEL:
-            yUno_MouseInputManager::Set_MouseWheel_Status(HIWORD(wParam) % 120 / 16);
+            yUno_MouseInputManager::SetMouseWheelState(HIWORD(wParam) % 120 / 16);
             break;
 
         // マウスの右ボタンが押された場合
         case WM_RBUTTONDOWN:
             // 右ボタンが押されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseDown(RightButton);
+            yUno_MouseInputManager::SetMouseDown(RightButton);
             break;
 
         // マウスの右ボタンが離された場合
         case WM_RBUTTONUP:
             // 右ボタンが離されたことを設定する関数を実行
-            yUno_MouseInputManager::Set_MouseUp(RightButton);
+            yUno_MouseInputManager::SetMouseUp(RightButton);
             break;
 
         default:

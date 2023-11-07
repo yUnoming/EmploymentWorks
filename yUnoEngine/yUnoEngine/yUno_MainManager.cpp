@@ -52,7 +52,7 @@ void yUno_MainManager::Init(Application* app)
 
 
     // ----- 標準フォント設定 ----- //
-    FileReader::Read_ttfFile(L"Assets\\Fonts\\calibri.ttf", "Calibri");
+    FileReader::ReadTtfFile(L"Assets\\Fonts\\calibri.ttf", "Calibri");
 
     // ===== メインの初期化処理 ===== //
     // シーンを立ち上げる
@@ -88,7 +88,7 @@ void yUno_MainManager::Update()
     m_NowScene->UpdateBase();
 
     // 現在のキー入力状態を保存する
-    yUno_KeyInputManager::Keep_Now_KeyInfo();
+    yUno_KeyInputManager::KeepNowKeyInfo();
     // 現在のマウス入力状態を保存する
     yUno_MouseInputManager::Keep_Now_MouseStatus();
 }
