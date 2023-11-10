@@ -16,6 +16,22 @@
 /// シーンに関する機能をまとめたクラス	</summary>
 class yUno_SceneManager
 {
+	private :
+		// ----- variables / 変数 ----- //
+		/// <summary>
+		///	シーン名	</summary>
+		char* m_sceneName;
+
+		// ----- functions / 関数 ----- //
+		/// <summary>
+		///	現在のシーン状態をセーブ	</summary>
+		void SaveSceneData();
+		/// <summary>
+		///	シーン情報をロード	</summary>
+		/// <param name="loadSceneName">
+		///	ロードするシーン名	</param>
+		void LoadSceneData(const char* loadSceneName);
+
 	protected:
 		// ----- variables / 変数 ----- //
 		/// <summary>
@@ -70,8 +86,27 @@ class yUno_SceneManager
 		/// &lt;&gt;内にロードするシーンを記述		</param>
 		/// <returns>
 		/// ロードしたシーン </returns>
-		template<class T> T* LoadScene();
+		template<class T>
+		T* LoadScene()
+		{
+			// 現在、シーンを開いている？
+			if (m_loadedScene)
+			{
+				m_loadedScene->UnInitBase();		// シーンの終了処理
+				delete m_loadedScene;				// シーンの削除
+			}
+			else
+			{
+				LoadSceneData(typeid(T).name());	// エンジン開始時のシーンロード
+			}
+			
+			m_loadedScene = new T();				// 新たなシーンの生成
+			m_loadedScene->InitBase();				// 新たなシーンの初期化
+			m_sceneName =
+				const_cast<char*>(typeid(T).name());// 新規シーン名を保存
 
+			return (T*)m_loadedScene;
+		}
 
 		//**  オブジェクト関係  **//
 		/// <summary>
@@ -82,14 +117,39 @@ class yUno_SceneManager
 		///	レイヤー番号	</param>
 		/// <returns>
 		/// 追加したオブジェクト </returns>
-		template<class T> T* AddSceneObject(int layer);
+		template<class T>
+		T* AddSceneObject(int layer)
+		{
+			T* obj = new T();						// オブジェクトを生成
+			m_sceneObject[layer].push_back(obj);	// 指定された要素位置に保存
+			obj->Init();							// オブジェクトの初期化
+
+			// 生成したオブジェクトを返す
+			return obj;
+		}
 		/// <summary>
 		/// シーンからオブジェクトを取得	</summary>
 		/// <param name="GetObject&lt;&gt;();">
 		/// &lt;&gt;内に取得するオブジェクトをを記述		</param>
 		/// <returns>
-		/// 取得したオブジェクト </returns>
-		template<class T> T* GetSceneObject();
+		/// 取得したオブジェクト、無ければnullptr </returns>
+		template<class T> T* GetSceneObject()
+		{
+			// 各スレッド内のオブジェクトリスト取得
+			for (auto& objectList : m_sceneObject)
+			{
+				// リスト内のオブジェクト取得
+				for (GameObject* object : objectList)
+				{
+					if (typeid(*object) == typeid(T))
+					{
+						return (T*)object;
+					}
+				}
+			}
+
+			return nullptr;
+		}
 		/// <summary>
 		/// 現在シーンに存在するオブジェクトを全取得
 		/// </summary>
@@ -101,47 +161,3 @@ class yUno_SceneManager
 			return m_sceneObject;
 		}
 };
-
-template<class T> 
-T* yUno_SceneManager::LoadScene()
-{
-	// 現在、シーンを開いている？
-	if (m_loadedScene)
-	{
-		m_loadedScene->UnInitBase();	// シーンの終了処理
-		delete m_loadedScene;			// シーンの削除
-	}
-
-	m_loadedScene = new T();	// 新たなシーンの生成
-	m_loadedScene->InitBase();	// 新たなシーンの初期化
-
-	return (T*)m_loadedScene;
-}
-
-template<class T>
-T* yUno_SceneManager::AddSceneObject(int layer)
-{
-	T* obj = new T();						// オブジェクトを生成
-	m_sceneObject[layer].push_back(obj);	// 指定された要素位置に保存
-	obj->Init();							// オブジェクトの初期化
-
-	// 生成したオブジェクトを返す
-	return obj;
-}
-
-template<class T>
-T* yUno_SceneManager::GetSceneObject()
-{
-	for (auto& objectList : m_sceneObject)
-	{
-		for (GameObject* object : objectList)
-		{
-			if (typeid(*object) == typeid(T))
-			{
-				return (T*)object;
-			}
-		}
-	}
-
-	return nullptr;
-}

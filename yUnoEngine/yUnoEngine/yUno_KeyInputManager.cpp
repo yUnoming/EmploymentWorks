@@ -112,7 +112,7 @@ void yUno_SystemManager::yUno_KeyInputManager::SetKeyUp(int key)
 bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDownTrigger(PublicSystem::KeyName key)
 {
 	// 前回キーは離されていたが、現在は押されているならtrue
-	m_lateKeyInfo[key].keyState != Down && m_nowKeyInfo[key].keyState == Down;
+	return m_lateKeyInfo[key].keyState != Down && m_nowKeyInfo[key].keyState == Down;
 }
 
 bool yUno_SystemManager::yUno_KeyInputManager::GetKeyDown(PublicSystem::KeyName key)

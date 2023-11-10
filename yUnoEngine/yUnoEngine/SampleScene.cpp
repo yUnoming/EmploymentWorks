@@ -14,7 +14,11 @@ using namespace PublicSystem;
 
 void SampleScene::Init()
 {
-    AddSceneObject<SpectatorCamera>(0);
+    if (GetSceneObject<SpectatorCamera>() == nullptr)
+    {
+        AddSceneObject<SpectatorCamera>(0);
+    }
+    
     AddSceneObject<Test>(1);
     AddSceneObject<Test2>(1);
 }

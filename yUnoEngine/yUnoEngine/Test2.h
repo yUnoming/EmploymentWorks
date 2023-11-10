@@ -18,11 +18,34 @@ class Test2 : public GameObject
 		{
 			//AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
 			//AddComponent<BoxCollider>();
+			Material mat;
 			AddComponent<Material>();
 
 			transform->Position.x = 0.0f;
 			transform->Position.z = 3.0f;
-			AddComponent<Text>()->m_text = "abcdef";
+			Text* textComponent = AddComponent<Text>();
+			textComponent->text = "Hello";
+			textComponent->fontSize = Vector2(20, 30);
+
+		}
+
+		void Update()
+		{
+			Text* textComponent = GetComponent<Text>();
+
+			if(KeyInput::GetKeyDownTrigger(P))
+			{
+				textComponent->text = "bcc";
+			}
+			else if (KeyInput::GetKeyUpTrigger(P))
+			{
+				textComponent->text = "Hello";
+			}
+
+			if (KeyInput::GetKeyDownTrigger(I))
+			{
+				textComponent->AddText("World");
+			}
 		}
 };
 
