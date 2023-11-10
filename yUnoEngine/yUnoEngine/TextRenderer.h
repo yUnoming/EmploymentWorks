@@ -11,35 +11,78 @@
 #include "EachFunction.h"
 #include "renderer.h"
 
+#include <vector>
+
 
 /// <summary>
 ///	テキスト描画の処理を行うクラス	</summary>
 class TextRenderer : public EachFunction
 {
 	private:
+		// ----- structs / 構造体 ----- //
+		/// <summary>
+		///	テキスト情報	</summary>
+		struct TextInfo
+		{
+			/// <summary>
+			/// 使用するフォントのテクスチャ	</summary>
+			ID3D11Texture2D* fontTexture;
+			/// <summary>
+			/// 頂点バッファ </summary>
+			ID3D11Buffer*	 vertexBuffer;
+			/// <summary>
+			///	シェーダーがアクセスできるサブリソース	</summary>
+			ID3D11ShaderResourceView* shaderResourceView;
+		};
+		
+
 		// ----- variables / 変数 ----- //
 		/// <summary>
-		/// 使用するフォントのテクスチャ	</summary>
-		ID3D11Texture2D* m_fontTexture{};
+		///	テキスト情報リスト	</summary>
+		std::vector<TextInfo> m_TextInfoList;
 		/// <summary>
 		/// サンプラーの状態	</summary>
 		ID3D11SamplerState* m_samplerState{};
-		/// <summary>
-		/// シェーダーがアクセスできるサブリソース	</summary>
-		ID3D11ShaderResourceView* m_shaderResourceView{};
-		/// <summary>
-		/// 頂点バッファ </summary>
-		ID3D11Buffer* m_vertexBuffer{};
 
 		/// <summary>
 		/// 前回表示されていたテキスト </summary>
 		const char* m_lateText;
+
+		// ----- functions / 関数 ----- //
+		/// <summary>
+		/// 描画するテキストを作成 </summary>
+		/// <param name="text">
+		///	描画する文字	</param>
+		/// <param name="textNum">
+		/// 何文字目か	</param>
+		/// <returns>
+		/// 作成したテキスト情報	</returns>
+		TextInfo CreateText(char text, int textNum);
+
+		/// <summary>
+		///	描画するテキストを作成（頂点バッファは作成しない）	</summary>
+		/// <param name="text"> 
+		///	描画する文字	</param>
+		/// <param name="textNum">
+		/// 何文字目か	</param>
+		/// <returns>
+		/// 作成したテキスト情報	</returns>
+		TextInfo CreateTextWithoutVertexBuffer(char text, int textNum);
+
+	protected:
+		// ----- variables / 変数 ----- //
+		/// <summary>
+		///	テキストの内容変更などで使う仮テキスト	</summary>
+		char dummyText[31] = {};
 
 	public:
 		//  ----- variables / 変数 ----- //
 		/// <summary>
 		/// 表示するテキスト </summary>
 		const char* text;
+		/// <summary>
+		/// 文字サイズ </summary>
+		Vector2 fontSize;
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -51,11 +94,5 @@ class TextRenderer : public EachFunction
 		/// <summary>
 		///	描画	</summary>
 		void Draw();
-
-		/// <summary>
-		/// 描画するテキストを作成する </summary>
-		/// <param name="text">
-		///	描画したい文字列	</param>
-		void CreateText(const char* text);
 };
 

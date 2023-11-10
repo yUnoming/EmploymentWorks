@@ -9,6 +9,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "Vector2.h"
+#include "InputPartsName.h"
 
 
 namespace PublicSystem
@@ -31,14 +32,14 @@ namespace PublicSystem
 			/// 判定するマウスのボタン名	</param>
 			/// <returns>
 			/// 押された瞬間ならtrue、それ以外ならfalse	</returns>
-			static bool GetMouseDownTrigger(PublicSystem::MouseButtonName button);
+			static bool GetMouseDownTrigger(MouseButtonName button);
 			/// <summary>
 			/// マウスが押されているかどうかを判定	</summary>
 			/// <param name = "button">
 			/// 判定するマウスのボタン名	</param>
 			/// <returns>
 			/// 押されているならtrue、それ以外ならfalse	</returns>
-			static bool GetMouseDown(PublicSystem::MouseButtonName button);
+			static bool GetMouseDown(MouseButtonName button);
 			
 			/// <summary>
 			///	マウスが離された瞬間かどうかを判定	</summary>
@@ -46,14 +47,14 @@ namespace PublicSystem
 			///	判定するマウスのボタン名	</param>
 			/// <returns>
 			///	離された瞬間ならtrue、それ以外ならfalse	</returns>
-			static bool GetMouseUpTrigger(PublicSystem::MouseButtonName button);
+			static bool GetMouseUpTrigger(MouseButtonName button);
 			/// <summary>
 			///	マウスが離されているかどうかを判定	</summary>
 			/// <param name="button">
 			///	判定するマウスのボタン名	</param>
 			/// <returns>
 			///	離されているならtrue、それ以外ならfalse	</returns>
-			static bool GetMouseUp(PublicSystem::MouseButtonName button);
+			static bool GetMouseUp(MouseButtonName button);
 
 			/// <summary>
 			/// マウスホイールが回転されているかどうかを判定	</summary>

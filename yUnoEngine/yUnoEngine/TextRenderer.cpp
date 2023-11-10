@@ -20,42 +20,10 @@ void TextRenderer::Init()
 	// サンプラーの状態を作成
 	Renderer::GetDevice()->CreateSamplerState(&samDesc, &m_samplerState);
 
-	// 頂点バッファの設定
-	VERTEX_3D vertex[4];
+	text = dummyText;
 
-	vertex[0].Position = DirectX::SimpleMath::Vector3(100.0f, 100.0f, 0.0f);
-	vertex[0].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
-	vertex[0].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[0].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
-
-	vertex[1].Position = DirectX::SimpleMath::Vector3(150.0f, 100.0f, 0.0f);
-	vertex[1].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
-	vertex[1].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[1].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 0.0f);
-	
-	vertex[2].Position = DirectX::SimpleMath::Vector3(100.0f, 150.0f, 0.0f);
-	vertex[2].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
-	vertex[2].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[2].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 1.0f);
-	
-	vertex[3].Position = DirectX::SimpleMath::Vector3(150.0f, 150.0f, 0.0f);
-	vertex[3].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
-	vertex[3].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
-	vertex[3].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 1.0f);
-
-	// 頂点バッファを作成
-	D3D11_BUFFER_DESC bufDesc;
-	ZeroMemory(&bufDesc, sizeof(bufDesc));
-	bufDesc.Usage = D3D11_USAGE_DYNAMIC;
-	bufDesc.ByteWidth = sizeof(vertex);
-	bufDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA subData;
-	ZeroMemory(&subData, sizeof(subData));
-	subData.pSysMem = vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bufDesc, &subData, &m_vertexBuffer);
+	// ----- 空文字フォント作成 ----- //
+	//m_TextInfoList.push_back(CreateText(" ", 0));
 }
 
 void TextRenderer::Update()
@@ -63,8 +31,28 @@ void TextRenderer::Update()
 	// 表示するテキストが変更された？
 	if (m_lateText == NULL || strcmp(text, m_lateText) != 0)
 	{
-		// 新たに表示するテキストを作成
-		CreateText(text);
+		// ===== テキスト情報の作成 ===== //
+		// テキストの長さ（文字数）
+		int textLength = strlen(text);
+		
+		// テキストの長さ分ループ
+		for (int i = 0; i < textLength; i++)
+		{
+			// 既に別のテキストが格納されている？
+			if (m_TextInfoList.size() - i > 0)
+			{
+				// 頂点バッファ以外のテキスト情報を作成
+				TextInfo textInfo = CreateTextWithoutVertexBuffer(text[i], i);
+
+				// 作成した情報をセット
+				m_TextInfoList[i].fontTexture = textInfo.fontTexture;
+				m_TextInfoList[i].shaderResourceView = textInfo.shaderResourceView;
+			}
+			else
+				// 新たに表示するテキストを作成
+				m_TextInfoList.push_back(CreateText(text[i], i));
+		}
+
 	}
 
 	// 現在表示されているテキストを保存する
@@ -73,30 +61,67 @@ void TextRenderer::Update()
 
 void TextRenderer::Draw()
 {
-	// マトリクス設定
-	Renderer::SetWorldViewProjection2D();
+	// テキストの文字数だけループ
+	for (int i = 0; i < strlen(m_lateText); i++)
+	{
+		// マトリクス設定
+		Renderer::SetWorldViewProjection2D();
 
-	// 頂点バッファ設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
+		// 頂点バッファ設定
+		UINT stride = sizeof(VERTEX_3D);
+		UINT offset = 0;
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_TextInfoList[i].vertexBuffer, &stride, &offset);
 
-	// テクスチャ描画に必要な情報を設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_shaderResourceView);
-	Renderer::GetDeviceContext()->PSSetSamplers(0, 1, &m_samplerState);
+		// テクスチャ描画に必要な情報を設定
+		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextInfoList[i].shaderResourceView);
+		Renderer::GetDeviceContext()->PSSetSamplers(0, 1, &m_samplerState);
 
-	// プリミティブトポロジー設定
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+		// プリミティブトポロジー設定
+		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// 描画
-	Renderer::GetDeviceContext()->Draw(4, 0);
+		// 描画
+		Renderer::GetDeviceContext()->Draw(4, 0);
+	}
 }
 
-void TextRenderer::CreateText(const char* text)
+TextRenderer::TextInfo TextRenderer::CreateTextWithoutVertexBuffer(char text, int textNum)
 {
-	// ===== テキスト描画に必要な情報を取得 ===== //
+	// ===== テキスト描画に必要な情報を作成 ===== //
 	// フォントテクスチャ
-	m_fontTexture = yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(text);
+	ID3D11Texture2D* fontTexture;
+	fontTexture = yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(text, textNum);
 	// シェーダーリソースビュー
-	m_shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(m_fontTexture);
+	ID3D11ShaderResourceView* shaderResourceView;
+	shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(fontTexture);
+
+	// ===== テキスト情報をセット ===== //
+	TextInfo textInfo;
+	textInfo.fontTexture = fontTexture;
+	textInfo.shaderResourceView = shaderResourceView;
+
+	// テキスト情報を返す
+	return textInfo;
+}
+
+TextRenderer::TextInfo TextRenderer::CreateText(char text, int textNum)
+{
+	// ===== テキスト描画に必要な情報を作成 ===== //
+	// フォントテクスチャ
+	ID3D11Texture2D* fontTexture;
+	fontTexture = yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(text, textNum);
+	// シェーダーリソースビュー
+	ID3D11ShaderResourceView* shaderResourceView;
+	shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(fontTexture);
+	// 頂点バッファ
+	ID3D11Buffer* vertexBuffer;
+	vertexBuffer = yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(fontSize, textNum);
+
+	// ===== テキスト情報をセット ===== //
+	TextInfo textInfo;
+	textInfo.fontTexture = fontTexture;
+	textInfo.shaderResourceView = shaderResourceView;
+	textInfo.vertexBuffer = vertexBuffer;
+	
+	// テキスト情報を返す
+	return textInfo;
 }

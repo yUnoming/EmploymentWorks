@@ -3,6 +3,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_TextRendererManager.h"
 #include "renderer.h"
+
 #include <d3d11.h>
 #include <iostream>
 
@@ -11,20 +12,28 @@
 // 　　staticメンバ変数の定義　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 std::vector<HFONT> yUno_SystemManager::yUno_TextRendererManager::m_createFonts;
+std::vector<yUno_SystemManager::yUno_TextRendererManager::FontTextureData> yUno_SystemManager::yUno_TextRendererManager::m_fontTextureDatas;
 int yUno_SystemManager::yUno_TextRendererManager::m_nowFontIndex;
 
 
-
-ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(const char* text)
+ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(char text, int textNum)
 {
+	// ===== 既に作成されているかどうか確認 ==== //
+	ID3D11Texture2D* Texture2D;
+	Texture2D = CheckFontTexture(text);
+
+	if (Texture2D)
+		return Texture2D;
+
 	// ===== 現在のウィンドウにフォントを適用 ===== //
 	// デバイスコンテキスト取得
 	HDC hdc = GetDC(NULL);
 	// フォント取得
 	HFONT oldFont = (HFONT)SelectObject(hdc, m_createFonts[m_nowFontIndex]);
 
+
 	// テクスチャに書き込む文字をセット
-	UINT code = (UINT)*text;
+	UINT code = (UINT)text;
 
 	// ===== フォントビットマップ取得 ===== //
 	TEXTMETRIC tm;		// テキストメトリック取得用変数
@@ -65,7 +74,7 @@ ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(co
 
 	// デバイスコンテキストとフォントハンドルの解放
 	SelectObject(hdc, oldFont);
-	DeleteObject(m_createFonts[m_nowFontIndex]);
+	DeleteObject(oldFont);
 	ReleaseDC(NULL, hdc);
 
 	// CPUで書き込みができるテクスチャを作成
@@ -85,9 +94,6 @@ ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(co
 	Texture2D_Desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	// CPUからアクセスして書き込みOK
 	Texture2D_Desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	// テクスチャ2D変数
-	ID3D11Texture2D* Texture2D;
 
 	// 2Dテクスチャ作成
 	HRESULT hr = Renderer::GetDevice()->CreateTexture2D(
@@ -154,6 +160,13 @@ ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::GetFontTexture(co
 	}
 
 	Renderer::GetDeviceContext()->Unmap(Texture2D, 0);
+
+	// 作成したフォントテクスチャを格納
+	FontTextureData fontTextureData;
+	fontTextureData.fontText = text;
+	fontTextureData.fontTexture = Texture2D;
+	m_fontTextureDatas.push_back(fontTextureData);
+
 	return Texture2D;
 }
 
@@ -183,8 +196,64 @@ ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::GetShade
 	return shaderResourceView;
 }
 
+ID3D11Buffer* yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(PublicSystem::Vector2 fontSize, int fontNum)
+{
+	// 頂点バッファの設定
+	VERTEX_3D vertex[4];
+
+	vertex[0].Position = DirectX::SimpleMath::Vector3(0.0f + fontSize.x * fontNum, 0.0f, 0.0f);
+	vertex[0].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
+	vertex[0].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[0].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
+
+	vertex[1].Position = DirectX::SimpleMath::Vector3(fontSize.x + fontSize.x * fontNum, 0.0f, 0.0f);
+	vertex[1].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
+	vertex[1].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[1].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 0.0f);
+
+	vertex[2].Position = DirectX::SimpleMath::Vector3(0.0f + fontSize.x * fontNum, fontSize.y, 0.0f);
+	vertex[2].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
+	vertex[2].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[2].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 1.0f);
+
+	vertex[3].Position = DirectX::SimpleMath::Vector3(fontSize.x + fontSize.x * fontNum, fontSize.y, 0.0f);
+	vertex[3].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
+	vertex[3].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
+	vertex[3].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 1.0f);
+
+	// 頂点バッファを作成
+	D3D11_BUFFER_DESC bufDesc;
+	ZeroMemory(&bufDesc, sizeof(bufDesc));
+	bufDesc.Usage = D3D11_USAGE_DYNAMIC;
+	bufDesc.ByteWidth = sizeof(vertex);
+	bufDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+
+	D3D11_SUBRESOURCE_DATA subData;
+	ZeroMemory(&subData, sizeof(subData));
+	subData.pSysMem = vertex;
+
+	// 戻り値となるバーテックスバッファ
+	ID3D11Buffer* vertexBuffer;
+	Renderer::GetDevice()->CreateBuffer(&bufDesc, &subData, &vertexBuffer);
+
+	return vertexBuffer;
+}
+
 void yUno_SystemManager::yUno_TextRendererManager::SetFont(HFONT addFont)
 {
 	// 引数で受け取ったフォントを追加する
 	m_createFonts.push_back(addFont);
+}
+
+ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::CheckFontTexture(char text)
+{
+	for (auto fontTexture : m_fontTextureDatas)
+	{
+		if (fontTexture.fontText == text)
+		{
+			return fontTexture.fontTexture;
+		}
+	}
+	return nullptr;
 }

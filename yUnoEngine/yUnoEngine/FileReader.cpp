@@ -53,5 +53,5 @@ void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 	}
 
 	// ì¬‚µ‚½ƒtƒHƒ“ƒg‚ğ’Ç‰Á‚·‚é
-	yUno_SystemManager::yUno_TextRendererManager::Set_Font(hFont);
+	yUno_SystemManager::yUno_TextRendererManager::SetFont(hFont);
 }

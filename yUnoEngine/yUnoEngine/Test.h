@@ -15,7 +15,7 @@ class Test : public GameObject
 	public:
 		void Init()
 		{
-			AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
+			AddComponent<ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
 			AddComponent<BoxCollider>();
 			AddComponent<Material>();
 

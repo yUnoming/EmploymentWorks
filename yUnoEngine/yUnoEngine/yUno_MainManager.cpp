@@ -90,7 +90,7 @@ void yUno_MainManager::Update()
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::KeepNowKeyInfo();
     // 現在のマウス入力状態を保存する
-    yUno_MouseInputManager::Keep_Now_MouseStatus();
+    yUno_MouseInputManager::KeepNowMouseState();
 }
 
 void yUno_MainManager::Draw()

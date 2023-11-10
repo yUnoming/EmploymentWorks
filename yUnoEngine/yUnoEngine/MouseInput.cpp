@@ -29,7 +29,7 @@ PublicSystem::Vector2 PublicSystem::MouseInput::GetCursorPosition()
 
 bool PublicSystem::MouseInput::GetMouseDownTrigger(PublicSystem::MouseButtonName button)
 {
-    return yUno_MouseInputManager::GetMouseDownTrigger(button)
+    return yUno_MouseInputManager::GetMouseDownTrigger(button);
 }
 
 bool PublicSystem::MouseInput::GetMouseDown(PublicSystem::MouseButtonName button)

@@ -168,6 +168,7 @@
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
     <ClCompile Include="yUno_MouseInputManager.cpp" />
+    <ClCompile Include="yUno_NetWorkManager.cpp" />
     <ClCompile Include="yUno_SceneManager.cpp" />
     <ClCompile Include="yUno_TextRendererManager.cpp" />
     <ClCompile Include="yUno_TimeManager.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
     <ClInclude Include="yUno_MouseInputManager.h" />
+    <ClInclude Include="yUno_NetWorkManager.h" />
     <ClInclude Include="yUno_SceneManager.h" />
     <ClInclude Include="yUno_TextRendererManager.h" />
     <ClInclude Include="yUno_TimeManager.h" />

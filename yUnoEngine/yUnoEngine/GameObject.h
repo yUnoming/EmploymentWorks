@@ -138,6 +138,11 @@ class GameObject
 			return nullptr;
 		}
 		/// <summary>
+		/// 保持しているコンポーネントを全取得	</summary>
+		/// <returns>
+		/// 全コンポーネントが入ったリスト	</returns>
+		std::list<Component*> GetComponentAll(){ return m_componentList; }
+		/// <summary>
 		/// コンポーネントを追加
 		/// </summary>
 		/// <param name="AddComponent&lt;&gt;();">
