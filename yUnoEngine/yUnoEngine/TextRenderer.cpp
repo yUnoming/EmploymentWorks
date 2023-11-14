@@ -29,7 +29,7 @@ void TextRenderer::Init()
 void TextRenderer::Update()
 {
 	// 表示するテキストが変更された？
-	if (m_lateText == NULL || strcmp(text, m_lateText) != 0)
+	if (m_lateText == NULL || (strcmp(text, m_lateText) != 0 || strlen(text) != strlen(m_lateText)))
 	{
 		// ===== テキスト情報の作成 ===== //
 		// テキストの長さ（文字数）
@@ -56,7 +56,7 @@ void TextRenderer::Update()
 	}
 
 	// 現在表示されているテキストを保存する
-	m_lateText = text;
+	memcpy(m_lateText, text, strlen(text));
 }
 
 void TextRenderer::Draw()

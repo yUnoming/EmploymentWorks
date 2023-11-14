@@ -14,13 +14,22 @@ using namespace PublicSystem;
 
 void SampleScene::Init()
 {
-    if (GetSceneObject<SpectatorCamera>() == nullptr)
+    if (GetSceneObject<SpectatorCamera>("SpectatorCamera") == nullptr)
     {
-        AddSceneObject<SpectatorCamera>(0);
+        AddSceneObject<SpectatorCamera>(0, "SpectatorCamera");
     }
-    
-    AddSceneObject<Test>(1);
-    AddSceneObject<Test2>(1);
+    if (GetSceneObject<Test>("Object1") == nullptr)
+    {
+        AddSceneObject<Test>(1, "Object1");
+    }
+    if (GetSceneObject<Test2>("Text") == nullptr)
+    {
+        AddSceneObject<Test2>(1, "Text");
+    }
+    if(GetSceneObject<Test2>("Text2") == nullptr)
+    {
+        AddSceneObject<Test2>(1, "Text2");
+    }
 }
 
 void SampleScene::Update()

@@ -115,12 +115,15 @@ class yUno_SceneManager
 		/// &lt;&gt;内に追加するオブジェクトを記述		</param>
 		/// <param name="layer">
 		///	レイヤー番号	</param>
+		/// <param name="name">
+		///	追加するオブジェクトの名称	</param>
 		/// <returns>
 		/// 追加したオブジェクト </returns>
 		template<class T>
-		T* AddSceneObject(int layer)
+		T* AddSceneObject(int layer, const char* name)
 		{
 			T* obj = new T();						// オブジェクトを生成
+			obj->SetName(name);						// オブジェクト名を設定
 			m_sceneObject[layer].push_back(obj);	// 指定された要素位置に保存
 			obj->Init();							// オブジェクトの初期化
 
@@ -131,9 +134,11 @@ class yUno_SceneManager
 		/// シーンからオブジェクトを取得	</summary>
 		/// <param name="GetObject&lt;&gt;();">
 		/// &lt;&gt;内に取得するオブジェクトをを記述		</param>
+		/// <param name="name">
+		///	取得するオブジェクトの名称	</param>
 		/// <returns>
 		/// 取得したオブジェクト、無ければnullptr </returns>
-		template<class T> T* GetSceneObject()
+		template<class T> T* GetSceneObject(const char* name)
 		{
 			// 各スレッド内のオブジェクトリスト取得
 			for (auto& objectList : m_sceneObject)
@@ -141,7 +146,7 @@ class yUno_SceneManager
 				// リスト内のオブジェクト取得
 				for (GameObject* object : objectList)
 				{
-					if (typeid(*object) == typeid(T))
+					if (typeid(*object) == typeid(T) && strcmp(object->GetName(), name) == 0)
 					{
 						return (T*)object;
 					}
