@@ -43,7 +43,7 @@ class GameObject
 
 		/// <summary>
 		/// オブジェクト名	</summary>
-		const char* m_name = 0;
+		char m_name[30] = { 0 };
 
 		/// <summary>
 		/// 自身がいるシーンの情報		</summary>
@@ -74,6 +74,9 @@ class GameObject
 		/// <summary>
 		/// デストラクタ	</summary>
 		virtual ~GameObject() {};
+
+		const char* GetName() { return m_name; };
+		void SetName(const char* name) { memcpy(m_name, name, strlen(name)); };
 
 		// オブジェクト単体に関わる処理
 		/// <summary>

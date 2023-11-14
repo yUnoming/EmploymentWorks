@@ -46,7 +46,7 @@ class TextRenderer : public EachFunction
 
 		/// <summary>
 		/// 前回表示されていたテキスト </summary>
-		const char* m_lateText;
+		char m_lateText[101];
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -73,7 +73,7 @@ class TextRenderer : public EachFunction
 		// ----- variables / 変数 ----- //
 		/// <summary>
 		///	テキストの内容変更などで使う仮テキスト	</summary>
-		char dummyText[31] = {};
+		char dummyText[101] = {};
 
 	public:
 		//  ----- variables / 変数 ----- //

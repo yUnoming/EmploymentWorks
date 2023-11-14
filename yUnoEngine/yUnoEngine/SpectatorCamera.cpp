@@ -81,6 +81,8 @@ void SpectatorCamera::Update()
 		{
 			// クリックされていたオブジェクトのマテリアルを変更
 			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
+			// クリックオブジェクトを解除
+			m_clickedObject = nullptr;
 		}
 	}
 
