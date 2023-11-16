@@ -297,7 +297,7 @@
       <Filter>ヘッダー ファイル\PrivateSystem\EachFunctions</Filter>
     </ClInclude>
     <ClInclude Include="yUno_NetWorkManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
