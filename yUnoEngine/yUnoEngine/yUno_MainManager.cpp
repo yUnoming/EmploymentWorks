@@ -1,7 +1,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include <Windows.h>
+#include "yUno_NetWorkManager.h"
 #include "renderer.h"
 #include "FileReader.h"
 
@@ -24,6 +24,7 @@ using namespace PublicSystem;
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 bool yUno_MainManager::m_DemoPlay;
 yUno_SceneManager*  yUno_MainManager::m_NowScene;
+yUno_SystemManager::yUno_NetWorkManager* yUno_MainManager::m_netWorkManager;
 
 
 void yUno_MainManager::Init(Application* app)
@@ -34,6 +35,8 @@ void yUno_MainManager::Init(Application* app)
     
     // レンダラー
     Renderer::Init(app);
+
+    m_netWorkManager = new yUno_NetWorkManager();
 
     ID3D11VertexShader* VertexShader{};
     ID3D11PixelShader* PixelShader{};
@@ -67,6 +70,8 @@ void yUno_MainManager::UnInit()
     m_NowScene->UnInitBase();
     // シーンの削除
     delete m_NowScene;
+    m_netWorkManager->End();
+    delete m_netWorkManager;
 }
 
 void yUno_MainManager::Update()
@@ -86,6 +91,15 @@ void yUno_MainManager::Update()
 
     // シーンの更新
     m_NowScene->UpdateBase();
+
+    if (yUno_KeyInputManager::GetKeyDownTrigger(Home))
+    {
+        m_netWorkManager->Start();
+    }
+    else if (yUno_KeyInputManager::GetKeyDownTrigger(End))
+    {
+        m_netWorkManager->End();
+    }
 
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::KeepNowKeyInfo();

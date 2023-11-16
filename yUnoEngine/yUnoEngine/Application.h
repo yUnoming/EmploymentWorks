@@ -9,6 +9,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#define _WINSOCKAPI_
 #include <Windows.h>
 
 /// <summary>

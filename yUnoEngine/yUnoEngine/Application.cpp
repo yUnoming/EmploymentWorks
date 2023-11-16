@@ -132,6 +132,34 @@ bool Application::InitWnd()
     // ウィンドウにフォーカスを設定.
     SetFocus(m_hWnd);
 
+
+
+    // ＝＝＝＝＝ メニューの設定・作成 ＝＝＝＝＝ //
+    HMENU hMenu = CreateMenu(); // メニュー作成
+    const UINT ID_MENU_1 = 1;
+    const UINT ID_MENU_2 = 2;
+
+    MENUITEMINFO mii;
+    memset(&mii, 0, sizeof(MENUITEMINFO));
+    mii.cbSize = sizeof(MENUITEMINFO);
+
+    mii.fMask = MIIM_ID | MIIM_STRING;
+    mii.wID = ID_MENU_1;
+    mii.dwTypeData = (LPWSTR)(L"メニュー１");
+
+    // 作成したメニューにアイテム追加
+    InsertMenuItem(hMenu, ID_MENU_1, FALSE, &mii);
+
+    mii.wID = ID_MENU_2;
+    mii.dwTypeData = (LPWSTR)(L"メニュー２");
+
+    InsertMenuItem(hMenu, ID_MENU_2, FALSE, &mii);
+
+    // ウィンドウにメニューを追加
+    SetMenu(m_hWnd, hMenu);
+
+
+
     // 正常に行えたことを伝える
     return true;
 }
