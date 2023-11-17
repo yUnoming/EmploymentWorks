@@ -1,11 +1,11 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include "yUno_NetWorkManager.h"
 #include "Application.h"
 #include "yUno_MainManager.h"
 #include "yUno_KeyInputManager.h"
 #include "yUno_MouseInputManager.h"
-
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　       マクロ宣言          //
@@ -138,22 +138,32 @@ bool Application::InitWnd()
     HMENU hMenu = CreateMenu(); // メニュー作成
     const UINT ID_MENU_1 = 1;
     const UINT ID_MENU_2 = 2;
+    const UINT ID_MENU_3 = 3;
+    const UINT ID_MENU_4 = 4;
 
     MENUITEMINFO mii;
     memset(&mii, 0, sizeof(MENUITEMINFO));
     mii.cbSize = sizeof(MENUITEMINFO);
-
     mii.fMask = MIIM_ID | MIIM_STRING;
     mii.wID = ID_MENU_1;
-    mii.dwTypeData = (LPWSTR)(L"メニュー１");
-
-    // 作成したメニューにアイテム追加
+    mii.dwTypeData = (LPWSTR)(L"サーバーを開く");
+    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hMenu, ID_MENU_1, FALSE, &mii);
 
     mii.wID = ID_MENU_2;
-    mii.dwTypeData = (LPWSTR)(L"メニュー２");
-
+    mii.dwTypeData = (LPWSTR)(L"サーバーを閉じる");
+    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hMenu, ID_MENU_2, FALSE, &mii);
+
+    mii.wID = ID_MENU_3;
+    mii.dwTypeData = (LPWSTR)(L"サーバーにアクセス");
+    // 作成したメニューをアイテムとして追加
+    InsertMenuItem(hMenu, ID_MENU_3, FALSE, &mii);
+
+    mii.wID = ID_MENU_4;
+    mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
+    // 作成したメニューをアイテムとして追加
+    InsertMenuItem(hMenu, ID_MENU_4, FALSE, &mii);
 
     // ウィンドウにメニューを追加
     SetMenu(m_hWnd, hMenu);
@@ -211,7 +221,7 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
         // ウィンドウを閉じるアクションが発生した場合
         case WM_CLOSE:
             // 終了確認で「OK」が押された？
-            if (MessageBox(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
+            if (MessageBoxW(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
             {
                 // ウィンドウを閉じる
                 DestroyWindow(hWnd);
@@ -256,6 +266,32 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 
             // 離されたキーを保存する関数を実行
             yUno_KeyInputManager::SetKeyUp(KeyID);
+            break;
+        }
+        // メニューバーがクリックされた場合
+        case WM_COMMAND:
+        {
+            switch (LOWORD(wParam))
+            {
+            // サーバーを開く
+            case 1:
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->OpenServer();
+                break;
+            // サーバーを閉じる
+            case 2:
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->CloseServer();
+                break;
+            // サーバーにアクセス
+            case 3:
+                MessageBoxW(NULL, L"サーバーにアクセスする処理", L"仮メッセージ", MB_OK);
+                break;
+            // メッセージを送る
+            case 4:
+                MessageBoxW(NULL, L"メッセージを送る処理", L"仮メッセージ", MB_OK);
+                break;
+            default:
+                break;
+            }
             break;
         }
 
