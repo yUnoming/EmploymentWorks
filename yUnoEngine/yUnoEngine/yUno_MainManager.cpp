@@ -24,7 +24,6 @@ using namespace PublicSystem;
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 bool yUno_MainManager::m_DemoPlay;
 yUno_SceneManager*  yUno_MainManager::m_NowScene;
-yUno_SystemManager::yUno_NetWorkManager* yUno_MainManager::m_netWorkManager;
 
 
 void yUno_MainManager::Init(Application* app)
@@ -32,17 +31,18 @@ void yUno_MainManager::Init(Application* app)
     // ===== システムの初期化処理 ===== //
     // 時間
     yUno_TimeManager::Init();
-    
+    // ネットワーク
+    yUno_NetWorkManager::Init();
     // レンダラー
     Renderer::Init(app);
 
-    m_netWorkManager = new yUno_NetWorkManager();
-
+    // ----- shader設定 ----- //
+    // 各変数
     ID3D11VertexShader* VertexShader{};
     ID3D11PixelShader* PixelShader{};
     ID3D11InputLayout* VertexLayout{};
 
-    // ----- shader設定 ----- //
+    // 頂点シェーダー、ピクセルシェーダ作成
     Renderer::CreateVertexShader(&VertexShader, &VertexLayout, "Assets\\Shaders\\unlitTextureVS.cso");
     Renderer::CreatePixelShader(&PixelShader, "Assets\\Shaders\\unlitTexturePS.cso");
 
@@ -70,8 +70,9 @@ void yUno_MainManager::UnInit()
     m_NowScene->UnInitBase();
     // シーンの削除
     delete m_NowScene;
-    m_netWorkManager->End();
-    delete m_netWorkManager;
+    
+    // ネットワーク終了
+    yUno_NetWorkManager::UnInit();
 }
 
 void yUno_MainManager::Update()
@@ -91,15 +92,6 @@ void yUno_MainManager::Update()
 
     // シーンの更新
     m_NowScene->UpdateBase();
-
-    if (yUno_KeyInputManager::GetKeyDownTrigger(Home))
-    {
-        m_netWorkManager->Start();
-    }
-    else if (yUno_KeyInputManager::GetKeyDownTrigger(End))
-    {
-        m_netWorkManager->End();
-    }
 
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::KeepNowKeyInfo();

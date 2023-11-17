@@ -12,7 +12,7 @@ void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 {
 	// システムにフォントリソースを追加する
 	// 追加されたフォントの数を取得しておく
-	int Font_Num = AddFontResourceEx(
+	int Font_Num = AddFontResourceExW(
 		filePath,				// 追加したいフォントの参照パス
 		FR_PRIVATE,				// 追加するフォントの特性
 		0						// 0指定でOK

@@ -10,11 +10,6 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_SceneManager.h"
 
-namespace yUno_SystemManager
-{
-	class yUno_NetWorkManager;
-}
-
 /// <summary>
 /// メインでシステムを回すためのクラス	</summary>
 class yUno_MainManager
@@ -27,9 +22,6 @@ class yUno_MainManager
 		/// <summary>
 		/// 現在のプレイ状態	</summary>
 		static bool m_DemoPlay;
-
-		// ネットワークマネージャー
-		static yUno_SystemManager::yUno_NetWorkManager* m_netWorkManager;
 
 	public:
 		// ----- methods / 関数 ----- //
