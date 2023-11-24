@@ -140,6 +140,7 @@ bool Application::InitWnd()
     const UINT ID_MENU_2 = 2;
     const UINT ID_MENU_3 = 3;
     const UINT ID_MENU_4 = 4;
+    const UINT ID_MENU_5 = 5;
 
     MENUITEMINFO mii;
     memset(&mii, 0, sizeof(MENUITEMINFO));
@@ -156,14 +157,19 @@ bool Application::InitWnd()
     InsertMenuItem(hMenu, ID_MENU_2, FALSE, &mii);
 
     mii.wID = ID_MENU_3;
-    mii.dwTypeData = (LPWSTR)(L"サーバーにアクセス");
+    mii.dwTypeData = (LPWSTR)(L"サーバーにログイン");
     // 作成したメニューをアイテムとして追加
     InsertMenuItem(hMenu, ID_MENU_3, FALSE, &mii);
 
     mii.wID = ID_MENU_4;
-    mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
+    mii.dwTypeData = (LPWSTR)(L"サーバーからログアウト");
     // 作成したメニューをアイテムとして追加
     InsertMenuItem(hMenu, ID_MENU_4, FALSE, &mii);
+
+    mii.wID = ID_MENU_5;
+    mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
+    // 作成したメニューをアイテムとして追加
+    InsertMenuItem(hMenu, ID_MENU_5, FALSE, &mii);
 
     // ウィンドウにメニューを追加
     SetMenu(m_hWnd, hMenu);
@@ -281,13 +287,18 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
             case 2:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->CloseServer();
                 break;
-            // サーバーにアクセス
+            // サーバーにログイン
             case 3:
-                MessageBoxW(NULL, L"サーバーにアクセスする処理", L"仮メッセージ", MB_OK);
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->LoginServer();
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData("ServerLogin");
+                break;
+            // サーバーからログアウト
+            case 4:
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->LogoutServer();
                 break;
             // メッセージを送る
-            case 4:
-                MessageBoxW(NULL, L"メッセージを送る処理", L"仮メッセージ", MB_OK);
+            case 5:
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData();
                 break;
             default:
                 break;

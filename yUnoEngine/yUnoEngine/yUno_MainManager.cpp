@@ -66,13 +66,13 @@ void yUno_MainManager::Init(Application* app)
 void yUno_MainManager::UnInit()
 {
     // ===== メインの初期化処理 ===== //
+    // ネットワーク終了
+    yUno_NetWorkManager::UnInit();
+
     // シーンの終了
     m_NowScene->UnInitBase();
     // シーンの削除
     delete m_NowScene;
-    
-    // ネットワーク終了
-    yUno_NetWorkManager::UnInit();
 }
 
 void yUno_MainManager::Update()

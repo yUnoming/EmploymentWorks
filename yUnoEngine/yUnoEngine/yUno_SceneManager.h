@@ -40,13 +40,13 @@ class yUno_SceneManager
 
 		/// <summary>
 		///	ロードされたシーン	</summary>
-		yUno_SceneManager* m_loadedScene;
+		static yUno_SceneManager* m_loadedScene;
 
 	public:
 		// ----- functions / 関数 ----- //
 		/// <summary>
 		///	コンストラクタ	</summary>
-		yUno_SceneManager() : m_loadedScene(nullptr) {}
+		yUno_SceneManager();
 		/// <summary>
 		///	デストラクタ	</summary>
 		virtual ~yUno_SceneManager() {};
@@ -149,6 +149,29 @@ class yUno_SceneManager
 					if (typeid(*object) == typeid(T) && strcmp(object->GetName(), name) == 0)
 					{
 						return (T*)object;
+					}
+				}
+			}
+
+			return nullptr;
+		}
+		/// <summary>
+		///	シーンからオブジェクトを取得	</summary>
+		/// <param name="name">
+		/// 取得するオブジェクトの名称	</param>
+		/// <returns>
+		/// 取得したオブジェクト、無ければnullptr </returns>
+		GameObject* GetSceneObject(const char* name)
+		{
+			// 各スレッド内のオブジェクトリスト取得
+			for (auto& objectList : m_sceneObject)
+			{
+				// リスト内のオブジェクト取得
+				for (GameObject* object : objectList)
+				{
+					if (strcmp(object->GetName(), name) == 0)
+					{
+						return object;
 					}
 				}
 			}

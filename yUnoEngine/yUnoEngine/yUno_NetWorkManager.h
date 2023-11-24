@@ -12,6 +12,10 @@
 #include "Server.h"
 
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		 マクロ定義		　　  //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+
 namespace yUno_SystemManager
 {
 	/// <summary>
@@ -25,6 +29,19 @@ namespace yUno_SystemManager
 			static Server* m_Server;
 
 		public:
+			// ----- enums / 列挙型 ----- //
+			/// <summary>
+			///	送受信するメッセージの種類	</summary>
+			enum MessageType
+			{
+				/// <summary>
+				///	コンポーネントの値更新	</summary>
+				UpdateComponentValue,
+				/// <summary>
+				///	オブジェクトがクリックされた	</summary>
+				ClickedObject
+			};
+
 			// ----- functions / 関数 ----- //
 			/// <summary>
 			///	初期化	</summary>

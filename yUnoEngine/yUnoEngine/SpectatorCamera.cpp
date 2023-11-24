@@ -1,6 +1,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include "yUno_NetWorkManager.h"
 #include "SpectatorCamera.h"
 #include "Transform.h"
 #include "Camera.h"
@@ -57,6 +58,11 @@ void SpectatorCamera::Update()
 		// 取得された状態でオブジェクトがない場所がクリックされたら、取得を解除する
 		tmpClickedObject = GetComponent<Camera>()->GetScreenPointObject(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
 		
+		// クリックされたオブジェクトがロックされていたら処理を終了
+		if (tmpClickedObject && yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(tmpClickedObject->GetName()))
+			return;
+
+		// ----- 現在のクリック状態によって処理を分岐 ----- //
 		// 別のオブジェクトがクリックされた？
 		if (tmpClickedObject && m_clickedObject && tmpClickedObject != m_clickedObject)
 		{
@@ -67,6 +73,17 @@ void SpectatorCamera::Update()
 			m_clickedObject = tmpClickedObject;
 			// クリックされたオブジェクトのマテリアルを変更
 			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+
+			// 送るメッセージを代入する配列
+			char sendMessage[256];
+			ZeroMemory(sendMessage, sizeof(sendMessage));
+
+			// 送りたい情報を文字列に置換
+			sprintf_s(sendMessage, "%d %s",
+				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
+				m_clickedObject->GetName());											// オブジェクト名
+				// メッセージを送る処理を実行
+				yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
 		}
 		// オブジェクトがクリックされた？
 		else if (tmpClickedObject)
@@ -75,6 +92,17 @@ void SpectatorCamera::Update()
 			m_clickedObject = tmpClickedObject;
 			// クリックされたオブジェクトのマテリアルを変更
 			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
+
+			// 送るメッセージを代入する配列
+			char sendMessage[256];
+			ZeroMemory(sendMessage, sizeof(sendMessage));
+
+			// 送りたい情報を文字列に置換
+			sprintf_s(sendMessage, "%d %s",
+				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
+				m_clickedObject->GetName());											// オブジェクト名
+			// メッセージを送る処理を実行
+			yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
 		}
 		// オブジェクトが解除された？
 		else if (!tmpClickedObject && m_clickedObject)
@@ -83,6 +111,17 @@ void SpectatorCamera::Update()
 			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 			// クリックオブジェクトを解除
 			m_clickedObject = nullptr;
+
+			// 送るメッセージを代入する配列
+			char sendMessage[256];
+			ZeroMemory(sendMessage, sizeof(sendMessage));
+
+			// 送りたい情報を文字列に置換
+			sprintf_s(sendMessage, "%d %s",
+				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
+				nullptr);																// オブジェクト名
+			// メッセージを送る処理を実行
+			yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
 		}
 	}
 

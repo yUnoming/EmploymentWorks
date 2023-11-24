@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include "BoxCollider.h"
 #include "yUno_SceneManager.h"
+#include "yUno_ComponentManager.h"
+
 #include <algorithm>
 
 using namespace PublicSystem;
@@ -41,17 +43,46 @@ void GameObject::UnInitBase()
 
 	// リストをクリア
 	m_componentList.clear();
+	m_lateCompoenntList.clear();
 
 	// オブジェクトの終了処理
 	UnInit();
 }
 
+
+Component* Test(Component* component)
+{
+	const char* componentType = typeid(*component).name();
+
+	if (strcmp(componentType, "class PublicSystem::Transform") == 0)
+	{
+		Transform* returnComponent = new Transform();
+		Transform* baseComponent = (Transform*)component;
+		returnComponent->Position = baseComponent->Position;
+		returnComponent->Rotation = baseComponent->Rotation;
+		returnComponent->Scale = baseComponent->Scale;
+		return returnComponent;
+	}
+	return 0;
+}
+
+Component* comp;
 void GameObject::UpdateBase()
 {
+	int index = 0;	// 要素数
+
 	// 各コンポーネントの更新処理
 	for (auto com : m_componentList)
+	{
 		com->Update();
-
+		
+		// 値が更新されていたらメッセージを送る
+		yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
+		// 現在の値を保存
+		yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateCompoenntList.begin(), index), com);
+		// カウントを増やす
+		index++;
+	}
 	// オブジェクトの更新処理
 	Update();
 }
