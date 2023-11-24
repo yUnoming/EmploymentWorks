@@ -18,9 +18,6 @@ class EachFunction : public Component
 {
 	public:
 		// ----- variables / 変数 ----- //
-		//! 自分自身を表すオブジェクト
-		GameObject* Myself = nullptr;
-
 		//! 自身の親であるオブジェクト
 		GameObject* Parent = nullptr;
 
@@ -43,7 +40,7 @@ class EachFunction : public Component
 		template<class T>
 		T* GetComponent()
 		{
-			return Myself->GetComponent<T>();
+			return gameObject->GetComponent<T>();
 		}
 		/// <summary>
 		/// コンポーネントを追加
@@ -55,7 +52,7 @@ class EachFunction : public Component
 		template<class T>
 		T* AddComponent()
 		{
-			return Myself->AddComponent<T>();
+			return gameObject->AddComponent<T>();
 		}
 		/// <summary>
 		/// コンポーネントを削除
@@ -65,6 +62,6 @@ class EachFunction : public Component
 		template<class T>
 		void DeleteComponent()
 		{
-			Myself->DeleteComponent<T>();
+			gameObject->DeleteComponent<T>();
 		}
 };

@@ -6,11 +6,22 @@
 * @date		2023.10.29
 */
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		  前方参照  	 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+class GameObject;
+
+
 /// <summary>
 /// コンポーネントクラス	</summary>
 class Component
 {
 	public:
+		// ----- variables / 変数 ----- //
+		/// <summary>
+		/// このコンポーネントが追加されているオブジェクト	</summary>
+		GameObject* gameObject = nullptr;
+
 		// ----- functions / 関数 ----- //
 		/// <summary>
 		/// コンストラクタ		</summary>

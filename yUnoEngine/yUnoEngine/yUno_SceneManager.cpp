@@ -12,14 +12,11 @@
 
 #include <SimpleMath.h>
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　   staticメンバ変数の定義        //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 std::array<std::list<GameObject*>, 4> yUno_SceneManager::m_sceneObject;
-
-//struct SceneObjectData
-//{
-//	int layer;			// レイヤー番号
-//	GameObject object;	// オブジェクト情報
-//	int componentNum;	// コンポーネント数
-//};
+yUno_SceneManager* yUno_SceneManager::m_loadedScene;
 
 void yUno_SceneManager::SaveSceneData()
 {
@@ -42,24 +39,6 @@ void yUno_SceneManager::SaveSceneData()
 	if (file)
 	{
 		// ===== セーブ処理 ===== //
-		// カメラを取得
-		//auto spectatorCamera = GetSceneObject<SpectatorCamera>();
-
-		//// カメラのトランスフォームを代入
-		//Transform cameraTransform;
-		//cameraTransform.Position = spectatorCamera->transform->Position;
-		//cameraTransform.Rotation = spectatorCamera->transform->Rotation;
-		//cameraTransform.Scale = spectatorCamera->transform->Scale;
-
-		//// 書き込み処理
-		//fwrite(&cameraTransform, sizeof(cameraTransform), 1, file);
-
-		//auto sceneData = *m_loadedScene;
-		//sceneData.m_loadedScene = m_loadedScene->m_loadedScene;
-		//sceneData.m_sceneName = m_sceneName;
-
-		//fwrite(&sceneData, sizeof(sceneData), 1, file);
-
 		int layerNo = 0;					// レイヤー番号
 		char* objectType = 0;				// オブジェクトタイプ					// コンポーネントタイプ
 		char* componentType = 0;			// コンポーネントタイプ
@@ -162,22 +141,6 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 	if (file)
 	{
 		// ===== ロード処理 ===== //
-		//// カメラオブジェクト作成
-		//Transform* cameraTransform = AddSceneObject<SpectatorCamera>(0, "SpectatorCamera")->transform;
-
-		//SpectatorCamera spectatorCamera;
-		//fwrite(&spectatorCamera, sizeof(spectatorCamera), 1, file);
-
-		//// カメラのトランスフォーム情報を読み取る
-		//Transform readTransform;
-		//int n = fread(&readTransform, sizeof(readTransform), 1, file);
-
-		//// 読み取った値を代入
-		//cameraTransform->Position = readTransform.Position;
-		//cameraTransform->Rotation = readTransform.Rotation;
-		//cameraTransform->Scale = readTransform.Scale;
-
-
 		int layerNo = 0;
 		char objectType[100] = { 0 };
 		char name[100] = { 0 };
@@ -237,26 +200,15 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 			addedObject = nullptr;
 			ZeroMemory(name, sizeof(name));
 		}
-		
-
-
-
-	//	//while (true)
-	//	//{
-	//	//	SceneObjectData sceneObjectData;
-	//	//	int readNum = fread(&sceneObjectData, sizeof(SceneObjectData), 1, file);
-
-	//	//	if (readNum != 0)
-	//	//	{
-	//	//		//m_loadedScene->m_sceneObject[sceneObjectData.layer].push_back(&sceneObjectData.object);
-	//	//	}
-	//	//	else
-	//	//		break;
-	//	//}
 		// ファイルを閉じる
 		fclose(file);
 	}
+}
 
+yUno_SceneManager::yUno_SceneManager()
+{
+	m_loadedScene = nullptr;
+	m_sceneName = nullptr;
 }
 
 void yUno_SceneManager::InitBase()

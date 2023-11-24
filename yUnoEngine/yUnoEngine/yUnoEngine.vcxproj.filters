@@ -192,6 +192,9 @@
     <ClCompile Include="Server.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="yUno_ComponentManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -303,6 +306,9 @@
       <Filter>ヘッダー ファイル\yUno_SystemManager</Filter>
     </ClInclude>
     <ClInclude Include="Server.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="yUno_ComponentManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

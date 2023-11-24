@@ -24,6 +24,12 @@ namespace PublicSystem
 			/// <returns>
 			/// 現在シーンの全オブジェクト</returns>
 			std::array<std::list<GameObject*>, 4> static GetSceneObjectAll();
+			
+			/// <summary>
+			///	現在開いているシーンを取得	</summary>
+			/// <returns>
+			///	現在シーンのポインター	</returns>
+			static yUno_SceneManager* GetNowScene();
 	};
 };
 

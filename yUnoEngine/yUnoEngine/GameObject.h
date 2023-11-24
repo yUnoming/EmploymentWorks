@@ -40,6 +40,9 @@ class GameObject
 		/// <summary>
 		/// 保持しているコンポーネントを格納するリスト		</summary>
 		std::list<Component*> m_componentList;
+		/// <summary>
+		/// 現在のコンポーネント情報と比較する為のリスト	</summary>
+		std::list<Component*> m_lateCompoenntList;
 
 		/// <summary>
 		/// オブジェクト名	</summary>
@@ -156,17 +159,19 @@ class GameObject
 		T* AddComponent()
 		{
 			T* com = new T();	
+			T* lateCom = new T();
 
 			// コンポーネントに自身が追加されるオブジェクトを代入
-			com->Myself = this;
+			com->gameObject = this;
 
 			// Transformコンポーネントが自身に追加されている？
 			if(transform != nullptr)
 				com->transform = transform;		// 追加するコンポーネントにTransform情報を代入
 
-			m_componentList.push_back(com);	// コンポーネントリストに追加
-
-			((Component*)com)->Init();			// コンポーネントの初期化処理
+			((Component*)com)->Init();				// コンポーネントの初期化処理
+			m_componentList.push_back(com);			// コンポーネントリストに追加
+			m_lateCompoenntList.push_back(lateCom);	// 比較用にコンポーネントを格納
+			
 			return com;
 		}
 		/// <summary>
