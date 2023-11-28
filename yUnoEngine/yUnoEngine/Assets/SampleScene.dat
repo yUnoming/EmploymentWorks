@@ -1,7 +1,7 @@
 0 SpectatorCamera SpectatorCamera
 3
 PublicSystem::Transform
--2.299999, 0.829999, 0.000000
+-1.860000, 0.580000, 0.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 PublicSystem::Shader
@@ -9,7 +9,7 @@ PublicSystem::Camera
 1 Test Object1
 5
 PublicSystem::Transform
--2.630000, 0.000000, 3.069999
+-0.700002, 0.000000, 3.339999
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 PublicSystem::Shader

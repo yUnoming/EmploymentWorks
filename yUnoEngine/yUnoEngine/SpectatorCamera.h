@@ -22,7 +22,18 @@ class SpectatorCamera : public GameObject
 		GameObject* m_clickedObject = nullptr;
 
 	public:
+		// ----- functions / 関数 ----- //
+		/// <summary>
+		///	初期化	</summary>
 		void Init();
+		/// <summary>
+		///	更新	</summary>
 		void Update();
+
+		/// <summary>
+		///	クリックされているオブジェクトを返す	</summary>
+		/// <returns>
+		///	オブジェクトがあればオブジェクト情報、なければnullptrを返す	</returns>
+		GameObject* GetClickedObject() const;
 };
 

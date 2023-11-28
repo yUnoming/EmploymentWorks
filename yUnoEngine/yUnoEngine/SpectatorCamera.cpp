@@ -66,13 +66,8 @@ void SpectatorCamera::Update()
 		// 別のオブジェクトがクリックされた？
 		if (tmpClickedObject && m_clickedObject && tmpClickedObject != m_clickedObject)
 		{
-			// クリックされていたオブジェクトのマテリアルを変更
-			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
-			
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
-			// クリックされたオブジェクトのマテリアルを変更
-			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 
 			// 送るメッセージを代入する配列
 			char sendMessage[256];
@@ -90,8 +85,6 @@ void SpectatorCamera::Update()
 		{
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
-			// クリックされたオブジェクトのマテリアルを変更
-			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 0.0f, 0.0f, 1.0f));
 
 			// 送るメッセージを代入する配列
 			char sendMessage[256];
@@ -107,8 +100,6 @@ void SpectatorCamera::Update()
 		// オブジェクトが解除された？
 		else if (!tmpClickedObject && m_clickedObject)
 		{
-			// クリックされていたオブジェクトのマテリアルを変更
-			m_clickedObject->GetComponent<Material>()->SetMaterialColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
 			// クリックオブジェクトを解除
 			m_clickedObject = nullptr;
 
@@ -138,4 +129,9 @@ void SpectatorCamera::Update()
 		if (KeyInput::GetKeyDown(D))
 			m_clickedObject->transform->Position.x += 0.01f;
 	}	
+}
+
+GameObject* SpectatorCamera::GetClickedObject() const
+{
+	return m_clickedObject;
 }

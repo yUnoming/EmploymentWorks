@@ -63,6 +63,7 @@ private:
 	static IDXGISwapChain*         m_SwapChain;
 	static ID3D11RenderTargetView* m_RenderTargetView;
 	static ID3D11DepthStencilView* m_DepthStencilView;
+	static ID3D11RasterizerState* m_rasterizerState[3];
 
 	static ID3D11Buffer*			m_WorldBuffer;
 	static ID3D11Buffer*			m_ViewBuffer;
@@ -79,6 +80,7 @@ private:
 
 	static Application* m_Application;
 
+
 public:
 	static void Init(Application* ap);
 	static void Uninit();
@@ -93,6 +95,7 @@ public:
 	static void SetProjectionMatrix(DirectX::SimpleMath::Matrix* ProjectionMatrix);
 	static void SetMaterial(MATERIAL Material);
 	static void SetLight(LIGHT Light);
+	static void SetCullingMode(D3D11_CULL_MODE cullMode);
 
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
