@@ -5,6 +5,7 @@
 #pragma comment(lib, "shlwapi.lib")
 
 #include <WICTextureLoader.h>
+#include "Shader.h"
 #include "renderer.h"
 #include "modelRenderer.h"
 #include "Material.h"
@@ -48,6 +49,37 @@ void ModelRenderer::Draw()
 		// ƒ|ƒŠƒSƒ“•`‰æ
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
+
+	ID3D11RasterizerState* rasterizerState;
+	D3D11_RASTERIZER_DESC rasterizerDesc = {};
+	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+	rasterizerDesc.FrontCounterClockwise = true;
+	rasterizerDesc.CullMode = D3D11_CULL_BACK;
+	Renderer::GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
+	Renderer::GetDeviceContext()->RSSetState(rasterizerState);
+	GetComponent<Shader>()->Load("Assets\\Shaders\\OutlineVS.cso", "Assets\\Shaders\\OutlinePS.cso");
+	GetComponent<Shader>()->Draw();
+	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
+	{
+		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->materialColor.r + 0.0f;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->materialColor.g + 0.0f;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->materialColor.b + 0.0f;
+		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->materialColor.a + 0.0f;
+
+
+		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
+
+		// ƒeƒNƒXƒ`ƒƒÝ’è
+		if (m_Model->SubsetArray[i].Material.Texture)
+			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
+
+		// ƒ|ƒŠƒSƒ“•`‰æ
+		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0);
+	}
+	rasterizerDesc.CullMode = D3D11_CULL_NONE;
+	Renderer::GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
+	Renderer::GetDeviceContext()->RSSetState(rasterizerState);
+	GetComponent<Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 }
 
 void ModelRenderer::Preload(const char *FileName)

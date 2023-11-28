@@ -156,6 +156,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScreenInput.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpectatorCamera.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Test2.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScreenInput.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="SpectatorCamera.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Test2.h" />
@@ -216,6 +218,12 @@
     <ClInclude Include="yUno_TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Assets\Shaders\OutlinePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\OutlineVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Assets\Shaders\unlitTexturePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>

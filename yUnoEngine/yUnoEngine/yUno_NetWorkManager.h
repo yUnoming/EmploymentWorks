@@ -1,9 +1,9 @@
 #pragma once
 /**
-* @file		Component.h
-* @brief	Componentクラスのヘッダーファイル
+* @file		yUno_NetWorkManager.h
+* @brief	yUno_NetWorkManagerクラスのヘッダーファイル
 * @author	Kojima, Kosei
-* @date		2023.10.29
+* @date		2023.11.16
 */
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //

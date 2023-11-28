@@ -8,7 +8,7 @@ SamplerState	g_SamplerState : register(s0);
 
 float4 main(PS_IN In) : SV_Target
 {
-    float4 outDiffuse = (1.0f, 1.0f, 1.0f, 1.0f);
+    float4 outDiffuse = (0.0f, 0.0f, 0.0f, 1.0f);
     if (Material.TextureEnable)
     {
         outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
