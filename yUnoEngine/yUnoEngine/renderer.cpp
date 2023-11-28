@@ -11,6 +11,7 @@ ID3D11DeviceContext*    Renderer::m_DeviceContext{};
 IDXGISwapChain*         Renderer::m_SwapChain{};
 ID3D11RenderTargetView* Renderer::m_RenderTargetView{};
 ID3D11DepthStencilView* Renderer::m_DepthStencilView{};
+ID3D11RasterizerState*  Renderer::m_rasterizerState[3];
 
 ID3D11Buffer*			Renderer::m_WorldBuffer{};
 ID3D11Buffer*			Renderer::m_ViewBuffer{};
@@ -116,17 +117,15 @@ void Renderer::Init(Application* ap)
 	// ラスタライザステート設定
 	D3D11_RASTERIZER_DESC rasterizerDesc{};
 	rasterizerDesc.FillMode = D3D11_FILL_SOLID; 
-	rasterizerDesc.CullMode = D3D11_CULL_BACK; 
-//	rasterizerDesc.CullMode = D3D11_CULL_NONE;
-//	rasterizerDesc.CullMode = D3D11_CULL_FRONT;
 	rasterizerDesc.DepthClipEnable = TRUE;
 	rasterizerDesc.MultisampleEnable = FALSE; 
 
-	ID3D11RasterizerState *rs;
-	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
-
-	m_DeviceContext->RSSetState( rs );
-
+	for (int i = 1; i <= D3D11_CULL_BACK; i++)
+	{
+		rasterizerDesc.CullMode = (D3D11_CULL_MODE)i;
+		m_Device->CreateRasterizerState(&rasterizerDesc, &m_rasterizerState[i - 1]);
+	}
+	SetCullingMode(D3D11_CULL_FRONT);
 
 
 
@@ -395,6 +394,22 @@ void Renderer::SetMaterial( MATERIAL Material )
 void Renderer::SetLight( LIGHT Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void Renderer::SetCullingMode(D3D11_CULL_MODE cullMode)
+{
+	switch (cullMode)	// モードにより処理を分岐
+	{
+		case D3D11_CULL_NONE:
+			m_DeviceContext->RSSetState(m_rasterizerState[0]);
+			break;
+		case D3D11_CULL_FRONT:
+			m_DeviceContext->RSSetState(m_rasterizerState[1]);
+			break;
+		case D3D11_CULL_BACK:
+			m_DeviceContext->RSSetState(m_rasterizerState[2]);
+			break;
+	}
 }
 
 

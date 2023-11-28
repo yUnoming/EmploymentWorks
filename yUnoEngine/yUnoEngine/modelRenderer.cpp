@@ -9,6 +9,8 @@
 #include "renderer.h"
 #include "modelRenderer.h"
 #include "Material.h"
+#include "SceneManager.h"
+#include "SpectatorCamera.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -34,12 +36,8 @@ void ModelRenderer::Draw()
 
 	for( unsigned int i = 0; i < m_Model->SubsetNum; i++ )
 	{
-		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->materialColor.r;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->materialColor.g;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->materialColor.b;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->materialColor.a;
-
-
+		// マテリアル設定
+		m_Model->SubsetArray[i].Material.Material.Diffuse = material->materialColor;
 		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
 		// テクスチャ設定
@@ -50,36 +48,35 @@ void ModelRenderer::Draw()
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
 
-	ID3D11RasterizerState* rasterizerState;
-	D3D11_RASTERIZER_DESC rasterizerDesc = {};
-	rasterizerDesc.FillMode = D3D11_FILL_SOLID;
-	rasterizerDesc.FrontCounterClockwise = true;
-	rasterizerDesc.CullMode = D3D11_CULL_BACK;
-	Renderer::GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
-	Renderer::GetDeviceContext()->RSSetState(rasterizerState);
-	GetComponent<Shader>()->Load("Assets\\Shaders\\OutlineVS.cso", "Assets\\Shaders\\OutlinePS.cso");
-	GetComponent<Shader>()->Draw();
-	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
+	// ===== 輪郭線の表示処理 ===== //
+	// カメラ取得
+	SpectatorCamera* spectatorCamera = (SpectatorCamera*)SceneManager::GetNowScene()->GetSceneObject("SpectatorCamera");
+	
+	// このコンポーネントが追加されているオブジェクトがクリックされている？
+	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject())
 	{
-		m_Model->SubsetArray[i].Material.Material.Diffuse.x = material->materialColor.r + 0.0f;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.y = material->materialColor.g + 0.0f;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.z = material->materialColor.b + 0.0f;
-		m_Model->SubsetArray[i].Material.Material.Diffuse.w = material->materialColor.a + 0.0f;
+		// ----- 輪郭線の表示処理 ----- //
+		// シェーダー設定
+		Shader shader; 
+		shader.Load("Assets\\Shaders\\OutlineVS.cso", "Assets\\Shaders\\OutlinePS.cso");
+		// カリングモード切り替え
+		Renderer::SetCullingMode(D3D11_CULL_FRONT);
+		for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
+		{
+			// マテリアル設定
+			m_Model->SubsetArray[i].Material.Material.Diffuse = material->materialColor;
+			Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
+			// テクスチャ設定
+			if (m_Model->SubsetArray[i].Material.Texture)
+				Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
 
-		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
-
-		// テクスチャ設定
-		if (m_Model->SubsetArray[i].Material.Texture)
-			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Model->SubsetArray[i].Material.Texture);
-
-		// ポリゴン描画
-		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0);
+			// ポリゴン描画
+			Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0);
+		}
+		// カリングモード切り替え
+		Renderer::SetCullingMode(D3D11_CULL_NONE);
 	}
-	rasterizerDesc.CullMode = D3D11_CULL_NONE;
-	Renderer::GetDevice()->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
-	Renderer::GetDeviceContext()->RSSetState(rasterizerState);
-	GetComponent<Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 }
 
 void ModelRenderer::Preload(const char *FileName)

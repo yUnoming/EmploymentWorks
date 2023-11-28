@@ -22,4 +22,6 @@ void PublicSystem::Shader::Load(const char* vertexShader, const char* pixelShade
 	Renderer::CreateVertexShader(&m_vertexShader, &m_vertexLayout, vertexShader);
 	// ピクセルシェーダーの作成
 	Renderer::CreatePixelShader(&m_pixelShader, pixelShader);
+	// 描画設定も行う
+	Draw();
 }

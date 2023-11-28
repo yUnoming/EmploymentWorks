@@ -111,7 +111,7 @@ class yUno_SceneManager
 		//**  オブジェクト関係  **//
 		/// <summary>
 		/// シーンにオブジェクトを追加	</summary>
-		/// <param name="AddObject&lt;&gt;();">
+		/// <param name="AddSceneObject&lt;&gt;();">
 		/// &lt;&gt;内に追加するオブジェクトを記述		</param>
 		/// <param name="layer">
 		///	レイヤー番号	</param>
@@ -132,7 +132,7 @@ class yUno_SceneManager
 		}
 		/// <summary>
 		/// シーンからオブジェクトを取得	</summary>
-		/// <param name="GetObject&lt;&gt;();">
+		/// <param name="GetSceneObject&lt;&gt;();">
 		/// &lt;&gt;内に取得するオブジェクトをを記述		</param>
 		/// <param name="name">
 		///	取得するオブジェクトの名称	</param>
@@ -155,6 +155,7 @@ class yUno_SceneManager
 
 			return nullptr;
 		}
+
 		/// <summary>
 		///	シーンからオブジェクトを取得	</summary>
 		/// <param name="name">
