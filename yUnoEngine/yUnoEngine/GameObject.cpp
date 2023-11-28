@@ -1,6 +1,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include "yUno_NetWorkManager.h"
 #include "GameObject.h"
 #include "renderer.h"
 #include "Transform.h"
@@ -79,8 +80,11 @@ void GameObject::UpdateBase()
 	{
 		com->Update();
 		
-		// 値が更新されていたらメッセージを送る
-		yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
+		// オブジェクトがロックされていない？
+		if (!yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(GetName()))
+			// 値が更新されていたらメッセージを送る
+			yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
+
 		// 現在の値を保存
 		yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateCompoenntList.begin(), index), com);
 		// カウントを増やす

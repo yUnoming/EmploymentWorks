@@ -73,10 +73,6 @@ class Server
 		/// <summary>
 		/// 受信スレッド	</summary>
 		void ReceiveThread();
-		
-		void TestThread();
-		std::thread testThread;
-
 
 	public:
 		// ----- functions / 関数 ----- //

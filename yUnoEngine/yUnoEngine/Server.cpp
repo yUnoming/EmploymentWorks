@@ -123,45 +123,6 @@ void Server::ReceiveThread()
 	return;
 }
 
-void Server::TestThread()
-{
-	//std::array<std::list<GameObject*>, 4> lateSceneObject = SceneManager::GetSceneObjectAll();
-	//std::list<GameObject> lateObjects;
-	//Transform moveObject;
-
-	//for (auto& lateObjectList : lateSceneObject)
-	//{
-	//	for (auto& lateObject : lateObjectList)
-	//	{
-	//		lateObjects.push_back(*lateObject);
-	//	}
-	//}
-
-	//while (true)
-	//{
-	//	if (!m_isCommunicationData)
-	//	{
-	//		break;
-	//	}
-	//	else
-	//	{
-	//		for (auto& lateObject : lateObjects)
-	//		{
-	//			auto object = SceneManager::GetNowScene()->GetSceneObject(lateObject.GetName());
-
-	//			if (lateObject.transform->Position != object->transform->Position &&
-	//				strcmp(lateObject.GetName(), "SpectatorCamera") != 0 && (g_rockObject == NULL || strcmp(lateObject.GetName(), g_rockObject) != 0))
-	//			{
-	//				char sendData[100];
-	//				sprintf_s(sendData, "%s %f %f %f", lateObject.GetName(), object->transform->Position.x, object->transform->Position.y, object->transform->Position.z);
-	//				SendData(sendData);
-	//				lateObject = *object;
-	//			}
-	//		}
-	//	}
-	//}
-}
-
 Server::~Server()
 {
 	// 通信を行っている？
@@ -250,7 +211,6 @@ void Server::OpenServer()
 
 		// 受信スレッド生成
 		m_receiveThread = std::thread(&Server::ReceiveThread, this);
-		testThread = std::thread(&Server::TestThread, this);
 
 		std::cout << "NetWork Communication Start" << std::endl;
 	}
@@ -269,10 +229,11 @@ void Server::CloseServer()
 		}
 		// 通信の終了を設定
 		m_isCommunicationData = false;
+		// ロック状態の解除
+		ZeroMemory(rockObjectName, sizeof(rockObjectName));
 
 		// スレッドの終了を待つ
 		m_receiveThread.join();
-		testThread.join();
 
 		// WINSOCKの終了処理
 		WSACleanup();
@@ -337,7 +298,6 @@ void Server::LoginServer()
 
 		// 受信スレッド生成
 		m_receiveThread = std::thread(&Server::ReceiveThread, this);
-		testThread = std::thread(&Server::TestThread, this);
 	}
 }
 
@@ -354,6 +314,8 @@ void Server::LogoutServer()
 		}
 		// 通信の終了を設定
 		m_isCommunicationData = false;
+		// ロック状態の解除
+		ZeroMemory(rockObjectName, sizeof(rockObjectName));
 
 		// スレッドの終了を待つ
 		m_receiveThread.join();
