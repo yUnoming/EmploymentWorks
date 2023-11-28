@@ -36,24 +36,6 @@ void yUno_MainManager::Init(Application* app)
     // レンダラー
     Renderer::Init(app);
 
-    // ----- shader設定 ----- //
-    // 各変数
-    ID3D11VertexShader* VertexShader{};
-    ID3D11PixelShader* PixelShader{};
-    ID3D11InputLayout* VertexLayout{};
-
-    // 頂点シェーダー、ピクセルシェーダ作成
-    Renderer::CreateVertexShader(&VertexShader, &VertexLayout, "Assets\\Shaders\\unlitTextureVS.cso");
-    Renderer::CreatePixelShader(&PixelShader, "Assets\\Shaders\\unlitTexturePS.cso");
-
-    // 入力レイアウト設定
-    Renderer::GetDeviceContext()->IASetInputLayout(VertexLayout);
-
-    // シェーダ設定
-    Renderer::GetDeviceContext()->VSSetShader(VertexShader, nullptr, 0);
-    Renderer::GetDeviceContext()->PSSetShader(PixelShader, nullptr, 0);
-
-
     // ----- 標準フォント設定 ----- //
     FileReader::ReadTtfFile(L"Assets\\Fonts\\calibri.ttf", "Calibri");
 

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "renderer.h"
 #include "Transform.h"
+#include "Shader.h"
 #include "BoxCollider.h"
 #include "yUno_SceneManager.h"
 #include "yUno_ComponentManager.h"
@@ -16,6 +17,8 @@ GameObject::GameObject()
 {
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform> ();
+	// Shaderコンポーネントを追加
+	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 }
 
 GameObject::GameObject(yUno_SceneManager* nowScene)
