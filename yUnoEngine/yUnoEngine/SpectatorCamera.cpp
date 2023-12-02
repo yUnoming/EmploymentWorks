@@ -69,16 +69,17 @@ void SpectatorCamera::Update()
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
 
-			// 送るメッセージを代入する配列
-			char sendMessage[256];
-			ZeroMemory(sendMessage, sizeof(sendMessage));
-
-			// 送りたい情報を文字列に置換
-			sprintf_s(sendMessage, "%d %s",
-				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
-				m_clickedObject->GetName());											// オブジェクト名
-				// メッセージを送る処理を実行
-				yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
+			// ----- 送信する値を代入 ----- //
+			// インスタンス生成
+			MessageData messageData;
+			// メッセージタイプ
+			messageData.message.header.type = MessageType::ClickObject;
+			// オブジェクト
+			messageData.message.body.object.SetName(m_clickedObject->GetName());
+			
+			// メッセージを送る処理を実行
+			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
+				SendMessageData(messageData.data, sizeof(messageData.data));
 		}
 		// オブジェクトがクリックされた？
 		else if (tmpClickedObject)
@@ -86,16 +87,17 @@ void SpectatorCamera::Update()
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
 
-			// 送るメッセージを代入する配列
-			char sendMessage[256];
-			ZeroMemory(sendMessage, sizeof(sendMessage));
+			// ----- 送信する値を代入 ----- //
+			// インスタンス生成
+			MessageData messageData;
+			// メッセージタイプ
+			messageData.message.header.type = MessageType::ClickObject;
+			// オブジェクト
+			messageData.message.body.object.SetName(m_clickedObject->GetName());
 
-			// 送りたい情報を文字列に置換
-			sprintf_s(sendMessage, "%d %s",
-				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
-				m_clickedObject->GetName());											// オブジェクト名
 			// メッセージを送る処理を実行
-			yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
+			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
+				SendMessageData(messageData.data, sizeof(messageData.data));
 		}
 		// オブジェクトが解除された？
 		else if (!tmpClickedObject && m_clickedObject)
@@ -103,16 +105,17 @@ void SpectatorCamera::Update()
 			// クリックオブジェクトを解除
 			m_clickedObject = nullptr;
 
-			// 送るメッセージを代入する配列
-			char sendMessage[256];
-			ZeroMemory(sendMessage, sizeof(sendMessage));
+			// ----- 送信する値を代入 ----- //
+			// インスタンス生成
+			MessageData messageData;
+			// メッセージタイプ
+			messageData.message.header.type = MessageType::ClickObject;
+			// オブジェクト
+			messageData.message.body.object.SetName(nullptr);
 
-			// 送りたい情報を文字列に置換
-			sprintf_s(sendMessage, "%d %s",
-				yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject,	// 送信するメッセージのタイプ
-				nullptr);																// オブジェクト名
 			// メッセージを送る処理を実行
-			yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData(sendMessage);
+			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
+				SendMessageData(messageData.data, sizeof(messageData.data));
 		}
 	}
 

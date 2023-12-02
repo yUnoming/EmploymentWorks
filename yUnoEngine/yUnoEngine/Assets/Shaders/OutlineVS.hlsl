@@ -9,7 +9,7 @@ void main(VS_IN vin, out VS_OUT vout)
     // 輪郭線として表示するために、法線方向へ頂点を移動
     //（単純に拡縮で大きくすると見た目がおかしくなる）
     // 正規化された法線は１（メートル）で拡大が大きくなりすぎるため補正を入れる
-    vout.pos.xyz += normalize(vin.Normal) * 0.0075f;
+    vout.pos.xyz += normalize(vin.Normal) * 0.015f;
     
     vout.pos = mul(vout.pos, World);        // ワールド座標
     vout.pos = mul(vout.pos, View);         // ビュー座標

@@ -16,6 +16,8 @@ using namespace PublicSystem;
 
 GameObject::GameObject()
 {
+	// クリア
+	ZeroMemory(m_name, sizeof(m_name));
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform> ();
 	// Shaderコンポーネントを追加

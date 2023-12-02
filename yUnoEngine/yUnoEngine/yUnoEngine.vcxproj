@@ -167,6 +167,7 @@
     <ClCompile Include="utftosjisconv.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="WindowMenu.cpp" />
     <ClCompile Include="yUno_ComponentManager.cpp" />
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
@@ -190,9 +191,11 @@
     <ClInclude Include="InputPartsName.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="modelRenderer.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScreenInput.h" />
@@ -208,6 +211,7 @@
     <ClInclude Include="utftosjisconv.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
+    <ClInclude Include="WindowMenu.h" />
     <ClInclude Include="yUno_ComponentManager.h" />
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
