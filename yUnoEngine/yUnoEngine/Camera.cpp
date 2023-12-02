@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "SceneManager.h"
 #include "CalculationHit.h"
+#include "Text.h"
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		  using宣言		 　　 //
@@ -91,6 +92,9 @@ GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 screenPoint)
 			// リスト内のオブジェクト取得
 			for (auto& object : SceneObjects[i])
 			{
+				if (object->GetComponent<Text>())
+					continue;
+
 				// 進む前と後の間にオブジェクトと当たった？
 				if (CalculationHit::SegmentToHexahedron(Late_RayPoint, RayPoint, object->transform))
 				{

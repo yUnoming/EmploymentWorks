@@ -125,7 +125,7 @@ void Renderer::Init(Application* ap)
 		rasterizerDesc.CullMode = (D3D11_CULL_MODE)i;
 		m_Device->CreateRasterizerState(&rasterizerDesc, &m_rasterizerState[i - 1]);
 	}
-	SetCullingMode(D3D11_CULL_FRONT);
+	SetCullingMode(D3D11_CULL_NONE);
 
 
 

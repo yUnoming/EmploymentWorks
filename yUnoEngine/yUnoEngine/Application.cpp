@@ -3,6 +3,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
 #include "Application.h"
+#include "WindowMenu.h"
 #include "yUno_MainManager.h"
 #include "yUno_KeyInputManager.h"
 #include "yUno_MouseInputManager.h"
@@ -132,48 +133,8 @@ bool Application::InitWnd()
     // ウィンドウにフォーカスを設定.
     SetFocus(m_hWnd);
 
-
-
-    // ＝＝＝＝＝ メニューの設定・作成 ＝＝＝＝＝ //
-    HMENU hMenu = CreateMenu(); // メニュー作成
-    const UINT ID_MENU_1 = 1;
-    const UINT ID_MENU_2 = 2;
-    const UINT ID_MENU_3 = 3;
-    const UINT ID_MENU_4 = 4;
-    const UINT ID_MENU_5 = 5;
-
-    MENUITEMINFO mii;
-    memset(&mii, 0, sizeof(MENUITEMINFO));
-    mii.cbSize = sizeof(MENUITEMINFO);
-    mii.fMask = MIIM_ID | MIIM_STRING;
-    mii.wID = ID_MENU_1;
-    mii.dwTypeData = (LPWSTR)(L"サーバーを開く");
-    // 作成したメニューをアイテムとして追加
-    InsertMenuItem(hMenu, ID_MENU_1, FALSE, &mii);
-
-    mii.wID = ID_MENU_2;
-    mii.dwTypeData = (LPWSTR)(L"サーバーを閉じる");
-    // 作成したメニューをアイテムとして追加
-    InsertMenuItem(hMenu, ID_MENU_2, FALSE, &mii);
-
-    mii.wID = ID_MENU_3;
-    mii.dwTypeData = (LPWSTR)(L"サーバーにログイン");
-    // 作成したメニューをアイテムとして追加
-    InsertMenuItem(hMenu, ID_MENU_3, FALSE, &mii);
-
-    mii.wID = ID_MENU_4;
-    mii.dwTypeData = (LPWSTR)(L"サーバーからログアウト");
-    // 作成したメニューをアイテムとして追加
-    InsertMenuItem(hMenu, ID_MENU_4, FALSE, &mii);
-
-    mii.wID = ID_MENU_5;
-    mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
-    // 作成したメニューをアイテムとして追加
-    InsertMenuItem(hMenu, ID_MENU_5, FALSE, &mii);
-
-    // ウィンドウにメニューを追加
-    SetMenu(m_hWnd, hMenu);
-
+    // ----- ウィンドウのメニュー作成 ----- //
+    WindowMenu::Create();
 
 
     // 正常に行えたことを伝える
@@ -280,24 +241,24 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
             switch (LOWORD(wParam))
             {
             // サーバーを開く
-            case 1:
+            case WindowMenu::ID_OpenServer:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->OpenServer();
                 break;
             // サーバーを閉じる
-            case 2:
+            case WindowMenu::ID_CloseServer:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->CloseServer();
                 break;
             // サーバーにログイン
-            case 3:
+            case WindowMenu::ID_LoginServer:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->LoginServer();
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData("ServerLogin");
+                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData((char*)"ServerLogin", sizeof("ServerLogin"));
                 break;
             // サーバーからログアウト
-            case 4:
+            case WindowMenu::ID_LogoutServer:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->LogoutServer();
                 break;
             // メッセージを送る
-            case 5:
+            case WindowMenu::ID_SendMessage:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData();
                 break;
             default:

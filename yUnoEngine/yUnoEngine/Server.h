@@ -11,6 +11,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <WinSock2.h>
 #include <thread>
+#include "Message.h"
 
 
 /// <summary>
@@ -18,16 +19,6 @@
 class Server
 {
 	private:
-		// ----- structs / 構造体 ----- //
-		/// <summary>
-		///	送受信用のメッセージ	</summary>
-		struct MessageData
-		{
-			int randNum = 0;
-			char receiveMessage[65535];
-			char sendMessage[256];
-		};
-
 		// ---- enums / 列挙型 ----- //
 		/// <summasy>
 		/// サーバーでの地位 </summary>
@@ -51,13 +42,16 @@ class Server
 		/// <summary>
 		///	送信先アドレス	</summary>
 		sockaddr_in m_sendAddress{};
-
+		/// <summary>
+		///	送信データ	</summary>
+		MessageData m_sendData;
+		/// <summary>
+		///	受信データ	</summary>
+		MessageData m_receiveData;
+		
 		/// <summary>
 		///	受信スレッド	</summary>
 		std::thread m_receiveThread;
-		/// <summary>
-		///	送受信メッセージ	</summary>
-		MessageData m_messageData;
 
 		/// <summary>
 		/// データの通信状態 </summary>
@@ -98,8 +92,10 @@ class Server
 		///	メッセージデータを送信する	</summary>
 		/// <param name="message">
 		/// 送信するメッセージ	</param>
-		void SendData(const char* message);
+		void SendMessageData(char* messageData, int messageDataSize);
 		
+
+
 		/// <summary>
 		///	オブジェクトがロックされているか判定	</summary>
 		/// <param name="objectName">

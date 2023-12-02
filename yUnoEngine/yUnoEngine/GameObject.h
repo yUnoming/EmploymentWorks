@@ -78,8 +78,21 @@ class GameObject
 		/// デストラクタ	</summary>
 		virtual ~GameObject() {};
 
+		/// <summary>
+		///	オブジェクト名取得	</summary>
+		/// <returns>
+		///	オブジェクト名	</returns>
 		const char* GetName() { return m_name; };
-		void SetName(const char* name) { memcpy(m_name, name, strlen(name)); };
+		/// <summary>
+		///	オブジェクト名設定	</summary>
+		/// <param name="name">
+		/// 設定するオブジェクト名	</param>
+		void SetName(const char* name)
+		{
+			ZeroMemory(m_name, sizeof(m_name));
+			if (name)
+				memcpy_s(m_name, sizeof(m_name), name, strlen(name));
+		};
 
 		// オブジェクト単体に関わる処理
 		/// <summary>

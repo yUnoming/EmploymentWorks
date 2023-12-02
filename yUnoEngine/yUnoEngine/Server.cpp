@@ -31,34 +31,34 @@ void Server::ReceiveThread()
 	{
 		myAddressLength = sizeof(sockaddr);
 
-		memset(m_messageData.receiveMessage, 0, sizeof(m_messageData.receiveMessage));
+		memset(m_receiveData.data, 0, sizeof(m_receiveData.data));
 
 		int sts = recvfrom(
 			m_mySocket,
-			(char*)m_messageData.receiveMessage,
-			sizeof(m_messageData.receiveMessage),
+			(char*)m_receiveData.data,
+			sizeof(m_receiveData.data),
 			0,
 			(sockaddr*)&m_sendAddress,
 			&myAddressLength);
 
 		if (sts != SOCKET_ERROR)
 		{
-			if (strcmp(m_messageData.receiveMessage, "LoginSuccess") == 0)
+			if (strcmp(m_receiveData.data, "LoginSuccess") == 0)
 			{
 				std::cout << "Login Server" << std::endl;
 			}
-			else if (strcmp(m_messageData.receiveMessage, "ServerLogin") == 0)
+			else if (strcmp(m_receiveData.data, "ServerLogin") == 0)
 			{
-				printf("受信データ : %s \n", m_messageData.receiveMessage);
+				printf("受信データ : %s \n", m_receiveData.data);
 				printf("送信元ＩＰアドレス/ポート番号 %s/%d \n",
 					inet_ntoa(m_sendAddress.sin_addr),
 					ntohs(m_sendAddress.sin_port));
 
-				strcpy_s(m_messageData.sendMessage, sizeof(m_messageData.sendMessage), "LoginSuccess");
-				int len = static_cast<int>(strlen(m_messageData.sendMessage));	// 送信文字列長を取得
+				strcpy_s(m_sendData.data, sizeof(m_sendData.data), "LoginSuccess");
+				int len = static_cast<int>(strlen(m_sendData.data));	// 送信文字列長を取得
 				sts = sendto(
 					m_mySocket,					// ソケット番号
-					m_messageData.sendMessage,	// 送信データ
+					m_sendData.data,			// 送信データ
 					len,						// 送信データ長
 					0,							// フラグ
 					(sockaddr*)&m_sendAddress,	// 送信先アドレス
@@ -66,46 +66,46 @@ void Server::ReceiveThread()
 			}
 			else
 			{
-				printf("受信データ : %s %d \n", m_messageData.receiveMessage, m_messageData.randNum);
+				printf("受信データ : %s\n", m_receiveData.data);
 				printf("送信元ＩＰアドレス/ポート番号 %s/%d \n",
 					inet_ntoa(m_sendAddress.sin_addr),
 					ntohs(m_sendAddress.sin_port));
 				
-				
-				char* context;
-				char* msgType = strtok_s(m_messageData.receiveMessage, " ", &context);
-				int msgTypeNo = strtof(msgType, NULL);
-
-				// メッセージのタイプにより、処理を分岐
-				switch (msgTypeNo)
+				// ===== メッセージの種類によって処理を分岐 ===== //
+				switch (m_receiveData.message.header.type)
 				{
-					// コンポーネントの値更新
-					case yUno_SystemManager::yUno_NetWorkManager::MessageType::UpdateComponentValue:
-					{
-						// 残りの情報を読み取る
-						char* objName = strtok_s(NULL, " ", &context);
-						char* comType = strtok_s(NULL, " ", &context);
-						char* varName = strtok_s(NULL, " ", &context);
-						char* xParam = strtok_s(NULL, " ", &context);
-						char* yParam = strtok_s(NULL, " ", &context);
-						char* zParam = strtok_s(NULL, " ", &context);
-						if (objName != nullptr && xParam != nullptr && yParam != nullptr && zParam != nullptr)
+					// コンポーネント更新
+					case MessageType::UpdateComponent:
+						// ===== コンポーネントの種類によって処理を分岐 ===== //
+						// Transformコンポーネント
+						if (strcmp(m_receiveData.message.body.componentType,
+							"class PublicSystem::Transform") == 0)
 						{
-							float newX = strtof(xParam, NULL);
-							float newY = strtof(yParam, NULL);
-							float newZ = strtof(zParam, NULL);
-							SceneManager::GetNowScene()->GetSceneObject(objName)->transform->Position = Vector3(newX, newY, newZ);
-							memcpy(g_rockObject, objName, strlen(objName));
+							// コンポーネント取得
+							Transform* transform =
+								SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
+							// 各値を代入
+							transform->Position = m_receiveData.message.body.transform.Position;
+							transform->Rotation = m_receiveData.message.body.transform.Rotation;
+							transform->Scale = m_receiveData.message.body.transform.Scale;
+						}
+						// Textコンポーネント
+						else if (strcmp(m_receiveData.message.body.componentType,
+							"class PublicSystem::Text") == 0)
+						{
+							// コンポーネント取得
+							Text* text =
+								SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
+							// 各値を代入
+							text->text = m_receiveData.message.body.text.text;
+							text->fontSize = m_receiveData.message.body.text.fontSize;
 						}
 						break;
-					}
-					case yUno_SystemManager::yUno_NetWorkManager::MessageType::ClickedObject:
-					{
-						// 残りの情報を読み取る
-						char* objName = strtok_s(NULL, " ", &context);
-						strcpy_s(rockObjectName, objName);
+					// オブジェクト選択
+					case MessageType::ClickObject:
+						// クリックされたオブジェクト名を代入
+						strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
 						break;
-					}
 				}
 			}
 		}
@@ -114,10 +114,6 @@ void Server::ReceiveThread()
 		{
 			// ループを抜ける
 			break;
-		}
-		else
-		{
-			std::cout << "エラーが発生した" << std::endl;
 		}
 	}
 	return;
@@ -215,7 +211,7 @@ void Server::OpenServer()
 		std::cout << "NetWork Communication Start" << std::endl;
 	}
 }
-
+ 
 void Server::CloseServer()
 {
 	// データの通信を行っている？
@@ -333,14 +329,14 @@ void Server::SendData()
 		// 送信データ作成
 		printf("\n送信データを入力してください（アルファベットのみ）\n");
 		rewind(stdin);
-		int r = scanf_s("%[^\n]", m_messageData.sendMessage, 255);	// 改行以外を読み込む
+		int r = scanf_s("%[^\n]", m_sendData.data, 255);	// 改行以外を読み込む
 
-		size_t len = strlen(m_messageData.sendMessage);		// 送信文字列長を取得
+		size_t len = strlen(m_sendData.data);		// 送信文字列長を取得
 
 		// データの送信時、エラーが発生した？
 		if (sendto(
 			m_mySocket,							// ソケット番号
-			m_messageData.sendMessage,			// 送信データ
+			m_sendData.data,					// 送信データ
 			len,								// 送信データ長
 			0,									// フラグ
 			(sockaddr*)&m_sendAddress,			// 送信先アドレス
@@ -352,19 +348,15 @@ void Server::SendData()
 	}
 }
 
-void Server::SendData(const char* message)
+void Server::SendMessageData(char* messageData, int messageDataSize)
 {
 	if (m_isCommunicationData)
 	{
-		strcpy_s(m_messageData.sendMessage, sizeof(m_messageData.sendMessage), message);
-		size_t len = strlen(m_messageData.sendMessage);		// 送信文字列長を取得
-
-
 		// データの送信時、エラーが発生した？
 		if (sendto(
 			m_mySocket,							// ソケット番号
-			m_messageData.sendMessage,			// 送信データ
-			len,								// 送信データ長
+			messageData,						// 送信データ
+			messageDataSize,					// 送信データ長
 			0,									// フラグ
 			(sockaddr*)&m_sendAddress,			// 送信先アドレス
 			sizeof(sockaddr))					// アドレス構造体のバイト長
