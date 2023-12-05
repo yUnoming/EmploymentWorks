@@ -14,12 +14,12 @@ class WindowMenu
 		///	Šeƒƒjƒ…[‚ÉŠ„‚èU‚éID	</summary>
 		enum MenuID
 		{
-			ID_Server,
-			ID_OpenServer = 1,
-			ID_CloseServer = 2,
-			ID_LoginServer = 3,
-			ID_LogoutServer = 4,
-			ID_SendMessage = 5,
+			ID_Server = 1,
+			ID_OpenServer,
+			ID_CloseServer,
+			ID_LoginServer,
+			ID_LogoutServer,
+			ID_SendMessage,
 		};
 
 		// ----- functions / ŠÖ” ----- //

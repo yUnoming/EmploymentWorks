@@ -21,7 +21,7 @@ void WindowMenu::Create()
     InsertMenuItem(hMenu, ID_Server, TRUE, &mii);
 
     mii.fMask = MIIM_ID | MIIM_STRING;
-    mii.wID = MenuID::ID_OpenServer;
+    mii.wID = ID_OpenServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーを開く");
     // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);

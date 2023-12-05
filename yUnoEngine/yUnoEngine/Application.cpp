@@ -251,7 +251,6 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
             // サーバーにログイン
             case WindowMenu::ID_LoginServer:
                 yUno_SystemManager::yUno_NetWorkManager::GetServer()->LoginServer();
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData((char*)"ServerLogin", sizeof("ServerLogin"));
                 break;
             // サーバーからログアウト
             case WindowMenu::ID_LogoutServer:

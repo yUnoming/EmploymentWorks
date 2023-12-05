@@ -58,7 +58,7 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 			
 			// メッセージを送る処理を実行
 			yUno_NetWorkManager::GetServer()->
-				SendMessageData(messageData.data, sizeof(messageData.data));
+				SendMessageData(messageData);
 		}
 	}
 }
