@@ -21,6 +21,15 @@
 enum MessageType
 {
 	/// <summary>
+	///	通信開始	</summary>
+	CommunicationStart,
+	/// <summary>
+	///	通信成功	</summary>
+	CommunicationSuccess,
+	/// <summary>
+	///	通信終了	</summary>
+	CommunicationEnd,
+	/// <summary>
 	///	コンポーネント更新	</summary>
 	UpdateComponent,
 	/// <summary>
@@ -38,7 +47,10 @@ struct Header
 {
 	/// <summary>
 	/// 送受信するメッセージの種類	</summary>
-	int type;	
+	int type;
+	/// <summary>
+	///	送信元ユーザーのランク	</summary>
+	int userRank;
 };
 
 /// <summary>

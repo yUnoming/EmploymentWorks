@@ -31,7 +31,19 @@ class Server
 			///	サーバーに来た人物	</summary>
 			User
 		};
-		
+
+		/// <summary>
+		///	通信ユーザー情報	</summary>
+		struct CommunicationUserData
+		{
+			/// <summary>
+			///	ユーザーランク	</summary>
+			ServerRank userRank;
+			/// <summary>
+			///	ユーザーアドレス	</summary>
+			sockaddr_in address;
+		};
+
 		// ----- variables / 変数 ----- //
 		/// <summary>
 		///	自身のソケット情報	</summary>
@@ -63,6 +75,10 @@ class Server
 		// ロックしているオブジェクト名
 		char rockObjectName[30];
 
+		/// <summary>
+		///	通信ユーザーリスト	</summary>
+		std::list<CommunicationUserData> m_comUserList;
+
 		// ----- functions / 関数 ----- //
 		/// <summary>
 		/// 受信スレッド	</summary>
@@ -92,7 +108,7 @@ class Server
 		///	メッセージデータを送信する	</summary>
 		/// <param name="message">
 		/// 送信するメッセージ	</param>
-		void SendMessageData(char* messageData, int messageDataSize);
+		void SendMessageData(MessageData& messageData);
 		
 
 

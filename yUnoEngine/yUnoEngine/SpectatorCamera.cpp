@@ -79,7 +79,7 @@ void SpectatorCamera::Update()
 			
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
-				SendMessageData(messageData.data, sizeof(messageData.data));
+				SendMessageData(messageData);
 		}
 		// オブジェクトがクリックされた？
 		else if (tmpClickedObject)
@@ -97,7 +97,7 @@ void SpectatorCamera::Update()
 
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
-				SendMessageData(messageData.data, sizeof(messageData.data));
+				SendMessageData(messageData);
 		}
 		// オブジェクトが解除された？
 		else if (!tmpClickedObject && m_clickedObject)
@@ -115,7 +115,7 @@ void SpectatorCamera::Update()
 
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
-				SendMessageData(messageData.data, sizeof(messageData.data));
+				SendMessageData(messageData);
 		}
 	}
 

@@ -74,6 +74,52 @@ void Server::ReceiveThread()
 				// ===== メッセージの種類によって処理を分岐 ===== //
 				switch (m_receiveData.message.header.type)
 				{
+					// 通信開始
+					case MessageType::CommunicationStart:
+					{
+						// ----- 通信相手をリストに格納 ----- //
+						// 通信相手の情報を保存する
+						CommunicationUserData comUser;
+						comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
+						comUser.address = m_sendAddress;
+						
+						// リストに格納
+						m_comUserList.push_back(comUser);
+
+						// ----- 相手に通信成功を伝える ----- //
+						m_sendData.message.header.type = MessageType::CommunicationSuccess;
+						SendMessageData(m_sendData);
+						break;
+					}
+
+					// 通信成功
+					case MessageType::CommunicationSuccess:
+						// システム通知を表示
+						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
+						break;
+					// 通信終了
+					case MessageType::CommunicationEnd:
+						// 通信中のユーザー数だけループ
+						for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
+						{
+							CommunicationUserData comUser = *it;
+							// IPアドレスとポート番号が送信元と同じ？
+							if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
+								comUser.address.sin_port == m_sendAddress.sin_port)
+							{
+								// リストから除外
+								m_comUserList.erase(it);
+
+								// メッセージ通知
+								if (m_myServerRank == ServerRank::Owner)
+									MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
+								else if(m_myServerRank == ServerRank::User)
+									MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
+								break;
+							}
+						}
+						break;
+
 					// コンポーネント更新
 					case MessageType::UpdateComponent:
 						// ===== コンポーネントの種類によって処理を分岐 ===== //
@@ -101,6 +147,7 @@ void Server::ReceiveThread()
 							text->fontSize = m_receiveData.message.body.text.fontSize;
 						}
 						break;
+
 					// オブジェクト選択
 					case MessageType::ClickObject:
 						// クリックされたオブジェクト名を代入
@@ -208,7 +255,7 @@ void Server::OpenServer()
 		// 受信スレッド生成
 		m_receiveThread = std::thread(&Server::ReceiveThread, this);
 
-		std::cout << "NetWork Communication Start" << std::endl;
+		MessageBoxW(NULL, L"サーバーを開きました", L"システム通知", MB_OK);
 	}
 }
  
@@ -217,6 +264,17 @@ void Server::CloseServer()
 	// データの通信を行っている？
 	if (m_isCommunicationData)
 	{
+		// ===== 通信終了を相手に通知 ===== //
+		// 通信相手がいる？
+		if (!m_comUserList.empty())
+		{
+			// メッセージ送信
+			MessageData messageData;
+			messageData.message.header.type = MessageType::CommunicationEnd;
+			SendMessageData(messageData);
+		}
+		
+		// ===== サーバークローズ処理 ===== //
 		//　ソケットをクローズ時、エラーが発生した？
 		if (closesocket(m_mySocket) != 0)
 		{
@@ -234,7 +292,7 @@ void Server::CloseServer()
 		// WINSOCKの終了処理
 		WSACleanup();
 
-		std::cout << "NetWork Communication End" << std::endl;
+		MessageBoxW(NULL, L"サーバーを閉じました", L"システム通知", MB_OK);
 	}
 }
 
@@ -294,6 +352,9 @@ void Server::LoginServer()
 
 		// 受信スレッド生成
 		m_receiveThread = std::thread(&Server::ReceiveThread, this);
+
+		m_sendData.message.header.type = MessageType::CommunicationStart;
+		SendMessageData(m_sendData);
 	}
 }
 
@@ -302,6 +363,11 @@ void Server::LogoutServer()
 	// 通信を行っている？
 	if (m_isCommunicationData)
 	{
+		// ===== 通信終了を相手に通知 ===== //
+		MessageData messageData;
+		messageData.message.header.type = MessageType::CommunicationEnd;
+		SendMessageData(messageData);
+
 		//　ソケットをクローズ時、エラーが発生した？
 		if (closesocket(m_mySocket) != 0)
 		{
@@ -319,7 +385,7 @@ void Server::LogoutServer()
 		// WINSOCKの終了処理
 		WSACleanup();
 	}
-	std::cout << "Logout Server" << std::endl;
+	MessageBoxW(NULL, L"サーバーからログアウトしました", L"システム通知", MB_OK);
 }
 
 void Server::SendData()
@@ -348,15 +414,20 @@ void Server::SendData()
 	}
 }
 
-void Server::SendMessageData(char* messageData, int messageDataSize)
+void Server::SendMessageData(MessageData& messageData)
 {
 	if (m_isCommunicationData)
 	{
+		// ===== その他に送る情報を代入 ===== //
+		// ユーザーランク
+		messageData.message.header.userRank = m_myServerRank;
+
+		// ===== 送信処理 ===== //
 		// データの送信時、エラーが発生した？
 		if (sendto(
 			m_mySocket,							// ソケット番号
-			messageData,						// 送信データ
-			messageDataSize,					// 送信データ長
+			messageData.data,					// 送信データ
+			sizeof(messageData.data),			// 送信データ長
 			0,									// フラグ
 			(sockaddr*)&m_sendAddress,			// 送信先アドレス
 			sizeof(sockaddr))					// アドレス構造体のバイト長
