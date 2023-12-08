@@ -94,6 +94,8 @@ void Server::ReceiveThread()
 
 					// 通信成功
 					case MessageType::CommunicationSuccess:
+						// 通信の開始を設定
+						m_isCommunicationData = true;
 						// システム通知を表示
 						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
 						break;
@@ -345,14 +347,15 @@ void Server::LoginServer()
 		// 10進表記のIPアドレスを32ビットに変換（ネットワークバイトオーダー）
 		m_sendAddress.sin_addr.S_un.S_addr = inet_addr(str);
 
-		// 通信の開始を設定
-		m_isCommunicationData = true;
 		// 地位を設定
 		m_myServerRank = User;
 
-		// 受信スレッド生成
-		m_receiveThread = std::thread(&Server::ReceiveThread, this);
+		// スレッドが生成されていない？
+		if(!m_receiveThread.joinable())
+			// 受信スレッド生成
+			m_receiveThread = std::thread(&Server::ReceiveThread, this);
 
+		// 相手に通信開始通知を送る
 		m_sendData.message.header.type = MessageType::CommunicationStart;
 		SendMessageData(m_sendData);
 	}

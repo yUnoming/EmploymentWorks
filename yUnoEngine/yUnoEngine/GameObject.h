@@ -84,15 +84,15 @@ class GameObject
 		///	オブジェクト名	</returns>
 		const char* GetName() { return m_name; };
 		/// <summary>
-		///	オブジェクト名設定	</summary>
+		///	オブジェクト名を設定	</summary>
 		/// <param name="name">
 		/// 設定するオブジェクト名	</param>
-		void SetName(const char* name)
-		{
-			ZeroMemory(m_name, sizeof(m_name));
-			if (name)
-				memcpy_s(m_name, sizeof(m_name), name, strlen(name));
-		};
+		void SetName(const char* name);
+		/// <summary>
+		///	オブジェクト名をコピー	</summary>
+		/// <param name="name">
+		/// コピーするオブジェクト名	</param>
+		void CopyName(const char* name);
 
 		// オブジェクト単体に関わる処理
 		/// <summary>

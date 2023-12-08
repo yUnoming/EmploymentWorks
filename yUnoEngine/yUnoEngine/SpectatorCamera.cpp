@@ -75,7 +75,7 @@ void SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.SetName(m_clickedObject->GetName());
+			messageData.message.body.object.CopyName(m_clickedObject->GetName());
 			
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
@@ -93,7 +93,7 @@ void SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.SetName(m_clickedObject->GetName());
+			messageData.message.body.object.CopyName(m_clickedObject->GetName());
 
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->
@@ -111,7 +111,7 @@ void SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.SetName(nullptr);
+			messageData.message.body.object.CopyName(nullptr);
 
 			// メッセージを送る処理を実行
 			yUno_SystemManager::yUno_NetWorkManager::GetServer()->

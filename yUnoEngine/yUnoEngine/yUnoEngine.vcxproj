@@ -169,6 +169,7 @@
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WindowMenu.cpp" />
     <ClCompile Include="yUno_ComponentManager.cpp" />
+    <ClCompile Include="yUno_GameObjectManager.cpp" />
     <ClCompile Include="yUno_KeyInputManager.cpp" />
     <ClCompile Include="yUno_MainManager.cpp" />
     <ClCompile Include="yUno_MouseInputManager.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="WindowMenu.h" />
     <ClInclude Include="yUno_ComponentManager.h" />
+    <ClInclude Include="yUno_GameObjectManager.h" />
     <ClInclude Include="yUno_KeyInputManager.h" />
     <ClInclude Include="yUno_MainManager.h" />
     <ClInclude Include="yUno_MouseInputManager.h" />

@@ -18,17 +18,13 @@ void SampleScene::Init()
     {
         AddSceneObject<SpectatorCamera>(0, "SpectatorCamera");
     }
-    if (GetSceneObject<Test>("Object1") == nullptr)
+    if (GetSceneObject<Test>("Cube") == nullptr)
     {
-        AddSceneObject<Test>(1, "Object1");
+        AddSceneObject<Test>(1, "Cube");
     }
     if (GetSceneObject<Test2>("Text") == nullptr)
     {
-        AddSceneObject<Test2>(1, "Text");
-    }
-    if(GetSceneObject<Test2>("Text2") == nullptr)
-    {
-        AddSceneObject<Test2>(1, "Text2");
+        AddSceneObject<Test2>(2, "Text");
     }
 }
 

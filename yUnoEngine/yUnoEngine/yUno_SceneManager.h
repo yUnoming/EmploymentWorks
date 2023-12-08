@@ -10,6 +10,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
 #include <array>
+#include <vector>
 #include "GameObject.h"
 
 /// <summary>
@@ -17,6 +18,8 @@
 class yUno_SceneManager
 {
 	private :
+		
+
 		// ----- variables / 変数 ----- //
 		/// <summary>
 		///	シーン名	</summary>
@@ -30,7 +33,7 @@ class yUno_SceneManager
 		///	シーン情報をロード	</summary>
 		/// <param name="loadSceneName">
 		///	ロードするシーン名	</param>
-		void LoadSceneData(const char* loadSceneName);
+		void LoadSceneData(const char* loadSceneName);		
 
 	protected:
 		// ----- variables / 変数 ----- //

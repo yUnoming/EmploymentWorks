@@ -1,7 +1,6 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "yUno_NetWorkManager.h"
 #include "Application.h"
 #include "WindowMenu.h"
 #include "yUno_MainManager.h"
@@ -238,31 +237,8 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
         // メニューバーがクリックされた場合
         case WM_COMMAND:
         {
-            switch (LOWORD(wParam))
-            {
-            // サーバーを開く
-            case WindowMenu::ID_OpenServer:
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->OpenServer();
-                break;
-            // サーバーを閉じる
-            case WindowMenu::ID_CloseServer:
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->CloseServer();
-                break;
-            // サーバーにログイン
-            case WindowMenu::ID_LoginServer:
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->LoginServer();
-                break;
-            // サーバーからログアウト
-            case WindowMenu::ID_LogoutServer:
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->LogoutServer();
-                break;
-            // メッセージを送る
-            case WindowMenu::ID_SendMessage:
-                yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData();
-                break;
-            default:
-                break;
-            }
+            // クリックされた内容の実行処理
+            WindowMenu::Run((LOWORD(wParam)));
             break;
         }
 

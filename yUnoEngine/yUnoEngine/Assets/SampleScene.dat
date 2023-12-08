@@ -1,31 +1,42 @@
 0 SpectatorCamera SpectatorCamera
 3
 PublicSystem::Transform
-0.000000, 0.989999, 0.000000
+0.000000, 0.000000, 0.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 PublicSystem::Shader
 PublicSystem::Camera
-1 Test Object1
+1 Test Cube
 5
 PublicSystem::Transform
-1.010000, 0.000000, 4.720016
+0.000000, 0.000000, 3.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 PublicSystem::Shader
 ModelRenderer
 BoxCollider
 PublicSystem::Material
-1 Test2 Text
-4
+1 Test Cube1
+5
 PublicSystem::Transform
 0.000000, 0.000000, 3.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 PublicSystem::Shader
+ModelRenderer
+BoxCollider
 PublicSystem::Material
-PublicSystem::Text
-1 Test2 Text2
+1 Test Cube2
+5
+PublicSystem::Transform
+0.000000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+PublicSystem::Shader
+ModelRenderer
+BoxCollider
+PublicSystem::Material
+2 Test2 Text
 4
 PublicSystem::Transform
 0.000000, 0.000000, 3.000000
