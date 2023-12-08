@@ -48,7 +48,7 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::UpdateComponent;
 			// オブジェクト
-			messageData.message.body.object.SetName(nowTransform.gameObject->GetName());
+			messageData.message.body.object.CopyName(nowTransform.gameObject->GetName());
 			// コンポーネントタイプ
 			strcpy_s(messageData.message.body.componentType,
 				sizeof(messageData.message.body.componentType),

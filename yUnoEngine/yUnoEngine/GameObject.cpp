@@ -2,6 +2,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
+#include "yUno_GameObjectManager.h"
 #include "GameObject.h"
 #include "renderer.h"
 #include "Transform.h"
@@ -16,7 +17,7 @@ using namespace PublicSystem;
 
 GameObject::GameObject()
 {
-	// クリア
+	// オブジェクト名の初期化
 	ZeroMemory(m_name, sizeof(m_name));
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform> ();
@@ -26,10 +27,39 @@ GameObject::GameObject()
 
 GameObject::GameObject(yUno_SceneManager* nowScene)
 {
+	// オブジェクト名の初期化
+	ZeroMemory(m_name, sizeof(m_name));
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform>();
+	// Shaderコンポーネントを追加
+	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 	// 現在シーンを代入する
 	m_myScene = nowScene;
+}
+
+void GameObject::SetName(const char* name)
+{
+	// オブジェクト名を初期化
+	ZeroMemory(m_name, sizeof(m_name));
+	
+	// オブジェクト名を付ける？
+	if (name)
+	{
+		// オブジェクト名が被っていないか確認し、
+		// 実際に付けるオブジェクト名を取得する
+		const char* newName = yUno_SystemManager::yUno_GameObjectManager::CheckObjectName(name);
+		memcpy_s(m_name, sizeof(m_name), newName, strlen(newName));
+	}
+}
+
+void GameObject::CopyName(const char* name)
+{
+	// オブジェクト名を初期化
+	ZeroMemory(m_name, sizeof(m_name));
+
+	// オブジェクト名を付ける？
+	if (name)
+		memcpy_s(m_name, sizeof(m_name), name, strlen(name));
 }
 
 void GameObject::InitBase()
@@ -55,24 +85,6 @@ void GameObject::UnInitBase()
 	UnInit();
 }
 
-
-Component* Test(Component* component)
-{
-	const char* componentType = typeid(*component).name();
-
-	if (strcmp(componentType, "class PublicSystem::Transform") == 0)
-	{
-		Transform* returnComponent = new Transform();
-		Transform* baseComponent = (Transform*)component;
-		returnComponent->Position = baseComponent->Position;
-		returnComponent->Rotation = baseComponent->Rotation;
-		returnComponent->Scale = baseComponent->Scale;
-		return returnComponent;
-	}
-	return 0;
-}
-
-Component* comp;
 void GameObject::UpdateBase()
 {
 	int index = 0;	// 要素数

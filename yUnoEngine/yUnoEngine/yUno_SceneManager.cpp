@@ -2,6 +2,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_SceneManager.h"
+#include "yUno_GameObjectManager.h"
 #include "SampleScene.h"
 #include "GameObject.h"
 #include "BoxCollider.h"
@@ -231,8 +232,11 @@ void yUno_SceneManager::UnInitBase()
 			object->UnInitBase();	// 終了処理
 			delete object;			// 削除
 		}
-		objectList.clear();	//リストのクリア
+		//リストのクリア
+		objectList.clear();	
 	}
+	// マネージャーの終了処理
+	yUno_SystemManager::yUno_GameObjectManager::UnInit();
 	// 現在シーンの終了処理
 	m_loadedScene->UnInit();
 	delete m_loadedScene;

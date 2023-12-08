@@ -6,6 +6,8 @@
 * @date		2023.11.28
 */
 
+#include "Application.h"
+
 class WindowMenu
 {
 	public:
@@ -14,7 +16,12 @@ class WindowMenu
 		///	各メニューに割り振るID	</summary>
 		enum MenuID
 		{
-			ID_Server = 1,
+			// 作成タブ
+			ID_Create = 1,
+			ID_CreateCube,
+
+			// サーバータブ
+			ID_Server = 10,
 			ID_OpenServer,
 			ID_CloseServer,
 			ID_LoginServer,
@@ -26,5 +33,9 @@ class WindowMenu
 		/// <summary>
 		///	メニューを作成する	</summary>
 		static void Create();
+
+		/// <summary>
+		///	メニュー内容に従って、処理を実行	</summary>
+		static void Run(WORD menuID);
 };
 
