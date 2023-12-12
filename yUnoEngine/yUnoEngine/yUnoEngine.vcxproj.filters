@@ -201,6 +201,9 @@
     <ClCompile Include="WindowMenu.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="yUno_GameObjectManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -329,15 +332,8 @@
     <ClInclude Include="Message.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Assets\Shaders\unlitTexturePS.hlsl" />
-    <FxCompile Include="Assets\Shaders\unlitTextureVS.hlsl" />
-    <FxCompile Include="Assets\Shaders\OutlinePS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Assets\Shaders\OutlineVS.hlsl">
-      <Filter>リソース ファイル</Filter>
-    </FxCompile>
+    <ClInclude Include="yUno_GameObjectManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

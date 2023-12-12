@@ -64,6 +64,9 @@ class Server
 		/// <summary>
 		///	受信スレッド	</summary>
 		std::thread m_receiveThread;
+		/// <summary>
+		///	受信開始用スレッド	</summary>
+		std::thread m_comStartThread;
 
 		/// <summary>
 		/// データの通信状態 </summary>
@@ -83,6 +86,9 @@ class Server
 		/// <summary>
 		/// 受信スレッド	</summary>
 		void ReceiveThread();
+		/// <summary>
+		///	受信開始スレッド	</summary>
+		void CommunicationStartThread();
 
 	public:
 		// ----- functions / 関数 ----- //

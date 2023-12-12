@@ -41,13 +41,13 @@ void yUno_SceneManager::SaveSceneData()
 	{
 		// ===== セーブ処理 ===== //
 		int layerNo = 0;					// レイヤー番号
-		char* objectType = 0;				// オブジェクトタイプ					// コンポーネントタイプ
+		char* objectType = 0;				// オブジェクトタイプ
 		char* componentType = 0;			// コンポーネントタイプ
 		// 各スレッド内のオブジェクトリスト取得
-		for (auto& objectList : m_loadedScene->m_sceneObject)
+		for (auto objectList : m_loadedScene->m_sceneObject)
 		{
 			// リスト内のオブジェクト取得
-			for (GameObject* object : objectList)
+			for (auto object : objectList)
 			{
 				// ----- オブジェクトタイプ取得処理 ----- //
 				char tmpObjectType[50];
@@ -57,9 +57,14 @@ void yUno_SceneManager::SaveSceneData()
 				token = strtok_s(tmpObjectType, " ", &context);
 				objectType = strtok_s(NULL, " ", &context);
 
+				// ----- オブジェクト名情報取得 ----- //
+				const char* name = object->GetName();
+				yUno_SystemManager::yUno_GameObjectManager::ObjectNameData
+					objNameData = yUno_SystemManager::yUno_GameObjectManager::GetObjectNameData(name);
+
 				// 書き込み処理
 				char writeData[100] = {};
-				sprintf_s(writeData, "%d %s %s", layerNo, objectType, object->GetName());
+				sprintf_s(writeData, "%d %s %s %d", layerNo, objectType, objNameData.baseName, objNameData.number);
 				fprintf(file, writeData);
 				fprintf(file, "\r\n");
 
@@ -144,29 +149,45 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 		// ===== ロード処理 ===== //
 		int layerNo = 0;
 		char objectType[100] = { 0 };
-		char name[100] = { 0 };
+		char baseName[100] = { 0 };
+		int number = 0;
 
 		// 読み込むオブジェクトが無くなるまでループ
-		while (fscanf_s(file, "%d %s %s", &layerNo, objectType, (unsigned int)sizeof(objectType), &name, (unsigned int)sizeof(name)) != EOF)
+		while (fscanf_s(file, "%d %s %s %d", &layerNo, objectType, (unsigned int)sizeof(objectType),
+			&baseName, (unsigned int)sizeof(baseName), &number) != EOF)
 		{
 			// 追加したオブジェクト
 			GameObject* addedObject = 0;
+
+			// ----- オブジェクト名情報を設定 ----- //
+			yUno_SystemManager::yUno_GameObjectManager::ObjectNameData objNameData;
+			strcpy_s(objNameData.baseName, baseName);					// 番号を付与する前の名前
+			objNameData.number = number;								// オブジェクト番号
+			// オブジェクト番号が０番？
+			if (number == 0) {
+				strcpy_s(objNameData.myName, baseName);					// 元の名称のまま
+			}
+			else {
+				sprintf_s(objNameData.myName, "%s%d", baseName, number);// 元の名称に番号を付与する
+			}
+			yUno_SystemManager::yUno_GameObjectManager::SetObjectNameData(objNameData);
 
 			// ----- オブジェクトの追加処理 ----- //
 			// SpectatorCameraオブジェクト？
 			if (strcmp(objectType, "SpectatorCamera") == 0)
 			{
-				addedObject = m_loadedScene->AddSceneObject<SpectatorCamera>(layerNo, name);
+				// オブジェクト追加
+				addedObject = m_loadedScene->LoadSceneObject<SpectatorCamera>(layerNo, objNameData.myName);
 			}
 			// Testオブジェクト？
 			else if (strcmp(objectType, "Test") == 0)
 			{
-				addedObject = m_loadedScene->AddSceneObject<Test>(layerNo, name);
+				addedObject = m_loadedScene->LoadSceneObject<Test>(layerNo, objNameData.myName);
 			}
 			// Test2オブジェクト？
 			else if (strcmp(objectType, "Test2") == 0)
 			{
-				addedObject = m_loadedScene->AddSceneObject<Test2>(layerNo, name);
+				addedObject = m_loadedScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
 			}
 
 			if (addedObject != nullptr)
@@ -199,7 +220,7 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 				}
 			}
 			addedObject = nullptr;
-			ZeroMemory(name, sizeof(name));
+			ZeroMemory(baseName, sizeof(baseName));
 		}
 		// ファイルを閉じる
 		fclose(file);
@@ -261,12 +282,12 @@ void yUno_SceneManager::UpdateBase()
 			if (boxcol != nullptr)
 				BoxCollider_List.push_back(boxcol);	// リストに格納しておく
 		}
-
-		//objectList.remove_if([](GameObject* object) {return object->Destroy(); });	//ラムダ式
 	}
 
 	// 相手側の当たり判定用リストを作成
 	std::list<BoxCollider*> Other_BoxCollider_List = BoxCollider_List;
+	// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
+	// ※自身との当たり判定の処理を阻止するため
 	Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 
 	// ===== "BoxCollider"同士の当たり判定 ===== //
@@ -281,7 +302,7 @@ void yUno_SceneManager::UpdateBase()
 			my_BoxCol->CalcCollision(other_BoxCol);	// 計算処理
 		}
 
-		// 当たり判定の相手用リストの０番目（始めに格納されている情報）を削除する
+		// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
 		// ※当たり判定を重複して判定することを阻止するため
 		Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 	}

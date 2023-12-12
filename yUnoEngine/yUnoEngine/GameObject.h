@@ -46,7 +46,7 @@ class GameObject
 
 		/// <summary>
 		/// オブジェクト名	</summary>
-		char m_name[30] = { 0 };
+		char m_name[30];
 
 		/// <summary>
 		/// 自身がいるシーンの情報		</summary>

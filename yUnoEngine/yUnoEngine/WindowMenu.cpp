@@ -72,32 +72,49 @@ void WindowMenu::Run(WORD menuID)
     switch (menuID)
     {
         // ===== 作成タグの処理 ===== //
-        // Cube作成
+        //----------//
+        // Cube作成 //
         case WindowMenu::ID_CreateCube:
-            PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
+        {
+            // オブジェクトを生成し、そのオブジェクト情報を取得
+            GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
+
+            // メッセージデータ作成
+            MessageData messageData;
+            messageData.message.header.type = MessageType::CreateCube;
+            messageData.message.body.transform.Position = cubeObject->transform->Position;
+            // メッセージを送る処理を実行
+            yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
             break;
+        }
         // ===== サーバータグの処理 ===== //
-        // サーバーを開く
+        //----------------//
+        // サーバーを開く //
         case WindowMenu::ID_OpenServer:
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->OpenServer();
             break;
-        // サーバーを閉じる
+        //------------------//
+        // サーバーを閉じる //
         case WindowMenu::ID_CloseServer:
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->CloseServer();
             break;
-        // サーバーにログイン
+        //--------------------//
+        // サーバーにログイン //
         case WindowMenu::ID_LoginServer:
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->LoginServer();
             break;
-        // サーバーからログアウト
+        //------------------------//
+        // サーバーからログアウト //
         case WindowMenu::ID_LogoutServer:
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->LogoutServer();
             break;
-        // メッセージを送る
+        //------------------//
+        // メッセージを送る //
         case WindowMenu::ID_SendMessage:
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendData();
             break;
-        // 上記以外
+        //----------//
+        // 上記以外 //
         default:
             break;
     }
