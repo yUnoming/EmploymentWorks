@@ -18,68 +18,47 @@ namespace yUno_SystemManager
 /// ゲームオブジェクトに関する機能をまとめたクラス	</summary>
 	class yUno_GameObjectManager
 	{
-	private:
-		// ----- structs / 構造体 ----- //
-		/// <summary>
-		/// オブジェクト名情報	</summary>
-		struct ObjectNameData
-		{
+		public:
+			// ----- structs / 構造体 ----- //
 			/// <summary>
-			///	自身のオブジェクト名	</summary>
-			char myName[30];
-			/// <summary>
-			///	元のオブジェクト名	</summary>
-			char baseName[30];
-			/// <summary>
-			///	オブジェクト名に付与する番号（名称被り防止）	</summary>
-			int objectNameNumber;
-		};
-		/// <summary>
-		/// オブジェクト番号情報	</summary>
-		struct ObjectNumberData
-		{
-			/// <summary>
-			///	オブジェクト名	</summary>
-			const char* name;
-			/// <summary>
-			///	空き番号	</summary>
-			std::vector<int> emptyNumber;
-			/// <summary>
-			///	番号の最大値	</summary>
-			int maxNumber;
-		};
+			/// オブジェクト名情報	</summary>
+			struct ObjectNameData
+			{
+				/// <summary>
+				///	自身のオブジェクト名	</summary>
+				char myName[30];
+				/// <summary>
+				///	元のオブジェクト名	</summary>
+				char baseName[30];
+				/// <summary>
+				/// 識別用のオブジェクト番号	</summary>
+				int number;
+			};
 
-		// ----- variables / 変数 ----- //
-		/// <summary>
-		///	オブジェクト名リスト	</summary>
-		static std::list<ObjectNameData>m_objectNameList;
-		/// <summary>
-		///	オブジェクト番号リスト	</summary>
-		static std::list<ObjectNumberData>m_objectNumberList;
+			// ----- functions / 関数 ----- //
+			static void UnInit();
 
-	public:
-		// ----- functions / 関数 ----- //
-		static void UnInit();
-
-		/// <summary>
-		///	オブジェクト名が既に存在するかどうか確認	</summary>
-		/// <param name="name">
-		/// 確認するオブジェクト名	</param>
-		/// <returns>
-		///	実際に付けるオブジェクト名	</returns>
-		static const char* CheckObjectName(const char* name);
-		/// <summary>
-		///	オブジェクト名に付与する番号を取得	</summary>
-		/// <param name="name">
-		///	取得するオブジェクト名	</param>
-		/// <returns>
-		/// 付与する番号	</returns>
-		static int GetObjectNumber(const char* name);
-		/// <summary>
-		///	オブジェクト名に付与する番号を設定	</summary>
-		/// <param name="name">
-		/// 設定するオブジェクト名	</param>
-		static void SetObjectNumber(const char* name);
+			/// <summary>
+			///	オブジェクト名が既に存在するかどうか確認	</summary>
+			/// <param name="name">
+			/// 確認するオブジェクト名	</param>
+			/// <returns>
+			///	実際に付けるオブジェクト名	</returns>
+			static const char* CheckObjectName(const char* name);
+			/// <summary>
+			///	オブジェクト名情報を取得	</summary>
+			/// <param name="name">
+			///	取得するオブジェクト名	</param>
+			/// <returns>
+			/// オブジェクト名情報	</returns>
+			static ObjectNameData GetObjectNameData(const char* name);
+			static void SetObjectNameData(ObjectNameData objNameData);
+		
+		private:
+			// ----- variables / 変数 ----- //
+			/// <summary>
+			///	オブジェクト名リスト	</summary>
+			static std::list<ObjectNameData>m_objectNameList;
 	};
 }
 

@@ -15,6 +15,7 @@ constexpr unsigned short PORTNO = 49152;
 #include "Server.h"
 #include "SceneManager.h"
 #include "Test.h"
+#include "Time.h"
 
 #include <stdio.h>
 #include <time.h>
@@ -74,7 +75,8 @@ void Server::ReceiveThread()
 				// ===== メッセージの種類によって処理を分岐 ===== //
 				switch (m_receiveData.message.header.type)
 				{
-					// 通信開始
+					//----------//
+					// 通信開始 //
 					case MessageType::CommunicationStart:
 					{
 						// ----- 通信相手をリストに格納 ----- //
@@ -91,15 +93,19 @@ void Server::ReceiveThread()
 						SendMessageData(m_sendData);
 						break;
 					}
-
-					// 通信成功
+					//----------//
+					// 通信成功 //
 					case MessageType::CommunicationSuccess:
+					if (!m_isCommunicationData)
+					{
 						// 通信の開始を設定
 						m_isCommunicationData = true;
 						// システム通知を表示
 						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
 						break;
-					// 通信終了
+					}
+					//----------//
+					// 通信終了 //
 					case MessageType::CommunicationEnd:
 						// 通信中のユーザー数だけループ
 						for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
@@ -121,8 +127,8 @@ void Server::ReceiveThread()
 							}
 						}
 						break;
-
-					// コンポーネント更新
+					//--------------------//
+					// コンポーネント更新 //
 					case MessageType::UpdateComponent:
 						// ===== コンポーネントの種類によって処理を分岐 ===== //
 						// Transformコンポーネント
@@ -149,11 +155,20 @@ void Server::ReceiveThread()
 							text->fontSize = m_receiveData.message.body.text.fontSize;
 						}
 						break;
-
-					// オブジェクト選択
+					//------------------//
+					// オブジェクト選択 //
 					case MessageType::ClickObject:
 						// クリックされたオブジェクト名を代入
 						strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
+						break;
+					//--------------//
+					// キューブ作成 //
+					case MessageType::CreateCube:
+						// キューブを作成し、作成したキューブを取得しておく
+						GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
+						// メッセージからTransform情報を取得し、代入
+						// ※作成した際、座標以外は一定の値なので、代入しない
+						cubeObject->transform->Position = m_receiveData.message.body.transform.Position;
 						break;
 				}
 			}
@@ -163,6 +178,31 @@ void Server::ReceiveThread()
 		{
 			// ループを抜ける
 			break;
+		}
+	}
+	return;
+}
+
+void Server::CommunicationStartThread()
+{
+	double timer = 0;			// メッセージを送るまでの時間
+	int sendMessageCount = 0;	// メッセージを送った回数
+	// 通信成功or規定回数メッセージを送るまでループ
+	while (!m_isCommunicationData && sendMessageCount <= 10)
+	{
+		// 既定秒数が経過した？
+		if (timer >= 10)
+		{
+			// 相手に通信開始通知を送る
+			m_sendData.message.header.type = MessageType::CommunicationStart;
+			SendMessageData(m_sendData);
+			sendMessageCount++;
+			timer = 0;
+		}
+		else
+		{
+			// タイマーの秒数を増やす
+			timer += PublicSystem::Time::DeltaTime * 0.0001f;
 		}
 	}
 	return;
@@ -354,7 +394,15 @@ void Server::LoginServer()
 		if(!m_receiveThread.joinable())
 			// 受信スレッド生成
 			m_receiveThread = std::thread(&Server::ReceiveThread, this);
-
+		//if (!m_comStartThread.joinable())
+		//	// 通信開始スレッド生成
+		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
+		//else
+		//{
+		//	m_comStartThread.join();
+		//	// 通信開始スレッド生成
+		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
+		//}
 		// 相手に通信開始通知を送る
 		m_sendData.message.header.type = MessageType::CommunicationStart;
 		SendMessageData(m_sendData);
@@ -419,25 +467,22 @@ void Server::SendData()
 
 void Server::SendMessageData(MessageData& messageData)
 {
-	if (m_isCommunicationData)
-	{
-		// ===== その他に送る情報を代入 ===== //
-		// ユーザーランク
-		messageData.message.header.userRank = m_myServerRank;
+	// ===== その他に送る情報を代入 ===== //
+	// ユーザーランク
+	messageData.message.header.userRank = m_myServerRank;
 
-		// ===== 送信処理 ===== //
-		// データの送信時、エラーが発生した？
-		if (sendto(
-			m_mySocket,							// ソケット番号
-			messageData.data,					// 送信データ
-			sizeof(messageData.data),			// 送信データ長
-			0,									// フラグ
-			(sockaddr*)&m_sendAddress,			// 送信先アドレス
-			sizeof(sockaddr))					// アドレス構造体のバイト長
-			== SOCKET_ERROR)
-		{
-			std::cout << "データの送信に失敗しました" << std::endl;
-		}
+	// ===== 送信処理 ===== //
+	// データの送信時、エラーが発生した？
+	if (sendto(
+		m_mySocket,							// ソケット番号
+		messageData.data,					// 送信データ
+		sizeof(messageData.data),			// 送信データ長
+		0,									// フラグ
+		(sockaddr*)&m_sendAddress,			// 送信先アドレス
+		sizeof(sockaddr))					// アドレス構造体のバイト長
+		== SOCKET_ERROR)
+	{
+		std::cout << "データの送信に失敗しました" << std::endl;
 	}
 }
 

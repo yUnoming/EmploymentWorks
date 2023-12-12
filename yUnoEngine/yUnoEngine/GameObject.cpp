@@ -48,7 +48,7 @@ void GameObject::SetName(const char* name)
 		// オブジェクト名が被っていないか確認し、
 		// 実際に付けるオブジェクト名を取得する
 		const char* newName = yUno_SystemManager::yUno_GameObjectManager::CheckObjectName(name);
-		memcpy_s(m_name, sizeof(m_name), newName, strlen(newName));
+		strcpy_s(m_name, newName);
 	}
 }
 
@@ -59,7 +59,7 @@ void GameObject::CopyName(const char* name)
 
 	// オブジェクト名を付ける？
 	if (name)
-		memcpy_s(m_name, sizeof(m_name), name, strlen(name));
+		strcpy_s(m_name, name);
 }
 
 void GameObject::InitBase()
@@ -94,13 +94,17 @@ void GameObject::UpdateBase()
 	{
 		com->Update();
 		
-		// オブジェクトがロックされていない？
-		if (!yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(GetName()))
-			// 値が更新されていたらメッセージを送る
-			yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
+		// スペクテイターカメラ以外？
+		if (strcmp(com->gameObject->GetName(), "SpectatorCamera") != 0)
+		{
+			// オブジェクトがロックされていない？
+			if (!yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(GetName()))
+				// 値が更新されていたらメッセージを送る
+				yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
 
-		// 現在の値を保存
-		yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateCompoenntList.begin(), index), com);
+			// 現在の値を保存
+			yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateCompoenntList.begin(), index), com);
+		}
 		// カウントを増やす
 		index++;
 	}

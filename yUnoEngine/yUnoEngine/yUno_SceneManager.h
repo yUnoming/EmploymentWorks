@@ -18,8 +18,6 @@
 class yUno_SceneManager
 {
 	private :
-		
-
 		// ----- variables / 変数 ----- //
 		/// <summary>
 		///	シーン名	</summary>
@@ -112,6 +110,27 @@ class yUno_SceneManager
 		}
 
 		//**  オブジェクト関係  **//
+		/// <summary>
+		/// シーンに存在するオブジェクトをロード	</summary>
+		/// <param name="LoadSceneObject&lt;&gt;();">
+		/// &lt;&gt;内にロードするオブジェクトを記述		</param>
+		/// <param name="layer">
+		///	レイヤー番号	</param>
+		/// <param name="name">
+		///	ロードするオブジェクトの名称	</param>
+		/// <returns>
+		/// ロードしたオブジェクト </returns>
+		template<class T>
+		T* LoadSceneObject(int layer, const char* name)
+		{
+			T* obj = new T();						// オブジェクトを生成
+			obj->CopyName(name);					// オブジェクト名を設定
+			m_sceneObject[layer].push_back(obj);	// 指定された要素位置に保存
+			obj->Init();							// オブジェクトの初期化
+
+			// 生成したオブジェクトを返す
+			return obj;
+		}
 		/// <summary>
 		/// シーンにオブジェクトを追加	</summary>
 		/// <param name="AddSceneObject&lt;&gt;();">

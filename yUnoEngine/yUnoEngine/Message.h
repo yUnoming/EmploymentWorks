@@ -20,6 +20,7 @@
 ///	メッセージの種類	</summary>
 enum MessageType
 {
+	// ----- 通信制御 ----- //
 	/// <summary>
 	///	通信開始	</summary>
 	CommunicationStart,
@@ -29,12 +30,21 @@ enum MessageType
 	/// <summary>
 	///	通信終了	</summary>
 	CommunicationEnd,
+
+	// ----- コンポーネント ----- //
 	/// <summary>
 	///	コンポーネント更新	</summary>
 	UpdateComponent,
+
+	// ----- オブジェクト全般 ----- //
 	/// <summary>
 	///	オブジェクトクリック	</summary>
-	ClickObject
+	ClickObject,
+	
+	// ----- テンプレートオブジェクト ----- //
+	/// <summary>
+	///	キューブ作成	</summary>
+	CreateCube
 };
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
