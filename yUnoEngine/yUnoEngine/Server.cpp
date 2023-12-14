@@ -43,6 +43,12 @@ void Server::ReceiveThread()
 
 		if (sts != SOCKET_ERROR)
 		{
+#if _DEBUG
+			printf("送信元ＩＰアドレス/ポート番号 %s/%d \n",
+				inet_ntoa(m_sendAddress.sin_addr),
+				ntohs(m_sendAddress.sin_port));
+#endif
+
 			// ===== メッセージの種類によって処理を分岐 ===== //
 			switch (m_receiveData.message.header.type)
 			{
@@ -151,14 +157,10 @@ void Server::ReceiveThread()
 			}
 		}
 		// 通信を終了した？
-		else if (!m_isCommunicationData && !m_isCommunicationDuring)
+		else if (!m_isCommunicationData)
 		{
 			// ループを抜ける
 			break;
-		}
-		else
-		{
-			printf("WSAGetLastError：%d\n", WSAGetLastError());
 		}
 	}
 	return;
@@ -416,6 +418,9 @@ void Server::LoginServer()
 		//	// 通信開始スレッド生成
 		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
 		//}
+		// 相手に通信開始通知を送る
+		m_sendData.message.header.type = MessageType::CommunicationStart;
+		SendMessageData(m_sendData);
 	}
 }
 
