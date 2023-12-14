@@ -3,6 +3,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_KeyInputManager.h"
 #include "KeyInput.h"
+#include "ShortCutKey.h"
 #include "Time.h"
 
 #include <Windows.h>
@@ -58,10 +59,8 @@ void yUno_SystemManager::yUno_KeyInputManager::SetKeyDown(int key)
 	{
 		// 離れているキーの判定から除外
 		m_upStateKeyInfo.keyType->erase(std::find(m_upStateKeyInfo.keyType->begin(), m_upStateKeyInfo.keyType->end(), key));
-
 		// 要素数を減らす
 		m_upStateKeyInfo.keyIndex--;
-
 		// 経過時間をリセット
 		m_nowKeyInfo[key].nowStateElapsedTime = 0.0;
 	}
@@ -72,12 +71,13 @@ void yUno_SystemManager::yUno_KeyInputManager::SetKeyDown(int key)
 	{
 		// キーが押されていることを保存
 		m_nowKeyInfo[key].keyState = Down;
-
 		// 押されているキーの種類を保存
 		m_downStateKeyInfo.keyType->emplace_back(key);
-
 		// 要素数を増やす
 		m_downStateKeyInfo.keyIndex++;
+		
+		// ショートカットコマンドの実行
+		yUno_SystemParts::ShortCutKey::Run(key);
 	}
 }
 

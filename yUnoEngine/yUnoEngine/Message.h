@@ -40,6 +40,9 @@ enum MessageType
 	/// <summary>
 	///	オブジェクトクリック	</summary>
 	ClickObject,
+	/// <summary>
+	/// オブジェクト削除	</summary>
+	ObjectDelete,
 	
 	// ----- テンプレートオブジェクト ----- //
 	/// <summary>

@@ -9,6 +9,5 @@ class SampleScene : public yUno_SceneManager
 {
 	public:
 		void Init() override;
-		void Update() override;
 };
 

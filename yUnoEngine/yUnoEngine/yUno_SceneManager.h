@@ -12,6 +12,7 @@
 #include <array>
 #include <vector>
 #include "GameObject.h"
+#include "yUno_GameObjectManager.h"
 
 /// <summary>
 /// シーンに関する機能をまとめたクラス	</summary>
@@ -31,7 +32,12 @@ class yUno_SceneManager
 		///	シーン情報をロード	</summary>
 		/// <param name="loadSceneName">
 		///	ロードするシーン名	</param>
-		void LoadSceneData(const char* loadSceneName);		
+		void LoadSceneData(const char* loadSceneName);
+		/// <summary>
+		///	オブジェクト削除処理	</summary>
+		/// <param name="object">
+		/// 削除するオブジェクト	</param>
+		void Delete(GameObject* object);
 
 	protected:
 		// ----- variables / 変数 ----- //
@@ -200,6 +206,32 @@ class yUno_SceneManager
 			}
 
 			return nullptr;
+		}
+		/// <summary>
+		///	シーンからオブジェクトを削除	</summary>
+		/// <param name="name">
+		/// 削除するオブジェクトの名称	</param>
+		void DeleteSceneObject(const char* name)
+		{
+			// 各スレッド内のオブジェクトリスト取得
+			for (auto& objectList : m_sceneObject)
+			{
+				// リスト内のオブジェクト取得
+				for (GameObject* object : objectList)
+				{
+					// 名称が一致した？
+					if (strcmp(object->GetName(), name) == 0)
+					{
+						// 削除処理
+						Delete(object);
+						// オブジェクトリストから除外
+						objectList.erase(std::find(objectList.begin(), objectList.end(), object));
+						// オブジェクトを削除
+						delete object;
+						return;
+					}
+				}
+			}
 		}
 		/// <summary>
 		/// 現在シーンに存在するオブジェクトを全取得

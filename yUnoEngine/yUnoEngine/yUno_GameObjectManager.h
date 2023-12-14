@@ -10,12 +10,11 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
 #include <vector>
-#include "GameObject.h"
 
 namespace yUno_SystemManager
 {
 	/// <summary>
-/// ゲームオブジェクトに関する機能をまとめたクラス	</summary>
+	/// ゲームオブジェクトに関する機能をまとめたクラス	</summary>
 	class yUno_GameObjectManager
 	{
 		public:
@@ -52,7 +51,15 @@ namespace yUno_SystemManager
 			/// <returns>
 			/// オブジェクト名情報	</returns>
 			static ObjectNameData GetObjectNameData(const char* name);
+			/// <summary>
+			///	オブジェクト名情報を設定	</summary>
+			/// <param name="objNameData">
+			/// 設定するオブジェクト名情報	</param>
 			static void SetObjectNameData(ObjectNameData objNameData);
+			/// <summary>
+			/// オブジェクト名情報を削除	/// </summary>
+			/// <param name="name"></param>
+			static void DeleteObjectNameData(const char* name);
 		
 		private:
 			// ----- variables / 変数 ----- //
