@@ -1,8 +1,9 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include "yUno_NetWorkManager.h"
+#include "Message.h"
 #include "yUno_SceneManager.h"
-#include "yUno_GameObjectManager.h"
 #include "SampleScene.h"
 #include "GameObject.h"
 #include "BoxCollider.h"
@@ -227,6 +228,21 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 	}
 }
 
+void yUno_SceneManager::Delete(GameObject* object)
+{
+	// オブジェクト名情報を削除
+	yUno_SystemManager::yUno_GameObjectManager::DeleteObjectNameData(object->GetName());
+
+	// ===== オブジェクト削除のメッセージを送る ===== //
+	// インスタンス生成
+	MessageData messageData;
+	// 情報を代入
+	messageData.message.header.type = MessageType::ObjectDelete;	// メッセージ種別
+	messageData.message.body.object.SetName(object->GetName());		// オブジェクト名
+	// メッセージを送る
+	yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
+}
+
 yUno_SceneManager::yUno_SceneManager()
 {
 	m_loadedScene = nullptr;
@@ -284,27 +300,32 @@ void yUno_SceneManager::UpdateBase()
 		}
 	}
 
-	// 相手側の当たり判定用リストを作成
-	std::list<BoxCollider*> Other_BoxCollider_List = BoxCollider_List;
-	// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
-	// ※自身との当たり判定の処理を阻止するため
-	Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
-
-	// ===== "BoxCollider"同士の当たり判定 ===== //
-	for (auto my_BoxCol : BoxCollider_List)
+	// 当たり判定を行うオブジェクトがシーン内に存在する？
+	if (!BoxCollider_List.max_size() >= 2)
 	{
-		// 当たり判定を全通り行った？
-		if (Other_BoxCollider_List.empty())
-			break;	// 判定終了
+		// 相手側の当たり判定用リストを作成
+		std::list<BoxCollider*> Other_BoxCollider_List = BoxCollider_List;
+		// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
+		// ※自身との当たり判定の処理を阻止するため
+		Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 
-		for (auto other_BoxCol : Other_BoxCollider_List)
+		// ===== "BoxCollider"同士の当たり判定 ===== //
+		for (auto my_BoxCol : BoxCollider_List)
 		{
-			my_BoxCol->CalcCollision(other_BoxCol);	// 計算処理
+			// 当たり判定を全通り行った？
+			if (Other_BoxCollider_List.empty())
+				break;	// 判定終了
+
+			for (auto other_BoxCol : Other_BoxCollider_List)
+			{
+				my_BoxCol->CalcCollision(other_BoxCol);	// 計算処理
+			}
+
+			// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
+			// ※当たり判定を重複して判定することを阻止するため
+			Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 		}
 
-		// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
-		// ※当たり判定を重複して判定することを阻止するため
-		Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
 	}
 
 	// 現在シーンの更新処理

@@ -31,7 +31,7 @@ class Server
 			///	サーバーに来た人物	</summary>
 			User
 		};
-
+		// ----- structs / 構造体 ----- //
 		/// <summary>
 		///	通信ユーザー情報	</summary>
 		struct CommunicationUserData
@@ -54,6 +54,7 @@ class Server
 		/// <summary>
 		///	送信先アドレス	</summary>
 		sockaddr_in m_sendAddress{};
+		sockaddr_in m_receiveAddress{};
 		/// <summary>
 		///	送信データ	</summary>
 		MessageData m_sendData;
@@ -71,6 +72,10 @@ class Server
 		/// <summary>
 		/// データの通信状態 </summary>
 		bool m_isCommunicationData;
+		/// <summary>
+		///	通信開始の最中かどうか	</summary>
+		bool m_isCommunicationDuring;
+
 		/// <summary>
 		///	自身のサーバーでの地位	</summary>
 		ServerRank m_myServerRank;

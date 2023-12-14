@@ -158,6 +158,7 @@
     <ClCompile Include="ScreenInput.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShortCutKey.cpp" />
     <ClCompile Include="SpectatorCamera.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Test2.cpp" />
@@ -197,12 +198,12 @@
     <ClInclude Include="modelRenderer.h" />
     <ClInclude Include="MouseInput.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScreenInput.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShortCutKey.h" />
     <ClInclude Include="SpectatorCamera.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Test2.h" />

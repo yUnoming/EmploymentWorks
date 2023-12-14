@@ -25,7 +25,6 @@ char g_rockObject[256]{};
 
 void Server::ReceiveThread()
 {
-	int			errcode;		// ＷＩＮＳＯＣＫのエラーコード
 	int myAddressLength = 0;	// 送信元アドレスがセットされる変数の長さ
 
 	while (true)
@@ -44,140 +43,122 @@ void Server::ReceiveThread()
 
 		if (sts != SOCKET_ERROR)
 		{
-			if (strcmp(m_receiveData.data, "LoginSuccess") == 0)
+			// ===== メッセージの種類によって処理を分岐 ===== //
+			switch (m_receiveData.message.header.type)
 			{
-				std::cout << "Login Server" << std::endl;
-			}
-			else if (strcmp(m_receiveData.data, "ServerLogin") == 0)
+			//----------//
+			// 通信開始 //
+			case MessageType::CommunicationStart:
 			{
-				printf("受信データ : %s \n", m_receiveData.data);
-				printf("送信元ＩＰアドレス/ポート番号 %s/%d \n",
-					inet_ntoa(m_sendAddress.sin_addr),
-					ntohs(m_sendAddress.sin_port));
+				// ----- 通信相手をリストに格納 ----- //
+				// 通信相手の情報を保存する
+				CommunicationUserData comUser;
+				comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
+				comUser.address = m_sendAddress;
 
-				strcpy_s(m_sendData.data, sizeof(m_sendData.data), "LoginSuccess");
-				int len = static_cast<int>(strlen(m_sendData.data));	// 送信文字列長を取得
-				sts = sendto(
-					m_mySocket,					// ソケット番号
-					m_sendData.data,			// 送信データ
-					len,						// 送信データ長
-					0,							// フラグ
-					(sockaddr*)&m_sendAddress,	// 送信先アドレス
-					sizeof(sockaddr));			// アドレス構造体のバイトサイズ
+				// リストに格納
+				m_comUserList.push_back(comUser);
+
+				// ----- 相手に通信成功を伝える ----- //
+				m_sendData.message.header.type = MessageType::CommunicationSuccess;
+				SendMessageData(m_sendData);
+				break;
 			}
-			else
-			{
-				printf("受信データ : %s\n", m_receiveData.data);
-				printf("送信元ＩＰアドレス/ポート番号 %s/%d \n",
-					inet_ntoa(m_sendAddress.sin_addr),
-					ntohs(m_sendAddress.sin_port));
-				
-				// ===== メッセージの種類によって処理を分岐 ===== //
-				switch (m_receiveData.message.header.type)
+			//----------//
+			// 通信成功 //
+			case MessageType::CommunicationSuccess:
+				if (!m_isCommunicationData)
 				{
-					//----------//
-					// 通信開始 //
-					case MessageType::CommunicationStart:
-					{
-						// ----- 通信相手をリストに格納 ----- //
-						// 通信相手の情報を保存する
-						CommunicationUserData comUser;
-						comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
-						comUser.address = m_sendAddress;
-						
-						// リストに格納
-						m_comUserList.push_back(comUser);
-
-						// ----- 相手に通信成功を伝える ----- //
-						m_sendData.message.header.type = MessageType::CommunicationSuccess;
-						SendMessageData(m_sendData);
-						break;
-					}
-					//----------//
-					// 通信成功 //
-					case MessageType::CommunicationSuccess:
-					if (!m_isCommunicationData)
-					{
-						// 通信の開始を設定
-						m_isCommunicationData = true;
-						// システム通知を表示
-						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
-						break;
-					}
-					//----------//
-					// 通信終了 //
-					case MessageType::CommunicationEnd:
-						// 通信中のユーザー数だけループ
-						for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
-						{
-							CommunicationUserData comUser = *it;
-							// IPアドレスとポート番号が送信元と同じ？
-							if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
-								comUser.address.sin_port == m_sendAddress.sin_port)
-							{
-								// リストから除外
-								m_comUserList.erase(it);
-
-								// メッセージ通知
-								if (m_myServerRank == ServerRank::Owner)
-									MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
-								else if(m_myServerRank == ServerRank::User)
-									MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
-								break;
-							}
-						}
-						break;
-					//--------------------//
-					// コンポーネント更新 //
-					case MessageType::UpdateComponent:
-						// ===== コンポーネントの種類によって処理を分岐 ===== //
-						// Transformコンポーネント
-						if (strcmp(m_receiveData.message.body.componentType,
-							"class PublicSystem::Transform") == 0)
-						{
-							// コンポーネント取得
-							Transform* transform =
-								SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
-							// 各値を代入
-							transform->Position = m_receiveData.message.body.transform.Position;
-							transform->Rotation = m_receiveData.message.body.transform.Rotation;
-							transform->Scale = m_receiveData.message.body.transform.Scale;
-						}
-						// Textコンポーネント
-						else if (strcmp(m_receiveData.message.body.componentType,
-							"class PublicSystem::Text") == 0)
-						{
-							// コンポーネント取得
-							Text* text =
-								SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
-							// 各値を代入
-							text->text = m_receiveData.message.body.text.text;
-							text->fontSize = m_receiveData.message.body.text.fontSize;
-						}
-						break;
-					//------------------//
-					// オブジェクト選択 //
-					case MessageType::ClickObject:
-						// クリックされたオブジェクト名を代入
-						strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
-						break;
-					//--------------//
-					// キューブ作成 //
-					case MessageType::CreateCube:
-						// キューブを作成し、作成したキューブを取得しておく
-						GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
-						// メッセージからTransform情報を取得し、代入
-						// ※作成した際、座標以外は一定の値なので、代入しない
-						cubeObject->transform->Position = m_receiveData.message.body.transform.Position;
-						break;
+					// 通信の開始を設定
+					m_isCommunicationData = true;
+					m_isCommunicationDuring = false;
+					// システム通知を表示
+					MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
+					break;
 				}
+			//----------//
+			// 通信終了 //
+			case MessageType::CommunicationEnd:
+				// 通信中のユーザー数だけループ
+				for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
+				{
+					CommunicationUserData comUser = *it;
+					// IPアドレスとポート番号が送信元と同じ？
+					if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
+						comUser.address.sin_port == m_sendAddress.sin_port)
+					{
+						// リストから除外
+						m_comUserList.erase(it);
+
+						// メッセージ通知
+						if (m_myServerRank == ServerRank::Owner)
+							MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
+						else if (m_myServerRank == ServerRank::User)
+							MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
+						break;
+					}
+				}
+				break;
+			//--------------------//
+			// コンポーネント更新 //
+			case MessageType::UpdateComponent:
+				// ===== コンポーネントの種類によって処理を分岐 ===== //
+				// Transformコンポーネント
+				if (strcmp(m_receiveData.message.body.componentType,
+					"class PublicSystem::Transform") == 0)
+				{
+					// コンポーネント取得
+					Transform* transform =
+						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
+					// 各値を代入
+					transform->Position = m_receiveData.message.body.transform.Position;
+					transform->Rotation = m_receiveData.message.body.transform.Rotation;
+					transform->Scale = m_receiveData.message.body.transform.Scale;
+				}
+				// Textコンポーネント
+				else if (strcmp(m_receiveData.message.body.componentType,
+					"class PublicSystem::Text") == 0)
+				{
+					// コンポーネント取得
+					Text* text =
+						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
+					// 各値を代入
+					text->text = m_receiveData.message.body.text.text;
+					text->fontSize = m_receiveData.message.body.text.fontSize;
+				}
+				break;
+			//------------------//
+			// オブジェクト選択 //
+			case MessageType::ClickObject:
+				// クリックされたオブジェクト名を代入
+				strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
+				break;
+			//------------------//
+			// オブジェクト削除 //
+			case MessageType::ObjectDelete:
+				// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
+				PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
+				break;
+			//--------------//
+			// キューブ作成 //
+			case MessageType::CreateCube:
+				// キューブを作成し、作成したキューブを取得しておく
+				GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
+				// メッセージからTransform情報を取得し、代入
+				// ※作成した際、座標以外は一定の値なので、代入しない
+				cubeObject->transform->Position = m_receiveData.message.body.transform.Position;
+				break;
 			}
 		}
 		// 通信を終了した？
-		else if (!m_isCommunicationData)
+		else if (!m_isCommunicationData && !m_isCommunicationDuring)
 		{
 			// ループを抜ける
 			break;
+		}
+		else
+		{
+			printf("WSAGetLastError：%d\n", WSAGetLastError());
 		}
 	}
 	return;
@@ -191,7 +172,7 @@ void Server::CommunicationStartThread()
 	while (!m_isCommunicationData && sendMessageCount <= 10)
 	{
 		// 既定秒数が経過した？
-		if (timer >= 10)
+		if (timer >= 1000000)
 		{
 			// 相手に通信開始通知を送る
 			m_sendData.message.header.type = MessageType::CommunicationStart;
@@ -202,9 +183,15 @@ void Server::CommunicationStartThread()
 		else
 		{
 			// タイマーの秒数を増やす
-			timer += PublicSystem::Time::DeltaTime * 0.0001f;
+			timer += PublicSystem::Time::DeltaTime * 0.00006f;
 		}
 	}
+
+	// メッセージを送ったが、返答がなかった？
+	if (!m_isCommunicationData)
+		m_isCommunicationDuring = false;
+		// メッセージ通知
+		MessageBoxW(NULL, L"ログインに失敗しました", L"システム通知", MB_OK);
 	return;
 }
 
@@ -212,8 +199,28 @@ Server::~Server()
 {
 	// 通信を行っている？
 	if (m_isCommunicationData)
-		// サーバーを閉じる
-		CloseServer();
+	{
+		// 自身の地位によって処理を分ける
+		switch (m_myServerRank)
+		{
+			//----------//
+			// ユーザー //
+			case User:
+				LogoutServer();
+				break;
+			//----------//
+			// オーナー //
+			case Owner:
+				CloseServer();
+				break;
+		}
+	}
+
+	if(m_receiveThread.joinable())
+		// 受信スレッド終了
+		m_receiveThread.join();
+	if (m_comStartThread.joinable())
+		m_comStartThread.join();
 }
 
 void Server::OpenServer()
@@ -340,7 +347,7 @@ void Server::CloseServer()
 
 void Server::LoginServer()
 {
-	if (!m_isCommunicationData)
+	if (!m_isCommunicationData && !m_isCommunicationDuring)
 	{
 		WSADATA wsaData;	// WinSockの初期化データを格納
 		WORD	verNo;		// バージョン指定
@@ -389,23 +396,26 @@ void Server::LoginServer()
 
 		// 地位を設定
 		m_myServerRank = User;
+		// 通信開始中の状態に変更
+		m_isCommunicationDuring = true;
 
-		// スレッドが生成されていない？
+		// 受信スレッドが生成されていない？
 		if(!m_receiveThread.joinable())
 			// 受信スレッド生成
 			m_receiveThread = std::thread(&Server::ReceiveThread, this);
+
+		//// 通信開始スレッドが生成されていない？
 		//if (!m_comStartThread.joinable())
 		//	// 通信開始スレッド生成
 		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
+		//// 通信開始スレッドが生成されている
 		//else
 		//{
+		//	// スレッド終了を待つ
 		//	m_comStartThread.join();
 		//	// 通信開始スレッド生成
 		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
 		//}
-		// 相手に通信開始通知を送る
-		m_sendData.message.header.type = MessageType::CommunicationStart;
-		SendMessageData(m_sendData);
 	}
 }
 

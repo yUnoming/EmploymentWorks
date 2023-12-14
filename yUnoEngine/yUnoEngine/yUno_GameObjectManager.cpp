@@ -82,3 +82,13 @@ void yUno_SystemManager::yUno_GameObjectManager::SetObjectNameData(ObjectNameDat
 	// リストに格納
 	m_objectNameList.push_back(objNameData);
 }
+
+void yUno_SystemManager::yUno_GameObjectManager::DeleteObjectNameData(const char* name)
+{
+	// 引数の値と同じオブジェクト名の情報を削除
+	m_objectNameList.erase(
+		std::find_if(
+		m_objectNameList.begin(),
+		m_objectNameList.end(),
+		[&name](ObjectNameData nameData) {return strcmp(nameData.myName, name) == 0; }));
+}
