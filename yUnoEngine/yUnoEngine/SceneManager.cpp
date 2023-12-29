@@ -2,10 +2,9 @@
 
 std::array<std::list<GameObject*>, 4> PublicSystem::SceneManager::GetSceneObjectAll()
 {
-	return m_sceneObject;
+	return m_loadedScene->GetAllSceneObjects();
 }
-
-yUno_SceneManager* PublicSystem::SceneManager::GetNowScene()
+SceneBase* PublicSystem::SceneManager::GetNowScene()
 {
 	return m_loadedScene;
 }

@@ -23,13 +23,13 @@ namespace PublicSystem
 		// ----- variables / ïœêî ----- //
 		/// <summary>
 		/// à íu	</summary>
-		Vector3 Position = Vector3(0.0f, 0.0f, 0.0f);
+		Vector3 position = Vector3(0.0f, 0.0f, 0.0f);
 		/// <summary>
 		/// âÒì]	</summary>
-		Vector3 Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		Vector3 rotation = Vector3(0.0f, 0.0f, 0.0f);
 		/// <summary>
 		///	ëÂÇ´Ç≥	</summary>
-		Vector3 Scale = Vector3(1.0f, 1.0f, 1.0f);
+		Vector3 scale = Vector3(1.0f, 1.0f, 1.0f);
 	};
 }
 

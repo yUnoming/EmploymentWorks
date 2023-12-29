@@ -17,14 +17,11 @@ class yUno_MainManager
 	private:
 		// ----- variables / 変数 ----- //
 		/// <summary>
-		/// 現在のシーン	</summary>
-		static yUno_SceneManager* m_NowScene;
-		/// <summary>
 		/// 現在のプレイ状態	</summary>
-		static bool m_DemoPlay;
+		static bool m_demoPlay;
 
 	public:
-		// ----- methods / 関数 ----- //
+		// ----- functions / 関数 ----- //
 		/// <summary>
 		/// 初期化	</summary>
 		/// <param name="app">

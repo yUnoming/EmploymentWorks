@@ -21,8 +21,8 @@ class Test2 : public GameObject
 			Material mat;
 			AddComponent<Material>();
 
-			transform->Position.x = 0.0f;
-			transform->Position.z = 3.0f;
+			transform->position.x = 0.0f;
+			transform->position.z = 3.0f;
 			Text* textComponent = AddComponent<Text>();
 			textComponent->text = "Hello";
 			textComponent->fontSize = Vector2(20, 30);

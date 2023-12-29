@@ -20,8 +20,8 @@ using namespace PublicSystem;
 void PublicSystem::Camera::Draw()
 {
 	// ビュー行列生成に必要な変数
-	DirectX::XMFLOAT3 position = transform->Position;
-	DirectX::XMFLOAT3 target = DirectX::XMFLOAT3(transform->Position.x, transform->Position.y, transform->Position.z + 10.0f);
+	DirectX::XMFLOAT3 position = transform->position;
+	DirectX::XMFLOAT3 target = DirectX::XMFLOAT3(transform->position.x, transform->position.y, transform->position.z + 10.0f);
 	DirectX::XMFLOAT3 up = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
 
 	// XMVECTOR型に変換
@@ -67,16 +67,16 @@ GameObject* PublicSystem::Camera::GetScreenPointObject(Vector2 screenPoint)
 
 	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
 	Vector3 WorldPoint_Position = Vector3();
-	WorldPoint_Position.x = transform->Position.x + ViewScreen_Wide.x * LengthRate.x;
-	WorldPoint_Position.y = transform->Position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
+	WorldPoint_Position.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
+	WorldPoint_Position.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
 	WorldPoint_Position.z = farClip;
 
 
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();	// 現在シーン内のオブジェクト情報
-	Vector3 RaySpeed = (WorldPoint_Position - transform->Position) * 0.01f;					// レイの速度
-	Vector3 RayPoint = transform->Position;													// レイの移動後の座標
-	Vector3 Late_RayPoint = transform->Position;											// レイの移動前の座標
+	Vector3 RaySpeed = (WorldPoint_Position - transform->position) * 0.01f;					// レイの速度
+	Vector3 RayPoint = transform->position;													// レイの移動後の座標
+	Vector3 Late_RayPoint = transform->position;											// レイの移動前の座標
 	bool IsHit = true;								// 当たったかどうかを表す
 	std::list<GameObject*> HitObjects;				// 当たったオブジェクトを入れるためのリスト
 	

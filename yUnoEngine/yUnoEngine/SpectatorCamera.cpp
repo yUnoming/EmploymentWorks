@@ -29,13 +29,13 @@ void SpectatorCamera::Update()
 {
 	// ===== Ž©g‚Ì‘€ì ===== //
 	if (KeyInput::GetKeyDown(UpArrow))
-		transform->Position.y += 0.01f;
+		transform->position.y += 0.01f;
 	if (KeyInput::GetKeyDown(LeftArrow))
-		transform->Position.x -= 0.01f;
+		transform->position.x -= 0.01f;
 	if (KeyInput::GetKeyDown(DownArrow))
-		transform->Position.y -= 0.01f;
+		transform->position.y -= 0.01f;
 	if (KeyInput::GetKeyDown(RightArrow))
-		transform->Position.x += 0.01f;
+		transform->position.x += 0.01f;
 
 	// ===== Ž‹–ìŠp‚Ìk¬EŠg‘å ===== //
 	//if (MouseInput::GetWheelRotation_Forward())
@@ -124,13 +124,13 @@ void SpectatorCamera::Update()
 	if (m_clickedObject)
 	{
 		if (KeyInput::GetKeyDown(W))
-			m_clickedObject->transform->Position.z += 0.01f;
+			m_clickedObject->transform->position.z += 0.01f;
 		if (KeyInput::GetKeyDown(A))
-			m_clickedObject->transform->Position.x -= 0.01f;
+			m_clickedObject->transform->position.x -= 0.01f;
 		if (KeyInput::GetKeyDown(S))
-			m_clickedObject->transform->Position.z -= 0.01f;
+			m_clickedObject->transform->position.z -= 0.01f;
 		if (KeyInput::GetKeyDown(D))
-			m_clickedObject->transform->Position.x += 0.01f;
+			m_clickedObject->transform->position.x += 0.01f;
 	}	
 }
 

@@ -2,10 +2,10 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "yUno_SceneManager.h"
+#include "SceneBase.h"
 
 
-class SampleScene : public yUno_SceneManager
+class SampleScene : public SceneBase
 {
 	public:
 		void Init() override;

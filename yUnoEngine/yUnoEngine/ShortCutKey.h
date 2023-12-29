@@ -1,7 +1,7 @@
 #pragma once
 /**
-* @file		yUno_SceneManager.h
-* @brief	yUno_SceneManagerクラスのヘッダーファイル
+* @file		ShortCutKey.h
+* @brief	ShortCutKeyクラスのヘッダーファイル
 * @author	Kojima, Kosei
 * @date		2023.11.06
 */

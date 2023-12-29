@@ -29,7 +29,7 @@ namespace PublicSystem
 			///	現在開いているシーンを取得	</summary>
 			/// <returns>
 			///	現在シーンのポインター	</returns>
-			static yUno_SceneManager* GetNowScene();
+			static SceneBase* GetNowScene();
 	};
 };
 

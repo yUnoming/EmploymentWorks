@@ -2,15 +2,18 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
-#include "renderer.h"
-#include "FileReader.h"
-
 #include "yUno_MainManager.h"
 #include "yUno_TimeManager.h"
 #include "yUno_KeyInputManager.h"
 #include "yUno_MouseInputManager.h"
+#include "yUno_CollisionManager.h"
+
+#include "renderer.h"
+#include "FileReader.h"
+
 
 #include "SampleScene.h"
+#include "EditScene.h"
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		 using宣言 	    	  //
@@ -22,8 +25,7 @@ using namespace PublicSystem;
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　   staticメンバ変数の定義        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-bool yUno_MainManager::m_DemoPlay;
-yUno_SceneManager*  yUno_MainManager::m_NowScene;
+bool yUno_MainManager::m_demoPlay;
 
 
 void yUno_MainManager::Init(Application* app)
@@ -41,8 +43,7 @@ void yUno_MainManager::Init(Application* app)
 
     // ===== メインの初期化処理 ===== //
     // シーンを立ち上げる
-    m_NowScene = new yUno_SceneManager();
-    m_NowScene->LoadScene<SampleScene>();
+    yUno_SceneManager::InitScene();
 }
 
 void yUno_MainManager::UnInit()
@@ -52,9 +53,7 @@ void yUno_MainManager::UnInit()
     yUno_NetWorkManager::UnInit();
 
     // シーンの終了
-    m_NowScene->UnInitBase();
-    // シーンの削除
-    delete m_NowScene;
+    yUno_SceneManager::UnInitScene();
 }
 
 void yUno_MainManager::Update()
@@ -73,7 +72,9 @@ void yUno_MainManager::Update()
     //    m_DemoPlay ^= true;  // デモプレイの状態を切り替える
 
     // シーンの更新
-    m_NowScene->UpdateBase();
+    yUno_SceneManager::UpdateScene();
+    // 当たり判定の計算
+    yUno_CollisionManager::CalculationCollision();
 
     // 現在のキー入力状態を保存する
     yUno_KeyInputManager::KeepNowKeyInfo();
@@ -88,7 +89,7 @@ void yUno_MainManager::Draw()
     Renderer::Begin();
 
     // シーンの描画
-    m_NowScene->DrawBase();
+    yUno_SceneManager::DrawScene();
 
     // 描画の後処理
     Renderer::End();

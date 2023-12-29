@@ -12,7 +12,6 @@ constexpr unsigned short PORTNO = 49152;
 #pragma comment(lib, "ws2_32.lib")
 
 #include "yUno_NetWorkManager.h"
-#include "Server.h"
 #include "SceneManager.h"
 #include "Test.h"
 #include "Time.h"
@@ -117,9 +116,9 @@ void Server::ReceiveThread()
 					Transform* transform =
 						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
 					// 各値を代入
-					transform->Position = m_receiveData.message.body.transform.Position;
-					transform->Rotation = m_receiveData.message.body.transform.Rotation;
-					transform->Scale = m_receiveData.message.body.transform.Scale;
+					transform->position = m_receiveData.message.body.transform.position;
+					transform->rotation = m_receiveData.message.body.transform.rotation;
+					transform->scale = m_receiveData.message.body.transform.scale;
 				}
 				// Textコンポーネント
 				else if (strcmp(m_receiveData.message.body.componentType,
@@ -152,7 +151,7 @@ void Server::ReceiveThread()
 				GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
 				// メッセージからTransform情報を取得し、代入
 				// ※作成した際、座標以外は一定の値なので、代入しない
-				cubeObject->transform->Position = m_receiveData.message.body.transform.Position;
+				cubeObject->transform->position = m_receiveData.message.body.transform.position;
 				break;
 			}
 		}

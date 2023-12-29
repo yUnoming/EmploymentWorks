@@ -1,9 +1,9 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "WindowMenu.h"
-
 #include "yUno_NetWorkManager.h"
+
+#include "WindowMenu.h"
 #include "SceneManager.h"
 #include "Test.h"
 
@@ -82,7 +82,7 @@ void WindowMenu::Run(WORD menuID)
             // メッセージデータ作成
             MessageData messageData;
             messageData.message.header.type = MessageType::CreateCube;
-            messageData.message.body.transform.Position = cubeObject->transform->Position;
+            messageData.message.body.transform.position = cubeObject->transform->position;
             // メッセージを送る処理を実行
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
             break;

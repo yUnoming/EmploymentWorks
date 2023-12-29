@@ -19,8 +19,8 @@ class Test : public GameObject
 			AddComponent<BoxCollider>();
 			AddComponent<Material>();
 
-			transform->Position.x = 0.0f;
-			transform->Position.z = 3.0f;
+			transform->position.x = 0.0f;
+			transform->position.z = 3.0f;
 		}
 };
 
