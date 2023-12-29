@@ -13,6 +13,7 @@
 #include <iostream>
 #include "Component.h"
 
+
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		  前方宣言		 　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -42,7 +43,7 @@ class GameObject
 		std::list<Component*> m_componentList;
 		/// <summary>
 		/// 現在のコンポーネント情報と比較する為のリスト	</summary>
-		std::list<Component*> m_lateCompoenntList;
+		std::list<Component*> m_lateComponentList;
 
 		/// <summary>
 		/// オブジェクト名	</summary>
@@ -51,6 +52,14 @@ class GameObject
 		/// <summary>
 		/// 自身がいるシーンの情報		</summary>
 		yUno_SceneManager* m_myScene = nullptr;
+
+		// ----- functions / 関数 ----- //
+		/// <summary>
+		/// コンポーネント追加時の確認処理	</summary>
+		void CheckAddComponent(Component* com);
+		/// <summary>
+		///	コンポーネント削除時の確認処理	</summary>
+		void CheckDeleteComponent(Component* com);
 
 	protected:
 		// ----- variables / 変数 ----- //
@@ -178,12 +187,14 @@ class GameObject
 			com->gameObject = this;
 
 			// Transformコンポーネントが自身に追加されている？
-			if(transform != nullptr)
+			if (transform != nullptr)
 				com->transform = transform;		// 追加するコンポーネントにTransform情報を代入
+
+			CheckAddComponent(com); // 確認処理
 
 			((Component*)com)->Init();				// コンポーネントの初期化処理
 			m_componentList.push_back(com);			// コンポーネントリストに追加
-			m_lateCompoenntList.push_back(lateCom);	// 比較用にコンポーネントを格納
+			m_lateComponentList.push_back(lateCom);	// 比較用にコンポーネントを格納
 			
 			return com;
 		}
@@ -203,7 +214,9 @@ class GameObject
 				// 取得したいコンポーネントと合致した？
 				if (Component != nullptr)
 				{
-					Component->UnInit();		// コンポーネントの終了処理
+					CheckDeleteComponent();	// 確認処理
+
+					Component->UnInit();	// コンポーネントの終了処理
 					delete Component;
 				}
 			}

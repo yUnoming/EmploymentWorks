@@ -2,18 +2,38 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
-#include "yUno_GameObjectManager.h"
+
 #include "GameObject.h"
 #include "renderer.h"
 #include "Transform.h"
 #include "Shader.h"
 #include "BoxCollider.h"
+
+#include "yUno_GameObjectManager.h"
 #include "yUno_SceneManager.h"
 #include "yUno_ComponentManager.h"
+#include "yUno_CollisionManager.h"
 
 #include <algorithm>
 
 using namespace PublicSystem;
+
+
+void GameObject::CheckAddComponent(Component* com)
+{
+	// 当たり判定コンポーネントを追加する？
+	BoxCollider* colCom = dynamic_cast<BoxCollider*>(com);
+	if (colCom != nullptr)
+		yUno_SystemManager::yUno_CollisionManager::Push(colCom);	// 格納処理
+}
+
+void GameObject::CheckDeleteComponent(Component* com)
+{
+	// 当たり判定コンポーネントを追加する？
+	BoxCollider* colCom = dynamic_cast<BoxCollider*>(com);
+	if (colCom != nullptr)
+		yUno_SystemManager::yUno_CollisionManager::Erase(colCom);	// 除外処理
+}
 
 GameObject::GameObject()
 {
@@ -79,7 +99,7 @@ void GameObject::UnInitBase()
 
 	// リストをクリア
 	m_componentList.clear();
-	m_lateCompoenntList.clear();
+	m_lateComponentList.clear();
 
 	// オブジェクトの終了処理
 	UnInit();
@@ -100,10 +120,10 @@ void GameObject::UpdateBase()
 			// オブジェクトがロックされていない？
 			if (!yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(GetName()))
 				// 値が更新されていたらメッセージを送る
-				yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateCompoenntList.begin(), index), com);
+				yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(*std::next(m_lateComponentList.begin(), index), com);
 
 			// 現在の値を保存
-			yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateCompoenntList.begin(), index), com);
+			yUno_SystemManager::yUno_ComponentManager::SetVariableValue(*std::next(m_lateComponentList.begin(), index), com);
 		}
 		// カウントを増やす
 		index++;
@@ -116,9 +136,9 @@ void GameObject::DrawBase(DirectX::SimpleMath::Matrix _parentMatrix)
 {
 	// マトリックス設定
 	DirectX::SimpleMath::Matrix world, trans, rot, scl;
-	trans = DirectX::SimpleMath::Matrix::CreateTranslation(transform->Position.x, transform->Position.y, transform->Position.z);
-	rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(transform->Rotation.y, transform->Rotation.x, transform->Rotation.z);
-	scl = DirectX::SimpleMath::Matrix::CreateScale(transform->Scale.x, transform->Scale.y, transform->Scale.z);
+	trans = DirectX::SimpleMath::Matrix::CreateTranslation(transform->position.x, transform->position.y, transform->position.z);
+	rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(transform->rotation.y, transform->rotation.x, transform->rotation.z);
+	scl = DirectX::SimpleMath::Matrix::CreateScale(transform->scale.x, transform->scale.y, transform->scale.z);
 	world = rot * trans * scl * _parentMatrix;
 
 	Renderer::SetWorldMatrix(&world);

@@ -3,6 +3,7 @@
 #include "SpectatorCamera.h"
 #include "Test.h"
 #include "Test2.h"
+#include "Manipulator_MoveX.h"
 #include <iostream>
 
 using namespace PublicSystem;
@@ -17,4 +18,5 @@ void SampleScene::Init()
     {
         AddSceneObject<Test2>(2, "Text");
     }
+    AddSceneObject<yUnoEngine::Manipulator::Manipulator_MoveX>(3, "Manipulator_MoveX");
 }

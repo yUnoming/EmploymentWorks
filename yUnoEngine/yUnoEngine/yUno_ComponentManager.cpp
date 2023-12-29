@@ -1,6 +1,5 @@
-#include "yUno_ComponentManager.h"
 #include "yUno_NetWorkManager.h"
-#include "Message.h"
+#include "yUno_ComponentManager.h"
 #include "Transform.h"
 
 
@@ -18,9 +17,9 @@ void yUno_SystemManager::yUno_ComponentManager::SetVariableValue(Component* dest
 		Transform* sourceTransform = (Transform*)sourceComponent;
 
 		// 各値を代入
-		destTransform->Position = sourceTransform->Position;
-		destTransform->Rotation = destTransform->Rotation;
-		destTransform->Scale = destTransform->Scale;
+		destTransform->position = sourceTransform->position;
+		destTransform->rotation = destTransform->rotation;
+		destTransform->scale = destTransform->scale;
 	}
 }
 
@@ -40,9 +39,9 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 		Transform lateTransform = *(Transform*)lateComponent;
 
 		// 値が更新されている？
-		if (nowTransform.Position != lateTransform.Position ||
-			nowTransform.Rotation != lateTransform.Rotation ||
-			nowTransform.Scale != lateTransform.Scale)
+		if (nowTransform.position != lateTransform.position ||
+			nowTransform.rotation != lateTransform.rotation ||
+			nowTransform.scale != lateTransform.scale)
 		{
 			// ----- 送信する値を代入 ----- //
 			// メッセージタイプ

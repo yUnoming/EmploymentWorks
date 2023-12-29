@@ -2,6 +2,8 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
+#include "yUno_GameObjectManager.h"
+
 #include "Message.h"
 #include "yUno_SceneManager.h"
 #include "SampleScene.h"
@@ -12,21 +14,20 @@
 #include "Test.h"
 #include "Test2.h"
 
+#include "EditScene.h"
+
 #include <SimpleMath.h>
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　   staticメンバ変数の定義        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-std::array<std::list<GameObject*>, 4> yUno_SceneManager::m_sceneObject;
-yUno_SceneManager* yUno_SceneManager::m_loadedScene;
+SceneBase* yUno_SceneManager::m_loadedScene;
+SceneBase* yUno_SceneManager::m_editScene;
 
 void yUno_SceneManager::SaveSceneData()
 {
 	// シーン名を取得
-	char* sceneName = const_cast<char*>(typeid(*m_loadedScene).name());
-	char* context;
-	char* token = strtok_s(sceneName, " ", &context);
-	sceneName = strtok_s(NULL, " ", &context);
+	char* sceneName = m_loadedScene->GetSceneName();
 
 	// シーンファイル名を取得
 	char sceneFileName[30] = { "Assets\\" };
@@ -45,13 +46,15 @@ void yUno_SceneManager::SaveSceneData()
 		char* objectType = 0;				// オブジェクトタイプ
 		char* componentType = 0;			// コンポーネントタイプ
 		// 各スレッド内のオブジェクトリスト取得
-		for (auto objectList : m_loadedScene->m_sceneObject)
+		for (auto objectList : m_loadedScene->GetAllSceneObjects())
 		{
 			// リスト内のオブジェクト取得
 			for (auto object : objectList)
 			{
 				// ----- オブジェクトタイプ取得処理 ----- //
 				char tmpObjectType[50];
+				char* token;
+				char* context;
 				objectType = const_cast<char*>(typeid(*object).name());
 				ZeroMemory(tmpObjectType, sizeof(tmpObjectType));
 				memcpy(tmpObjectType, objectType, strlen(objectType));
@@ -100,17 +103,17 @@ void yUno_SceneManager::SaveSceneData()
 						Transform castComponent = *dynamic_cast<Transform*>(component);
 
 						// Positionの値書き込み
-						sprintf_s(writeData, "%f, %f, %f", castComponent.Position.x, castComponent.Position.y, castComponent.Position.z);
+						sprintf_s(writeData, "%f, %f, %f", castComponent.position.x, castComponent.position.y, castComponent.position.z);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 
 						// Rotationの値書き込み
-						sprintf_s(writeData, "%f, %f, %f", castComponent.Rotation.x, castComponent.Rotation.y, castComponent.Rotation.z);
+						sprintf_s(writeData, "%f, %f, %f", castComponent.rotation.x, castComponent.rotation.y, castComponent.rotation.z);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 
 						// Scaleの値書き込み
-						sprintf_s(writeData, "%f, %f, %f", castComponent.Scale.x, castComponent.Scale.y, castComponent.Scale.z);
+						sprintf_s(writeData, "%f, %f, %f", castComponent.scale.x, castComponent.scale.y, castComponent.scale.z);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 					}
@@ -212,11 +215,11 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 						float y;
 						float z;
 						fscanf_s(file, "%f, %f, %f", &x, &y, &z);
-						addedObject->transform->Position = Vector3(x, y, z);
+						addedObject->transform->position = Vector3(x, y, z);
 						fscanf_s(file, "%f, %f, %f", &x, &y, &z);
-						addedObject->transform->Rotation = Vector3(x, y, z);
+						addedObject->transform->rotation = Vector3(x, y, z);
 						fscanf_s(file, "%f, %f, %f", &x, &y, &z);
-						addedObject->transform->Scale = Vector3(x, y, z);
+						addedObject->transform->scale = Vector3(x, y, z);
 					}
 				}
 			}
@@ -228,126 +231,74 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 	}
 }
 
-void yUno_SceneManager::Delete(GameObject* object)
+void yUno_SceneManager::LoadScene()
 {
-	// オブジェクト名情報を削除
-	yUno_SystemManager::yUno_GameObjectManager::DeleteObjectNameData(object->GetName());
+	// 現在、シーンを開いている？
+	if (m_loadedScene)
+	{
+		m_loadedScene->UnInit();			// シーンの終了処理
+		delete m_loadedScene;				// シーンの削除
+		m_loadedScene = new SceneBase();	// シーンの生成
+	}
+	else
+	{
+		m_loadedScene = new SceneBase("SampleScene");	// シーンの生成
+		LoadSceneData("class SampleScene");				// 開始時のシーンをロード
+	}
 
-	// ===== オブジェクト削除のメッセージを送る ===== //
-	// インスタンス生成
-	MessageData messageData;
-	// 情報を代入
-	messageData.message.header.type = MessageType::ObjectDelete;	// メッセージ種別
-	messageData.message.body.object.SetName(object->GetName());		// オブジェクト名
-	// メッセージを送る
-	yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
+	m_loadedScene->Init();	// ロードしたシーンの初期化
 }
 
 yUno_SceneManager::yUno_SceneManager()
 {
 	m_loadedScene = nullptr;
-	m_sceneName = nullptr;
 }
 
-void yUno_SceneManager::InitBase()
+void yUno_SceneManager::InitScene()
 {
-	// 現在シーンの初期化処理
-	Init();
+#if _DEBUG
+	// エディットシーンのロード
+	m_editScene = new yUnoEngine::EditScene();
+	m_editScene->Init();
+#endif	
+	// 初期シーンのロード
+	LoadScene();
 }
 
-void yUno_SceneManager::UnInitBase()
+void yUno_SceneManager::UnInitScene()
 {
+#if _DEBUG
+	// エディットシーンの終了処理
+	m_editScene->UnInit();
 	// 現在のシーン状態をセーブ
 	SaveSceneData();
 
-	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_loadedScene->m_sceneObject)
-	{
-		// リスト内のオブジェクト取得
-		for (GameObject* object : objectList)
-		{
-			object->UnInitBase();	// 終了処理
-			delete object;			// 削除
-		}
-		//リストのクリア
-		objectList.clear();	
-	}
 	// マネージャーの終了処理
 	yUno_SystemManager::yUno_GameObjectManager::UnInit();
+#endif
 	// 現在シーンの終了処理
 	m_loadedScene->UnInit();
 	delete m_loadedScene;
 }
 
-void yUno_SceneManager::UpdateBase()
+void yUno_SceneManager::UpdateScene()
 {
-	// Box型の当たり判定用リストを作成
-	std::list<BoxCollider*> BoxCollider_List;
-
-	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_loadedScene->m_sceneObject)
-	{
-		// リスト内のオブジェクト取得
-		for (GameObject* object : objectList)
-		{
-			object->UpdateBase();	// 更新処理
-			
-			// "BoxCollider"コンポーネントを取得
-			BoxCollider *boxcol = object->GetComponent<BoxCollider>();
-			// 取得出来た？
-			if (boxcol != nullptr)
-				BoxCollider_List.push_back(boxcol);	// リストに格納しておく
-		}
-	}
-
-	// 当たり判定を行うオブジェクトがシーン内に存在する？
-	if (!BoxCollider_List.max_size() >= 2)
-	{
-		// 相手側の当たり判定用リストを作成
-		std::list<BoxCollider*> Other_BoxCollider_List = BoxCollider_List;
-		// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
-		// ※自身との当たり判定の処理を阻止するため
-		Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
-
-		// ===== "BoxCollider"同士の当たり判定 ===== //
-		for (auto my_BoxCol : BoxCollider_List)
-		{
-			// 当たり判定を全通り行った？
-			if (Other_BoxCollider_List.empty())
-				break;	// 判定終了
-
-			for (auto other_BoxCol : Other_BoxCollider_List)
-			{
-				my_BoxCol->CalcCollision(other_BoxCol);	// 計算処理
-			}
-
-			// 相手側の当たり判定用リストの０番目（始めに格納されている情報）を削除する
-			// ※当たり判定を重複して判定することを阻止するため
-			Other_BoxCollider_List.erase(Other_BoxCollider_List.cbegin());
-		}
-
-	}
-
+#if _DEBUG
+	// エディットシーンの更新処理
+	m_editScene->Update();
+#endif
 	// 現在シーンの更新処理
 	m_loadedScene->Update();
 }
 
 
 #include "renderer.h"
-void yUno_SceneManager::DrawBase()
+void yUno_SceneManager::DrawScene()
 {
-	DirectX::SimpleMath::Matrix matrix = DirectX::SimpleMath::Matrix::Identity;
-
-	// 各スレッド内のオブジェクトリスト取得
-	for (auto& objectList : m_loadedScene->m_sceneObject)
-	{
-		// リスト内のオブジェクト取得
-		for (GameObject* object : objectList)
-		{
-			object->DrawBase(matrix);	// 描画処理
-		}
-	}
-
+#if _DEBUG
+	// エディットシーンの更新処理
+	m_editScene->Draw();
+#endif
 	// 現在シーンの描画処理
 	m_loadedScene->Draw();
 }

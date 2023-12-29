@@ -11,33 +11,33 @@ void BoxCollider::CalcCollision(BoxCollider *ohter)
 	// 自身の当たり判定の最小値を代入
 	Vector3 myMinPoints = Vector3
 	(
-		transform->Position.x - transform->Scale.x / 2,
-		transform->Position.y - transform->Scale.y / 2,
-		transform->Position.z - transform->Scale.z / 2
+		transform->position.x - transform->scale.x / 2,
+		transform->position.y - transform->scale.y / 2,
+		transform->position.z - transform->scale.z / 2
 	);
 
 	// 自身の当たり判定の最大値を代入
 	Vector3 myMaxPoints = Vector3
 	(
-		transform->Position.x + transform->Scale.x / 2,
-		transform->Position.y + transform->Scale.y / 2,
-		transform->Position.z + transform->Scale.z / 2
+		transform->position.x + transform->scale.x / 2,
+		transform->position.y + transform->scale.y / 2,
+		transform->position.z + transform->scale.z / 2
 	);
 
 	// 相手の当たり判定の最小値を代入
 	Vector3 otherMinPoints = Vector3
 	(
-		ohter->transform->Position.x - ohter->transform->Scale.x / 2,
-		ohter->transform->Position.y - ohter->transform->Scale.y / 2,
-		ohter->transform->Position.z - ohter->transform->Scale.z / 2
+		ohter->transform->position.x - ohter->transform->scale.x / 2,
+		ohter->transform->position.y - ohter->transform->scale.y / 2,
+		ohter->transform->position.z - ohter->transform->scale.z / 2
 	);
 
 	// 相手の当たり判定の最大値を代入
 	Vector3 otherMaxPoints = Vector3
 	(
-		ohter->transform->Position.x + ohter->transform->Scale.x / 2,
-		ohter->transform->Position.y + ohter->transform->Scale.y / 2,
-		ohter->transform->Position.z + ohter->transform->Scale.z / 2
+		ohter->transform->position.x + ohter->transform->scale.x / 2,
+		ohter->transform->position.y + ohter->transform->scale.y / 2,
+		ohter->transform->position.z + ohter->transform->scale.z / 2
 	);
 
 	// ===== 当たっているかどうか計算する処理 ===== //

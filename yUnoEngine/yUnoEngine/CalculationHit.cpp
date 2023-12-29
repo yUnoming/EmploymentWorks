@@ -73,33 +73,33 @@ bool PublicSystem::CalculationHit::SegmentToHexahedron(Vector3 _mySegment_Start,
     Vector3 XY_Plane_Quad[2] =
     {
         // 右上頂点
-        Vector3(_otherHexahedron->Position.x + _otherHexahedron->Scale.x / 2, 
-                _otherHexahedron->Position.y + _otherHexahedron->Scale.y / 2, 0.0f),
+        Vector3(_otherHexahedron->position.x + _otherHexahedron->scale.x / 2, 
+                _otherHexahedron->position.y + _otherHexahedron->scale.y / 2, 0.0f),
         // 左下頂点
-        Vector3(_otherHexahedron->Position.x - _otherHexahedron->Scale.x / 2, 
-                _otherHexahedron->Position.y - _otherHexahedron->Scale.y / 2, 0.0f),
+        Vector3(_otherHexahedron->position.x - _otherHexahedron->scale.x / 2, 
+                _otherHexahedron->position.y - _otherHexahedron->scale.y / 2, 0.0f),
     };
 
     // ----- ZY平面の四角形 ----- //
     Vector3 ZY_Plane_Quad[2] =
     {
         // 右上頂点
-        Vector3(_otherHexahedron->Position.z + _otherHexahedron->Scale.z / 2,
-                _otherHexahedron->Position.y + _otherHexahedron->Scale.y / 2, 0.0f),
+        Vector3(_otherHexahedron->position.z + _otherHexahedron->scale.z / 2,
+                _otherHexahedron->position.y + _otherHexahedron->scale.y / 2, 0.0f),
         // 左下頂点
-        Vector3(_otherHexahedron->Position.z - _otherHexahedron->Scale.z / 2,
-                _otherHexahedron->Position.y - _otherHexahedron->Scale.y / 2, 0.0f),
+        Vector3(_otherHexahedron->position.z - _otherHexahedron->scale.z / 2,
+                _otherHexahedron->position.y - _otherHexahedron->scale.y / 2, 0.0f),
     };
 
     // ----- XZ平面の四角形 ----- //
     Vector3 XZ_Plane_Quad[2] =
     {
         // 右上頂点
-        Vector3(_otherHexahedron->Position.x + _otherHexahedron->Scale.x / 2,
-                _otherHexahedron->Position.z + _otherHexahedron->Scale.z / 2, 0.0f),
+        Vector3(_otherHexahedron->position.x + _otherHexahedron->scale.x / 2,
+                _otherHexahedron->position.z + _otherHexahedron->scale.z / 2, 0.0f),
         // 左下頂点
-        Vector3(_otherHexahedron->Position.x - _otherHexahedron->Scale.x / 2,
-                _otherHexahedron->Position.z - _otherHexahedron->Scale.z / 2, 0.0f),
+        Vector3(_otherHexahedron->position.x - _otherHexahedron->scale.x / 2,
+                _otherHexahedron->position.z - _otherHexahedron->scale.z / 2, 0.0f),
     };
 
 
