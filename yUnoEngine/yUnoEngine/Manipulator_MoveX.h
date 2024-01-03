@@ -26,14 +26,16 @@ namespace yUnoEngine
 			public :
 				void Init()
 				{
+					// マテリアル追加
 					Material *mat = AddComponent<Material>();
 					mat->materialColor = Color(1.0f, 0.0f, 0.0f, 1.0f);
-					//transform->rotation.z = -90.0f;
+					transform->rotation.z = -90.0f;
 				};
 
 				void ClickAction()
 				{
-					transform->parent->transform->position.y += (lateCursorPos.y - nowCursorPos.y) * 0.01f;
+					// X座標方向へ親オブジェクトを移動
+					transform->parent->transform->position.x -= (lateCursorPos.x - nowCursorPos.x) * 0.01f;
 				}
 		};
 	}
