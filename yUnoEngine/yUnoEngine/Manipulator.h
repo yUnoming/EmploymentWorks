@@ -17,7 +17,6 @@
 #include "SpectatorCamera.h"
 
 #include "yUno_SceneManager.h"
-#include "SceneManager.h"
 
 
 /// <summary>
@@ -47,9 +46,13 @@ namespace yUnoEngine
 			public:
 				/// <summary>
 				///	コンストラクタ	</summary>
-				Manipulator() {
-					AddComponent<ModelRenderer>()->Load("Assets/Models\\test2.obj");
+				Manipulator()
+				{
+					// モデル追加
+					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
+					// エディットカメラ取得
 					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+					// 非表示にしておく
 					isActive = false;
 				};
 
@@ -58,19 +61,21 @@ namespace yUnoEngine
 					// 自身がクリックされている？
 					if (spectatorCamera->GetClickedManipulator() == this)
 					{
+						// 現在のカーソル位置を取得
 						nowCursorPos = PublicSystem::MouseInput::GetCursorPosition();
-
+						// クリックされている？
 						if (isClicked)
 						{
-							ClickAction();
+							ClickAction();	// クリックされた際の処理を実行
 						}
 
-						isClicked = true;
-						lateCursorPos = nowCursorPos;
+						isClicked = true;				// クリックされている状態に切り替え
+						lateCursorPos = nowCursorPos;	// 現在のカーソル位置を保存
 					}
+					// 前回までクリックされていた？
 					else if (isClicked)
 					{
-						isClicked = false;
+						isClicked = false;	// クリックされていない状態に切り替え
 					}
 				};
 				/// <summary>
