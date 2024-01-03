@@ -57,12 +57,19 @@ namespace PublicSystem
 			// ----- 演算子のオーバーロード群 ----- //
 			//**  assignment / 代入  **//
 			/// <summary>
-			///	Vector2型との代入用オペレーター	</summary>
+			///	Vector3型との代入用オペレーター	</summary>
 			/// <param name="vec">
-			///	Vector2型オブジェクト	</param>
+			///	Vector3型オブジェクト	</param>
 			/// <returns>
 			/// 値の代入結果	</returns>
 			Vector3 operator=(const Vector3& vec);
+			/// <summary>
+			///	DirectX::XMFLOAT3型との代入用オペレーター	</summary>
+			/// <param name="vec">
+			///	DirectX::XMFLOAT3型オブジェクト	</param>
+			/// <returns>
+			/// 値の代入結果	</returns>
+			Vector3 operator=(const DirectX::XMFLOAT3& vec);
 
 			//**  addition / 加算  **//
 			/// <summary>
@@ -109,6 +116,13 @@ namespace PublicSystem
 			/// <returns>
 			///	値の加算代入結果	</returns>
 			Vector3 operator+=(const Vector3 &vec);
+			/// <summary>
+			///	DirectX::XMFLOAT3型との加算代入用オペレーター	</summary>
+			/// <param name="vec">
+			///	DirectX::XMFLOAT3型オブジェクト	</param>
+			/// <returns>
+			///	値の加算代入結果	</returns>
+			Vector3 operator+=(const DirectX::XMFLOAT3& vec);
 
 			//**  subtraction / 減算  **//
 			/// <summary>
@@ -203,6 +217,13 @@ namespace PublicSystem
 			/// <returns>
 			/// 値の乗算代入結果	</returns>
 			Vector3 operator*=(const Vector3& vec);
+			/// <summary>
+			/// DirectX::XMFLOAT3型との乗算代入用オペレーター		</summary>
+			/// <param name="vec">
+			///	DirectX::XMFLOAT3型オブジェクト	</param>
+			/// <returns>
+			/// 値の乗算代入結果	</returns>
+			Vector3 operator*=(const DirectX::XMFLOAT3& vec);
 
 			//**  division / 除算  **//
 			/// <summary>

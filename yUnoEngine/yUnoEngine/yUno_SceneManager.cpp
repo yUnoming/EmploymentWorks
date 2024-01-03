@@ -295,10 +295,12 @@ void yUno_SceneManager::UpdateScene()
 #include "renderer.h"
 void yUno_SceneManager::DrawScene()
 {
-#if _DEBUG
-	// エディットシーンの更新処理
-	m_editScene->Draw();
-#endif
 	// 現在シーンの描画処理
 	m_loadedScene->Draw();
+#if _DEBUG
+	// クリアすることでマニピュレーターをオブジェクトに被せて描画させている
+	Renderer::ClearDepthStencilView();
+	// エディットシーンの描画処理
+	m_editScene->Draw();
+#endif
 }

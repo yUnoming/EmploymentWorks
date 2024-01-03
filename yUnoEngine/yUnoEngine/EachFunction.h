@@ -19,7 +19,7 @@ class EachFunction : public Component
 	public:
 		// ----- variables / 変数 ----- //
 		//! 自身の親であるオブジェクト
-		GameObject* Parent = nullptr;
+		GameObject* parent = nullptr;
 
 		//! トランスフォーム
 		class Transform* transform = nullptr;

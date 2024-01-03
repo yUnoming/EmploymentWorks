@@ -54,10 +54,17 @@ void SpectatorCamera::Update()
 		// クリックしたオブジェクトを一時的に代入する変数
 		GameObject* tmpClickedObject;
 
-		// クリックした位置にオブジェクトがある場合、そのオブジェクトを取得
-		// 取得された状態でオブジェクトがない場所がクリックされたら、取得を解除する
+		// エディットシーンを参照して、クリックされたオブジェクトを取得
+		tmpClickedObject = GetComponent<Camera>()->GetScreenPointManipulator(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
+		// オブジェクトがクリックされた？
+		if (tmpClickedObject)
+		{
+			m_clickedManipulator = tmpClickedObject;	// クリックされたオブジェクトを代入
+			return;	// 更新処理終了
+		}
+
+		// 現在のシーンを参照して、クリックされたオブジェクトを取得
 		tmpClickedObject = GetComponent<Camera>()->GetScreenPointObject(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
-		
 		// クリックされたオブジェクトがロックされていたら処理を終了
 		if (tmpClickedObject && yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(tmpClickedObject->GetName()))
 			return;
@@ -118,6 +125,10 @@ void SpectatorCamera::Update()
 				SendMessageData(messageData);
 		}
 	}
+	else if (MouseInput::GetMouseUp(LeftButton) && m_clickedManipulator)
+	{
+		m_clickedManipulator = nullptr;
+	}
 
 	// ===== クリックしたオブジェクトの操作 ===== //
 	// オブジェクトを取得している？
@@ -137,4 +148,9 @@ void SpectatorCamera::Update()
 GameObject* SpectatorCamera::GetClickedObject() const
 {
 	return m_clickedObject;
+}
+
+GameObject* SpectatorCamera::GetClickedManipulator() const
+{
+	return m_clickedManipulator;
 }

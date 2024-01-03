@@ -12,6 +12,14 @@ PublicSystem::Vector3 PublicSystem::Vector3::operator=(const Vector3& vec)
     return *this;
 }
 
+PublicSystem::Vector3 PublicSystem::Vector3::operator=(const DirectX::XMFLOAT3& vec)
+{
+    x = vec.x;
+    y = vec.y;
+    z = vec.z;
+    return *this;
+}
+
 PublicSystem::Vector3 PublicSystem::Vector3::operator+(int i)
 {
     Vector3 tmp;
@@ -56,6 +64,14 @@ PublicSystem::Vector3 PublicSystem::Vector3::operator+=(float f)
 }
 
 PublicSystem::Vector3 PublicSystem::Vector3::operator+=(const Vector3& vec)
+{
+    x += vec.x;
+    y += vec.y;
+    z += vec.z;
+    return *this;
+}
+
+PublicSystem::Vector3 PublicSystem::Vector3::operator+=(const DirectX::XMFLOAT3& vec)
 {
     x += vec.x;
     y += vec.y;
@@ -158,6 +174,14 @@ PublicSystem::Vector3 PublicSystem::Vector3::operator*=(float f)
 }
 
 PublicSystem::Vector3 PublicSystem::Vector3::operator*=(const Vector3& vec)
+{
+    x *= vec.x;
+    y *= vec.y;
+    z *= vec.z;
+    return *this;
+}
+
+PublicSystem::Vector3 PublicSystem::Vector3::operator*=(const DirectX::XMFLOAT3& vec)
 {
     x *= vec.x;
     y *= vec.y;
