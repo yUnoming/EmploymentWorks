@@ -15,6 +15,8 @@
 #include "Manipulator_MoveY.h"
 #include "Manipulator_MoveZ.h"
 
+#include "Camera.h"
+
 
 namespace yUnoEngine
 {
@@ -23,6 +25,26 @@ namespace yUnoEngine
 	class EditScene : public SceneBase
 	{
 		private:
+			// ----- structs / 構造体 ----- //
+			
+			/// <summary>
+			///	シーン編集時に使うデータ	</summary>
+			struct SceneEditorData
+			{
+				/// <summary>
+				///	編集時に使用するカメラのコンポーネント情報	</summary>
+				Transform transformComponent;	// トランスフォーム
+				Camera cameraComponent;			// カメラ
+
+				/// <summary>
+				///	ロードするシーン名	</summary>
+				char loadSceneName[30];
+			};
+			
+			// ----- variables / 変数 ----- //
+			/// <summary>
+			///	シーン編集に使用するデータ	</summary>
+			SceneEditorData m_sceneEditorData;
 			/// <summary>
 			///	エディット時に使用するカメラ	</summary>
 			SpectatorCamera* m_spectatorCamera;
@@ -38,53 +60,9 @@ namespace yUnoEngine
 
 		public:
 			// ----- functions / 関数 ----- //
-			void Init()
-			{
-				// ===== エディット用カメラの生成 ===== //
-				m_spectatorCamera = AddSceneObject<SpectatorCamera>(0, "SpectatorCamera");
-				
-				// ===== マニピュレーター用オブジェクトの生成 ===== //
-				// ----- 移動 ----- //
-				m_manipulator_MoveX = AddSceneObject<Manipulator::Manipulator_MoveX>(1, "Manipulator_MoveX");
-				m_manipulator_MoveY = AddSceneObject<Manipulator::Manipulator_MoveY>(1, "Manipulator_MoveY");
-				m_manipulator_MoveZ = AddSceneObject<Manipulator::Manipulator_MoveZ>(1, "Manipulator_MoveZ");
-			}
-
-			void Update()
-			{
-				// オブジェクトをクリックした？
-				if (m_spectatorCamera->GetClickedObject() != nullptr)
-				{
-					// ===== マニピュレーターの表示処理 ===== //
-					// ----- 移動 ----- //
-					// X軸方向
-					m_manipulator_MoveX->isActive = true;
-					m_manipulator_MoveX->transform->parent = m_spectatorCamera->GetClickedObject();
-					// Y軸方向
-					m_manipulator_MoveY->isActive = true;
-					m_manipulator_MoveY->transform->parent = m_spectatorCamera->GetClickedObject();
-					// Z軸方向
-					m_manipulator_MoveZ->isActive = true;
-					m_manipulator_MoveZ->transform->parent = m_spectatorCamera->GetClickedObject();
-				}
-				else
-				{
-					// ===== マニピュレーターの非表示処理 ===== //
-					// ----- 移動 ----- //
-					// X軸方向
-					m_manipulator_MoveX->isActive = false;
-					m_manipulator_MoveX->transform->parent = nullptr;
-					// Y軸方向
-					m_manipulator_MoveY->isActive = false;
-					m_manipulator_MoveY->transform->parent = nullptr;
-					// Z軸方向
-					m_manipulator_MoveZ->isActive = false;
-					m_manipulator_MoveZ->transform->parent = nullptr;
-				}
-
-				// シーンの基本的な更新処理を実行
-				SceneBase::Update();
-			}
+			void Init() override;
+			void UnInit() override;
+			void Update() override;
 	};
 };
 
