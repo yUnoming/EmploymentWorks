@@ -58,6 +58,19 @@ namespace PublicSystem
 			/// <returns>
 			/// 当たっていたらtrue、当たっていなければfalseを返す	</returns>
 			static bool SegmentToHexahedron(Vector3 mySegment_Start, Vector3 mySegmentEnd, const Transform* otherHexahedron);
+			/// <summary>
+			/// 線分と六面体が当たっているかを計算する	</summary>
+			/// <param name = "mySegmentStart">
+			/// 自身として扱う線分の始点	</param>
+			/// <param name = "mySegmentEnd">
+			/// 自身として扱う線分の終点	</param>
+			/// <param name = "otherBoundingBox">
+			/// 相手の境界ボックス情報	</param>
+			/// <param name = "otherHexahedron">
+			/// 相手として扱う六面体のTransform情報	</param>
+			/// <returns>
+			/// 当たっていたらtrue、当たっていなければfalseを返す	</returns>
+			static bool SegmentToHexahedron(Vector3 mySegment_Start, Vector3 mySegmentEnd, DirectX::BoundingBox otherBoundingBox, const Transform* otherHexahedron);
 
 			// **  自身が点の当たり判定  ** //
 			/// <summary>

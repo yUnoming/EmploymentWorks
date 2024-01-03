@@ -132,17 +132,8 @@ void GameObject::UpdateBase()
 	Update();
 }
 
-void GameObject::DrawBase(DirectX::SimpleMath::Matrix _parentMatrix)
+void GameObject::DrawBase()
 {
-	// マトリックス設定
-	DirectX::SimpleMath::Matrix world, trans, rot, scl;
-	trans = DirectX::SimpleMath::Matrix::CreateTranslation(transform->position.x, transform->position.y, transform->position.z);
-	rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(transform->rotation.y, transform->rotation.x, transform->rotation.z);
-	scl = DirectX::SimpleMath::Matrix::CreateScale(transform->scale.x, transform->scale.y, transform->scale.z);
-	world = rot * trans * scl * _parentMatrix;
-
-	Renderer::SetWorldMatrix(&world);
-
 	// リスト内のコンポーネント取得
 	for (auto com : m_componentList)
 		com->Draw();	// 描画処理

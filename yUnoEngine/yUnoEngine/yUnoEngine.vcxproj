@@ -149,6 +149,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Manipulator.cpp" />
+    <ClCompile Include="Manipulator_MoveY.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
@@ -197,6 +199,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="InputPartsName.h" />
+    <ClInclude Include="Manipulator.h" />
+    <ClInclude Include="Manipulator_MoveY.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />

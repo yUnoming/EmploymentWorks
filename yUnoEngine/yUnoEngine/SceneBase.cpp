@@ -49,22 +49,24 @@ void SceneBase::Update()
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
 		{
-			object->UpdateBase();	// 更新処理
+			// アクティブ状態？
+			if(object->isActive)
+				object->UpdateBase();	// 更新処理
 		}
 	}
 }
 
 void SceneBase::Draw()
 {
-	DirectX::SimpleMath::Matrix matrix = DirectX::SimpleMath::Matrix::Identity;
-
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_sceneObjectList)
 	{
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
 		{
-			object->DrawBase(matrix);	// 描画処理
+			// アクティブ状態？
+			if(object->isActive)
+				object->DrawBase();	// 描画処理
 		}
 	}
 

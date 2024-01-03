@@ -59,19 +59,24 @@ class ModelRenderer : public EachFunction
 private:
 
 	static std::unordered_map<std::string, MODEL*> m_ModelPool;
+	static std::unordered_map<std::string, std::vector<VERTEX_3D>> m_verticesPool;
 
-	static void LoadModel(const char *FileName, MODEL *Model);
-	static void LoadObj( const char *FileName, MODEL_OBJ *ModelObj );
-	static void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned int *MaterialNum );
+	void LoadModel(const char *FileName, MODEL *Model);
+	void LoadObj( const char *FileName, MODEL_OBJ *ModelObj );
+	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned int *MaterialNum );
+
+	std::vector<VERTEX_3D> m_vertices;
 
 	MODEL* m_Model{};
 
 public:
 
-	static void Preload( const char *FileName );
+	void Preload( const char *FileName );
 	static void UnloadAll();
 
 	void Load( const char *FileName );
 
 	void Draw() override;
+
+	std::vector<VERTEX_3D> GetModelVertices() { return m_vertices; };
 };

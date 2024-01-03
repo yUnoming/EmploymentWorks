@@ -12,10 +12,12 @@
 #include "SceneManager.h"
 #include "SpectatorCamera.h"
 
+#include "yUno_SceneManager.h"
+
 using namespace DirectX::SimpleMath;
 
 std::unordered_map<std::string, MODEL*> ModelRenderer::m_ModelPool;
-
+std::unordered_map<std::string, std::vector<VERTEX_3D>> ModelRenderer::m_verticesPool;
 
 void ModelRenderer::Draw()
 {
@@ -48,16 +50,18 @@ void ModelRenderer::Draw()
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
 
+// エンジン使用時のみ有効
+#if _DEBUG
 	// ===== 輪郭線の表示処理 ===== //
 	// カメラ取得
-	SpectatorCamera* spectatorCamera = (SpectatorCamera*)SceneManager::GetNowScene()->GetSceneObject("SpectatorCamera");
-	
+	SpectatorCamera* spectatorCamera = (SpectatorCamera*)yUno_SceneManager::GetEditScene()->GetSceneObject("SpectatorCamera");
+
 	// このコンポーネントが追加されているオブジェクトがクリックされている？
 	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject())
 	{
 		// ----- 輪郭線の表示処理 ----- //
 		// シェーダー設定
-		Shader shader; 
+		Shader shader;
 		shader.Load("Assets\\Shaders\\OutlineVS.cso", "Assets\\Shaders\\OutlinePS.cso");
 		// カリングモード切り替え
 		Renderer::SetCullingMode(D3D11_CULL_FRONT);
@@ -77,6 +81,7 @@ void ModelRenderer::Draw()
 		// カリングモード切り替え
 		Renderer::SetCullingMode(D3D11_CULL_NONE);
 	}
+#endif
 }
 
 void ModelRenderer::Preload(const char *FileName)
@@ -121,6 +126,7 @@ void ModelRenderer::Load(const char *FileName)
 	if (m_ModelPool.count(FileName) > 0)
 	{
 		m_Model = m_ModelPool[FileName];
+		m_vertices = m_verticesPool[FileName];
 		return;
 	}
 
@@ -128,6 +134,7 @@ void ModelRenderer::Load(const char *FileName)
 	LoadModel(FileName, m_Model);
 
 	m_ModelPool[FileName] = m_Model;
+	m_verticesPool[FileName] = m_vertices;
 }
 
 void ModelRenderer::LoadModel( const char *FileName, MODEL *Model)
@@ -408,6 +415,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 		{
 			//面
 			in = 0;
+			VERTEX_3D vertex;
 
 			do
 			{
@@ -415,17 +423,23 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 				s = strtok( str, "/" );	
 				ModelObj->VertexArray[vc].Position = positionArray[ atoi( s ) - 1 ];
+				vertex.Position = positionArray[atoi(s) - 1];
+
 				if( s[ strlen( s ) + 1 ] != '/' )
 				{
 					//テクスチャ座標が存在しない場合もある
 					s = strtok( nullptr, "/" );
 					ModelObj->VertexArray[vc].TexCoord = texcoordArray[ atoi( s ) - 1 ];
+					vertex.TexCoord = texcoordArray[atoi(s) - 1];
 				}
 				s = strtok( nullptr, "/" );	
 				ModelObj->VertexArray[vc].Normal = normalArray[ atoi( s ) - 1 ];
+				vertex.Normal = normalArray[atoi(s) - 1];
 
 				ModelObj->VertexArray[vc].Diffuse = DirectX::SimpleMath::Color( 1.0f, 1.0f, 1.0f, 1.0f );
+				vertex.Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
 
+				m_vertices.push_back(vertex);
 				ModelObj->IndexArray[ic] = vc;
 				ic++;
 				vc++;

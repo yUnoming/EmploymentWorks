@@ -18,8 +18,11 @@ class SpectatorCamera : public GameObject
 	private:
 		// ----- variables / 変数 ----- //
 		///<summary>
-		///クリックされたオブジェクトを代入する変数	</summary>
+		///クリックされたオブジェクト	</summary>
 		GameObject* m_clickedObject = nullptr;
+		/// <summary>
+		///	クリックされたマニピュレーター	</summary>
+		GameObject* m_clickedManipulator = nullptr;
 
 	public:
 		// ----- functions / 関数 ----- //
@@ -35,5 +38,11 @@ class SpectatorCamera : public GameObject
 		/// <returns>
 		///	オブジェクトがあればオブジェクト情報、なければnullptrを返す	</returns>
 		GameObject* GetClickedObject() const;
+		/// <summary>
+		///	クリックされたマニピュレーターオブジェクトを返す	</summary>
+		/// <returns>
+		///	オブジェクトがあればオブジェクト情報、なければnullptrを返す	</returns>
+		GameObject* GetClickedManipulator() const;
+
 };
 

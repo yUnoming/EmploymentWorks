@@ -8,10 +8,8 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "GameObject.h"
-#include "modelRenderer.h"
-#include "Material.h"
-#include "Transform.h"
+#include "Manipulator.h"
+
 
 /// <summary>
 ///	エンジン群	</summary>
@@ -23,22 +21,20 @@ namespace yUnoEngine
 	{
 		/// <summary>
 		///	X座標方向の移動マニピュレーター	</summary>
-		class Manipulator_MoveX : public GameObject
+		class Manipulator_MoveX : public Manipulator
 		{
 			public :
 				void Init()
 				{
-					AddComponent<ModelRenderer>()->Load("Assets/Models\\test2.obj");
 					Material *mat = AddComponent<Material>();
 					mat->materialColor = Color(1.0f, 0.0f, 0.0f, 1.0f);
-
-					transform->position.z = 5.0f;
+					//transform->rotation.z = -90.0f;
 				};
 
-				void Update()
+				void ClickAction()
 				{
-
-				};
+					transform->parent->transform->position.y += (lateCursorPos.y - nowCursorPos.y) * 0.01f;
+				}
 		};
 	}
 }

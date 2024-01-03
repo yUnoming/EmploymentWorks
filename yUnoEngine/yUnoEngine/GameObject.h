@@ -9,7 +9,6 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include <list>
-#include <SimpleMath.h>
 #include <iostream>
 #include "Component.h"
 
@@ -61,18 +60,16 @@ class GameObject
 		///	コンポーネント削除時の確認処理	</summary>
 		void CheckDeleteComponent(Component* com);
 
-	protected:
-		// ----- variables / 変数 ----- //
-		/// <summary>
-		/// オブジェクトのアクティブ状態
-		/// （true: アクティブ false: 非アクティブ）</summary>
-		bool m_active = true;
-
 	public:
 		// ----- variables / 変数 ----- //
 		/// <summary>
 		/// トランスフォーム	</summary>
 		Transform* transform = nullptr;
+
+		/// <summary>
+		/// オブジェクトのアクティブ状態
+		/// （true: アクティブ false: 非アクティブ）</summary>
+		bool isActive = true;
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -142,7 +139,7 @@ class GameObject
 		/// ベースの描画処理	</summary>
 		/// <param name="parentMatrix">
 		///	親の座標行列（親がいない場合は正規化された座標行列）	</param>
-		void DrawBase(DirectX::SimpleMath::Matrix parentMatrix);
+		void DrawBase();
 
 		//**  コンポーネント操作  **//
 		/// <summary>
@@ -183,12 +180,15 @@ class GameObject
 			T* com = new T();	
 			T* lateCom = new T();
 
-			// コンポーネントに自身が追加されるオブジェクトを代入
+			// コンポーネントが追加されるオブジェクトを代入
 			com->gameObject = this;
 
 			// Transformコンポーネントが自身に追加されている？
 			if (transform != nullptr)
-				com->transform = transform;		// 追加するコンポーネントにTransform情報を代入
+				com->transform = transform;			// 追加するコンポーネントにTransform情報を代入
+			// Transformコンポーネントを追加する
+			else
+				com->transform = (Transform*)com;	// 追加するコンポーネントを代入
 
 			CheckAddComponent(com); // 確認処理
 

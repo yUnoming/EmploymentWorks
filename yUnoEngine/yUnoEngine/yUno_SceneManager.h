@@ -66,4 +66,8 @@ class yUno_SceneManager
 		/// <summary>
 		///	Œ»İƒV[ƒ“‚Ì•`‰æˆ—	</summary>
 		static void DrawScene();
+
+#if _DEBUG
+		static SceneBase* GetEditScene() { return m_editScene; };
+#endif
 };
