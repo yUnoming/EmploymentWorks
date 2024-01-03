@@ -151,6 +151,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manipulator.cpp" />
     <ClCompile Include="Manipulator_MoveY.cpp" />
+    <ClCompile Include="Manipulator_MoveZ.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="InputPartsName.h" />
     <ClInclude Include="Manipulator.h" />
     <ClInclude Include="Manipulator_MoveY.h" />
+    <ClInclude Include="Manipulator_MoveZ.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />

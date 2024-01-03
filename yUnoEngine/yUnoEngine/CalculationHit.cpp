@@ -148,27 +148,28 @@ bool PublicSystem::CalculationHit::SegmentToHexahedron(Vector3 mySegmentStart, V
 
 bool PublicSystem::CalculationHit::SegmentToHexahedron(Vector3 mySegmentStart, Vector3 mySegmentEnd, DirectX::BoundingBox otherBoundingBox, const Transform* otherHexahedron)
 {
-    // Transform‚Ì‰ñ“]’l‚ðŒ³‚É‹«ŠEƒ{ƒbƒNƒX‚ð‰ñ“]
+    // ‹«ŠEƒ{ƒbƒNƒX‚Ì’†SA•‚ð‘ã“ü
     Vector3 center, extents;
     center = otherBoundingBox.Center;
     extents = otherBoundingBox.Extents;
 
-    //// ‰ñ“]s—ñŽæ“¾
-    //DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(
-    //    DirectX::XMConvertToRadians(otherHexahedron->rotation.y),
-    //    DirectX::XMConvertToRadians(otherHexahedron->rotation.x),
-    //    DirectX::XMConvertToRadians(otherHexahedron->rotation.z));
+    // ===== Transform‚Ì‰ñ“]’l‚ðŒ³‚É‹«ŠEƒ{ƒbƒNƒX‚ð‰ñ“] ===== //
+    // ‰ñ“]s—ñŽæ“¾
+    DirectX::SimpleMath::Matrix rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(
+        DirectX::XMConvertToRadians(otherHexahedron->rotation.y),
+        DirectX::XMConvertToRadians(otherHexahedron->rotation.x),
+        DirectX::XMConvertToRadians(otherHexahedron->rotation.z));
 
-    //// ‰ñ“]s—ñ‚Ì•ª‰ð
-    //DirectX::SimpleMath::Vector3 scale, translation;
-    //DirectX::SimpleMath::Quaternion rotation;
-    //rot.Decompose(scale, rotation, translation);
+    // ‰ñ“]s—ñ‚Ì•ª‰ð
+    DirectX::SimpleMath::Vector3 scale, translation;
+    DirectX::SimpleMath::Quaternion rotation;
+    rot.Decompose(scale, rotation, translation);
 
-    //// ‹«ŠEƒ{ƒbƒNƒX‚ð‰ñ“]
-    //otherBoundingBox.Transform(otherBoundingBox, DirectX::SimpleMath::Matrix::CreateFromQuaternion(rotation));
+    // ‹«ŠEƒ{ƒbƒNƒX‚ð‰ñ“]
+    otherBoundingBox.Transform(otherBoundingBox, DirectX::SimpleMath::Matrix::CreateFromQuaternion(rotation));
 
 
-    // ‹«ŠEƒ{ƒbƒNƒX‚ðTransfromî•ñ‚ðŒ³‚ÉC³
+    // ===== ‹«ŠEƒ{ƒbƒNƒX‚ðTransfromî•ñ‚ðŒ³‚ÉC³ ===== //
     // ’†S
     center = Vector3(
         otherBoundingBox.Center.x + otherHexahedron->position.x,
