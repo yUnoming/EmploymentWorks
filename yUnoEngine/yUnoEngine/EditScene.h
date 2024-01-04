@@ -37,8 +37,8 @@ namespace yUnoEngine
 				Camera cameraComponent;			// カメラ
 
 				/// <summary>
-				///	ロードするシーン名	</summary>
-				char loadSceneName[30];
+				///	開くシーン名	</summary>
+				char buildSceneName[30];
 			};
 			
 			// ----- variables / 変数 ----- //
@@ -63,6 +63,12 @@ namespace yUnoEngine
 			void Init() override;
 			void UnInit() override;
 			void Update() override;
+
+			/// <summary>
+			///	編集開始時に開くシーン名を取得	</summary>
+			/// <returns>
+			///	開くシーン名	</returns>
+			const char* GetBuildSceneName();
 	};
 };
 

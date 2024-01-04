@@ -56,6 +56,8 @@ namespace yUnoEngine
 					isActive = false;
 				};
 
+
+
 				void Update() override
 				{
 					// 自身がクリックされている？
