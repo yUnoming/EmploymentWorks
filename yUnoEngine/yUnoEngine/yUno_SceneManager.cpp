@@ -129,18 +129,9 @@ void yUno_SceneManager::SaveSceneData()
 
 void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 {
-	// シーン名を取得
-	char* sceneName = (char*)loadSceneName;
-	char usedSceneName[30];
-	ZeroMemory(usedSceneName, sizeof(usedSceneName));
-	memcpy(usedSceneName, sceneName, strlen(sceneName));
-	char* context;
-	char* token = strtok_s(usedSceneName, " ", &context);
-	sceneName = strtok_s(NULL, " ", &context);
-
 	// シーンファイル名を取得
 	char sceneFileName[30] = { "Assets/" };
-	strcat_s(sceneFileName, sizeof(sceneFileName), sceneName);
+	strcat_s(sceneFileName, sizeof(sceneFileName), loadSceneName);
 	strcat_s(sceneFileName, sizeof(sceneFileName), ".dat");
 
 	// シーンファイルを開く
@@ -242,8 +233,10 @@ void yUno_SceneManager::LoadScene()
 	}
 	else
 	{
-		m_loadedScene = new SceneBase("SampleScene");	// シーンの生成
-		LoadSceneData("class SampleScene");				// 開始時のシーンをロード
+		// シーンの生成
+		m_loadedScene = new SceneBase(dynamic_cast<yUnoEngine::EditScene*>(m_editScene)->GetBuildSceneName());
+		// 開始時のシーンをロード
+		LoadSceneData(dynamic_cast<yUnoEngine::EditScene*>(m_editScene)->GetBuildSceneName());
 	}
 
 	m_loadedScene->Init();	// ロードしたシーンの初期化
