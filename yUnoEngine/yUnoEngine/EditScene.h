@@ -35,10 +35,6 @@ namespace yUnoEngine
 				///	編集時に使用するカメラのコンポーネント情報	</summary>
 				Transform transformComponent;	// トランスフォーム
 				Camera cameraComponent;			// カメラ
-
-				/// <summary>
-				///	開くシーン名	</summary>
-				char buildSceneName[30];
 			};
 			
 			// ----- variables / 変数 ----- //
@@ -63,12 +59,6 @@ namespace yUnoEngine
 			void Init() override;
 			void UnInit() override;
 			void Update() override;
-
-			/// <summary>
-			///	編集開始時に開くシーン名を取得	</summary>
-			/// <returns>
-			///	開くシーン名	</returns>
-			const char* GetBuildSceneName();
 	};
 };
 

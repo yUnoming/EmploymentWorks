@@ -16,12 +16,16 @@ class WindowMenu
 		///	各メニューに割り振るID	</summary>
 		enum MenuID
 		{
+			// ファイルタブ
+			ID_File,
+			ID_NewScene,
+
 			// 作成タブ
-			ID_Create = 1,
+			ID_Create = 10,
 			ID_CreateCube,
 
 			// サーバータブ
-			ID_Server = 10,
+			ID_Server = 20,
 			ID_OpenServer,
 			ID_CloseServer,
 			ID_LoginServer,

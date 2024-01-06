@@ -9,6 +9,11 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "SceneBase.h"
+#include "LaunchSceneInformation.h"
+
+#include <string>
+#include <unordered_map>
+
 
 /// <summary>
 /// シーンに関する機能をまとめたクラス	</summary>
@@ -19,6 +24,12 @@ class yUno_SceneManager
 		/// <summary>
 		///	エディット用シーン	</summary>
 		static SceneBase* m_editScene;
+		/// <summary>
+		///	シーン一覧	</summary>
+		static std::unordered_map<std::string, SceneBase*> m_scenePool;
+		/// <summary>
+		///	起動するシーン情報	</summary>
+		static yUnoEngine::Information::LaunchSceneInformation m_launchSceneInfo;
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -67,6 +78,11 @@ class yUno_SceneManager
 		///	現在シーンの描画処理	</summary>
 		static void DrawScene();
 
+		/// <summary>
+		///	新規シーンを作成	</summary>
+		/// <param name="sceneName">
+		///	新規シーン名	</param>
+		static void CreateNewScene(const char* sceneName);
 #if _DEBUG
 		static SceneBase* GetEditScene() { return m_editScene; };
 #endif

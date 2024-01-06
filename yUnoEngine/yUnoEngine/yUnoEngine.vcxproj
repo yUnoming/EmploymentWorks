@@ -148,6 +148,7 @@
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="KeyInput.cpp" />
+    <ClCompile Include="LaunchSceneInformation.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manipulator.cpp" />
     <ClCompile Include="Manipulator_MoveY.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="InputPartsName.h" />
+    <ClInclude Include="LaunchSceneInformation.h" />
     <ClInclude Include="Manipulator.h" />
     <ClInclude Include="Manipulator_MoveY.h" />
     <ClInclude Include="Manipulator_MoveZ.h" />
