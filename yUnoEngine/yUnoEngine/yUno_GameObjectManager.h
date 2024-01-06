@@ -58,7 +58,8 @@ namespace yUno_SystemManager
 			static void SetObjectNameData(ObjectNameData objNameData);
 			/// <summary>
 			/// オブジェクト名情報を削除	/// </summary>
-			/// <param name="name"></param>
+			/// <param name="name">
+			///	削除するオブジェクト名	</param>
 			static void DeleteObjectNameData(const char* name);
 		
 		private:

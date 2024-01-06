@@ -2,6 +2,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_NetWorkManager.h"
+#include "yUno_SceneManager.h"
 
 #include "WindowMenu.h"
 #include "SceneManager.h"
@@ -17,6 +18,19 @@ void WindowMenu::Create()
     MENUITEMINFO mii;
     memset(&mii, 0, sizeof(MENUITEMINFO));
     mii.cbSize = sizeof(MENUITEMINFO);
+
+    // ===== ファイルタブ作成 ===== //
+    mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
+    mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
+    mii.wID = ID_Create;
+    mii.dwTypeData = (LPWSTR)(L"ファイル");
+    hSubMenu = mii.hSubMenu = CreatePopupMenu();
+    InsertMenuItem(hMenu, ID_File, TRUE, &mii);
+
+    mii.fMask = MIIM_ID | MIIM_STRING;
+    mii.wID = ID_CreateCube;
+    mii.dwTypeData = (LPWSTR)(L"新規シーン");
+    InsertMenuItem(hSubMenu, ID_NewScene, FALSE, &mii);
 
     // ===== 作成タブ作成 ===== //
     mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
@@ -71,7 +85,15 @@ void WindowMenu::Run(WORD menuID)
 {
     switch (menuID)
     {
-        // ===== 作成タグの処理 ===== //
+        // ===== ファイルタブの処理 ===== //
+        //------------//
+        // 新規シーン //
+        case WindowMenu::ID_NewScene:
+        {
+
+        }
+
+        // ===== 作成タブの処理 ===== //
         //----------//
         // Cube作成 //
         case WindowMenu::ID_CreateCube:
@@ -87,7 +109,7 @@ void WindowMenu::Run(WORD menuID)
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
             break;
         }
-        // ===== サーバータグの処理 ===== //
+        // ===== サーバータブの処理 ===== //
         //----------------//
         // サーバーを開く //
         case WindowMenu::ID_OpenServer:

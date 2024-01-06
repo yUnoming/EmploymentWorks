@@ -32,7 +32,6 @@ void yUnoEngine::EditScene::Init()
 	else
 	{
 		// シーン編集に使うデータを作成
-		strcpy_s(m_sceneEditorData.buildSceneName, "SampleScene");
 		m_sceneEditorData.transformComponent = *m_spectatorCamera->transform;
 		m_sceneEditorData.cameraComponent = *m_spectatorCamera->GetComponent<Camera>();
 	}
@@ -49,7 +48,6 @@ void yUnoEngine::EditScene::UnInit()
 {
 	// ===== セーブ処理 ===== //
 	// シーン編集に使うデータを作成
-	strcpy_s(m_sceneEditorData.buildSceneName, SceneManager::GetNowScene()->GetSceneName());
 	m_sceneEditorData.transformComponent = *m_spectatorCamera->transform;
 	m_sceneEditorData.cameraComponent = *m_spectatorCamera->GetComponent<Camera>();
 
@@ -102,13 +100,4 @@ void yUnoEngine::EditScene::Update()
 
 	// シーンの基本的な更新処理を実行
 	SceneBase::Update();
-}
-
-const char* yUnoEngine::EditScene::GetBuildSceneName()
-{
-	// 開くシーンが存在しない？
-	if(m_sceneEditorData.buildSceneName == nullptr)
-		return "SampleScene";	// サンプルシーン名を返す
-	// 開くシーンがあれば、そのシーン名を返す
-	return m_sceneEditorData.buildSceneName;
 }

@@ -23,6 +23,8 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 SceneBase* yUno_SceneManager::m_loadedScene;
 SceneBase* yUno_SceneManager::m_editScene;
+std::unordered_map<std::string, SceneBase*> yUno_SceneManager::m_scenePool;
+yUnoEngine::Information::LaunchSceneInformation yUno_SceneManager::m_launchSceneInfo;
 
 void yUno_SceneManager::SaveSceneData()
 {
@@ -129,6 +131,9 @@ void yUno_SceneManager::SaveSceneData()
 
 void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 {
+	// ベースシーンの生成
+	SceneBase* loadScene = new SceneBase(loadSceneName);
+
 	// シーンファイル名を取得
 	char sceneFileName[30] = { "Assets/" };
 	strcat_s(sceneFileName, sizeof(sceneFileName), loadSceneName);
@@ -172,17 +177,17 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 			if (strcmp(objectType, "SpectatorCamera") == 0)
 			{
 				// オブジェクト追加
-				addedObject = m_loadedScene->LoadSceneObject<SpectatorCamera>(layerNo, objNameData.myName);
+				addedObject = loadScene->LoadSceneObject<SpectatorCamera>(layerNo, objNameData.myName);
 			}
 			// Testオブジェクト？
 			else if (strcmp(objectType, "Test") == 0)
 			{
-				addedObject = m_loadedScene->LoadSceneObject<Test>(layerNo, objNameData.myName);
+				addedObject = loadScene->LoadSceneObject<Test>(layerNo, objNameData.myName);
 			}
 			// Test2オブジェクト？
 			else if (strcmp(objectType, "Test2") == 0)
 			{
-				addedObject = m_loadedScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
+				addedObject = loadScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
 			}
 
 			if (addedObject != nullptr)
@@ -220,26 +225,27 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 		// ファイルを閉じる
 		fclose(file);
 	}
+
+	m_scenePool[loadSceneName] = loadScene;		// ロードしたシーンを格納
+	m_loadedScene = loadScene;					// ロードしたシーンを代入
 }
 
 void yUno_SceneManager::LoadScene()
 {
-	// 現在、シーンを開いている？
-	if (m_loadedScene)
-	{
-		m_loadedScene->UnInit();			// シーンの終了処理
-		delete m_loadedScene;				// シーンの削除
-		m_loadedScene = new SceneBase();	// シーンの生成
-	}
-	else
-	{
-		// シーンの生成
-		m_loadedScene = new SceneBase(dynamic_cast<yUnoEngine::EditScene*>(m_editScene)->GetBuildSceneName());
-		// 開始時のシーンをロード
-		LoadSceneData(dynamic_cast<yUnoEngine::EditScene*>(m_editScene)->GetBuildSceneName());
-	}
+	// 起動するシーン情報をロード
+	m_launchSceneInfo.Load();
 
-	m_loadedScene->Init();	// ロードしたシーンの初期化
+	// 起動するシーンが存在しない？
+	if (!m_launchSceneInfo.GetLaunchSceneName())
+		// 初期シーン作成
+		CreateNewScene("SampleScene");
+	// 起動するシーンが存在する
+	else
+		// 起動時に開くシーンをロード
+		LoadSceneData(m_launchSceneInfo.GetLaunchSceneName());
+	
+	// ロードしたシーンの初期化
+	m_loadedScene->Init();
 }
 
 yUno_SceneManager::yUno_SceneManager()
@@ -265,6 +271,8 @@ void yUno_SceneManager::UnInitScene()
 	m_editScene->UnInit();
 	// 現在のシーン状態をセーブ
 	SaveSceneData();
+	// 起動するシーン情報をセーブ
+	m_launchSceneInfo.Save();
 
 	// マネージャーの終了処理
 	yUno_SystemManager::yUno_GameObjectManager::UnInit();
@@ -296,4 +304,16 @@ void yUno_SceneManager::DrawScene()
 	// エディットシーンの描画処理
 	m_editScene->Draw();
 #endif
+}
+
+void yUno_SceneManager::CreateNewScene(const char* sceneName)
+{
+	// 新規シーン生成
+	SceneBase* newScene = new SceneBase(sceneName);
+	// シーンにカメラ追加
+	GameObject* camera = newScene->AddSceneObject<GameObject>(0, "MainCamera");
+	camera->AddComponent<Camera>();
+
+	m_scenePool[sceneName] = newScene;		// ロードしたシーンを格納
+	m_loadedScene = newScene;				// ロードしたシーンを代入
 }
