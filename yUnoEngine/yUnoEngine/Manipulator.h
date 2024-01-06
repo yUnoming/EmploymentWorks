@@ -52,6 +52,8 @@ namespace yUnoEngine
 					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
 					// エディットカメラ取得
 					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+					// サイズ調整
+					transform->scale *= 0.7f;
 					// 非表示にしておく
 					isActive = false;
 				};
