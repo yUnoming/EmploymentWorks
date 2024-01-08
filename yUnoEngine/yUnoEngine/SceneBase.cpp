@@ -2,6 +2,7 @@
 #include "yUno_GameObjectManager.h"
 
 #include "SceneBase.h"
+#include "Camera.h"
 #include "Message.h"
 
 
@@ -64,6 +65,13 @@ void SceneBase::Draw()
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
 		{
+// デバッグ時の処理
+#if _DEBUG
+			// カメラコンポーネントを持っている？
+			if (object->GetComponent<Camera>())
+				continue;	// 次のオブジェクトに遷移
+#endif
+// 通常の処理
 			// アクティブ状態？
 			if(object->isActive)
 				object->DrawBase();	// 描画処理

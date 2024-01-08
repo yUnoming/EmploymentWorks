@@ -75,6 +75,7 @@ yUno_SystemManager::yUno_GameObjectManager::GetObjectNameData(const char* name)
 			return objNameData;
 		}
 	}
+	return ObjectNameData();
 }
 
 void yUno_SystemManager::yUno_GameObjectManager::SetObjectNameData(ObjectNameData objNameData)
