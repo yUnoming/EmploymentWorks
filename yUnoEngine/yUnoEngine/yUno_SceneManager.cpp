@@ -189,6 +189,11 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 			{
 				addedObject = loadScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
 			}
+			// ‚»‚êˆÈŠO
+			else
+			{
+				addedObject = loadScene->LoadSceneObject<GameObject>(layerNo, objNameData.myName);
+			}
 
 			if (addedObject != nullptr)
 			{

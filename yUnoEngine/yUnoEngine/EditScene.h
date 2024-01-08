@@ -59,6 +59,7 @@ namespace yUnoEngine
 			void Init() override;
 			void UnInit() override;
 			void Update() override;
+			void Draw() override;
 	};
 };
 

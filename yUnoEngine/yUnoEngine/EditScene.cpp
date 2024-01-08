@@ -98,6 +98,30 @@ void yUnoEngine::EditScene::Update()
 		m_manipulator_MoveZ->transform->parent = nullptr;
 	}
 
-	// シーンの基本的な更新処理を実行
-	SceneBase::Update();
+	// 各スレッド内のオブジェクトリスト取得
+	for (auto& objectList : m_sceneObjectList)
+	{
+		// リスト内のオブジェクト取得
+		for (GameObject* object : objectList)
+		{
+			// アクティブ状態？
+			if (object->isActive)
+				object->UpdateBase();	// 更新処理
+		}
+	}
+}
+
+void yUnoEngine::EditScene::Draw()
+{
+	// 各スレッド内のオブジェクトリスト取得
+	for (auto& objectList : m_sceneObjectList)
+	{
+		// リスト内のオブジェクト取得
+		for (GameObject* object : objectList)
+		{
+			// アクティブ状態？
+			if (object->isActive)
+				object->DrawBase();	// 描画処理
+		}
+	}
 }

@@ -22,13 +22,13 @@ void WindowMenu::Create()
     // ===== ファイルタブ作成 ===== //
     mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
     mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
-    mii.wID = ID_Create;
+    mii.wID = ID_File;
     mii.dwTypeData = (LPWSTR)(L"ファイル");
     hSubMenu = mii.hSubMenu = CreatePopupMenu();
     InsertMenuItem(hMenu, ID_File, TRUE, &mii);
 
     mii.fMask = MIIM_ID | MIIM_STRING;
-    mii.wID = ID_CreateCube;
+    mii.wID = ID_NewScene;
     mii.dwTypeData = (LPWSTR)(L"新規シーン");
     InsertMenuItem(hSubMenu, ID_NewScene, FALSE, &mii);
 
@@ -90,7 +90,13 @@ void WindowMenu::Run(WORD menuID)
         // 新規シーン //
         case WindowMenu::ID_NewScene:
         {
+            // シーン名入力
+            char sceneName[30];
+            printf("\nシーン名を入力してください（アルファベットのみ）\n");
+            rewind(stdin);
+            int r = scanf_s("%[^\n]", sceneName, 30);	// 改行以外を読み込む
 
+            yUno_SceneManager::CreateNewScene(sceneName);
         }
 
         // ===== 作成タブの処理 ===== //
