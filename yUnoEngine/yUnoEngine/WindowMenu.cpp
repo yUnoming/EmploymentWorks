@@ -14,7 +14,6 @@ void WindowMenu::Create()
     HMENU hMenu = CreateMenu(); // メニュー作成
     HMENU hSubMenu;
 
-
     MENUITEMINFO mii;
     memset(&mii, 0, sizeof(MENUITEMINFO));
     mii.cbSize = sizeof(MENUITEMINFO);
@@ -31,6 +30,10 @@ void WindowMenu::Create()
     mii.wID = ID_NewScene;
     mii.dwTypeData = (LPWSTR)(L"新規シーン");
     InsertMenuItem(hSubMenu, ID_NewScene, FALSE, &mii);
+
+    mii.wID = ID_OpenScene;
+    mii.dwTypeData = (LPWSTR)(L"シーンを開く");
+    InsertMenuItem(hSubMenu, ID_OpenScene, FALSE, &mii);
 
     // ===== 作成タブ作成 ===== //
     mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
@@ -54,27 +57,22 @@ void WindowMenu::Create()
     mii.fMask = MIIM_ID | MIIM_STRING;
     mii.wID = ID_OpenServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーを開く");
-    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     mii.wID = ID_CloseServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーを閉じる");
-    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     mii.wID = ID_LoginServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーにログイン");
-    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     mii.wID = ID_LogoutServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーからログアウト");
-    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     mii.wID = ID_SendMessage;
     mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
-    // 作成したメニューをアイテムとして追加
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     // ウィンドウにメニューを追加
@@ -96,9 +94,26 @@ void WindowMenu::Run(WORD menuID)
             rewind(stdin);
             int r = scanf_s("%[^\n]", sceneName, 30);	// 改行以外を読み込む
 
+            // 新規シーン作成
             yUno_SceneManager::CreateNewScene(sceneName);
         }
+        //--------------//
+        // シーンを開く //
+        case WindowMenu::ID_OpenScene:
+        {
+            // シーン名入力
+            char sceneName[30];
+            printf("\nシーン名を入力してください（アルファベットのみ）\n");
+            rewind(stdin);
+            int r = scanf_s("%[^\n]", sceneName, 30);	// 改行以外を読み込む
 
+            // シーンをロード出来なかった？
+            if (!SceneManager::LoadScene(sceneName))
+            {
+                // システム通知を表示
+                MessageBoxW(NULL, L"シーンが存在しませんでした", L"エラーメッセージ", MB_OK);
+            }
+        }
         // ===== 作成タブの処理 ===== //
         //----------//
         // Cube作成 //

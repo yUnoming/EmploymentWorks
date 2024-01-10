@@ -19,6 +19,7 @@ class WindowMenu
 			// ファイルタブ
 			ID_File,
 			ID_NewScene,
+			ID_OpenScene,
 
 			// 作成タブ
 			ID_Create = 10,

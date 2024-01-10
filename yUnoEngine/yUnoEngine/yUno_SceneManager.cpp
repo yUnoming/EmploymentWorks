@@ -129,7 +129,7 @@ void yUno_SceneManager::SaveSceneData()
 	}
 }
 
-void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
+SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 {
 	// ベースシーンの生成
 	SceneBase* loadScene = new SceneBase(loadSceneName);
@@ -230,9 +230,12 @@ void yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 		// ファイルを閉じる
 		fclose(file);
 	}
+	else
+		return nullptr;
 
 	m_scenePool[loadSceneName] = loadScene;		// ロードしたシーンを格納
 	m_loadedScene = loadScene;					// ロードしたシーンを代入
+	return loadScene;
 }
 
 void yUno_SceneManager::LoadScene()
