@@ -30,6 +30,14 @@ namespace PublicSystem
 			/// <returns>
 			///	現在シーンのポインター	</returns>
 			static SceneBase* GetNowScene();
+
+			/// <summary>
+			///	シーンをロードする	</summary>
+			/// <param name="sceneName">
+			///	ロードするシーン名	</param>
+			/// <returns>
+			/// ロードするシーンがあればシーン情報、無ければnullptr	</returns>
+			static SceneBase* LoadScene(const char* sceneName);
 	};
 };
 

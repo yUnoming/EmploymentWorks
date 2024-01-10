@@ -25,9 +25,6 @@ class yUno_SceneManager
 		///	エディット用シーン	</summary>
 		static SceneBase* m_editScene;
 		/// <summary>
-		///	シーン一覧	</summary>
-		static std::unordered_map<std::string, SceneBase*> m_scenePool;
-		/// <summary>
 		///	起動するシーン情報	</summary>
 		static yUnoEngine::Information::LaunchSceneInformation m_launchSceneInfo;
 
@@ -35,12 +32,6 @@ class yUno_SceneManager
 		/// <summary>
 		///	現在のシーン状態をセーブ	</summary>
 		static void SaveSceneData();
-		/// <summary>
-		///	シーン情報をロード	</summary>
-		/// <param name="loadSceneName">
-		///	ロードするシーン名	</param>
-		static void LoadSceneData(const char* loadSceneName);
-
 		/// <summary>
 		/// 選択したシーンをロード	</summary>
 		/// <param name="LoadScene&lt;&gt;();">
@@ -54,6 +45,18 @@ class yUno_SceneManager
 		/// <summary>
 		///	現在ロードされているシーン	</summary>
 		static SceneBase* m_loadedScene;
+		/// <summary>
+		///	シーン一覧	</summary>
+		static std::unordered_map<std::string, SceneBase*> m_scenePool;
+
+		// ----- functions / 関数 ----- //
+		/// <summary>
+		///	シーン情報をロード	</summary>
+		/// <param name="loadSceneName">
+		///	ロードするシーン名	</param>
+		/// <returns>
+		/// ロードするシーンがあればシーン情報、無ければnullptr	</returns>
+		static SceneBase* LoadSceneData(const char* loadSceneName);
 
 	public:
 		// ----- functions / 関数 ----- //
