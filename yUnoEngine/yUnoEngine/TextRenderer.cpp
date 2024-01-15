@@ -21,9 +21,6 @@ void TextRenderer::Init()
 	Renderer::GetDevice()->CreateSamplerState(&samDesc, &m_samplerState);
 
 	text = dummyText;
-
-	// ----- 空文字フォント作成 ----- //
-	//m_TextInfoList.push_back(CreateText(" ", 0));
 }
 
 void TextRenderer::Update()
@@ -33,10 +30,10 @@ void TextRenderer::Update()
 	{
 		// ===== テキスト情報の作成 ===== //
 		// テキストの長さ（文字数）
-		int textLength = strlen(text);
+		m_textLength = strlen(text);
 		
 		// テキストの長さ分ループ
-		for (int i = 0; i < textLength; i++)
+		for (int i = 0; i < m_textLength; i++)
 		{
 			// 既に別のテキストが格納されている？
 			if (m_TextInfoList.size() - i > 0)
@@ -70,6 +67,7 @@ void TextRenderer::Draw()
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
 		UINT offset = 0;
+		m_TextInfoList[i].vertexBuffer = yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(*this, i);
 		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_TextInfoList[i].vertexBuffer, &stride, &offset);
 
 		// テクスチャ描画に必要な情報を設定
@@ -114,7 +112,7 @@ TextRenderer::TextInfo TextRenderer::CreateText(char text, int textNum)
 	shaderResourceView = yUno_SystemManager::yUno_TextRendererManager::GetShaderResourceView(fontTexture);
 	// 頂点バッファ
 	ID3D11Buffer* vertexBuffer;
-	vertexBuffer = yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(fontSize, textNum);
+	vertexBuffer = yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(*this, textNum);
 
 	// ===== テキスト情報をセット ===== //
 	TextInfo textInfo;

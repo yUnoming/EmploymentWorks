@@ -17,7 +17,7 @@ class Test : public GameObject
 		{
 			AddComponent<ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
 			AddComponent<BoxCollider>();
-			AddComponent<Material>();
+			AddComponent<Material>()->materialColor = Color(1.0f, 0.0f, 0.0f, 1.0f);
 
 			transform->position.x = 0.0f;
 			transform->position.z = 3.0f;

@@ -24,6 +24,7 @@ namespace PublicSystem
 			/// <param name="addText">
 			/// 追加するテキスト	</param>
 			void AddText(const char* addText);
+			void ChangeText(const char* changeText);
 	};
 }
 

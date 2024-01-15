@@ -48,6 +48,10 @@ class TextRenderer : public EachFunction
 		/// 前回表示されていたテキスト </summary>
 		char m_lateText[101];
 
+		/// <summary>
+		///	テキストの長さ（文字数）	</summary>
+		int m_textLength;
+
 		// ----- functions / 関数 ----- //
 		/// <summary>
 		/// 描画するテキストを作成 </summary>
@@ -83,6 +87,9 @@ class TextRenderer : public EachFunction
 		/// <summary>
 		/// 文字サイズ </summary>
 		Vector2 fontSize;
+		/// <summary>
+		///	テキストの左上頂点位置	</summary>
+		Vector2 leftTopPoint = Vector2(0.f, 0.f);
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -94,5 +101,9 @@ class TextRenderer : public EachFunction
 		/// <summary>
 		///	描画	</summary>
 		void Draw();
+
+		/// <summary>
+		///	テキストの長さ（文字数）を取得	</summary>
+		int GetTextLength() { return m_textLength; };
 };
 

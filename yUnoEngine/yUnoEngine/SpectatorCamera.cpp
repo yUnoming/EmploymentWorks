@@ -48,6 +48,8 @@ void SpectatorCamera::Update()
 	//}
 
 	// ===== クリックしたオブジェクトを取得 ===== //
+	static bool isTextMove = false;
+	bool isObjectClicked = false;	// オブジェクトがクリックされたかどうか
 	// 左クリックされた？
 	if (MouseInput::GetMouseDownTrigger(LeftButton))
 	{
@@ -75,6 +77,8 @@ void SpectatorCamera::Update()
 		{
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
+			// クリックされたことを伝える
+			isObjectClicked = true;
 
 			// ----- 送信する値を代入 ----- //
 			// インスタンス生成
@@ -93,6 +97,8 @@ void SpectatorCamera::Update()
 		{
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
+			// クリックされたことを伝える
+			isObjectClicked = true;
 
 			// ----- 送信する値を代入 ----- //
 			// インスタンス生成
@@ -125,6 +131,13 @@ void SpectatorCamera::Update()
 				SendMessageData(messageData);
 		}
 	}
+	// テキストオブジェクトが離された？
+	else if (MouseInput::GetMouseUp(LeftButton) && m_clickedObject && m_clickedObject->GetComponent<Text>())
+	{
+		// テキスト移動を実行できないようにする
+		isTextMove = false;
+	}
+	// マニピュレーターが離された？
 	else if (MouseInput::GetMouseUp(LeftButton) && m_clickedManipulator)
 	{
 		m_clickedManipulator = nullptr;
@@ -142,6 +155,45 @@ void SpectatorCamera::Update()
 			m_clickedObject->transform->position.z -= 0.01f;
 		if (KeyInput::GetKeyDown(D))
 			m_clickedObject->transform->position.x += 0.01f;
+
+		// テキストコンポーネントを持っている？
+		if (m_clickedObject->GetComponent<Text>())
+		{
+			// ===== テキスト移動処理 ===== //
+			static Vector2 startCursorPosition;		// 処理開始時のクリック座標 
+			static Vector2 startLeftTopPoint;		// 処理開始時の左上座標
+			// 現在のカーソル座標
+			Vector2 nowCursorPosition = MouseInput::GetCursorPosition();
+
+			// テキストがクリックされた瞬間？
+			if (isObjectClicked)
+			{
+				// 開始時に取得する情報を取得
+				isTextMove = true;
+				startCursorPosition = nowCursorPosition;
+				startLeftTopPoint = m_clickedObject->GetComponent<Text>()->leftTopPoint;
+			}
+			// テキスト移動処理が実行できる？
+			else if(isTextMove)
+			{
+				// テキストの左上座標を計算
+				m_clickedObject->GetComponent<Text>()->leftTopPoint = startLeftTopPoint + (nowCursorPosition - startCursorPosition);
+			}
+
+			// ===== テキストのフォントサイズの拡大・縮小 ===== //
+			// マウスホイールが前方回転された？
+			if (MouseInput::GetWheelRotationForward())
+			{
+				// フォントサイズを縮小する
+				m_clickedObject->GetComponent<Text>()->fontSize *= 0.9f;
+			}
+			// マウスホイールが後方回転された？
+			else if (MouseInput::GetWheelRotationBackward())
+			{
+				// フォントサイズを拡大する
+				m_clickedObject->GetComponent<Text>()->fontSize *= 1.1f;
+			}
+		}
 	}	
 }
 

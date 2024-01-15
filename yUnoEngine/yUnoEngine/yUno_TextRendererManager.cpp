@@ -196,27 +196,31 @@ ID3D11ShaderResourceView* yUno_SystemManager::yUno_TextRendererManager::GetShade
 	return shaderResourceView;
 }
 
-ID3D11Buffer* yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(PublicSystem::Vector2 fontSize, int fontNum)
+ID3D11Buffer* yUno_SystemManager::yUno_TextRendererManager::GetVertexBuffer(TextRenderer textData, int fontNum)
 {
 	// 頂点バッファの設定
 	VERTEX_3D vertex[4];
-
-	vertex[0].Position = DirectX::SimpleMath::Vector3(0.0f + fontSize.x * fontNum, 0.0f, 0.0f);
+	// 左上
+	vertex[0].Position = DirectX::SimpleMath::Vector3(
+		textData.leftTopPoint.x + textData.fontSize.x * fontNum, textData.leftTopPoint.y, 0.0f);
 	vertex[0].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
 	vertex[0].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 0.0f);
-
-	vertex[1].Position = DirectX::SimpleMath::Vector3(fontSize.x + fontSize.x * fontNum, 0.0f, 0.0f);
+	// 右上
+	vertex[1].Position = DirectX::SimpleMath::Vector3(
+		textData.leftTopPoint.x + textData.fontSize.x + textData.fontSize.x * fontNum, textData.leftTopPoint.y, 0.0f);
 	vertex[1].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
 	vertex[1].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 0.0f);
-
-	vertex[2].Position = DirectX::SimpleMath::Vector3(0.0f + fontSize.x * fontNum, fontSize.y, 0.0f);
+	// 左下
+	vertex[2].Position = DirectX::SimpleMath::Vector3(
+		textData.leftTopPoint.x + textData.fontSize.x * fontNum, textData.leftTopPoint.y + textData.fontSize.y, 0.0f);
 	vertex[2].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
 	vertex[2].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = DirectX::SimpleMath::Vector2(0.0f, 1.0f);
-
-	vertex[3].Position = DirectX::SimpleMath::Vector3(fontSize.x + fontSize.x * fontNum, fontSize.y, 0.0f);
+	// 右下
+	vertex[3].Position = DirectX::SimpleMath::Vector3(
+		textData.leftTopPoint.x + textData.fontSize.x + textData.fontSize.x * fontNum, textData.leftTopPoint.y + textData.fontSize.y, 0.0f);
 	vertex[3].Normal = DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f);
 	vertex[3].Diffuse = DirectX::SimpleMath::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = DirectX::SimpleMath::Vector2(1.0f, 1.0f);

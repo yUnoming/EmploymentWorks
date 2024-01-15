@@ -200,3 +200,9 @@ bool PublicSystem::Vector2::operator!=(const Vector2& vec)
     return !(x == vec.x && y == vec.y);
 }
 
+PublicSystem::Vector2::operator PublicSystem::Vector3() const
+{
+    Vector3 newVec = Vector3(x, y);
+    return newVec;
+}
+

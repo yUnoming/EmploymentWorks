@@ -16,9 +16,9 @@
 
 // ----- 命名 ----- //
 // ウィンドウクラス名
-#define WINDOWCLASS_NAME TEXT("yUnoEngine")
+#define WINDOWCLASS_NAME TEXT("Cubeor Shooter")
 // ウィンドウ名
-#define WINDOW_NAME TEXT("yUnoEngine")
+#define WINDOW_NAME TEXT("Cubeor Shooter")
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -132,9 +132,10 @@ bool Application::InitWnd()
     // ウィンドウにフォーカスを設定.
     SetFocus(m_hWnd);
 
+#if _DEBUG
     // ----- ウィンドウのメニュー作成 ----- //
     WindowMenu::Create();
-
+#endif
 
     // 正常に行えたことを伝える
     return true;

@@ -5,6 +5,7 @@
 * @author	Kojima, Kosei
 * @date		2023.11.06
 */
+#include "Vector3.h"
 namespace PublicSystem
 {
 	/// <summary>
@@ -248,6 +249,11 @@ namespace PublicSystem
 			/// <returns>
 			/// 非等値ならtrue、等値ならfalse	</returns>
 			bool operator!=(const Vector2& vec);
+
+			// ----- キャスト演算子 ----- //
+			/// <summary>
+			///	Vector3へのキャスト用オペレーター	</summary>
+			operator Vector3() const;
 	};
 }
 

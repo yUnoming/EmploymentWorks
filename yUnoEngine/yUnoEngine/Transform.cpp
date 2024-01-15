@@ -32,7 +32,7 @@ DirectX::SimpleMath::Matrix PublicSystem::Transform::GetWorldMatrix(Transform* c
 		DirectX::XMConvertToRadians(transform->rotation.x),
 		DirectX::XMConvertToRadians(transform->rotation.z));
 	scl = DirectX::SimpleMath::Matrix::CreateScale(transform->scale.x, transform->scale.y, transform->scale.z);
-	world = rot * trans * scl * parentMatrix;
+	world = scl * rot * trans * parentMatrix;
 
 	return world;
 }

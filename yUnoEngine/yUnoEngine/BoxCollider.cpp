@@ -6,7 +6,7 @@
 #include "Vector3.h"
 
 
-void BoxCollider::CalcCollision(BoxCollider *ohter)
+void BoxCollider::CalcCollision(BoxCollider *other)
 {
 	// 自身の当たり判定の最小値を代入
 	Vector3 myMinPoints = Vector3
@@ -27,17 +27,17 @@ void BoxCollider::CalcCollision(BoxCollider *ohter)
 	// 相手の当たり判定の最小値を代入
 	Vector3 otherMinPoints = Vector3
 	(
-		ohter->transform->position.x - ohter->transform->scale.x / 2,
-		ohter->transform->position.y - ohter->transform->scale.y / 2,
-		ohter->transform->position.z - ohter->transform->scale.z / 2
+		other->transform->position.x - other->transform->scale.x / 2,
+		other->transform->position.y - other->transform->scale.y / 2,
+		other->transform->position.z - other->transform->scale.z / 2
 	);
 
 	// 相手の当たり判定の最大値を代入
 	Vector3 otherMaxPoints = Vector3
 	(
-		ohter->transform->position.x + ohter->transform->scale.x / 2,
-		ohter->transform->position.y + ohter->transform->scale.y / 2,
-		ohter->transform->position.z + ohter->transform->scale.z / 2
+		other->transform->position.x + other->transform->scale.x / 2,
+		other->transform->position.y + other->transform->scale.y / 2,
+		other->transform->position.z + other->transform->scale.z / 2
 	);
 
 	// ===== 当たっているかどうか計算する処理 ===== //
@@ -59,6 +59,6 @@ void BoxCollider::CalcCollision(BoxCollider *ohter)
 	// ここまで来たならオブジェクト同士は当たっている
 	
 	// 当たり判定が当たった場合の処理を行う関数を呼ぶ
-	gameObject->HitCollision();			// 自身用
-	ohter->gameObject->HitCollision();	// 相手用
+	gameObject->HitCollision(other->gameObject);	// 自身用
+	other->gameObject->HitCollision(gameObject);	// 相手用
 }

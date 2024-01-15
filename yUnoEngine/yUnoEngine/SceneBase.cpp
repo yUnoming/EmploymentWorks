@@ -1,5 +1,6 @@
 #include "yUno_NetWorkManager.h"
 #include "yUno_GameObjectManager.h"
+#include "yUno_CollisionManager.h"
 
 #include "SceneBase.h"
 #include "Camera.h"
@@ -10,6 +11,8 @@ void SceneBase::Delete(GameObject* object)
 {
 	// オブジェクト名情報を削除
 	yUno_SystemManager::yUno_GameObjectManager::DeleteObjectNameData(object->GetName());
+	if (object->GetComponent<BoxCollider>())
+		yUno_SystemManager::yUno_CollisionManager::Erase(object->GetComponent<BoxCollider>());
 
 	// ===== オブジェクト削除のメッセージを送る ===== //
 	// インスタンス生成
@@ -44,6 +47,9 @@ void SceneBase::UnInit()
 
 void SceneBase::Update()
 {
+	bool isDestroy;
+	std::list<GameObject*> destroyObjectList;
+
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_sceneObjectList)
 	{
@@ -51,8 +57,24 @@ void SceneBase::Update()
 		for (GameObject* object : objectList)
 		{
 			// アクティブ状態？
-			if(object->isActive)
-				object->UpdateBase();	// 更新処理
+			if (object->isActive)
+			{
+				isDestroy = object->UpdateBase();	// 更新処理(戻り値で削除フラグ取得)
+				
+				// オブジェクトを削除する？
+				if (isDestroy)
+					destroyObjectList.push_back(object);	// 削除用リストに格納
+			}
+		}
+	}
+
+	// 削除するオブジェクトが存在する？
+	if (!destroyObjectList.empty())
+	{
+		// オブジェクト分ループ
+		for (GameObject* object : destroyObjectList)
+		{
+			DeleteSceneObject(object);	// シーンからオブジェクトを削除
 		}
 	}
 }

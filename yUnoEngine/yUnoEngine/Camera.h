@@ -44,13 +44,11 @@ namespace PublicSystem
 			/// <param name="screenPoint">
 			/// スクリーン座標	</param>
 			GameObject* GetScreenPointObject(Vector2 screenPoint);
-#if _DEBUG
 			/// <summary>
 			/// 引数に指定したスクリーン座標にある一番近いマニピュレーターを取得	</summary>
 			/// <param name="screenPoint">
 			/// スクリーン座標	</param>
 			GameObject* GetScreenPointManipulator(Vector2 screenPoint);
-#endif
 	};
 }
 
