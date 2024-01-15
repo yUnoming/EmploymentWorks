@@ -7,6 +7,7 @@
 #include "InputPartsName.h"
 #include "Material.h"
 #include "Text.h"
+#include "Shader.h"
 
 using namespace PublicSystem;
 
@@ -18,6 +19,7 @@ class Test2 : public GameObject
 		{
 			//AddComponent<ModelRenderer>()->Load("Assets\\Models\\yUno_TemplateBox.obj");
 			//AddComponent<BoxCollider>();
+			GetComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 			Material mat;
 			AddComponent<Material>();
 

@@ -86,7 +86,5 @@ class yUno_SceneManager
 		/// <param name="sceneName">
 		///	V‹KƒV[ƒ“–¼	</param>
 		static void CreateNewScene(const char* sceneName);
-#if _DEBUG
 		static SceneBase* GetEditScene() { return m_editScene; };
-#endif
 };

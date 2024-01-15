@@ -10,9 +10,14 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 #include "Transform.h"
+#include "Text.h"
 #include "SpectatorCamera.h"
+
 #include "Test.h"
 #include "Test2.h"
+
+#include "MeteorPool.h"
+#include "ParticlePool.h"
 
 #include "EditScene.h"
 
@@ -51,8 +56,15 @@ void yUno_SceneManager::SaveSceneData()
 		for (auto objectList : m_loadedScene->GetAllSceneObjects())
 		{
 			// リスト内のオブジェクト取得
-			for (auto object : objectList)
+			for (GameObject* object : objectList)
 			{
+				Meteor* meteor = (Meteor*)object;
+				if (strcmp(typeid(*meteor).name(), "class Meteor") == 0)
+					continue;
+				Particle* particle = (Particle*)object;
+				if (strcmp(typeid(*particle).name(), "class Particle") == 0)
+					continue;
+
 				// ----- オブジェクトタイプ取得処理 ----- //
 				char tmpObjectType[50];
 				char* token;
@@ -101,21 +113,39 @@ void yUno_SceneManager::SaveSceneData()
 					// Transformコンポーネント？
 					if (strcmp(componentType, "PublicSystem::Transform") == 0)
 					{
-						// 欲しい型に直す
+						// 型変換
 						Transform castComponent = *dynamic_cast<Transform*>(component);
 
-						// Positionの値書き込み
+						// positionの値書き込み
 						sprintf_s(writeData, "%f, %f, %f", castComponent.position.x, castComponent.position.y, castComponent.position.z);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 
-						// Rotationの値書き込み
+						// rotationの値書き込み
 						sprintf_s(writeData, "%f, %f, %f", castComponent.rotation.x, castComponent.rotation.y, castComponent.rotation.z);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 
-						// Scaleの値書き込み
+						// scaleの値書き込み
 						sprintf_s(writeData, "%f, %f, %f", castComponent.scale.x, castComponent.scale.y, castComponent.scale.z);
+						fprintf(file, writeData);
+						fprintf(file, "\r\n");
+					}
+					// Textコンポーネント？
+					else if (strcmp(componentType, "PublicSystem::Text") == 0)
+					{
+						// 型変換
+						Text castComponent = *dynamic_cast<Text*>(component);
+						// textの値書き込み
+						sprintf_s(writeData, "%s %s", castComponent.text, "textend");
+						fprintf(file, writeData);
+						fprintf(file, "\r\n");
+						// fontSizeの値書き込み
+						sprintf_s(writeData, "%f, %f", castComponent.fontSize.x, castComponent.fontSize.y);
+						fprintf(file, writeData);
+						fprintf(file, "\r\n");
+						// leftTopPointの値書き込み
+						sprintf_s(writeData, "%f, %f", castComponent.leftTopPoint.x, castComponent.leftTopPoint.y);
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 					}
@@ -133,6 +163,8 @@ SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 {
 	// ベースシーンの生成
 	SceneBase* loadScene = new SceneBase(loadSceneName);
+	// ロードしたシーンを代入
+	m_loadedScene = loadScene;
 
 	// シーンファイル名を取得
 	char sceneFileName[30] = { "Assets/" };
@@ -189,6 +221,14 @@ SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 			{
 				addedObject = loadScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
 			}
+			else if (strcmp(objectType, "MeteorPool") == 0)
+			{
+				addedObject = loadScene->LoadSceneObject<MeteorPool>(layerNo, objNameData.myName);
+			}
+			else if (strcmp(objectType, "ParticlePool") == 0)
+			{
+				addedObject = loadScene->LoadSceneObject<ParticlePool>(layerNo, objNameData.myName);
+			}
 			// それ以外
 			else
 			{
@@ -222,6 +262,51 @@ SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 						fscanf_s(file, "%f, %f, %f", &x, &y, &z);
 						addedObject->transform->scale = Vector3(x, y, z);
 					}
+					else if (strcmp(componentType, "PublicSystem::Text") == 0)
+					{
+						char text[101];		// 実際のテキスト用変数
+						char readText[101];	// 読み取り用テキスト変数
+						bool isCatText = false;
+						Vector2 fontSize;
+						Vector2 leftTopPoint;
+						while (true)
+						{
+							fscanf_s(file, "%s", &readText, 101);
+
+							// テキスト終了？
+							if (strcmp(readText, "textend") == 0)
+							{
+								break;	// ループを抜ける
+							}
+
+							// テキストを連結する？
+							if (isCatText)
+							{
+								strcat_s(text, " ");		// 空白の追加
+								strcat_s(text, readText);	// 実際のテキスト用変数に連結
+							}
+							else
+							{
+								strcpy_s(text, readText);	// 実際のテキスト用変数に連結
+								isCatText = true;			// 次回から連結するようにする
+							}
+						}
+						fscanf_s(file, "%f, %f", &fontSize.x, &fontSize.y);
+						fscanf_s(file, "%f, %f", &leftTopPoint.x, &leftTopPoint.y);
+
+						if (!addedObject->GetComponent<PublicSystem::Text>())
+							addedObject->AddComponent<PublicSystem::Text>();
+						
+						Text* textCom = addedObject->GetComponent<PublicSystem::Text>();
+						textCom->ChangeText(text);
+						textCom->fontSize = fontSize;
+						textCom->leftTopPoint = leftTopPoint;
+					}
+					else if (strcmp(componentType, "PublicSystem::Camera") == 0)
+					{
+						if (!addedObject->GetComponent<PublicSystem::Camera>())
+							addedObject->AddComponent<PublicSystem::Camera>();
+					}
 				}
 			}
 			addedObject = nullptr;
@@ -234,7 +319,6 @@ SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 		return nullptr;
 
 	m_scenePool[loadSceneName] = loadScene;		// ロードしたシーンを格納
-	m_loadedScene = loadScene;					// ロードしたシーンを代入
 	return loadScene;
 }
 
@@ -261,6 +345,8 @@ yUno_SceneManager::yUno_SceneManager()
 	m_loadedScene = nullptr;
 }
 
+#include "MeteorPool.h"
+#include "ParticlePool.h"
 void yUno_SceneManager::InitScene()
 {
 #if _DEBUG
@@ -270,6 +356,13 @@ void yUno_SceneManager::InitScene()
 #endif	
 	// 初期シーンのロード
 	LoadScene();
+	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
+	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
+	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
+	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
+	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
+	//Text* textCom = m_loadedScene->AddSceneObject<Test2>(3, "Text")->GetComponent<Text>();
+	//textCom->text = "Press Any Key";
 }
 
 void yUno_SceneManager::UnInitScene()

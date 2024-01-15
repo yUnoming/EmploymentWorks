@@ -18,3 +18,13 @@ void PublicSystem::Text::AddText(const char* addText)
     // 追加するテキストを代入
     this->text = dummyText;
 }
+
+void PublicSystem::Text::ChangeText(const char* changeText)
+{
+    // テキスト長を取得
+    int textLength = strlen(changeText);
+    // 値をコピー
+    memcpy(dummyText, changeText, textLength);
+    // 追加するテキストを代入
+    this->text = dummyText;
+}

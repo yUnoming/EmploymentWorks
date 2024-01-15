@@ -44,6 +44,6 @@ class Component
 		virtual void Draw() {};
 		/// <summary>
 		/// Õ“Ë”»’è	</summary>
-		virtual void HitCollision() {};
+		virtual void HitCollision(GameObject* other) {};
 };
 

@@ -52,6 +52,10 @@ class GameObject
 		/// 自身がいるシーンの情報		</summary>
 		yUno_SceneManager* m_myScene = nullptr;
 
+		/// <summary>
+		///	削除するかどうか	</summary>
+		bool isDestroy;
+
 		// ----- functions / 関数 ----- //
 		/// <summary>
 		/// コンポーネント追加時の確認処理	</summary>
@@ -100,6 +104,10 @@ class GameObject
 		/// コピーするオブジェクト名	</param>
 		void CopyName(const char* name);
 
+		/// <summary>
+		///	自身を削除する	</summary>
+		void Destroy() { isDestroy = true; };
+
 		// オブジェクト単体に関わる処理
 		/// <summary>
 		///	初期化	</summary>
@@ -115,12 +123,12 @@ class GameObject
 		virtual void Draw() {};	
 		/// <summary>
 		/// 当たり判定時	</summary>
-		virtual void HitCollision()
+		virtual void HitCollision(GameObject* other)
 		{
 			// リスト内のコンポーネントを一つずつ取得
 			for (auto com : m_componentList)
 			{
-				com->HitCollision();
+				com->HitCollision(other);
 			}
 		};
 
@@ -133,8 +141,9 @@ class GameObject
 		void UnInitBase();
 		/// <summary>
 		/// ベースの更新処理	</summary>
-		/// </summary>
-		void UpdateBase();
+		/// <returns>
+		/// 削除するかどうか(trueならオブジェクト削除) </returns>
+		bool UpdateBase();
 		/// <summary>
 		/// ベースの描画処理	</summary>
 		/// <param name="parentMatrix">

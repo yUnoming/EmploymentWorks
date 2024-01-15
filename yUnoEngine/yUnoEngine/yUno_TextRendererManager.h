@@ -11,6 +11,7 @@
 #include <Shlwapi.h>
 #include <vector>
 #include "renderer.h"
+#include "TextRenderer.h"
 
 
 namespace yUno_SystemManager
@@ -76,13 +77,13 @@ namespace yUno_SystemManager
 
 			/// <summary>
 			///	頂点バッファを作成し、取得	</summary>
-			/// <param name="fontSize">
-			///	文字サイズ	</param>
+			/// <param name="textData">
+			///	テキスト情報	</param>
 			/// <param name="fontNum">
-			///	何文字目か	</param>
+			///	何文字目か（値が0 = 一文字目）	</param>
 			/// <returns>
 			/// 作成した頂点バッファ	</returns>
-			static ID3D11Buffer* GetVertexBuffer(PublicSystem::Vector2 fontSize, int fontNum);
+			static ID3D11Buffer* GetVertexBuffer(TextRenderer textData, int fontNum);
 
 			/// <summary>
 			/// 作成したフォントをセット </summary>

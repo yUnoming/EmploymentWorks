@@ -481,22 +481,25 @@ void Server::SendData()
 
 void Server::SendMessageData(MessageData& messageData)
 {
-	// ===== その他に送る情報を代入 ===== //
-	// ユーザーランク
-	messageData.message.header.userRank = m_myServerRank;
-
-	// ===== 送信処理 ===== //
-	// データの送信時、エラーが発生した？
-	if (sendto(
-		m_mySocket,							// ソケット番号
-		messageData.data,					// 送信データ
-		sizeof(messageData.data),			// 送信データ長
-		0,									// フラグ
-		(sockaddr*)&m_sendAddress,			// 送信先アドレス
-		sizeof(sockaddr))					// アドレス構造体のバイト長
-		== SOCKET_ERROR)
+	if (m_isCommunicationData || messageData.message.header.type == MessageType::CommunicationStart)
 	{
-		std::cout << "データの送信に失敗しました" << std::endl;
+		// ===== その他に送る情報を代入 ===== //
+		// ユーザーランク
+		messageData.message.header.userRank = m_myServerRank;
+
+		// ===== 送信処理 ===== //
+		// データの送信時、エラーが発生した？
+		if (sendto(
+			m_mySocket,							// ソケット番号
+			messageData.data,					// 送信データ
+			sizeof(messageData.data),			// 送信データ長
+			0,									// フラグ
+			(sockaddr*)&m_sendAddress,			// 送信先アドレス
+			sizeof(sockaddr))					// アドレス構造体のバイト長
+			== SOCKET_ERROR)
+		{
+			std::cout << "データの送信に失敗しました" << std::endl;
+		}
 	}
 }
 

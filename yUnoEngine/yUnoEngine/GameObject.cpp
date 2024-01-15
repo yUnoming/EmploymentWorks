@@ -13,6 +13,7 @@
 #include "yUno_SceneManager.h"
 #include "yUno_ComponentManager.h"
 #include "yUno_CollisionManager.h"
+#include "SceneManager.h"
 
 #include <algorithm>
 
@@ -42,7 +43,7 @@ GameObject::GameObject()
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform> ();
 	// Shaderコンポーネントを追加
-	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
+	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\vertexLightingVS.cso", "Assets\\Shaders\\vertexLightingPS.cso");
 }
 
 GameObject::GameObject(yUno_SceneManager* nowScene)
@@ -52,7 +53,7 @@ GameObject::GameObject(yUno_SceneManager* nowScene)
 	// Transformコンポーネントを追加
 	transform = AddComponent <PublicSystem::Transform>();
 	// Shaderコンポーネントを追加
-	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
+	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\vertexLightingVS.cso", "Assets\\Shaders\\vertexLightingPS.cso");
 	// 現在シーンを代入する
 	m_myScene = nowScene;
 }
@@ -105,7 +106,7 @@ void GameObject::UnInitBase()
 	UnInit();
 }
 
-void GameObject::UpdateBase()
+bool GameObject::UpdateBase()
 {
 	int index = 0;	// 要素数
 
@@ -130,6 +131,11 @@ void GameObject::UpdateBase()
 	}
 	// オブジェクトの更新処理
 	Update();
+	
+	// オブジェクトを削除する？
+	if (isDestroy)
+		return true;
+	return false;
 }
 
 void GameObject::DrawBase()

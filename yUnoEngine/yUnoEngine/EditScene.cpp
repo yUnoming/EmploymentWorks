@@ -1,5 +1,6 @@
 #include "EditScene.h"
 #include "SceneManager.h"
+#include "Text.h"
 
 void yUnoEngine::EditScene::Init()
 {
@@ -71,17 +72,21 @@ void yUnoEngine::EditScene::Update()
 	// オブジェクトをクリックした？
 	if (m_spectatorCamera->GetClickedObject() != nullptr)
 	{
-		// ===== マニピュレーターの表示処理 ===== //
-		// ----- 移動 ----- //
-		// X軸方向
-		m_manipulator_MoveX->isActive = true;
-		m_manipulator_MoveX->transform->parent = m_spectatorCamera->GetClickedObject();
-		// Y軸方向
-		m_manipulator_MoveY->isActive = true;
-		m_manipulator_MoveY->transform->parent = m_spectatorCamera->GetClickedObject();
-		// Z軸方向
-		m_manipulator_MoveZ->isActive = true;
-		m_manipulator_MoveZ->transform->parent = m_spectatorCamera->GetClickedObject();
+		// テキストではない？
+		if (!m_spectatorCamera->GetClickedObject()->GetComponent<Text>())
+		{
+			// ===== マニピュレーターの表示処理 ===== //
+			// ----- 移動 ----- //
+			// X軸方向
+			m_manipulator_MoveX->isActive = true;
+			m_manipulator_MoveX->transform->parent = m_spectatorCamera->GetClickedObject();
+			// Y軸方向
+			m_manipulator_MoveY->isActive = true;
+			m_manipulator_MoveY->transform->parent = m_spectatorCamera->GetClickedObject();
+			// Z軸方向
+			m_manipulator_MoveZ->isActive = true;
+			m_manipulator_MoveZ->transform->parent = m_spectatorCamera->GetClickedObject();
+		}
 	}
 	else
 	{

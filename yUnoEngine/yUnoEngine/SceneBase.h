@@ -184,6 +184,32 @@ class SceneBase
 			}
 		}
 		/// <summary>
+		///	シーンからオブジェクトを削除	</summary>
+		/// <param name="name">
+		/// 削除するオブジェクト情報	</param>
+		void DeleteSceneObject(GameObject* deleteObj)
+		{
+			// 各スレッド内のオブジェクトリスト取得
+			for (auto& objectList : m_sceneObjectList)
+			{
+				// リスト内のオブジェクト取得
+				for (GameObject* object : objectList)
+				{
+					// オブジェクトが一致した？
+					if (object == deleteObj)
+					{
+						// 削除処理
+						Delete(object);
+						// オブジェクトリストから除外
+						objectList.erase(std::find(objectList.begin(), objectList.end(), object));
+						return;
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
 		/// 現在シーンに存在するオブジェクトを全取得	</summary>
 		/// <returns>
 		///	全オブジェクトが入ったリスト	</returns>
