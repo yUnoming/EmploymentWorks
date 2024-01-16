@@ -53,6 +53,7 @@ void TextRenderer::Update()
 	}
 
 	// 現在表示されているテキストを保存する
+	ZeroMemory(m_lateText, sizeof(m_lateText));
 	memcpy(m_lateText, text, strlen(text));
 }
 

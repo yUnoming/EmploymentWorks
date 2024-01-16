@@ -2,10 +2,15 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_TextRendererManager.h"
+#include "yUno_SceneManager.h"
+#include "SpectatorCamera.h"
+#include "Text.h"
+#include "InputPartsName.h"
 #include "renderer.h"
 
 #include <d3d11.h>
 #include <iostream>
+#include <algorithm>
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -248,6 +253,64 @@ void yUno_SystemManager::yUno_TextRendererManager::SetFont(HFONT addFont)
 {
 	// 引数で受け取ったフォントを追加する
 	m_createFonts.push_back(addFont);
+}
+
+void test(std::wstring a)
+{
+
+}
+
+// 文字を小文字に変換するヘルパー関数
+wchar_t toLower(wchar_t ch) {
+	return towlower(ch);
+}
+
+void yUno_SystemManager::yUno_TextRendererManager::Input(int keyCode)
+{
+	// 入力可能状態のテキストが存在する？
+	SpectatorCamera* specCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+	if (!specCamera)return;
+	GameObject* obj = specCamera->GetClickedObject();
+	if (!obj)return;
+	Text* text = obj->GetComponent<Text>();
+	if (text)
+	{
+		// ===== テキストに文字入力 ===== //
+		// スキャンコードを文字列に変換
+		wchar_t typeChar[256];
+		int result = GetKeyNameTextW(keyCode << 16, typeChar, sizeof(typeChar) / sizeof(wchar_t));
+
+		// 文字として扱えるキーが入力された
+		if (result == 1)
+		{
+			// 大文字を小文字に変換
+			std::transform(typeChar, typeChar + result, typeChar, toLower);
+
+			// バッファサイズの取得
+			int bufferSize = WideCharToMultiByte(CP_UTF8, 0, std::wstring(typeChar).c_str(), -1, nullptr, 0, nullptr, nullptr);
+			// バッファの確保
+			char* charBuffer = new char[bufferSize];
+			// ワイド文字列からマルチバイト文字列に変換
+			WideCharToMultiByte(CP_UTF8, 0, std::wstring(typeChar).c_str(), -1, charBuffer, bufferSize, nullptr, nullptr);
+			
+			// テキストに文字を追加
+			text->AddText(charBuffer);
+			return;
+		}
+
+		// ===== その他テキスト関係の処理 ===== //
+		switch (keyCode)
+		{
+			// バックスペースキーの入力
+			case KeyName::BackSpace:
+				text->DeleteText();	// テキストの末尾を削除
+				break;
+			// スペースキーの入力
+			case KeyName::Space:
+				text->AddText(" "); // テキストに空白文字を追加
+				break;
+		}
+	}
 }
 
 ID3D11Texture2D* yUno_SystemManager::yUno_TextRendererManager::CheckFontTexture(char text)
