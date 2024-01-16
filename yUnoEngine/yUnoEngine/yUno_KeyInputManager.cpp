@@ -2,6 +2,7 @@
 // 　　   ファイルのインクルード        //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "yUno_KeyInputManager.h"
+#include "yUno_TextRendererManager.h"
 #include "KeyInput.h"
 #include "ShortCutKey.h"
 #include "Time.h"
@@ -76,8 +77,12 @@ void yUno_SystemManager::yUno_KeyInputManager::SetKeyDown(int key)
 		// 要素数を増やす
 		m_downStateKeyInfo.keyIndex++;
 		
+#if _DEBUG
 		// ショートカットコマンドの実行
 		yUno_SystemParts::ShortCutKey::Run(key);
+		// テキストの入力処理
+		yUno_TextRendererManager::Input(key);
+#endif
 	}
 }
 

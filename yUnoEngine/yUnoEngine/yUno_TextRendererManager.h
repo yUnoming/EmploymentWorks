@@ -90,6 +90,13 @@ namespace yUno_SystemManager
 			/// <param name = "_addFont">
 			/// 今回追加するフォント	</param>
 			static void SetFont(HFONT addFont);
+
+			//** 入力系 **//
+			/// <summary>
+			///	テキストに文字入力を行う	</summary>
+			/// <param name="key">
+			///	入力されたキーコード	</param>
+			static void Input(int keyCode);
 	};
 }
 

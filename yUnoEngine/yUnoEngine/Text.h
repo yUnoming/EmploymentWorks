@@ -9,7 +9,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "TextRenderer.h"
-
+#include <iostream>
 
 namespace PublicSystem
 {
@@ -24,7 +24,14 @@ namespace PublicSystem
 			/// <param name="addText">
 			/// 追加するテキスト	</param>
 			void AddText(const char* addText);
+			/// <summary>
+			///	現在のテキストを変更する	</summary>
+			/// <param name="changeText">
+			///	変更するテキスト	</param>
 			void ChangeText(const char* changeText);
+			/// <summary>
+			///	現在のテキストの末尾を削除	</summary>
+			void DeleteText();
 	};
 }
 
