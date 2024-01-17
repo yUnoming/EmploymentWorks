@@ -265,6 +265,7 @@ wchar_t toLower(wchar_t ch) {
 	return towlower(ch);
 }
 
+#include "KeyInput.h"
 void yUno_SystemManager::yUno_TextRendererManager::Input(int keyCode)
 {
 	// 入力可能状態のテキストが存在する？
@@ -283,8 +284,10 @@ void yUno_SystemManager::yUno_TextRendererManager::Input(int keyCode)
 		// 文字として扱えるキーが入力された
 		if (result == 1)
 		{
-			// 大文字を小文字に変換
-			std::transform(typeChar, typeChar + result, typeChar, toLower);
+			// シフトキーが押されていない？
+			if(KeyInput::GetKeyUp(LeftShift) && KeyInput::GetKeyUp(RightShift))
+				// 大文字を小文字に変換
+				std::transform(typeChar, typeChar + result, typeChar, toLower);
 
 			// バッファサイズの取得
 			int bufferSize = WideCharToMultiByte(CP_UTF8, 0, std::wstring(typeChar).c_str(), -1, nullptr, 0, nullptr, nullptr);
