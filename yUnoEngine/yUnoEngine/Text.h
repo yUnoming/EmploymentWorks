@@ -20,10 +20,24 @@ namespace PublicSystem
 		public:
 			// ----- functions / 関数 ----- //
 			/// <summary>
+			///	コンストラクタ	</summary>
+			Text() {};
+			/// <summary>
+			///	引数付きコンストラクタ	</summary>
+			/// <param name="other">
+			/// 値コピー用オブジェクト	</param>
+			Text(const Text* other);
+
+			/// <summary>
 			///	現在のテキストに新たにテキストを追加	</summary>
 			/// <param name="addText">
 			/// 追加するテキスト	</param>
 			void AddText(const char* addText);
+			/// <summary>
+			///	現在のテキストを取得する	</summary>
+			/// <returns>
+			/// 現在のテキスト	</returns>
+			const char* GetText();
 			/// <summary>
 			///	現在のテキストを変更する	</summary>
 			/// <param name="changeText">

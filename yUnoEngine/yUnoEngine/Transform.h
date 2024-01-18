@@ -36,6 +36,15 @@ namespace PublicSystem
 
 			// ----- functions / 関数 ----- //
 			/// <summary>
+			///	コンストラクタ	</summary>
+			Transform() {};
+			/// <summary>
+			///	引数付きコンストラクタ	</summary>
+			/// <param name="other">
+			/// 値コピー用オブジェクト	</param>
+			Transform(const Transform* other);
+
+			/// <summary>
 			///	描画処理	</summary>
 			void Draw();
 			/// <summary>

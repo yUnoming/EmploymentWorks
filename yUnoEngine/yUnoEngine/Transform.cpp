@@ -1,6 +1,15 @@
 #include "Transform.h"
 #include "renderer.h"
 
+PublicSystem::Transform::Transform(const Transform* other)
+{
+	// 値代入
+	position = other->position;
+	localPosition = other->localPosition;
+	scale = other->scale;
+	rotation = other->rotation;
+}
+
 void PublicSystem::Transform::Draw()
 {
 	// 親が存在しない？
@@ -40,7 +49,7 @@ DirectX::SimpleMath::Matrix PublicSystem::Transform::GetWorldMatrix(Transform* c
 Transform& PublicSystem::Transform::operator=(const Transform& other)
 {
 	// 自分自身ではない？
-	if (this != &other)
+	if (this != &other && this)
 	{
 		// 値代入
 		position = other.position;

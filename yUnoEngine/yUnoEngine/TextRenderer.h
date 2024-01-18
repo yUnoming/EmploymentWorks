@@ -73,17 +73,14 @@ class TextRenderer : public EachFunction
 		/// 作成したテキスト情報	</returns>
 		TextInfo CreateTextWithoutVertexBuffer(char text, int textNum);
 
-	protected:
-		// ----- variables / 変数 ----- //
-		/// <summary>
-		///	テキストの内容変更などで使う仮テキスト	</summary>
-		char dummyText[101] = {};
-
 	public:
 		//  ----- variables / 変数 ----- //
 		/// <summary>
 		/// 表示するテキスト </summary>
 		const char* text;
+		/// <summary>
+		///	テキストの内容変更などで使う仮テキスト	</summary>
+		char dummyText[101] = {};
 		/// <summary>
 		/// 文字サイズ </summary>
 		Vector2 fontSize;
