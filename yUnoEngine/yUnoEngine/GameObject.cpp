@@ -122,8 +122,10 @@ bool GameObject::UpdateBase()
 		yUnoEngine::EditScene* editScene = (yUnoEngine::EditScene*)yUno_SceneManager::GetEditScene();
 		if (editScene->IsDemoPlay())
 			com->Update();	// 更新処理
+		// テキストコンポーネント？
 		else if ((Text*)com)
 			com->Update();	// 更新処理
+		// エディット用のオブジェクト？
 		else if (editScene == m_myScene)
 			com->Update();	// 更新処理
 // デバッグ時以外
@@ -131,8 +133,8 @@ bool GameObject::UpdateBase()
 		com->Update();	// 更新処理
 #endif
 // 通常処理		
-		// スペクテイターカメラ以外？
-		if (strcmp(com->gameObject->GetName(), "SpectatorCamera") != 0)
+		// エディット用のオブジェクトではない？
+		if (editScene != m_myScene)
 		{
 			// オブジェクトがロックされていない？
 			if (!yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(GetName()))
@@ -151,6 +153,7 @@ bool GameObject::UpdateBase()
 	yUnoEngine::EditScene* editScene = (yUnoEngine::EditScene*)yUno_SceneManager::GetEditScene();
 	if (editScene->IsDemoPlay())
 		Update();	// オブジェクトの更新処理
+	// エディット用のオブジェクト？
 	else if (editScene == m_myScene)
 		Update();	// オブジェクトの更新処理
 // デバッグ時以外

@@ -1,5 +1,13 @@
 #include "Text.h"
 
+PublicSystem::Text::Text(const Text* other)
+{
+    // 値代入
+    other->dummyText ? ChangeText(other->dummyText) : ChangeText(other->text);
+    fontSize = other->fontSize;
+    leftTopPoint = other->leftTopPoint;
+}
+
 void PublicSystem::Text::AddText(const char* addText)
 {
     // テキスト長を取得
@@ -23,6 +31,8 @@ void PublicSystem::Text::ChangeText(const char* changeText)
 {
     // テキスト長を取得
     int textLength = strlen(changeText);
+    // 値の初期化
+    ZeroMemory(dummyText, sizeof(dummyText));
     // 値をコピー
     memcpy(dummyText, changeText, textLength);
     // 追加するテキストを代入
@@ -49,7 +59,7 @@ Text& PublicSystem::Text::operator=(const Text& other)
     if (this != &other)
     {
         // 値代入
-        text = other.text;
+        other.dummyText ? ChangeText(other.dummyText) : ChangeText(other.text);
         fontSize = other.fontSize;
         leftTopPoint = other.leftTopPoint;
     }

@@ -5,9 +5,30 @@
 
 void yUno_SystemManager::yUno_ComponentManager::SetVariableValue(Component* destComponent, Component* sourceComponent)
 {
-	// 値代入
-	// (コンポーネントに代入オペレーターがある場合は、そちらの処理が実行される)
-	destComponent = sourceComponent;
+	// コンポーネントのタイプ取得
+	const char* componentType = typeid(*destComponent).name();
+	// メッセージデータ
+	MessageData messageData;
+
+	// ===== コンポーネントのタイプから処理を分岐 ===== //
+	// Transformコンポーネント？
+	if (strcmp(componentType, "class PublicSystem::Transform") == 0)
+	{
+		// Transformに置換
+		Transform* destTransform = (Transform*)destComponent;
+		Transform* sourceTransform = (Transform*)sourceComponent;
+		// 値代入
+		*destTransform = Transform(sourceTransform);
+	}
+	// Textコンポーネント？
+	else if (strcmp(componentType, "class PublicSystem::Text") == 0)
+	{
+		// Textに置換
+		Text* destText = (Text*)destComponent;
+		Text* sourceText = (Text*)sourceComponent;
+		// 値代入
+		*destText = Text(sourceText);
+	}
 }
 
 void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component* lateComponent, Component* nowComponent)
@@ -55,7 +76,7 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 		Text lateText = *(Text*)lateComponent;
 
 		// 値が更新されている？
-		if (nowText.text != lateText.text ||
+		if (nowText.text && lateText.text && strcmp(nowText.text, lateText.text) != 0 ||
 			nowText.fontSize != lateText.fontSize ||
 			nowText.leftTopPoint != lateText.leftTopPoint)
 		{

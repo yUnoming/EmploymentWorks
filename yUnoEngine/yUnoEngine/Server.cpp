@@ -94,6 +94,8 @@ void Server::ReceiveThread()
 					{
 						// リストから除外
 						m_comUserList.erase(it);
+						// ロック状態の解除
+						ZeroMemory(rockObjectName, sizeof(rockObjectName));
 
 						// メッセージ通知
 						if (m_myServerRank == ServerRank::Owner)
@@ -116,10 +118,7 @@ void Server::ReceiveThread()
 					Transform* transform =
 						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
 					// 各値を代入
-					//transform->position = m_receiveData.message.body.transform.position;
-					//transform->rotation = m_receiveData.message.body.transform.rotation;
-					//transform->scale = m_receiveData.message.body.transform.scale;
-					*transform = m_receiveData.message.body.transform;
+					*transform = Transform(m_receiveData.message.body.transform);
 				}
 				// Textコンポーネント
 				else if (strcmp(m_receiveData.message.body.componentType,
@@ -129,7 +128,7 @@ void Server::ReceiveThread()
 					Text* text =
 						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
 					// 各値を代入
-					*text = m_receiveData.message.body.text;
+					*text = Text(m_receiveData.message.body.text);
 				}
 				break;
 			//------------------//

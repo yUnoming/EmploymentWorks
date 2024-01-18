@@ -96,6 +96,7 @@ void WindowMenu::Run(WORD menuID)
 
             // 新規シーン作成
             yUno_SceneManager::CreateNewScene(sceneName);
+            break;
         }
         //--------------//
         // シーンを開く //
@@ -113,6 +114,7 @@ void WindowMenu::Run(WORD menuID)
                 // システム通知を表示
                 MessageBoxW(NULL, L"シーンが存在しませんでした", L"エラーメッセージ", MB_OK);
             }
+            break;
         }
         // ===== 作成タブの処理 ===== //
         //----------//
