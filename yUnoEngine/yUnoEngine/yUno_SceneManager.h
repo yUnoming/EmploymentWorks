@@ -33,11 +33,7 @@ class yUno_SceneManager
 		///	現在のシーン状態をセーブ	</summary>
 		static void SaveSceneData();
 		/// <summary>
-		/// 選択したシーンをロード	</summary>
-		/// <param name="LoadScene&lt;&gt;();">
-		/// &lt;&gt;内にロードするシーンを記述		</param>
-		/// <returns>
-		/// ロードしたシーン </returns>
+		/// シーンのロード	</summary>
 		static void LoadScene();
 
 	protected:

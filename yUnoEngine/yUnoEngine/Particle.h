@@ -17,6 +17,15 @@ class Particle : public GameObject
 		Material* mat;
 
 	public:
+		/// <summary>
+		///	コンストラクタ	</summary>
+		Particle() : GameObject() {};
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="nowScene">
+		///	オブジェクトが生成されたシーン	</param>
+		Particle(SceneBase* nowScene) : GameObject(nowScene) {};
+
 		void Init()
 		{
 			AddComponent<ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");

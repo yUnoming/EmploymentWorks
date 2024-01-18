@@ -42,3 +42,16 @@ void PublicSystem::Text::DeleteText()
     // 削除後のテキストを代入
     this->text = dummyText;
 }
+
+Text& PublicSystem::Text::operator=(const Text& other)
+{
+    // 自分自身ではない？
+    if (this != &other)
+    {
+        // 値代入
+        text = other.text;
+        fontSize = other.fontSize;
+        leftTopPoint = other.leftTopPoint;
+    }
+    return *this;
+}

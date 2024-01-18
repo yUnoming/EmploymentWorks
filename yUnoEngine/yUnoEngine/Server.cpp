@@ -116,9 +116,10 @@ void Server::ReceiveThread()
 					Transform* transform =
 						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
 					// 各値を代入
-					transform->position = m_receiveData.message.body.transform.position;
-					transform->rotation = m_receiveData.message.body.transform.rotation;
-					transform->scale = m_receiveData.message.body.transform.scale;
+					//transform->position = m_receiveData.message.body.transform.position;
+					//transform->rotation = m_receiveData.message.body.transform.rotation;
+					//transform->scale = m_receiveData.message.body.transform.scale;
+					*transform = m_receiveData.message.body.transform;
 				}
 				// Textコンポーネント
 				else if (strcmp(m_receiveData.message.body.componentType,
@@ -128,8 +129,7 @@ void Server::ReceiveThread()
 					Text* text =
 						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
 					// 各値を代入
-					text->text = m_receiveData.message.body.text.text;
-					text->fontSize = m_receiveData.message.body.text.fontSize;
+					*text = m_receiveData.message.body.text;
 				}
 				break;
 			//------------------//

@@ -16,14 +16,14 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　		  前方宣言		 　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+class SceneBase;	// SceneBaseを使うための前方宣言
+
 /// <summary>
 /// ユーザーが使えるシステム </summary>
 namespace PublicSystem
 {
 	class Transform;	// PublicSystem::Transformを使うための前方宣言
 }
-
-class yUno_SceneManager;	// yUno_SceneManagerを使うための前方宣言
 
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
@@ -50,7 +50,7 @@ class GameObject
 
 		/// <summary>
 		/// 自身がいるシーンの情報		</summary>
-		yUno_SceneManager* m_myScene = nullptr;
+		SceneBase* m_myScene = nullptr;
 
 		/// <summary>
 		///	削除するかどうか	</summary>
@@ -81,9 +81,10 @@ class GameObject
 		GameObject();
 		/// <summary>
 		///	引数付きコンストラクタ	</summary>
-		/// <param name="_nowScene">
+		/// <param name="nowScene">
 		///	現在のシーン	</param>
-		GameObject(yUno_SceneManager* nowScene);
+		GameObject(SceneBase* nowScene);
+
 		/// <summary>
 		/// デストラクタ	</summary>
 		virtual ~GameObject() {};

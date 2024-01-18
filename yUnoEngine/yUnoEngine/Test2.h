@@ -15,6 +15,15 @@ using namespace PublicSystem;
 class Test2 : public GameObject
 {
 	public:
+		/// <summary>
+		///	コンストラクタ	</summary>
+		Test2() : GameObject() {};
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="nowScene">
+		///	オブジェクトが生成されたシーン	</param>
+		Test2(SceneBase* nowScene) : GameObject(nowScene) {};
+
 		void Init()
 		{
 			GetComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
@@ -26,7 +35,6 @@ class Test2 : public GameObject
 			Text* textComponent = AddComponent<Text>();
 			textComponent->text = "Input text...";
 			textComponent->fontSize = Vector2(20, 30);
-
 		}
 };
 

@@ -21,9 +21,9 @@ namespace yUno_SystemManager
 		public:
 			/// <summary>
 			///	コンポーネントの変数の値を別のコンポーネントに代入	</summary>
-			/// <param name="lateComponent">
+			/// <param name="destComponent">
 			///	コピー先のコンポーネント情報	</param>
-			/// <param name="nowComponent">
+			/// <param name="sourceComponent">
 			/// コピー元のコンポーネント情報	</param>
 			static void SetVariableValue(Component* destComponent, Component* sourceComponent);
 			/// <summary>

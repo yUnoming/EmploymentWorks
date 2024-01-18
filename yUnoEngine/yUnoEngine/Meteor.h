@@ -28,6 +28,15 @@ class Meteor : public GameObject
 		int lateCount = 0;
 		int count = 0;
 
+		/// <summary>
+		///	コンストラクタ	</summary>
+		Meteor() : GameObject() {};
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="nowScene">
+		///	オブジェクトが生成されたシーン	</param>
+		Meteor(SceneBase* nowScene) : GameObject(nowScene) {};
+
 		void Init()
 		{
 			AddComponent<ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");

@@ -45,5 +45,13 @@ class Component
 		/// <summary>
 		/// 衝突判定時	</summary>
 		virtual void HitCollision(GameObject* other) {};
+
+		/// <summary>
+		///	Component型との代入オペレーター	</summary>
+		/// <param name="other">
+		///	Component型のオブジェクト	</param>
+		/// <returns>
+		///	代入後のComponent情報	</returns>
+		Component& operator=(const Component& other);
 };
 

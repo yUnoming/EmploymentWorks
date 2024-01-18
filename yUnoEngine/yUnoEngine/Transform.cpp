@@ -36,3 +36,17 @@ DirectX::SimpleMath::Matrix PublicSystem::Transform::GetWorldMatrix(Transform* c
 
 	return world;
 }
+
+Transform& PublicSystem::Transform::operator=(const Transform& other)
+{
+	// é©ï™é©êgÇ≈ÇÕÇ»Ç¢ÅH
+	if (this != &other)
+	{
+		// ílë„ì¸
+		position = other.position;
+		localPosition = other.localPosition;
+		scale = other.scale;
+		rotation = other.rotation;
+	}
+	return *this;
+}

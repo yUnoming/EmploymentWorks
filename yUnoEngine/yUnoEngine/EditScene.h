@@ -26,7 +26,6 @@ namespace yUnoEngine
 	{
 		private:
 			// ----- structs / 構造体 ----- //
-			
 			/// <summary>
 			///	シーン編集時に使うデータ	</summary>
 			struct SceneEditorData
@@ -54,12 +53,21 @@ namespace yUnoEngine
 			///	Z方向への移動マニピュレーター	</summary>
 			Manipulator::Manipulator_MoveZ* m_manipulator_MoveZ;
 
+			// デモプレイ中かどうか
+			bool isDemoPlay;
+
 		public:
 			// ----- functions / 関数 ----- //
 			void Init() override;
 			void UnInit() override;
 			void Update() override;
 			void Draw() override;
+
+			/// <summary>
+			///	デモプレイ中かどうかを取得	</summary>
+			/// <returns>
+			///	デモプレイ中ならtrue、それ以外はfalse	</returns>
+			bool IsDemoPlay() { return isDemoPlay; };
 	};
 };
 

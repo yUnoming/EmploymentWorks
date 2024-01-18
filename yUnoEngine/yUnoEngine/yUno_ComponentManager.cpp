@@ -5,22 +5,9 @@
 
 void yUno_SystemManager::yUno_ComponentManager::SetVariableValue(Component* destComponent, Component* sourceComponent)
 {
-	// コンポーネントのタイプ取得
-	const char* componentType = typeid(*destComponent).name();
-
-	// ===== コンポーネントのタイプから処理を分岐 ===== //
-	// Transformコンポーネント？
-	if (strcmp(componentType, "class PublicSystem::Transform") == 0)
-	{
-		// Transformコンポーネントに置換
-		Transform* destTransform = (Transform*)destComponent;
-		Transform* sourceTransform = (Transform*)sourceComponent;
-
-		// 各値を代入
-		destTransform->position = sourceTransform->position;
-		destTransform->rotation = destTransform->rotation;
-		destTransform->scale = destTransform->scale;
-	}
+	// 値代入
+	// (コンポーネントに代入オペレーターがある場合は、そちらの処理が実行される)
+	destComponent = sourceComponent;
 }
 
 void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component* lateComponent, Component* nowComponent)
@@ -29,7 +16,7 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 	const char* componentType = typeid(*lateComponent).name();
 	// メッセージデータ
 	MessageData messageData;
-	
+
 	// ===== コンポーネントのタイプから処理を分岐 ===== //
 	// Transformコンポーネント？
 	if (strcmp(componentType, "class PublicSystem::Transform") == 0)
@@ -55,6 +42,35 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 			// コンポーネント情報
 			messageData.message.body.transform = nowTransform;
 			
+			// メッセージを送る処理を実行
+			yUno_NetWorkManager::GetServer()->
+				SendMessageData(messageData);
+		}
+	}
+	// Textコンポーネント？
+	else if (strcmp(componentType, "class PublicSystem::Text") == 0)
+	{
+		// Textコンポーネントに置換
+		Text nowText = *(Text*)nowComponent;
+		Text lateText = *(Text*)lateComponent;
+
+		// 値が更新されている？
+		if (nowText.text != lateText.text ||
+			nowText.fontSize != lateText.fontSize ||
+			nowText.leftTopPoint != lateText.leftTopPoint)
+		{
+			// ----- 送信する値を代入 ----- //
+			// メッセージタイプ
+			messageData.message.header.type = MessageType::UpdateComponent;
+			// オブジェクト
+			messageData.message.body.object.CopyName(nowText.gameObject->GetName());
+			// コンポーネントタイプ
+			strcpy_s(messageData.message.body.componentType,
+				sizeof(messageData.message.body.componentType),
+				componentType);
+			// コンポーネント情報
+			messageData.message.body.text = nowText;
+
 			// メッセージを送る処理を実行
 			yUno_NetWorkManager::GetServer()->
 				SendMessageData(messageData);

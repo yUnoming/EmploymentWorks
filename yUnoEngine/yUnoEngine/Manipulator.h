@@ -46,7 +46,7 @@ namespace yUnoEngine
 			public:
 				/// <summary>
 				///	コンストラクタ	</summary>
-				Manipulator()
+				Manipulator() : GameObject()
 				{
 					// モデル追加
 					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
@@ -57,7 +57,21 @@ namespace yUnoEngine
 					// 非表示にしておく
 					isActive = false;
 				};
-
+				/// <summary>
+				///	引数付きコンストラクタ	</summary>
+				/// <param name="nowScene">
+				///	オブジェクトが生成されたシーン	</param>
+				Manipulator(SceneBase* nowScene) : GameObject(nowScene)
+				{
+					// モデル追加
+					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
+					// エディットカメラ取得
+					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+					// サイズ調整
+					transform->scale *= 0.7f;
+					// 非表示にしておく
+					isActive = false;
+				};
 
 
 				void Update() override
