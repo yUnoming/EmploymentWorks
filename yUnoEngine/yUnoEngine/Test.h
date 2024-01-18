@@ -13,6 +13,15 @@ using namespace PublicSystem;
 class Test : public GameObject
 {
 	public:
+		/// <summary>
+		///	コンストラクタ	</summary>
+		Test() : GameObject() {};
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="nowScene">
+		///	オブジェクトが生成されたシーン	</param>
+		Test(SceneBase* nowScene) : GameObject(nowScene) {};
+
 		void Init()
 		{
 			AddComponent<ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");

@@ -23,6 +23,8 @@ namespace yUnoEngine
 		class Manipulator_MoveY : public Manipulator
 		{
 			public:
+				Manipulator_MoveY(SceneBase* nowScene) : Manipulator(nowScene) {};
+
 				void Init()
 				{
 					// ƒ}ƒeƒŠƒAƒ‹’Ç‰Á

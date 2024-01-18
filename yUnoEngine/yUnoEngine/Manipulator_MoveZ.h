@@ -24,6 +24,8 @@ namespace yUnoEngine
 		class Manipulator_MoveZ : public Manipulator
 		{
 			public:
+				Manipulator_MoveZ(SceneBase* nowScene) : Manipulator(nowScene) {};
+
 				void Init()
 				{
 					// ƒ}ƒeƒŠƒAƒ‹’Ç‰Á

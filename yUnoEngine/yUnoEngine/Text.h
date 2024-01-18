@@ -32,6 +32,14 @@ namespace PublicSystem
 			/// <summary>
 			///	現在のテキストの末尾を削除	</summary>
 			void DeleteText();
+
+			/// <summary>
+			///	Text型との代入オペレーター	</summary>
+			/// <param name="other">
+			///	Text型のオブジェクト	</param>
+			/// <returns>
+			///	代入後のText情報	</returns>
+			Text& operator=(const Text& other);
 	};
 }
 

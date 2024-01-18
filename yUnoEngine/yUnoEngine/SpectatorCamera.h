@@ -9,7 +9,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "GameObject.h"
-
+#include "SceneBase.h"
 
 /// <summary>
 ///	エンジン内で使うカメラオブジェクト	</summary>
@@ -26,6 +26,15 @@ class SpectatorCamera : public GameObject
 
 	public:
 		// ----- functions / 関数 ----- //
+		/// <summary>
+		///	コンストラクタ	</summary>
+		SpectatorCamera() : GameObject() {};
+		/// <summary>
+		///	引数付きコンストラクタ	</summary>
+		/// <param name="nowScene">
+		///	オブジェクトが生成されたシーン	</param>
+		SpectatorCamera(SceneBase* nowScene) : GameObject(nowScene) {};
+
 		/// <summary>
 		///	初期化	</summary>
 		void Init();

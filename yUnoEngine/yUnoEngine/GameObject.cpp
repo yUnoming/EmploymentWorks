@@ -9,6 +9,9 @@
 #include "Shader.h"
 #include "BoxCollider.h"
 
+#include "SceneBase.h"
+#include "EditScene.h"
+
 #include "yUno_GameObjectManager.h"
 #include "yUno_SceneManager.h"
 #include "yUno_ComponentManager.h"
@@ -46,7 +49,7 @@ GameObject::GameObject()
 	AddComponent<PublicSystem::Shader>()->Load("Assets\\Shaders\\vertexLightingVS.cso", "Assets\\Shaders\\vertexLightingPS.cso");
 }
 
-GameObject::GameObject(yUno_SceneManager* nowScene)
+GameObject::GameObject(SceneBase* nowScene)
 {
 	// オブジェクト名の初期化
 	ZeroMemory(m_name, sizeof(m_name));
@@ -113,8 +116,21 @@ bool GameObject::UpdateBase()
 	// 各コンポーネントの更新処理
 	for (auto com : m_componentList)
 	{
-		com->Update();
-		
+// デバッグ時の処理
+#if _DEBUG
+		// デモプレイ中？
+		yUnoEngine::EditScene* editScene = (yUnoEngine::EditScene*)yUno_SceneManager::GetEditScene();
+		if (editScene->IsDemoPlay())
+			com->Update();	// 更新処理
+		else if ((Text*)com)
+			com->Update();	// 更新処理
+		else if (editScene == m_myScene)
+			com->Update();	// 更新処理
+// デバッグ時以外
+#else
+		com->Update();	// 更新処理
+#endif
+// 通常処理		
 		// スペクテイターカメラ以外？
 		if (strcmp(com->gameObject->GetName(), "SpectatorCamera") != 0)
 		{
@@ -129,9 +145,20 @@ bool GameObject::UpdateBase()
 		// カウントを増やす
 		index++;
 	}
+// デバッグ時の処理
+#if _DEBUG
+	// デモプレイ中？
+	yUnoEngine::EditScene* editScene = (yUnoEngine::EditScene*)yUno_SceneManager::GetEditScene();
+	if (editScene->IsDemoPlay())
+		Update();	// オブジェクトの更新処理
+	else if (editScene == m_myScene)
+		Update();	// オブジェクトの更新処理
+// デバッグ時以外
+#else
 	// オブジェクトの更新処理
 	Update();
-	
+#endif
+// 通常処理
 	// オブジェクトを削除する？
 	if (isDestroy)
 		return true;

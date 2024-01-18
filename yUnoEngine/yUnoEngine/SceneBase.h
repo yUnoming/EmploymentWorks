@@ -101,7 +101,7 @@ class SceneBase
 		template<class T>
 		T* AddSceneObject(int layer, const char* name)
 		{
-			T* obj = new T();							// オブジェクトを生成
+			T* obj = new T(this);						// オブジェクトを生成
 			obj->SetName(name);							// オブジェクト名を設定
 			m_sceneObjectList[layer].push_back(obj);	// 指定された要素位置に保存
 			obj->Init();								// オブジェクトの初期化

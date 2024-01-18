@@ -1,12 +1,12 @@
 #include "EditScene.h"
 #include "SceneManager.h"
 #include "Text.h"
+#include "KeyInput.h"
 
 void yUnoEngine::EditScene::Init()
 {
 	// ===== 編集用カメラの生成 ===== //
 	m_spectatorCamera = AddSceneObject<SpectatorCamera>(0, "SpectatorCamera");
-
 
 	// ===== ロード処理 ===== //
 	// シーンファイルを開く
@@ -101,6 +101,12 @@ void yUnoEngine::EditScene::Update()
 		// Z軸方向
 		m_manipulator_MoveZ->isActive = false;
 		m_manipulator_MoveZ->transform->parent = nullptr;
+	}
+
+	// F1キーが押された？
+	if (KeyInput::GetKeyDownTrigger(KeyName::F1))
+	{
+		isDemoPlay = isDemoPlay ? false : true;	// デモプレイ状態を切り替える
 	}
 
 	// 各スレッド内のオブジェクトリスト取得
