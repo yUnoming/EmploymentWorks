@@ -162,7 +162,6 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticlePool.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="SampleScene.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScreenInput.cpp" />
@@ -170,8 +169,8 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShortCutKey.cpp" />
     <ClCompile Include="SpectatorCamera.cpp" />
-    <ClCompile Include="Test.cpp" />
-    <ClCompile Include="Test2.cpp" />
+    <ClCompile Include="TemplateCube.cpp" />
+    <ClCompile Include="TemplateText.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -219,7 +218,6 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticlePool.h" />
     <ClInclude Include="renderer.h" />
-    <ClInclude Include="SampleScene.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScreenInput.h" />
@@ -227,8 +225,8 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShortCutKey.h" />
     <ClInclude Include="SpectatorCamera.h" />
-    <ClInclude Include="Test.h" />
-    <ClInclude Include="Test2.h" />
+    <ClInclude Include="TemplateCube.h" />
+    <ClInclude Include="TemplateText.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Time.h" />

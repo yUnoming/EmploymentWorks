@@ -47,7 +47,10 @@ enum MessageType
 	// ----- テンプレートオブジェクト ----- //
 	/// <summary>
 	///	キューブ作成	</summary>
-	CreateCube
+	CreateCube,
+	/// <summary>
+	///	テキスト作成	</summary>
+	CreateText
 };
 
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //

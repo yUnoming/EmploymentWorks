@@ -269,7 +269,7 @@ wchar_t toLower(wchar_t ch) {
 void yUno_SystemManager::yUno_TextRendererManager::Input(int keyCode)
 {
 	// 入力可能状態のテキストが存在する？
-	SpectatorCamera* specCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+	EngineObject::SpectatorCamera* specCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 	if (!specCamera)return;
 	GameObject* obj = specCamera->GetClickedObject();
 	if (!obj)return;

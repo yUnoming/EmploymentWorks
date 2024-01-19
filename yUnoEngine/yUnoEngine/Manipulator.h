@@ -32,7 +32,7 @@ namespace yUnoEngine
 			protected:
 				/// <summary>
 				///	エディットカメラ	</summary>
-				SpectatorCamera* spectatorCamera;
+				EngineObject::SpectatorCamera* spectatorCamera;
 				/// <summary>
 				///	現在のカーソル位置	</summary>
 				Vector2 nowCursorPos;
@@ -51,7 +51,7 @@ namespace yUnoEngine
 					// モデル追加
 					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
 					// エディットカメラ取得
-					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 					// サイズ調整
 					transform->scale *= 0.7f;
 					// 非表示にしておく
@@ -66,7 +66,7 @@ namespace yUnoEngine
 					// モデル追加
 					AddComponent<ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
 					// エディットカメラ取得
-					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+					spectatorCamera = yUno_SceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 					// サイズ調整
 					transform->scale *= 0.7f;
 					// 非表示にしておく

@@ -6,7 +6,7 @@
 void yUnoEngine::EditScene::Init()
 {
 	// ===== 編集用カメラの生成 ===== //
-	m_spectatorCamera = AddSceneObject<SpectatorCamera>(0, "SpectatorCamera");
+	m_spectatorCamera = AddSceneObject<EngineObject::SpectatorCamera>(0, "SpectatorCamera");
 
 	// ===== ロード処理 ===== //
 	// シーンファイルを開く

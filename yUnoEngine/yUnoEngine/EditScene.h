@@ -42,7 +42,7 @@ namespace yUnoEngine
 			SceneEditorData m_sceneEditorData;
 			/// <summary>
 			///	エディット時に使用するカメラ	</summary>
-			SpectatorCamera* m_spectatorCamera;
+			EngineObject::SpectatorCamera* m_spectatorCamera;
 			/// <summary>
 			///	X方向への移動マニピュレーター	</summary>
 			Manipulator::Manipulator_MoveX* m_manipulator_MoveX;

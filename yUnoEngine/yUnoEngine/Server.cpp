@@ -13,7 +13,8 @@ constexpr unsigned short PORTNO = 49152;
 
 #include "yUno_NetWorkManager.h"
 #include "SceneManager.h"
-#include "Test.h"
+#include "TemplateCube.h"
+#include "TemplateText.h"
 #include "Time.h"
 
 #include <stdio.h>
@@ -47,111 +48,120 @@ void Server::ReceiveThread()
 				inet_ntoa(m_sendAddress.sin_addr),
 				ntohs(m_sendAddress.sin_port));
 #endif
-
 			// ===== メッセージの種類によって処理を分岐 ===== //
 			switch (m_receiveData.message.header.type)
 			{
-			//----------//
-			// 通信開始 //
-			case MessageType::CommunicationStart:
-			{
-				// ----- 通信相手をリストに格納 ----- //
-				// 通信相手の情報を保存する
-				CommunicationUserData comUser;
-				comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
-				comUser.address = m_sendAddress;
-
-				// リストに格納
-				m_comUserList.push_back(comUser);
-
-				// ----- 相手に通信成功を伝える ----- //
-				m_sendData.message.header.type = MessageType::CommunicationSuccess;
-				SendMessageData(m_sendData);
-				break;
-			}
-			//----------//
-			// 通信成功 //
-			case MessageType::CommunicationSuccess:
-				if (!m_isCommunicationData)
+				//----------//
+				// 通信開始 //
+				case MessageType::CommunicationStart:
 				{
-					// 通信の開始を設定
-					m_isCommunicationData = true;
-					m_isCommunicationDuring = false;
-					// システム通知を表示
-					MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
+					// ----- 通信相手をリストに格納 ----- //
+					// 通信相手の情報を保存する
+					CommunicationUserData comUser;
+					comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
+					comUser.address = m_sendAddress;
+
+					// リストに格納
+					m_comUserList.push_back(comUser);
+
+					// ----- 相手に通信成功を伝える ----- //
+					m_sendData.message.header.type = MessageType::CommunicationSuccess;
+					SendMessageData(m_sendData);
 					break;
 				}
-			//----------//
-			// 通信終了 //
-			case MessageType::CommunicationEnd:
-				// 通信中のユーザー数だけループ
-				for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
-				{
-					CommunicationUserData comUser = *it;
-					// IPアドレスとポート番号が送信元と同じ？
-					if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
-						comUser.address.sin_port == m_sendAddress.sin_port)
+				//----------//
+				// 通信成功 //
+				case MessageType::CommunicationSuccess:
+					if (!m_isCommunicationData)
 					{
-						// リストから除外
-						m_comUserList.erase(it);
-						// ロック状態の解除
-						ZeroMemory(rockObjectName, sizeof(rockObjectName));
-
-						// メッセージ通知
-						if (m_myServerRank == ServerRank::Owner)
-							MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
-						else if (m_myServerRank == ServerRank::User)
-							MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
+						// 通信の開始を設定
+						m_isCommunicationData = true;
+						m_isCommunicationDuring = false;
+						// システム通知を表示
+						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
 						break;
 					}
-				}
-				break;
-			//--------------------//
-			// コンポーネント更新 //
-			case MessageType::UpdateComponent:
-				// ===== コンポーネントの種類によって処理を分岐 ===== //
-				// Transformコンポーネント
-				if (strcmp(m_receiveData.message.body.componentType,
-					"class PublicSystem::Transform") == 0)
+				//----------//
+				// 通信終了 //
+				case MessageType::CommunicationEnd:
+					// 通信中のユーザー数だけループ
+					for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
+					{
+						CommunicationUserData comUser = *it;
+						// IPアドレスとポート番号が送信元と同じ？
+						if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
+							comUser.address.sin_port == m_sendAddress.sin_port)
+						{
+							// リストから除外
+							m_comUserList.erase(it);
+							// ロック状態の解除
+							ZeroMemory(rockObjectName, sizeof(rockObjectName));
+
+							// メッセージ通知
+							if (m_myServerRank == ServerRank::Owner)
+								MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
+							else if (m_myServerRank == ServerRank::User)
+								MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
+							break;
+						}
+					}
+					break;
+				//--------------------//
+				// コンポーネント更新 //
+				case MessageType::UpdateComponent:
+					// ===== コンポーネントの種類によって処理を分岐 ===== //
+					// Transformコンポーネント
+					if (strcmp(m_receiveData.message.body.componentType,
+						"class PublicSystem::Transform") == 0)
+					{
+						// コンポーネント取得
+						Transform* transform =
+							SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
+						// 各値を代入
+						*transform = Transform(m_receiveData.message.body.transform);
+					}
+					// Textコンポーネント
+					else if (strcmp(m_receiveData.message.body.componentType,
+						"class PublicSystem::Text") == 0)
+					{
+						// コンポーネント取得
+						Text* text =
+							SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
+						// 各値を代入
+						*text = Text(m_receiveData.message.body.text);
+					}
+					break;
+				//------------------//
+				// オブジェクト選択 //
+				case MessageType::ClickObject:
+					// クリックされたオブジェクト名を代入
+					strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
+					break;
+				//------------------//
+				// オブジェクト削除 //
+				case MessageType::ObjectDelete:
+					// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
+					PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
+					break;
+				//--------------//
+				// キューブ作成 //
+				case MessageType::CreateCube:
 				{
-					// コンポーネント取得
-					Transform* transform =
-						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
-					// 各値を代入
-					*transform = Transform(m_receiveData.message.body.transform);
+					// キューブを作成し、作成したキューブを取得しておく
+					GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<EngineObject::TemplateCube>(1, "Cube");
+					// メッセージからTransform情報を取得し、代入
+					// ※作成した際、座標以外は一定の値なので、代入しない
+					cubeObject->transform->position = m_receiveData.message.body.transform.position;
+					break;
 				}
-				// Textコンポーネント
-				else if (strcmp(m_receiveData.message.body.componentType,
-					"class PublicSystem::Text") == 0)
+				//--------------//
+				// テキスト作成 //
+				case MessageType::CreateText:
 				{
-					// コンポーネント取得
-					Text* text =
-						SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
-					// 各値を代入
-					*text = Text(m_receiveData.message.body.text);
+					// テキストを作成
+					PublicSystem::SceneManager::GetNowScene()->AddSceneObject<EngineObject::TemplateText>(3, "Text");
+					break;
 				}
-				break;
-			//------------------//
-			// オブジェクト選択 //
-			case MessageType::ClickObject:
-				// クリックされたオブジェクト名を代入
-				strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
-				break;
-			//------------------//
-			// オブジェクト削除 //
-			case MessageType::ObjectDelete:
-				// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
-				PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
-				break;
-			//--------------//
-			// キューブ作成 //
-			case MessageType::CreateCube:
-				// キューブを作成し、作成したキューブを取得しておく
-				GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
-				// メッセージからTransform情報を取得し、代入
-				// ※作成した際、座標以外は一定の値なので、代入しない
-				cubeObject->transform->position = m_receiveData.message.body.transform.position;
-				break;
 			}
 		}
 		// 通信を終了した？

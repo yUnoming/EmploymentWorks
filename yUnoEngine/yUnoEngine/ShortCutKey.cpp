@@ -10,10 +10,10 @@ void yUno_SystemParts::ShortCutKey::Run(int key)
 	{
 		case PublicSystem::Delete:
 		{
-			SpectatorCamera specCamera = *SceneManager::GetNowScene()->GetSceneObject<SpectatorCamera>("SpectatorCamera");
+			EngineObject::SpectatorCamera specCamera = *yUno_SceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 			if (specCamera.GetClickedObject() != nullptr)
 			{
-				SceneManager::GetNowScene()->DeleteSceneObject(specCamera.GetClickedObject()->GetName());
+				specCamera.GetClickedObject()->Destroy();
 			}
 		}
 	}

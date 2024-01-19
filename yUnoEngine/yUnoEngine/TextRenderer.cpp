@@ -19,8 +19,6 @@ void TextRenderer::Init()
 
 	// サンプラーの状態を作成
 	Renderer::GetDevice()->CreateSamplerState(&samDesc, &m_samplerState);
-
-	text = dummyText;
 }
 
 void TextRenderer::Update()
@@ -31,7 +29,8 @@ void TextRenderer::Update()
 		// ===== テキスト情報の作成 ===== //
 		// テキストの長さ（文字数）
 		m_textLength = strlen(text);
-		
+		strncpy_s(dummyText, text, strlen(text));
+
 		// テキストの長さ分ループ
 		for (int i = 0; i < m_textLength; i++)
 		{
@@ -47,9 +46,9 @@ void TextRenderer::Update()
 			}
 			else
 				// 新たに表示するテキストを作成
-				m_TextInfoList.push_back(CreateText(text[i], i));
+				m_TextInfoList.push_back(CreateText(dummyText[i], i));
 		}
-
+		text = dummyText;
 	}
 
 	// 現在表示されているテキストを保存する

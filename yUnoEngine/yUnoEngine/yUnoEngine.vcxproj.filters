@@ -177,15 +177,6 @@
     <ClCompile Include="renderer.cpp">
       <Filter>ソース ファイル\PrivateSystem\EachFunctions</Filter>
     </ClCompile>
-    <ClCompile Include="SampleScene.cpp">
-      <Filter>ソース ファイル\DebugObjects\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Test2.cpp">
-      <Filter>ソース ファイル\DebugObjects\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>ソース ファイル\DebugObjects\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="yUno_NetWorkManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -242,6 +233,12 @@
     </ClCompile>
     <ClCompile Include="MeteorPool.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateCube.cpp">
+      <Filter>ソース ファイル\EngineObjects\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateText.cpp">
+      <Filter>ソース ファイル\EngineObjects\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,15 +320,6 @@
     <ClInclude Include="Text.h">
       <Filter>ヘッダー ファイル\PublicSystem\EachFunctions</Filter>
     </ClInclude>
-    <ClInclude Include="SampleScene.h">
-      <Filter>ヘッダー ファイル\DebugObjects\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Test2.h">
-      <Filter>ヘッダー ファイル\DebugObjects\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Test.h">
-      <Filter>ヘッダー ファイル\DebugObjects\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="utftosjisconv.h">
       <Filter>ヘッダー ファイル\PrivateSystem</Filter>
     </ClInclude>
@@ -409,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="MeteorPool.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateText.h">
+      <Filter>ヘッダー ファイル\EngineObjects\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateCube.h">
+      <Filter>ヘッダー ファイル\EngineObjects\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

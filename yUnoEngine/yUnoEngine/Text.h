@@ -34,11 +34,6 @@ namespace PublicSystem
 			/// 追加するテキスト	</param>
 			void AddText(const char* addText);
 			/// <summary>
-			///	現在のテキストを取得する	</summary>
-			/// <returns>
-			/// 現在のテキスト	</returns>
-			const char* GetText();
-			/// <summary>
 			///	現在のテキストを変更する	</summary>
 			/// <param name="changeText">
 			///	変更するテキスト	</param>

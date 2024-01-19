@@ -19,13 +19,13 @@
 using namespace PublicSystem;
 
 
-void SpectatorCamera::Init()
+void EngineObject::SpectatorCamera::Init()
 {
 	// コンポーネント追加
 	AddComponent<Camera>();
 }
 
-void SpectatorCamera::Update()
+void EngineObject::SpectatorCamera::Update()
 {
 	// ===== 自身の操作 ===== //
 	if (KeyInput::GetKeyDown(UpArrow))
@@ -36,16 +36,6 @@ void SpectatorCamera::Update()
 		transform->position.y -= 0.01f;
 	if (KeyInput::GetKeyDown(RightArrow))
 		transform->position.x += 0.01f;
-
-	// ===== 視野角の縮小・拡大 ===== //
-	//if (MouseInput::GetWheelRotation_Forward())
-	//{
-	//	GetComponent<Camera>()->FieldOfView -= 0.5f;
-	//}
-	//else if (MouseInput::GetWheelRotation_Backward())
-	//{
-	//	GetComponent<Camera>()->FieldOfView += 0.5f;
-	//}
 
 	// ===== クリックしたオブジェクトを取得 ===== //
 	static bool isTextMove = false;
@@ -75,6 +65,14 @@ void SpectatorCamera::Update()
 		// 別のオブジェクトがクリックされた？
 		if (tmpClickedObject && m_clickedObject && tmpClickedObject != m_clickedObject)
 		{
+			// テキストコンポーネントを持っている？
+			if (m_clickedObject->GetComponent<Text>())
+			{
+				// テキストが入っていない状態で解除された？
+				if (strcmp(m_clickedObject->GetComponent<Text>()->text, "") == 0)
+					m_clickedObject->Destroy();	// 削除
+			}
+
 			// クリックされたオブジェクトをメンバ変数に代入
 			m_clickedObject = tmpClickedObject;
 			// クリックされたことを伝える
@@ -115,6 +113,14 @@ void SpectatorCamera::Update()
 		// オブジェクトが解除された？
 		else if (!tmpClickedObject && m_clickedObject)
 		{
+			// テキストコンポーネントを持っている？
+			if (m_clickedObject->GetComponent<Text>())
+			{
+				// テキストが入っていない状態で解除された？
+				if (strcmp(m_clickedObject->GetComponent<Text>()->text, "") == 0)
+					m_clickedObject->Destroy();	// 削除
+			}
+
 			// クリックオブジェクトを解除
 			m_clickedObject = nullptr;
 
@@ -184,25 +190,25 @@ void SpectatorCamera::Update()
 			// マウスホイールが前方回転された？
 			if (MouseInput::GetWheelRotationForward())
 			{
-				// フォントサイズを縮小する
-				m_clickedObject->GetComponent<Text>()->fontSize *= 0.9f;
+				// フォントサイズを拡大する
+				m_clickedObject->GetComponent<Text>()->fontSize *= 1.1f;
 			}
 			// マウスホイールが後方回転された？
 			else if (MouseInput::GetWheelRotationBackward())
 			{
-				// フォントサイズを拡大する
-				m_clickedObject->GetComponent<Text>()->fontSize *= 1.1f;
+				// フォントサイズを縮小する
+				m_clickedObject->GetComponent<Text>()->fontSize *= 0.9f;
 			}
 		}
 	}	
 }
 
-GameObject* SpectatorCamera::GetClickedObject() const
+GameObject* EngineObject::SpectatorCamera::GetClickedObject() const
 {
 	return m_clickedObject;
 }
 
-GameObject* SpectatorCamera::GetClickedManipulator() const
+GameObject* EngineObject::SpectatorCamera::GetClickedManipulator() const
 {
 	return m_clickedManipulator;
 }
