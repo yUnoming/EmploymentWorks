@@ -115,7 +115,7 @@ class GameObject
 		virtual void Init() {};
 		/// <summary>
 		///	終了	</summary>
-		virtual void UnInit() {};
+		virtual void Uninit() {};
 		/// <summary>
 		///	更新	</summary>
 		virtual void Update() {};
@@ -139,7 +139,7 @@ class GameObject
 		void InitBase();
 		/// <summary>
 		/// ベースの終了処理	</summary>
-		void UnInitBase();
+		void UninitBase();
 		/// <summary>
 		/// ベースの更新処理	</summary>
 		/// <returns>
@@ -226,7 +226,7 @@ class GameObject
 				{
 					CheckDeleteComponent();	// 確認処理
 
-					Component->UnInit();	// コンポーネントの終了処理
+					Component->Uninit();	// コンポーネントの終了処理
 					delete Component;
 				}
 			}

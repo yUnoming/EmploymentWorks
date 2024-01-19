@@ -59,7 +59,7 @@ namespace yUnoEngine
 		public:
 			// ----- functions / ä÷êî ----- //
 			void Init() override;
-			void UnInit() override;
+			void Uninit() override;
 			void Update() override;
 			void Draw() override;
 

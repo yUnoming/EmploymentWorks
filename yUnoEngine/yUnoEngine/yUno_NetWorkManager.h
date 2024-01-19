@@ -35,7 +35,7 @@ namespace yUno_SystemManager
 			static void Init();
 			/// <summary>
 			/// 終了	</summary>
-			static void UnInit();
+			static void Uninit();
 			
 			/// <summary>
 			///	サーバー情報を取得	</summary>

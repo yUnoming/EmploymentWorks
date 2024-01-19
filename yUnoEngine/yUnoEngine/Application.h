@@ -37,13 +37,13 @@ class Application
 		bool InitApp();
 		/// <summary>
 		///	アプリケーションの終了		</summary>
-		void UnInitApp();
+		void UninitApp();
 		/// <summary>
 		///	ウィンドウの初期化			</summary>
 		bool InitWnd();
 		/// <summary>
 		/// ウィンドウの終了			</summary>
-		void UnInitWnd();
+		void UninitWnd();
 		/// <summary>
 		///	メインループ				</summary>
 		void MainLoop();

@@ -45,7 +45,7 @@ void yUnoEngine::EditScene::Init()
 	m_manipulator_MoveZ = AddSceneObject<Manipulator::Manipulator_MoveZ>(1, "Manipulator_MoveZ");
 }
 
-void yUnoEngine::EditScene::UnInit()
+void yUnoEngine::EditScene::Uninit()
 {
 	// ===== セーブ処理 ===== //
 	// シーン編集に使うデータを作成
@@ -64,7 +64,7 @@ void yUnoEngine::EditScene::UnInit()
 	}
 
 	// シーンの基本的な終了処理を実行
-	SceneBase::UnInit();
+	SceneBase::Uninit();
 }
 
 void yUnoEngine::EditScene::Update()

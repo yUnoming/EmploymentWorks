@@ -35,7 +35,7 @@ class Component
 		virtual void Init() {};
 		/// <summary>
 		/// èIóπ		</summary>
-		virtual void UnInit() {};
+		virtual void Uninit() {};
 		/// <summary>
 		/// çXêV		</summary>
 		virtual void Update() {};

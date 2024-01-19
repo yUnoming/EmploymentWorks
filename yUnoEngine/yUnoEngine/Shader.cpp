@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-void PublicSystem::Shader::UnInit()
+void PublicSystem::Shader::Uninit()
 {
 	m_vertexShader->Release();
 	m_pixelShader->Release();

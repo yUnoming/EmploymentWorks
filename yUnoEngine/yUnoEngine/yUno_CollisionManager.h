@@ -26,7 +26,7 @@ namespace yUno_SystemManager
 			// ----- functions / ŠÖ” ----- //	
 			/// <summary>
 			///	I—¹	</summary>
-			static void UnInit();
+			static void Uninit();
 			/// <summary>
 			///	“–‚½‚è”»’è‚ÌŒvZ	</summary>
 			static void CalculationCollision();

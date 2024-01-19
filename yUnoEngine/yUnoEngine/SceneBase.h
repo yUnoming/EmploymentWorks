@@ -56,7 +56,7 @@ class SceneBase
 		virtual void Init() {};
 		/// <summary>
 		///	I—¹	</summary>
-		virtual void UnInit();
+		virtual void Uninit();
 		/// <summary>
 		///	XV	</summary>
 		virtual void Update();

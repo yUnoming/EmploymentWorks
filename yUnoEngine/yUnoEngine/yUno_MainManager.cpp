@@ -44,14 +44,14 @@ void yUno_MainManager::Init(Application* app)
     yUno_SceneManager::InitScene();
 }
 
-void yUno_MainManager::UnInit()
+void yUno_MainManager::Uninit()
 {
     // ===== メインの初期化処理 ===== //
     // ネットワーク終了
-    yUno_NetWorkManager::UnInit();
+    yUno_NetWorkManager::Uninit();
 
     // シーンの終了
-    yUno_SceneManager::UnInitScene();
+    yUno_SceneManager::UninitScene();
 }
 
 void yUno_MainManager::Update()

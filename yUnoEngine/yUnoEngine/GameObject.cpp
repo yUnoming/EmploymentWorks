@@ -92,12 +92,12 @@ void GameObject::InitBase()
 	Init();
 }
 
-void GameObject::UnInitBase()
+void GameObject::UninitBase()
 {
 	// リスト内のコンポーネント取得
 	for (auto com : m_componentList)
 	{
-		com->UnInit();	// 終了処理
+		com->Uninit();	// 終了処理
 		delete com;		// 削除
 	}
 
@@ -106,7 +106,7 @@ void GameObject::UnInitBase()
 	m_lateComponentList.clear();
 
 	// オブジェクトの終了処理
-	UnInit();
+	Uninit();
 }
 
 bool GameObject::UpdateBase()

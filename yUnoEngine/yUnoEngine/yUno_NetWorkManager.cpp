@@ -23,7 +23,7 @@ void yUno_SystemManager::yUno_NetWorkManager::Init()
 	m_Server = new Server();
 }
 
-void yUno_SystemManager::yUno_NetWorkManager::UnInit()
+void yUno_SystemManager::yUno_NetWorkManager::Uninit()
 {
 	// サーバーの削除
 	delete m_Server;

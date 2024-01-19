@@ -17,7 +17,7 @@ class MeteorPool : public GameObject
 			}
 		}
 
-		void UnInit()
+		void Uninit()
 		{
 			MeteorPool.clear();
 		}
