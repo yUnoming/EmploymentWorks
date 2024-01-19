@@ -29,7 +29,7 @@ class yUno_MainManager
 		static void Init(Application* app);
 		/// <summary>
 		/// I—¹	</summary>
-		static void UnInit();
+		static void Uninit();
 		/// <summary>
 		///	XV	</summary>
 		static void Update();

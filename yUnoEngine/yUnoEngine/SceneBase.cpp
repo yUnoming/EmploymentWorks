@@ -29,7 +29,7 @@ SceneBase::SceneBase()
 	ZeroMemory(m_sceneName, sizeof(m_sceneName));
 }
 
-void SceneBase::UnInit()
+void SceneBase::Uninit()
 {
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_sceneObjectList)
@@ -37,7 +37,7 @@ void SceneBase::UnInit()
 		// リスト内のオブジェクト取得
 		for (GameObject* object : objectList)
 		{
-			object->UnInitBase();	// 終了処理
+			object->UninitBase();	// 終了処理
 			delete object;			// 削除
 		}
 		//リストのクリア

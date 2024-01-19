@@ -35,7 +35,7 @@ namespace yUno_SystemManager
 			};
 
 			// ----- functions / 関数 ----- //
-			static void UnInit();
+			static void Uninit();
 
 			/// <summary>
 			///	オブジェクト名が既に存在するかどうか確認	</summary>

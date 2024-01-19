@@ -2,7 +2,7 @@
 
 std::vector<BoxCollider*> yUno_SystemManager::yUno_CollisionManager::m_collisionVector;
 
-void yUno_SystemManager::yUno_CollisionManager::UnInit()
+void yUno_SystemManager::yUno_CollisionManager::Uninit()
 {
 	// リストをクリア
 	m_collisionVector.clear();

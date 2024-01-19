@@ -44,7 +44,7 @@ void Application::Run()
     }
 
     // 終了処理
-    UnInitApp();
+    UninitApp();
 }
 
 bool Application::InitApp()
@@ -60,10 +60,10 @@ bool Application::InitApp()
     return false;
 }
 
-void Application::UnInitApp()
+void Application::UninitApp()
 {
     // ウィンドウの終了処理を行う
-    UnInitWnd();
+    UninitWnd();
 }
 
 bool Application::InitWnd()
@@ -141,7 +141,7 @@ bool Application::InitWnd()
     return true;
 }
 
-void Application::UnInitWnd()
+void Application::UninitWnd()
 {
     // ウィンドウの登録を解除.
     if (m_hInst != nullptr)
@@ -178,7 +178,7 @@ void Application::MainLoop()
     }
 
     // ===== 終了処理 ===== //
-    yUno_MainManager::UnInit();
+    yUno_MainManager::Uninit();
 }
 
 LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

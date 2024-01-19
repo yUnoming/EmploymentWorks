@@ -358,21 +358,21 @@ void yUno_SceneManager::InitScene()
 	//textCom->text = "Press Any Key";
 }
 
-void yUno_SceneManager::UnInitScene()
+void yUno_SceneManager::UninitScene()
 {
 #if _DEBUG
 	// エディットシーンの終了処理
-	m_editScene->UnInit();
+	m_editScene->Uninit();
 	// 現在のシーン状態をセーブ
 	SaveSceneData();
 	// 起動するシーン情報をセーブ
 	m_launchSceneInfo.Save();
 
 	// マネージャーの終了処理
-	yUno_SystemManager::yUno_GameObjectManager::UnInit();
+	yUno_SystemManager::yUno_GameObjectManager::Uninit();
 #endif
 	// 現在シーンの終了処理
-	m_loadedScene->UnInit();
+	m_loadedScene->Uninit();
 	delete m_loadedScene;
 }
 

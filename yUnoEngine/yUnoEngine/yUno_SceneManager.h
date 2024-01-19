@@ -69,7 +69,7 @@ class yUno_SceneManager
 		static void InitScene();
 		/// <summary>
 		///	現在シーンの終了処理	</summary>
-		static void UnInitScene();
+		static void UninitScene();
 		/// <summary>
 		///	現在シーンの更新処理	</summary>
 		static void UpdateScene();

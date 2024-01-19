@@ -34,7 +34,7 @@ namespace PublicSystem
 			// ----- functions / ŠÖ” ----- //
 			/// <summary>
 			/// I—¹		</summary>
-			void UnInit() override;
+			void Uninit() override;
 			/// <summary>
 			/// •`‰æ		</summary>
 			void Draw() override;

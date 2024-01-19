@@ -19,7 +19,7 @@ class ParticlePool : public GameObject
 			}
 		}
 
-		void UnInit()
+		void Uninit()
 		{
 			particlePool.clear();
 		}

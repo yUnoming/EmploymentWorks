@@ -10,7 +10,7 @@
 std::list<yUno_SystemManager::yUno_GameObjectManager::ObjectNameData> yUno_SystemManager::yUno_GameObjectManager::m_objectNameList;
 
 
-void yUno_SystemManager::yUno_GameObjectManager::UnInit()
+void yUno_SystemManager::yUno_GameObjectManager::Uninit()
 {
 	// リストのクリア
 	m_objectNameList.clear();
