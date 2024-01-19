@@ -54,7 +54,7 @@ void ModelRenderer::Draw()
 #if _DEBUG
 	// ===== 輪郭線の表示処理 ===== //
 	// カメラ取得
-	SpectatorCamera* spectatorCamera = (SpectatorCamera*)yUno_SceneManager::GetEditScene()->GetSceneObject("SpectatorCamera");
+	EngineObject::SpectatorCamera* spectatorCamera = (EngineObject::SpectatorCamera*)yUno_SceneManager::GetEditScene()->GetSceneObject("SpectatorCamera");
 
 	// このコンポーネントが追加されているオブジェクトがクリックされている？
 	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject())

@@ -24,6 +24,7 @@ class WindowMenu
 			// 作成タブ
 			ID_Create = 10,
 			ID_CreateCube,
+			ID_CreateText,
 
 			// サーバータブ
 			ID_Server = 20,

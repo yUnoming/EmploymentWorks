@@ -76,7 +76,8 @@ void yUno_SystemManager::yUno_ComponentManager::SendMessageBasedOnType(Component
 		Text lateText = *(Text*)lateComponent;
 
 		// 値が更新されている？
-		if (nowText.text && lateText.text && strcmp(nowText.text, lateText.text) != 0 ||
+		if (nowText.text && lateText.text && nowText.dummyText && lateText.dummyText &&
+			strcmp(nowText.text, lateText.text) != 0 ||
 			nowText.fontSize != lateText.fontSize ||
 			nowText.leftTopPoint != lateText.leftTopPoint)
 		{

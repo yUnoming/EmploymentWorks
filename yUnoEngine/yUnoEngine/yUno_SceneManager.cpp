@@ -6,15 +6,14 @@
 
 #include "Message.h"
 #include "yUno_SceneManager.h"
-#include "SampleScene.h"
 #include "GameObject.h"
 #include "BoxCollider.h"
 #include "Transform.h"
 #include "Text.h"
 #include "SpectatorCamera.h"
 
-#include "Test.h"
-#include "Test2.h"
+#include "TemplateCube.h"
+#include "TemplateText.h"
 
 #include "MeteorPool.h"
 #include "ParticlePool.h"
@@ -205,21 +204,15 @@ SceneBase* yUno_SceneManager::LoadSceneData(const char* loadSceneName)
 			yUno_SystemManager::yUno_GameObjectManager::SetObjectNameData(objNameData);
 
 			// ----- オブジェクトの追加処理 ----- //
-			// SpectatorCameraオブジェクト？
-			if (strcmp(objectType, "SpectatorCamera") == 0)
+			// TemplateCubeオブジェクト？
+			if (strcmp(objectType, "EngineObject::TemplateCube") == 0)
 			{
-				// オブジェクト追加
-				addedObject = loadScene->LoadSceneObject<SpectatorCamera>(layerNo, objNameData.myName);
+				addedObject = loadScene->LoadSceneObject<EngineObject::TemplateCube>(layerNo, objNameData.myName);
 			}
-			// Testオブジェクト？
-			else if (strcmp(objectType, "Test") == 0)
+			// TemplateTextオブジェクト？
+			else if (strcmp(objectType, "EngineObject::TemplateText") == 0)
 			{
-				addedObject = loadScene->LoadSceneObject<Test>(layerNo, objNameData.myName);
-			}
-			// Test2オブジェクト？
-			else if (strcmp(objectType, "Test2") == 0)
-			{
-				addedObject = loadScene->LoadSceneObject<Test2>(layerNo, objNameData.myName);
+				addedObject = loadScene->LoadSceneObject<EngineObject::TemplateText>(layerNo, objNameData.myName);
 			}
 			else if (strcmp(objectType, "MeteorPool") == 0)
 			{

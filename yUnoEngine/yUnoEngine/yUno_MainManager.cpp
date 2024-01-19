@@ -11,8 +11,6 @@
 #include "renderer.h"
 #include "FileReader.h"
 
-
-#include "SampleScene.h"
 #include "EditScene.h"
 
 //  //

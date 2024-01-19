@@ -6,7 +6,9 @@
 
 #include "WindowMenu.h"
 #include "SceneManager.h"
-#include "Test.h"
+
+#include "TemplateCube.h"
+#include "TemplateText.h"
 
 void WindowMenu::Create()
 {
@@ -46,6 +48,9 @@ void WindowMenu::Create()
     mii.wID = ID_CreateCube;
     mii.dwTypeData = (LPWSTR)(L"Cube");
     InsertMenuItem(hSubMenu, ID_CreateCube, FALSE, &mii);
+    mii.wID = ID_CreateText;
+    mii.dwTypeData = (LPWSTR)(L"Text");
+    InsertMenuItem(hSubMenu, ID_CreateText, FALSE, &mii);
 
     // ===== サーバータブ作成 ===== //
     mii.fMask = MIIM_ID | MIIM_STRING | MIIM_SUBMENU;
@@ -58,19 +63,15 @@ void WindowMenu::Create()
     mii.wID = ID_OpenServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーを開く");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
-
     mii.wID = ID_CloseServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーを閉じる");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
-
     mii.wID = ID_LoginServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーにログイン");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
-
     mii.wID = ID_LogoutServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーからログアウト");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
-
     mii.wID = ID_SendMessage;
     mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
@@ -121,13 +122,27 @@ void WindowMenu::Run(WORD menuID)
         // Cube作成 //
         case WindowMenu::ID_CreateCube:
         {
-            // オブジェクトを生成し、そのオブジェクト情報を取得
-            GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Test>(1, "Cube");
+            // 新たにキューブを作成し、そのオブジェクト情報を取得
+            GameObject* cubeObject = PublicSystem::SceneManager::GetNowScene()->AddSceneObject<EngineObject::TemplateCube>(1, "Cube");
 
             // メッセージデータ作成
             MessageData messageData;
             messageData.message.header.type = MessageType::CreateCube;
             messageData.message.body.transform.position = cubeObject->transform->position;
+            // メッセージを送る処理を実行
+            yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
+            break;
+        }
+        //----------//
+        // Text作成 //
+        case WindowMenu::ID_CreateText:
+        {
+            // 新たにテキストを作成
+            PublicSystem::SceneManager::GetNowScene()->AddSceneObject<EngineObject::TemplateText>(3, "Text");
+
+            // メッセージデータ作成
+            MessageData messageData;
+            messageData.message.header.type = MessageType::CreateText;
             // メッセージを送る処理を実行
             yUno_SystemManager::yUno_NetWorkManager::GetServer()->SendMessageData(messageData);
             break;
