@@ -18,6 +18,23 @@ namespace PublicSystem
 	class Color
 	{
 		public:
+			// ----- enum / 列挙型 ----- //
+			/// <summary>
+			///	色の種類	</summary>
+			enum ColorType
+			{
+				Red,
+				Green,
+				Blue,
+				Yellow,
+				Cyan,
+				Magenta,
+				Orange,
+				Pink,
+				White,
+				Black,
+			};
+
 			// ----- variables / 変数 ----- //
 			/// <summary>
 			///	Red / 赤	</summary>
@@ -49,6 +66,7 @@ namespace PublicSystem
 			/// 透明度の強さ	</param>
 			Color(float r, float g, float b, float a);
 
+			static const PublicSystem::Color GetColor(ColorType colorType);
 
 			// ----- キャスト演算子 ----- //
 			// **  XMFLOAT4  ** //

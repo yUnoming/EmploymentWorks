@@ -1,5 +1,8 @@
 
 #define _CRT_SECURE_NO_WARNINGS
+#include "yUno_SceneManager.h"
+#include "yUno_NetWorkManager.h"
+
 #include <stdio.h>
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
@@ -11,8 +14,6 @@
 #include "Material.h"
 #include "SceneManager.h"
 #include "SpectatorCamera.h"
-
-#include "yUno_SceneManager.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -57,7 +58,8 @@ void ModelRenderer::Draw()
 	EngineObject::SpectatorCamera* spectatorCamera = (EngineObject::SpectatorCamera*)yUno_SceneManager::GetEditScene()->GetSceneObject("SpectatorCamera");
 
 	// このコンポーネントが追加されているオブジェクトがクリックされている？
-	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject())
+	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject() ||
+		yUno_SystemManager::yUno_NetWorkManager::GetServer()->IsRockObject(gameObject->GetName()))
 	{
 		// ----- 輪郭線の表示処理 ----- //
 		// シェーダー設定
@@ -70,6 +72,16 @@ void ModelRenderer::Draw()
 			// マテリアル設定
 			m_Model->SubsetArray[i].Material.Material.Diffuse = material->materialColor;
 			Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
+
+			// 定数バッファの作成
+			ID3D11Buffer* constantBuffer;
+			DirectX::XMFLOAT4 color = PublicSystem::Color::GetColor((PublicSystem::Color::ColorType)yUno_SystemManager::yUno_NetWorkManager::GetServer()->GetRockUserNo(gameObject->GetName()));
+			CD3D11_BUFFER_DESC constantBufferDesc(sizeof(color), D3D11_BIND_CONSTANT_BUFFER);
+			Renderer::GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, &constantBuffer);
+			// バッファにデータをセット
+			Renderer::GetDeviceContext()->UpdateSubresource(constantBuffer, 0, nullptr, &color, 0, 0);
+			// シェーダーに定数バッファをセット
+			Renderer::GetDeviceContext()->PSSetConstantBuffers(0, 1, &constantBuffer);
 
 			// テクスチャ設定
 			if (m_Model->SubsetArray[i].Material.Texture)

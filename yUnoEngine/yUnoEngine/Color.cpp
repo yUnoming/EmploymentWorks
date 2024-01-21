@@ -35,3 +35,30 @@ PublicSystem::Color::operator DirectX::XMFLOAT4() const
 	DirectX::XMFLOAT4 New_Param = DirectX::XMFLOAT4(r, g, b, a);
 	return New_Param;
 }
+
+const PublicSystem::Color PublicSystem::Color::GetColor(ColorType colorType)
+{
+	switch (colorType)
+	{
+		case ColorType::Red:
+			return Color(1.0f, 0.0f, 0.0f, 1.0f);
+		case ColorType::Green:
+			return Color(0.0f, 1.01, 0.0f, 1.0f);
+		case ColorType::Blue:
+			return Color(0.0f, 0.01, 1.0f, 1.0f);
+		case ColorType::Yellow:
+			return Color(1.0f, 1.01, 0.0f, 1.0f);
+		case ColorType::Cyan:
+			return Color(0.0f, 1.0f, 1.0f, 1.0f);
+		case ColorType::Magenta:
+			return Color(1.0f, 0.0f, 1.0f, 1.0f);
+		case ColorType::Orange:
+			return Color(1.0f, 0.5f, 0.0f, 1.0f);
+		case ColorType::Pink:
+			return Color(1.0f, 0.753f, 0.796, 1.0f);
+		case ColorType::White:
+			return Color(1.0f, 1.0f, 1.0f, 1.0f);
+		case ColorType::Black:
+			return Color(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+}

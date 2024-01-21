@@ -67,6 +67,9 @@ struct Header
 	/// <summary>
 	///	送信元ユーザーのランク	</summary>
 	int userRank;
+	/// <summary>
+	///	送信元ユーザー番号	</summary>
+	int userNo;
 };
 
 /// <summary>
