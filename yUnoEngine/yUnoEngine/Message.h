@@ -69,7 +69,7 @@ struct Header
 	int userRank;
 	/// <summary>
 	///	送信元ユーザー番号	</summary>
-	int userNo;
+	int userNo = 0;
 };
 
 /// <summary>
