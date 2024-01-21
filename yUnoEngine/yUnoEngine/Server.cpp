@@ -75,7 +75,8 @@ void Server::ReceiveThread()
 						}
 					} while (!success);
 
-					m_myServerNo = userNo;
+					m_sendData.message.header.userRank = User;
+					m_sendData.message.header.userNo = userNo;
 					comUser.userNo = userNo;
 					comUser.address = m_sendAddress;
 
@@ -113,17 +114,32 @@ void Server::ReceiveThread()
 						if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
 							comUser.address.sin_port == m_sendAddress.sin_port)
 						{
-							// リストから除外
-							m_comUserList.erase(it);
-							// ロック状態の解除
+							// ===== ロック状態の解除 ===== //
+							std::list<std::list<RockObjectData>::iterator> eraseIteratorList;	// 削除する要素を格納しておくリスト
+
+							// ロックされているオブジェクト分ループ
 							for (auto it = m_rockObjectList.begin(); it != m_rockObjectList.end(); it++)
 							{
 								RockObjectData rockObject = *it;
+								// ロックしているユーザーと送信元ユーザーが一致？
 								if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
 								{
-									m_rockObjectList.erase(it);
+									eraseIteratorList.push_back(it);	// 削除する要素として格納
 								}
 							}
+							// 削除する要素分ループ
+							for (auto it : eraseIteratorList)
+							{
+								m_rockObjectList.erase(it);	// 要素を削除
+
+								// 他ユーザーのロック状態を解除
+								m_receiveData.message.header.type = MessageType::ClickObject;
+								m_receiveData.message.body.object.CopyName(nullptr);
+								SendMessageOtherUser();
+							}
+
+							// ユーザーリストから除外
+							m_comUserList.erase(it);
 
 							// メッセージ通知
 							if (m_myServerRank == ServerRank::Owner)
@@ -158,6 +174,7 @@ void Server::ReceiveThread()
 						// 各値を代入
 						*text = Text(m_receiveData.message.body.text);
 					}
+					SendMessageOtherUser();
 					break;
 				//------------------//
 				// オブジェクト選択 //
@@ -188,6 +205,7 @@ void Server::ReceiveThread()
 						rockObjectData.rockUserNo = m_receiveData.message.header.userNo;
 						m_rockObjectList.push_back(rockObjectData);
 					}
+					SendMessageOtherUser();
 					break;
 				}
 				//------------------//
@@ -195,6 +213,7 @@ void Server::ReceiveThread()
 				case MessageType::ObjectDelete:
 					// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
 					PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
+					SendMessageOtherUser();
 					break;
 				//--------------//
 				// キューブ作成 //
@@ -205,6 +224,7 @@ void Server::ReceiveThread()
 					// メッセージからTransform情報を取得し、代入
 					// ※作成した際、座標以外は一定の値なので、代入しない
 					cubeObject->transform->position = m_receiveData.message.body.transform.position;
+					SendMessageOtherUser();
 					break;
 				}
 				//--------------//
@@ -213,6 +233,7 @@ void Server::ReceiveThread()
 				{
 					// テキストを作成
 					PublicSystem::SceneManager::GetNowScene()->AddSceneObject<EngineObject::TemplateText>(3, "Text");
+					SendMessageOtherUser();
 					break;
 				}
 			}
@@ -256,6 +277,28 @@ void Server::CommunicationStartThread()
 		// メッセージ通知
 		MessageBoxW(NULL, L"ログインに失敗しました", L"システム通知", MB_OK);
 	return;
+}
+
+void Server::SendMessageOtherUser()
+{
+	// 自身がサーバーを開いた？
+	if (m_myServerRank == Owner)
+	{
+		// ユーザーが複数人いる？
+		if (m_comUserList.size() > 1)
+		{
+			// ユーザー数だけループ
+			for (const CommunicationUserData& data : m_comUserList)
+			{
+				// 送信元ユーザーではないユーザー？
+				if (data.userNo != m_receiveData.message.header.userNo)
+				{
+					m_sendAddress = data.address;	// アドレス設定
+					SendMessageData(m_receiveData);	// メッセージ送信
+				}
+			}
+		}
+	}
 }
 
 Server::~Server()
@@ -546,10 +589,20 @@ void Server::SendMessageData(MessageData& messageData)
 	if (m_isCommunicationData || messageData.message.header.type == MessageType::CommunicationStart)
 	{
 		// ===== その他に送る情報を代入 ===== //
-		// ユーザーランク
-		messageData.message.header.userRank = m_myServerRank;
-		// ユーザー番号
-		messageData.message.header.userNo = m_myServerNo;
+		// サーバーが送信元以外のユーザーにメッセージを送る？
+		if (m_myServerRank == Owner && messageData.message.header.userRank == User)
+		{
+			// この中を通る
+		}
+		// 通常処理
+		else
+		{
+			// 各値を代入
+			// ユーザーランク
+			messageData.message.header.userRank = m_myServerRank;
+			// ユーザー番号
+			messageData.message.header.userNo = m_myServerNo;
+		}
 
 		// ===== 送信処理 ===== //
 		// データの送信時、エラーが発生した？
@@ -569,8 +622,8 @@ void Server::SendMessageData(MessageData& messageData)
 
 const int Server::GetRockUserNo(const char* objectName)
 {
-	// ロックしていない？自身がサーバーを開いた？
-	if (m_rockObjectList.empty() || m_myServerRank == Owner)
+	// ロックしていない？
+	if (m_rockObjectList.empty())
 		return m_myServerNo;
 
 	// ロックしているオブジェクト分ループ

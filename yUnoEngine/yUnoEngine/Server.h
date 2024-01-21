@@ -114,6 +114,10 @@ class Server
 		///	受信開始スレッド	</summary>
 		void CommunicationStartThread();
 
+		/// <summary>
+		///	他ユーザーにメッセージを送る	</summary>
+		void SendMessageOtherUser();
+
 	public:
 		// ----- functions / 関数 ----- //
 		// デストラクタ
