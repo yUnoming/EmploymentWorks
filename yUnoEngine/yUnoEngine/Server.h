@@ -40,8 +40,23 @@ class Server
 			///	ユーザーランク	</summary>
 			ServerRank userRank;
 			/// <summary>
+			/// ユーザー番号 </summary>
+			int userNo;
+			/// <summary>
 			///	ユーザーアドレス	</summary>
 			sockaddr_in address;
+		};
+
+		/// <summary>
+		///	ロックオブジェクト情報	</summary>
+		struct RockObjectData
+		{
+			/// <summary>
+			/// ロックしているオブジェクト名	<summary>
+			char rockObjectName[30];
+			/// <summary>
+			///	ロックしているユーザー番号	</summary>
+			int rockUserNo;		
 		};
 
 		// ----- variables / 変数 ----- //
@@ -79,13 +94,17 @@ class Server
 		/// <summary>
 		///	自身のサーバーでの地位	</summary>
 		ServerRank m_myServerRank;
-
-		// ロックしているオブジェクト名
-		char rockObjectName[30];
+		/// <summary>
+		///	自身のサーバーで付与された番号	</summary>
+		int m_myServerNo;
 
 		/// <summary>
 		///	通信ユーザーリスト	</summary>
 		std::list<CommunicationUserData> m_comUserList;
+
+		/// <summary>
+		///	ロックオブジェクトリスト	</summary>
+		std::list<RockObjectData> m_rockObjectList;
 
 		// ----- functions / 関数 ----- //
 		/// <summary>
@@ -122,7 +141,7 @@ class Server
 		void SendMessageData(MessageData& messageData);
 		
 
-
+		const int GetRockUserNo(const char* objectName);
 		/// <summary>
 		///	オブジェクトがロックされているか判定	</summary>
 		/// <param name="objectName">

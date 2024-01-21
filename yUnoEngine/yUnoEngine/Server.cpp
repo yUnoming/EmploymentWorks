@@ -59,6 +59,24 @@ void Server::ReceiveThread()
 					// 通信相手の情報を保存する
 					CommunicationUserData comUser;
 					comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
+					int userNo = 1;
+					bool success = true;
+					do
+					{
+						success = true;
+						for (const CommunicationUserData data : m_comUserList)
+						{
+							if (data.userNo == userNo)
+							{
+								userNo++;
+								success = false;
+								break;
+							}
+						}
+					} while (!success);
+
+					m_myServerNo = userNo;
+					comUser.userNo = userNo;
 					comUser.address = m_sendAddress;
 
 					// リストに格納
@@ -67,6 +85,7 @@ void Server::ReceiveThread()
 					// ----- 相手に通信成功を伝える ----- //
 					m_sendData.message.header.type = MessageType::CommunicationSuccess;
 					SendMessageData(m_sendData);
+					m_myServerNo = 0;
 					break;
 				}
 				//----------//
@@ -77,6 +96,8 @@ void Server::ReceiveThread()
 						// 通信の開始を設定
 						m_isCommunicationData = true;
 						m_isCommunicationDuring = false;
+						// 自身の番号を代入
+						m_myServerNo = m_receiveData.message.header.userNo;
 						// システム通知を表示
 						MessageBoxW(NULL, L"サーバーにログインしました", L"システム通知", MB_OK);
 						break;
@@ -95,7 +116,14 @@ void Server::ReceiveThread()
 							// リストから除外
 							m_comUserList.erase(it);
 							// ロック状態の解除
-							ZeroMemory(rockObjectName, sizeof(rockObjectName));
+							for (auto it = m_rockObjectList.begin(); it != m_rockObjectList.end(); it++)
+							{
+								RockObjectData rockObject = *it;
+								if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
+								{
+									m_rockObjectList.erase(it);
+								}
+							}
 
 							// メッセージ通知
 							if (m_myServerRank == ServerRank::Owner)
@@ -134,9 +162,34 @@ void Server::ReceiveThread()
 				//------------------//
 				// オブジェクト選択 //
 				case MessageType::ClickObject:
-					// クリックされたオブジェクト名を代入
-					strcpy_s(rockObjectName, m_receiveData.message.body.object.GetName());
+				{
+					bool isRocked = false;	// 既にロックされているかどうか
+
+					// ロックされているオブジェクト分ループ
+					for (RockObjectData& rockObject : m_rockObjectList)
+					{
+						// 送信元ユーザーは既にオブジェクトをロックしている？
+						if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
+						{
+							// クリックされたオブジェクト名を代入
+							strcpy_s(rockObject.rockObjectName, m_receiveData.message.body.object.GetName());
+							isRocked = true;	// 既にロックしていることを覚えておく
+							break;
+						}
+					}
+
+					// まだロックされていないオブジェクト？
+					if (!isRocked)
+					{
+						// 登録処理
+						RockObjectData rockObjectData;
+						// クリックされたオブジェクト名を代入
+						strcpy_s(rockObjectData.rockObjectName, m_receiveData.message.body.object.GetName());
+						rockObjectData.rockUserNo = m_receiveData.message.header.userNo;
+						m_rockObjectList.push_back(rockObjectData);
+					}
 					break;
+				}
 				//------------------//
 				// オブジェクト削除 //
 				case MessageType::ObjectDelete:
@@ -343,7 +396,7 @@ void Server::CloseServer()
 		// 通信の終了を設定
 		m_isCommunicationData = false;
 		// ロック状態の解除
-		ZeroMemory(rockObjectName, sizeof(rockObjectName));
+		m_rockObjectList.clear();
 
 		// スレッドの終了を待つ
 		m_receiveThread.join();
@@ -451,7 +504,7 @@ void Server::LogoutServer()
 		// 通信の終了を設定
 		m_isCommunicationData = false;
 		// ロック状態の解除
-		ZeroMemory(rockObjectName, sizeof(rockObjectName));
+		m_rockObjectList.clear();
 
 		// スレッドの終了を待つ
 		m_receiveThread.join();
@@ -495,6 +548,8 @@ void Server::SendMessageData(MessageData& messageData)
 		// ===== その他に送る情報を代入 ===== //
 		// ユーザーランク
 		messageData.message.header.userRank = m_myServerRank;
+		// ユーザー番号
+		messageData.message.header.userNo = m_myServerNo;
 
 		// ===== 送信処理 ===== //
 		// データの送信時、エラーが発生した？
@@ -512,10 +567,34 @@ void Server::SendMessageData(MessageData& messageData)
 	}
 }
 
+const int Server::GetRockUserNo(const char* objectName)
+{
+	// ロックしていない？自身がサーバーを開いた？
+	if (m_rockObjectList.empty() || m_myServerRank == Owner)
+		return m_myServerNo;
+
+	// ロックしているオブジェクト分ループ
+	for (const RockObjectData& rockObject : m_rockObjectList)
+	{
+		// オブジェクト名がロックしているオブジェクト名と一致した？
+		if (rockObject.rockObjectName != nullptr && strcmp(rockObject.rockObjectName, objectName) == 0)
+			return rockObject.rockUserNo;
+	}
+	return m_myServerNo;
+}
+
 bool Server::IsRockObject(const char* objectName)
 {
-	// ロックされていない？別のオブジェクトをロックしている？
-	if (rockObjectName == nullptr || strcmp(rockObjectName, objectName) != 0)
+	// ロックしていない？
+	if (m_rockObjectList.empty())
 		return false;
-	return true;
+
+	// ロックしているオブジェクト分ループ
+	for (const RockObjectData& rockObject : m_rockObjectList)
+	{
+		// オブジェクト名がロックしているオブジェクト名と一致した？
+		if (rockObject.rockObjectName != nullptr && strcmp(rockObject.rockObjectName, objectName) == 0)
+			return true;
+	}
+	return false;
 }
