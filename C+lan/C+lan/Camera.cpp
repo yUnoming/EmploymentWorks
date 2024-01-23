@@ -14,21 +14,51 @@
 #include "SystemSceneManager.h"
 
 
+void Ctlan::PublicSystem::Camera::Init()
+{
+	m_eye = transform->position;
+	m_focus = DirectX::XMFLOAT3(transform->position.x, transform->position.y, transform->position.z + 10.0f);
+	m_up = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
+}
+
 void Ctlan::PublicSystem::Camera::Draw()
 {
 	// ビュー行列生成に必要な変数
-	DirectX::XMFLOAT3 position = transform->position;
-	DirectX::XMFLOAT3 target = DirectX::XMFLOAT3(transform->position.x, transform->position.y, transform->position.z + 10.0f);
-	DirectX::XMFLOAT3 up = DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f);
+	DirectX::XMVECTOR eye = DirectX::XMLoadFloat3(&m_eye);
+	DirectX::XMVECTOR focus = DirectX::XMLoadFloat3(&m_focus);
+	DirectX::XMVECTOR up = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&m_up));
+	DirectX::XMVECTOR front = DirectX::XMVectorSubtract(focus, eye);
+	float focusLength;
+	DirectX::XMStoreFloat(&focusLength, DirectX::XMVector3Length(front));
+	front = DirectX::XMVector3Normalize(front);
+	DirectX::XMVECTOR side = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(up, front));
+	up = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(front, side));
 
-	// XMVECTOR型に変換
-	DirectX::XMVECTOR Eye = DirectX::XMLoadFloat3(&position);
-	DirectX::XMVECTOR Focus = DirectX::XMLoadFloat3(&target);
-	DirectX::XMVECTOR Up = DirectX::XMLoadFloat3(&up);
+	// カメラ回転
+	if (lateRotation.x != transform->rotation.x || lateRotation.y != transform->rotation.y)
+	{
+		Vector3 rotAngle = Vector3(transform->rotation - lateRotation);
+
+		DirectX::XMMATRIX mtxRotY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(rotAngle.y));
+		DirectX::XMVECTOR sideAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(side, mtxRotY));
+
+		DirectX::XMMATRIX mtxRotX = DirectX::XMMatrixRotationAxis(sideAxis, DirectX::XMConvertToRadians(rotAngle.x));
+		DirectX::XMVECTOR frontAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(front, mtxRotY * mtxRotX));
+
+		DirectX::XMVECTOR camEye = DirectX::XMVectorZero();
+		camEye = DirectX::XMVectorScale(camEye, 0.1f);
+
+		DirectX::XMStoreFloat3(&m_eye, DirectX::XMVectorAdd(eye, camEye));
+		DirectX::XMStoreFloat3(&m_focus, DirectX::XMVectorAdd(eye, DirectX::XMVectorScale(frontAxis, focusLength)));
+		DirectX::XMStoreFloat3(&m_up, DirectX::XMVector3Normalize(DirectX::XMVector3Cross(frontAxis, sideAxis)));
+	}
+
+	lateRotation = transform->rotation;
 
 	// ビュー行列の生成
 	DirectX::SimpleMath::Matrix ViewMatrix;
-	ViewMatrix = DirectX::XMMatrixLookAtLH(Eye, Focus, Up);
+	ViewMatrix = DirectX::XMMatrixLookAtLH(
+		DirectX::XMLoadFloat3(&m_eye), DirectX::XMLoadFloat3(&m_focus), DirectX::XMLoadFloat3(&m_up));
 	// ビュー行列をセット
 	Renderer::SetViewMatrix(&ViewMatrix);
 	
@@ -63,25 +93,34 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
 	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
-	Vector3 WorldPoint_Position = Vector3();
-	WorldPoint_Position.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
-	WorldPoint_Position.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
-	WorldPoint_Position.z = farClip;
+	DirectX::XMFLOAT3 worldPointPosition;
+	worldPointPosition.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
+	worldPointPosition.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
+	worldPointPosition.z = farClip;
 
+	// カメラの回転に合わせて位置を調整
+	DirectX::XMMATRIX mtxRot =
+	DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y)) *
+		DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x)) *
+		DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(transform->rotation.z));
+	DirectX::XMFLOAT3 xmWorldPointPosition = DirectX::XMFLOAT3(worldPointPosition);
+	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&xmWorldPointPosition);
+	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRot);
+	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();	// 現在シーン内のオブジェクト情報	
-	Vector3 RaySpeed = (WorldPoint_Position - transform->position) * 0.01f;					// レイの速度
-	Vector3 RayPoint = transform->position;													// レイの移動後の座標
-	Vector3 Late_RayPoint = transform->position;											// レイの移動前の座標
-	bool IsHit = false;									// 当たったかどうかを表す
-	std::list<PrivateSystem::GameObject*> HitObjects;	// 当たったオブジェクトを入れるためのリスト
+	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.001f;	// レイの速度
+	Vector3 rayPoint = transform->position;											// レイの移動後の座標
+	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
+	bool IsHit = false;																// 当たったかどうかを表す
+	std::list<PrivateSystem::GameObject*> HitObjects;								// 当たったオブジェクトを入れるためのリスト
 
 	// ===== ヒット処理 ===== //
 	do
 	{
 		// 進行方向に進める
-		RayPoint += RaySpeed;
+		rayPoint += raySpeed;
 
 		// 各スレッド内のオブジェクトリスト取得
 		for (int i = 1; i < SceneObjects.size(); i++)
@@ -114,7 +153,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 				);
 
 				// 進む前と後の間にオブジェクトと当たった？
-				if (CalculationHit::SegmentToHexahedron(Late_RayPoint, RayPoint, boundingBox, object->transform))
+				if (CalculationHit::SegmentToHexahedron(lateRayPoint, rayPoint, boundingBox, object->transform))
 				{
 					HitObjects.push_back(object);	// 当たったオブジェクトをリストに格納
 					IsHit = true;					// 当たったことを伝える
@@ -123,11 +162,11 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 		}
 
 		// 現在の座標を代入
-		Late_RayPoint = RayPoint;
+		lateRayPoint = rayPoint;
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while(!IsHit && RayPoint.z < farClip);
+	while(!IsHit && ((rayPoint.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (rayPoint.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
 
 	if (HitObjects.empty())
 		return nullptr;
@@ -154,26 +193,32 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
 	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
-	Vector3 WorldPoint_Position = Vector3();
-	WorldPoint_Position.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
-	WorldPoint_Position.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
-	WorldPoint_Position.z = farClip;
+	DirectX::XMFLOAT3 worldPointPosition;
+	worldPointPosition.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
+	worldPointPosition.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
+	worldPointPosition.z = farClip;
 
+	// カメラの回転に合わせて位置を調整
+	DirectX::XMMATRIX mtxRot =
+		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y)) * DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x));
+	DirectX::XMFLOAT3 xmWorldPointPosition = DirectX::XMFLOAT3(worldPointPosition);
+	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&xmWorldPointPosition);
+	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRot);
+	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
 	// ----- ヒット処理の前準備 ----- //
-	// 現在シーン内のオブジェクト情報
-	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = PrivateSystem::SystemManager::SystemSceneManager::GetEditScene()->GetAllSceneObjects();
-	Vector3 RaySpeed = (WorldPoint_Position - transform->position) * 0.01f;					// レイの速度
-	Vector3 RayPoint = transform->position;													// レイの移動後の座標
-	Vector3 Late_RayPoint = transform->position;											// レイの移動前の座標
-	bool IsHit = true;									// 当たったかどうかを表す
-	std::list<PrivateSystem::GameObject*> HitObjects;	// 当たったオブジェクトを入れるためのリスト
+	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SystemManager::SystemSceneManager::GetEditScene()->GetAllSceneObjects();	// 現在シーン内のオブジェクト情報	
+	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.001f;	// レイの速度
+	Vector3 rayPoint = transform->position;											// レイの移動後の座標
+	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
+	bool IsHit = false;																// 当たったかどうかを表す
+	std::list<PrivateSystem::GameObject*> HitObjects;								// 当たったオブジェクトを入れるためのリスト
 
 	// ===== ヒット処理 ===== //
 	do
 	{
 		// 進行方向に進める
-		RayPoint += RaySpeed;
+		rayPoint += raySpeed;
 
 		// 各スレッド内のオブジェクトリスト取得
 		for (int i = 1; i < SceneObjects.size(); i++)
@@ -195,20 +240,20 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 				);
 
 				// 進む前と後の間にオブジェクトと当たった？
-				if (CalculationHit::SegmentToHexahedron(Late_RayPoint, RayPoint, boundingBox, object->transform))
+				if (CalculationHit::SegmentToHexahedron(lateRayPoint, rayPoint, boundingBox, object->transform))
 				{
 					HitObjects.push_back(object);	// 当たったオブジェクトをリストに格納
-					IsHit = false;					// 当たったことを伝える
+					IsHit = true;					// 当たったことを伝える
 				}
 			}
 		}
 
 		// 現在の座標を代入
-		Late_RayPoint = RayPoint;
+		lateRayPoint = rayPoint;
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while (IsHit && RayPoint.z < farClip);
+	while (!IsHit && ((rayPoint.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (rayPoint.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
 
 	if (HitObjects.empty())
 		return nullptr;
