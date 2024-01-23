@@ -22,7 +22,17 @@ namespace Ctlan
 		class Camera : public EachFunction
 		{
 			private:
+				// ----- variables / •Ï” ----- //
+				DirectX::XMFLOAT3 m_eye;
+				DirectX::XMFLOAT3 m_focus;
+				DirectX::XMFLOAT3 m_up;
+
+				Vector3 lateRotation;
+
 				// ----- functions / ŠÖ” ----- //
+				/// <summary>
+				///	‰Šú‰»	</summary>
+				void Init() override;
 				/// <summary>
 				/// •`‰æ	</summary>
 				void Draw() override;

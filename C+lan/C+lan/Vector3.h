@@ -45,13 +45,17 @@ namespace Ctlan
 				/// z座標値	</param>
 				Vector3(float x, float y, float z) : x(x), y(y), z(z) {};
 				/// <summary>
-				/// 引数付きコンストラクタ
-				/// </summary>
+				/// 引数付きコンストラクタ	</summary>
 				/// <param name="x">
 				/// x座標値	</param>
 				/// <param name="y">
 				/// y座標値	</param>
 				Vector3(float x, float y) : x(x), y(y) {};
+				/// <summary>
+				///	引数付きコンストラクタ	</summary>
+				/// <param name="vec">
+				/// XMFLOAT3型変数	</param>
+				Vector3(const DirectX::XMFLOAT3& vec) : x(vec.x), y(vec.y), z(vec.z) {};
 				virtual ~Vector3() {};
 
 
@@ -81,11 +85,11 @@ namespace Ctlan
 				///	値の加算結果	</returns>
 				Vector3 operator+(int i);
 				/// <summary>
-			///	float型との加算用オペレーター	</summary>
-			/// <param name="f">
-			///	float値	</param>
-			/// <returns>
-			///	値の加算結果	</returns>
+				///	float型との加算用オペレーター	</summary>
+				/// <param name="f">
+				///	float値	</param>
+				/// <returns>
+				///	値の加算結果	</returns>
 				Vector3 operator+(float f);
 				/// <summary>
 				///	Vector3型との加算用オペレーター	</summary>

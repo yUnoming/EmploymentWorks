@@ -22,14 +22,23 @@ void Ctlan::EngineObject::SpectatorCamera::Init()
 void Ctlan::EngineObject::SpectatorCamera::Update()
 {
 	// ===== 自身の操作 ===== //
-	if (KeyInput::GetKeyDown(UpArrow))
-		transform->position.y += 0.01f;
 	if (KeyInput::GetKeyDown(LeftArrow))
-		transform->position.x -= 0.01f;
-	if (KeyInput::GetKeyDown(DownArrow))
-		transform->position.y -= 0.01f;
+		transform->rotation.y -= 0.1f;
 	if (KeyInput::GetKeyDown(RightArrow))
-		transform->position.x += 0.01f;
+		transform->rotation.y += 0.1f;
+	if (KeyInput::GetKeyDown(DownArrow))
+		transform->rotation.x += 0.1f;
+	if (KeyInput::GetKeyDown(UpArrow))
+		transform->rotation.x -= 0.1f;
+
+	//if (KeyInput::GetKeyDown(UpArrow))
+	//	transform->position.y += 0.01f;
+	//if (KeyInput::GetKeyDown(LeftArrow))
+	//	transform->position.x -= 0.01f;
+	//if (KeyInput::GetKeyDown(DownArrow))
+	//	transform->position.y -= 0.01f;
+	//if (KeyInput::GetKeyDown(RightArrow))
+	//	transform->position.x += 0.01f;
 
 	// ===== クリックしたオブジェクトを取得 ===== //
 	static bool isTextMove = false;
