@@ -27,7 +27,7 @@ namespace Ctlan
 				DirectX::XMFLOAT3 m_focus;
 				DirectX::XMFLOAT3 m_up;
 
-				Vector3 lateRotation;
+				Vector3 lateRotation = Vector3(0.f, 0.f, 0.f);
 
 				// ----- functions / ŠÖ” ----- //
 				/// <summary>
@@ -36,6 +36,10 @@ namespace Ctlan
 				/// <summary>
 				/// •`‰æ	</summary>
 				void Draw() override;
+
+				/// <summary>
+				///	ƒJƒƒ‰‚Ì‰ñ“]‚ğ•`‰æ—p‚Ì•Ï”‚É”½‰f	</summary>
+				void ReflectRotation();
 
 			public:
 				// ----- variables / •Ï” ----- //
