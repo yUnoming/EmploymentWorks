@@ -23,34 +23,10 @@ void Ctlan::PublicSystem::Camera::Init()
 
 void Ctlan::PublicSystem::Camera::Draw()
 {
-	// ビュー行列生成に必要な変数
-	DirectX::XMVECTOR eye = DirectX::XMLoadFloat3(&m_eye);
-	DirectX::XMVECTOR focus = DirectX::XMLoadFloat3(&m_focus);
-	DirectX::XMVECTOR up = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&m_up));
-	DirectX::XMVECTOR front = DirectX::XMVectorSubtract(focus, eye);
-	float focusLength;
-	DirectX::XMStoreFloat(&focusLength, DirectX::XMVector3Length(front));
-	front = DirectX::XMVector3Normalize(front);
-	DirectX::XMVECTOR side = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(up, front));
-	up = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(front, side));
-
-	// カメラ回転
+	// カメラが回転した？
 	if (lateRotation.x != transform->rotation.x || lateRotation.y != transform->rotation.y)
 	{
-		Vector3 rotAngle = Vector3(transform->rotation - lateRotation);
-
-		DirectX::XMMATRIX mtxRotY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(rotAngle.y));
-		DirectX::XMVECTOR sideAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(side, mtxRotY));
-
-		DirectX::XMMATRIX mtxRotX = DirectX::XMMatrixRotationAxis(sideAxis, DirectX::XMConvertToRadians(rotAngle.x));
-		DirectX::XMVECTOR frontAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(front, mtxRotY * mtxRotX));
-
-		DirectX::XMVECTOR camEye = DirectX::XMVectorZero();
-		camEye = DirectX::XMVectorScale(camEye, 0.1f);
-
-		DirectX::XMStoreFloat3(&m_eye, DirectX::XMVectorAdd(eye, camEye));
-		DirectX::XMStoreFloat3(&m_focus, DirectX::XMVectorAdd(eye, DirectX::XMVectorScale(frontAxis, focusLength)));
-		DirectX::XMStoreFloat3(&m_up, DirectX::XMVector3Normalize(DirectX::XMVector3Cross(frontAxis, sideAxis)));
+		ReflectRotation();	// 値更新
 	}
 
 	lateRotation = transform->rotation;
@@ -71,6 +47,36 @@ void Ctlan::PublicSystem::Camera::Draw()
 	projectionMatrix = DirectX::XMMatrixPerspectiveFovLH(Fov, aspectRatio, nearClip, farClip);
 	//プロジェクション行列をセット
 	Renderer::SetProjectionMatrix(&projectionMatrix);
+}
+
+void Ctlan::PublicSystem::Camera::ReflectRotation()
+{
+	// 必要な変数に各値を代入
+	DirectX::XMVECTOR eye = DirectX::XMLoadFloat3(&m_eye);
+	DirectX::XMVECTOR focus = DirectX::XMLoadFloat3(&m_focus);
+	DirectX::XMVECTOR up = DirectX::XMVector3Normalize(DirectX::XMLoadFloat3(&m_up));
+	DirectX::XMVECTOR front = DirectX::XMVectorSubtract(focus, eye);
+	float focusLength;
+	DirectX::XMStoreFloat(&focusLength, DirectX::XMVector3Length(front));
+	front = DirectX::XMVector3Normalize(front);
+	DirectX::XMVECTOR side = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(up, front));
+	up = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(front, side));
+	Vector3 rotAngle = Vector3(transform->rotation - lateRotation);
+
+	// 反映させるために回転行列を作成
+	DirectX::XMMATRIX mtxRotY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(rotAngle.y));
+	DirectX::XMVECTOR sideAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(side, mtxRotY));
+
+	DirectX::XMMATRIX mtxRotX = DirectX::XMMatrixRotationAxis(sideAxis, DirectX::XMConvertToRadians(rotAngle.x));
+	DirectX::XMVECTOR frontAxis = DirectX::XMVector3Normalize(DirectX::XMVector3TransformCoord(front, mtxRotY * mtxRotX));
+
+	DirectX::XMVECTOR camEye = DirectX::XMVectorZero();
+	camEye = DirectX::XMVectorScale(camEye, 0.01f);
+
+	// 各値を更新
+	DirectX::XMStoreFloat3(&m_eye, DirectX::XMVectorAdd(eye, camEye));
+	DirectX::XMStoreFloat3(&m_focus, DirectX::XMVectorAdd(camEye, DirectX::XMVectorScale(frontAxis, focusLength)));
+	DirectX::XMStoreFloat3(&m_up, DirectX::XMVector3Normalize(DirectX::XMVector3Cross(frontAxis, sideAxis)));
 }
 
 Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObject(Vector2 screenPoint)
@@ -99,18 +105,18 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	worldPointPosition.z = farClip;
 
 	// カメラの回転に合わせて位置を調整
-	DirectX::XMMATRIX mtxRot =
-	DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y)) *
+	DirectX::XMMATRIX mtxRotation = 
+		DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(transform->rotation.z)) *
 		DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x)) *
-		DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(transform->rotation.z));
-	DirectX::XMFLOAT3 xmWorldPointPosition = DirectX::XMFLOAT3(worldPointPosition);
-	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&xmWorldPointPosition);
-	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRot);
+		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y));
+
+	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&worldPointPosition);
+	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRotation);
 	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();	// 現在シーン内のオブジェクト情報	
-	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.001f;	// レイの速度
+	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.01f;	// レイの速度
 	Vector3 rayPoint = transform->position;											// レイの移動後の座標
 	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
 	bool IsHit = false;																// 当たったかどうかを表す
@@ -199,16 +205,18 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 	worldPointPosition.z = farClip;
 
 	// カメラの回転に合わせて位置を調整
-	DirectX::XMMATRIX mtxRot =
-		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y)) * DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x));
-	DirectX::XMFLOAT3 xmWorldPointPosition = DirectX::XMFLOAT3(worldPointPosition);
-	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&xmWorldPointPosition);
-	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRot);
+	DirectX::XMMATRIX mtxRotation =
+		DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(transform->rotation.z)) *
+		DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x)) *
+		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y));
+
+	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&worldPointPosition);
+	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRotation);
 	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SystemManager::SystemSceneManager::GetEditScene()->GetAllSceneObjects();	// 現在シーン内のオブジェクト情報	
-	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.001f;	// レイの速度
+	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.01f;	// レイの速度
 	Vector3 rayPoint = transform->position;											// レイの移動後の座標
 	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
 	bool IsHit = false;																// 当たったかどうかを表す
