@@ -57,6 +57,9 @@ void Ctlan::PrivateSystem::SystemManager::SystemMainManager::Update()
     // キー入力
     SystemKeyInputManager::Update();
 
+    // マウス入力
+    SystemMouseInputManager::Update();
+
     // ===== メインの更新処理 ===== //
     // ----- デモプレイの切り替え----- //
     // 仮）Enterキーが押された？

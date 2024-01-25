@@ -6,6 +6,7 @@
 #include "Transform.h"
 #include "Camera.h"
 
+#include "Time.h"
 #include "KeyInput.h"
 #include "InputPartsName.h"
 #include "MouseInput.h"
@@ -21,24 +22,30 @@ void Ctlan::EngineObject::SpectatorCamera::Init()
 
 void Ctlan::EngineObject::SpectatorCamera::Update()
 {
-	// ===== 自身の操作 ===== //
-	if (KeyInput::GetKeyDown(LeftArrow))
-		transform->rotation.y -= 0.1f;
-	if (KeyInput::GetKeyDown(RightArrow))
-		transform->rotation.y += 0.1f;
-	if (KeyInput::GetKeyDown(DownArrow))
-		transform->rotation.x += 0.1f;
+	// ===== カメラの操作 ===== //
+	// ----- カメラ移動 ----- //
+	// 上矢印キーが押されている？
 	if (KeyInput::GetKeyDown(UpArrow))
-		transform->rotation.x -= 0.1f;
+		transform->position.y += 0.01f;
+	// 左矢印キーが押されている？
+	if (KeyInput::GetKeyDown(LeftArrow))
+		transform->position.x -= 0.01f;
+	// 下矢印キーが押されている？
+	if (KeyInput::GetKeyDown(DownArrow))
+		transform->position.y -= 0.01f;
+	// 右矢印キーが押されている？
+	if (KeyInput::GetKeyDown(RightArrow))
+		transform->position.x += 0.01f;
 
-	//if (KeyInput::GetKeyDown(UpArrow))
-	//	transform->position.y += 0.01f;
-	//if (KeyInput::GetKeyDown(LeftArrow))
-	//	transform->position.x -= 0.01f;
-	//if (KeyInput::GetKeyDown(DownArrow))
-	//	transform->position.y -= 0.01f;
-	//if (KeyInput::GetKeyDown(RightArrow))
-	//	transform->position.x += 0.01f;
+	// ----- カメラ回転 ----- //
+	// 右クリックが押されている？
+	if (MouseInput::GetMouseDown(RightButton))
+	{
+		// カーソルの移動量に合わせてカメラを回転
+		Vector2 moveAmount = PublicSystem::MouseInput::GetCursorMoveAmount();
+		transform->rotation.x -= moveAmount.y * 0.01f * PublicSystem::Time::DeltaTime;
+		transform->rotation.y += moveAmount.x * 0.01f * PublicSystem::Time::DeltaTime;
+	}
 
 	// ===== クリックしたオブジェクトを取得 ===== //
 	static bool isTextMove = false;

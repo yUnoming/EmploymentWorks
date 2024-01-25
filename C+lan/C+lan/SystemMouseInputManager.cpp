@@ -12,7 +12,19 @@
 Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::MouseStatus Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::m_nowMouseState[3];
 Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::MouseStatus Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::m_lateMouseState[3];
 Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::MouseWheelStatus Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::m_mouseWheelState;
+Ctlan::PublicSystem::Vector2 Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::m_lateCursorPosition;
+Ctlan::PublicSystem::Vector2 Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::m_nowCursorPosition;
 
+
+void Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::Update()
+{
+	// 前回のカーソル座標を保存
+	m_lateCursorPosition = m_nowCursorPosition;
+	// 現在のカーソル座標を取得
+	tagPOINT cursorPos;
+	GetCursorPos(&cursorPos);
+	m_nowCursorPosition = PublicSystem::Vector2(cursorPos);
+}
 
 void Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::KeepNowMouseState()
 {
