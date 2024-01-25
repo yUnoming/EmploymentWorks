@@ -58,6 +58,11 @@ namespace Ctlan
 				Vector3(const DirectX::XMFLOAT3& vec) : x(vec.x), y(vec.y), z(vec.z) {};
 				virtual ~Vector3() {};
 
+				/// <summary>
+				///	ベクトルを回転させる	</summary>
+				/// <param name="rotation">
+				///	どれだけ回転させるかを示す値	</param>
+				Vector3 Rotate(const Vector3 &rotation);
 
 				// ----- 演算子のオーバーロード群 ----- //
 				//**  assignment / 代入  **//

@@ -156,7 +156,6 @@
     <ClCompile Include="Manipulator_MoveY.cpp" />
     <ClCompile Include="Manipulator_MoveZ.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Meteor.cpp" />
     <ClCompile Include="MeteorPool.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
@@ -211,7 +210,6 @@
     <ClInclude Include="Manipulator_MoveY.h" />
     <ClInclude Include="Manipulator_MoveZ.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="Meteor.h" />
     <ClInclude Include="MeteorPool.h" />

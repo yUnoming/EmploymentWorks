@@ -4,6 +4,28 @@
 #include "Vector3.h"
 #include <DirectXMath.h>
 
+Ctlan::PublicSystem::Vector3 Ctlan::PublicSystem::Vector3::Rotate(const Vector3 &rotation)
+{
+    DirectX::XMFLOAT3 newVec = DirectX::XMFLOAT3(x, y, z);
+    DirectX::XMVECTOR rotateVec = DirectX::XMLoadFloat3(&newVec);
+
+    // 回転行列を作成
+    DirectX::XMMATRIX mtxRotation =
+        DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(rotation.z)) *
+        DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(rotation.x)) *
+        DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(rotation.y));
+
+    // 回転行列を使いベクトルを変換
+    rotateVec = DirectX::XMVector3TransformCoord(rotateVec, mtxRotation);
+    DirectX::XMStoreFloat3(&newVec, rotateVec);
+    
+    // 値を代入
+    x = newVec.x;
+    y = newVec.y;
+    z = newVec.z;
+    return *this;
+}
+
 Ctlan::PublicSystem::Vector3 Ctlan::PublicSystem::Vector3::operator=(const Vector3& vec)
 {
     x = vec.x;

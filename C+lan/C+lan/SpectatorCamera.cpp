@@ -26,16 +26,28 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 	// ----- カメラ移動 ----- //
 	// 上矢印キーが押されている？
 	if (KeyInput::GetKeyDown(UpArrow))
-		transform->position.y += 0.01f;
+	{
+		Vector3 addVec = Vector3(0.0f, 1.0f, 0.0f);
+		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+	}
 	// 左矢印キーが押されている？
 	if (KeyInput::GetKeyDown(LeftArrow))
-		transform->position.x -= 0.01f;
+	{
+		Vector3 addVec = Vector3(-1.0f, 0.0f, 0.0f);
+		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+	}
 	// 下矢印キーが押されている？
 	if (KeyInput::GetKeyDown(DownArrow))
-		transform->position.y -= 0.01f;
+	{
+		Vector3 addVec = Vector3(0.0f, -1.0f, 0.0f);
+		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+	}
 	// 右矢印キーが押されている？
 	if (KeyInput::GetKeyDown(RightArrow))
-		transform->position.x += 0.01f;
+	{
+		Vector3 addVec = Vector3(1.0f, 0.0f, 0.0f);
+		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+	}
 
 	// ----- カメラ回転 ----- //
 	// 右クリックが押されている？
