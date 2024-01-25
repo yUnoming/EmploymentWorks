@@ -144,9 +144,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\C+lan\PublicSystem\EachFunction</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>ソース ファイル\C+lan\PrivateSystem</Filter>
-    </ClCompile>
     <ClCompile Include="modelRenderer.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem\EachFunction</Filter>
     </ClCompile>
@@ -331,9 +328,6 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>ヘッダー ファイル\C+lan\PublicSystem\EachFunction</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>ヘッダー ファイル\C+lan\PrivateSystem</Filter>
     </ClInclude>
     <ClInclude Include="modelRenderer.h">
       <Filter>ヘッダー ファイル\C+lan\PrivateSystem\EachFunction</Filter>

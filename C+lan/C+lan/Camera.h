@@ -9,6 +9,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "EachFunction.h"
+#include "Transform.h"
 #include "Vector2.h"
 #include "Vector3.h"
 
@@ -27,7 +28,7 @@ namespace Ctlan
 				DirectX::XMFLOAT3 m_focus;
 				DirectX::XMFLOAT3 m_up;
 
-				Vector3 lateRotation = Vector3(0.f, 0.f, 0.f);
+				Transform lateTransform;
 
 				// ----- functions / 関数 ----- //
 				/// <summary>
@@ -40,6 +41,9 @@ namespace Ctlan
 				/// <summary>
 				///	カメラの回転を描画用の変数に反映	</summary>
 				void ReflectRotation();
+				/// <summary>
+				///	カメラの移動を描画用の変数に反映	</summary>
+				void ReflectPosition();
 
 			public:
 				// ----- variables / 変数 ----- //

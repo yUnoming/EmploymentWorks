@@ -245,24 +245,32 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
 
         // マウスの左ボタンが押された場合
         case WM_LBUTTONDOWN:
+            // 画面外で判定できるようキャプチャー開始
+            SetCapture(hWnd);
             // 左ボタンが押されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseDown(LeftButton);
             break;
 
         // マウスの左ボタンが離された場合
         case WM_LBUTTONUP:
+            // キャプチャーを終了
+            ReleaseCapture();
             // 左ボタンが離されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseUp(LeftButton);
             break;
 
         // マウスのスクロールホイールボタンが押された場合
         case WM_MBUTTONDOWN:
+            // 画面外で判定できるようキャプチャー開始
+            SetCapture(hWnd);
             // スクロールホイールボタンが押されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseDown(ScrollWheelButton);
             break;
 
         // マウスのスクロールホイールボタンが離された場合
         case WM_MBUTTONUP:
+            // キャプチャーを終了
+            ReleaseCapture();
             // スクロールホイールボタンが離されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseUp(ScrollWheelButton);
             break;
@@ -274,12 +282,16 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
 
         // マウスの右ボタンが押された場合
         case WM_RBUTTONDOWN:
+            // 画面外で判定できるようキャプチャー開始
+            SetCapture(hWnd);
             // 右ボタンが押されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseDown(RightButton);
             break;
 
         // マウスの右ボタンが離された場合
         case WM_RBUTTONUP:
+            // キャプチャーを終了
+            ReleaseCapture();
             // 右ボタンが離されたことを設定する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemMouseInputManager::SetMouseUp(RightButton);
             break;

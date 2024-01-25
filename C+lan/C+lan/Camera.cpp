@@ -24,12 +24,14 @@ void Ctlan::PublicSystem::Camera::Init()
 void Ctlan::PublicSystem::Camera::Draw()
 {
 	// カメラが回転した？
-	if (lateRotation.x != transform->rotation.x || lateRotation.y != transform->rotation.y)
-	{
+	if (lateTransform.rotation != transform->rotation)
 		ReflectRotation();	// 値更新
-	}
+	// カメラが移動した？
+	if (lateTransform.position != transform->position)
+		ReflectPosition();	// 値更新
 
-	lateRotation = transform->rotation;
+	// 現在のトランスフォーム情報を保存
+	lateTransform = transform;
 
 	// ビュー行列の生成
 	DirectX::SimpleMath::Matrix ViewMatrix;
@@ -61,7 +63,7 @@ void Ctlan::PublicSystem::Camera::ReflectRotation()
 	front = DirectX::XMVector3Normalize(front);
 	DirectX::XMVECTOR side = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(up, front));
 	up = DirectX::XMVector3Normalize(DirectX::XMVector3Cross(front, side));
-	Vector3 rotAngle = Vector3(transform->rotation - lateRotation);
+	Vector3 rotAngle = Vector3(transform->rotation - lateTransform.rotation);
 
 	// 反映させるために回転行列を作成
 	DirectX::XMMATRIX mtxRotY = DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(rotAngle.y));
@@ -75,8 +77,16 @@ void Ctlan::PublicSystem::Camera::ReflectRotation()
 
 	// 各値を更新
 	DirectX::XMStoreFloat3(&m_eye, DirectX::XMVectorAdd(eye, camEye));
-	DirectX::XMStoreFloat3(&m_focus, DirectX::XMVectorAdd(camEye, DirectX::XMVectorScale(frontAxis, focusLength)));
+	DirectX::XMStoreFloat3(&m_focus, DirectX::XMVectorAdd(eye, DirectX::XMVectorScale(frontAxis, focusLength)));
 	DirectX::XMStoreFloat3(&m_up, DirectX::XMVector3Normalize(DirectX::XMVector3Cross(frontAxis, sideAxis)));
+}
+
+void Ctlan::PublicSystem::Camera::ReflectPosition()
+{
+	m_eye = transform->position;
+	Vector3 focusPos = m_focus;
+	focusPos += transform->position - lateTransform.position;
+	m_focus = focusPos;
 }
 
 Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObject(Vector2 screenPoint)
