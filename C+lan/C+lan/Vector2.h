@@ -5,7 +5,12 @@
 * @author	Kojima, Kosei
 * @date		2023.11.06
 */
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　ファイルのインクルード　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "Vector3.h"
+#include <d3d11.h>
+
 
 namespace Ctlan
 {
@@ -35,6 +40,11 @@ namespace Ctlan
 			/// <param name="y">
 			/// y座標値	</param>
 			Vector2(float x, float y) : x(x), y(y) {};
+			/// <summary>
+			///	引数付きコンストラクタ	</summary>
+			/// <param name="point">
+			///	POINT型の値	</param>
+			Vector2(POINT point) : x(point.x), y(point.y) {};
 			/// <summary>
 			///	デストラクタ	</summary>
 			virtual ~Vector2() {};
@@ -257,6 +267,9 @@ namespace Ctlan
 			/// <summary>
 			///	Vector3へのキャスト用オペレーター	</summary>
 			operator Vector3() const;
+			/// <summary>
+			///	POINT型へのキャスト用オペレーター	</summary>
+			operator tagPOINT() const;
 		};
 	}
 }

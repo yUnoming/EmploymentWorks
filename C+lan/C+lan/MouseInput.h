@@ -26,6 +26,11 @@ namespace Ctlan
 				/// <returns>
 				/// 現在のカーソル座標	</returns>
 				static Vector2 GetCursorPosition();
+				/// <summary>
+				///	カーソルの移動量を取得	</summary>
+				/// <returns>
+				///	カーソルの移動量	</returns>
+				static Vector2 GetCursorMoveAmount();
 
 				/// <summary>
 				/// マウスが押された瞬間かどうかを判定	</summary>

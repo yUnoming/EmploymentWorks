@@ -10,15 +10,16 @@
 
 Ctlan::PublicSystem::Vector2 Ctlan::PublicSystem::MouseInput::GetCursorPosition()
 {
-    Vector2 Return_CursorPos;   // Vector2で値を返すための変数
-    POINT CursorPos;
-    GetCursorPos(&CursorPos);   // カーソル座標を取得
+    return PrivateSystem::SystemManager::SystemMouseInputManager::GetNowCursorPosition();
+}
 
-    // 値代入
-    Return_CursorPos.x = CursorPos.x;
-    Return_CursorPos.y = CursorPos.y;
-
-    return Return_CursorPos;
+Ctlan::PublicSystem::Vector2 Ctlan::PublicSystem::MouseInput::GetCursorMoveAmount()
+{
+    Vector2 moveAmount = Vector2(
+        PrivateSystem::SystemManager::SystemMouseInputManager::GetNowCursorPosition().x - PrivateSystem::SystemManager::SystemMouseInputManager::GetLateCursorPosition().x,
+        PrivateSystem::SystemManager::SystemMouseInputManager::GetLateCursorPosition().y - PrivateSystem::SystemManager::SystemMouseInputManager::GetNowCursorPosition().y
+    );
+    return moveAmount;
 }
 
 bool Ctlan::PublicSystem::MouseInput::GetMouseDownTrigger(Ctlan::PublicSystem::MouseButtonName button)

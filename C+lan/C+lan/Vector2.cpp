@@ -200,6 +200,14 @@ bool Ctlan::PublicSystem::Vector2::operator!=(const Vector2& vec)
     return !(x == vec.x && y == vec.y);
 }
 
+Ctlan::PublicSystem::Vector2::operator tagPOINT() const
+{
+    tagPOINT newVec;
+    newVec.x = x;
+    newVec.y = y;
+    return newVec;
+}
+
 Ctlan::PublicSystem::Vector2::operator Ctlan::PublicSystem::Vector3() const
 {
     Vector3 newVec = Vector3(x, y);

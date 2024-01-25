@@ -9,6 +9,7 @@
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "InputPartsName.h"
+#include "Vector2.h"
 
 namespace Ctlan
 {
@@ -57,8 +58,30 @@ namespace Ctlan
 					/// 負の値：後方に回転	</summary>
 					static MouseWheelStatus m_mouseWheelState;
 
+					/// <summary>
+					///	前回のカーソル座標	</summary>
+					static PublicSystem::Vector2 m_lateCursorPosition;
+					/// <summary>
+					///	現在のカーソル座標	</summary>
+					static PublicSystem::Vector2 m_nowCursorPosition;
+
 				public:
 					// ----- functions / 関数 ----- //
+					/// <summary>
+					///	更新処理	</summary>
+					static void Update();
+
+					/// <summary>
+					///	前回のカーソル座標を取得	</summary>
+					/// <returns>
+					///	前回のカーソル座標	</returns>
+					static PublicSystem::Vector2 GetLateCursorPosition() { return m_lateCursorPosition; };
+					/// <summary>
+					/// 現在のカーソル座標を取得	</summary>
+					/// <returns>
+					///	現在のカーソル座標	</returns>
+					static PublicSystem::Vector2 GetNowCursorPosition() { return m_nowCursorPosition; };
+
 					/// <summary>
 					/// 現在のマウスの状態を保存	</summary>
 					static void KeepNowMouseState();
