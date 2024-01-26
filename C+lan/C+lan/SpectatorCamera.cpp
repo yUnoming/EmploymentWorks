@@ -23,30 +23,41 @@ void Ctlan::EngineObject::SpectatorCamera::Init()
 void Ctlan::EngineObject::SpectatorCamera::Update()
 {
 	// ===== カメラの操作 ===== //
-	// ----- カメラ移動 ----- //
+	// ----- マウスでカメラ移動 ----- //
+	// ホイールボタンが押されている？
+	if (MouseInput::GetMouseDown(ScrollWheelButton))
+	{
+		Vector2 moveAmount = MouseInput::GetCursorMoveAmount();
+		Vector3 addVec = Vector3(moveAmount.x, moveAmount.y, 0.0f);
+		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+	}
+	else
+	{
+		// ----- キー入力でカメラ移動 ----- //
 	// 上矢印キーが押されている？
-	if (KeyInput::GetKeyDown(UpArrow))
-	{
-		Vector3 addVec = Vector3(0.0f, 1.0f, 0.0f);
-		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
-	}
-	// 左矢印キーが押されている？
-	if (KeyInput::GetKeyDown(LeftArrow))
-	{
-		Vector3 addVec = Vector3(-1.0f, 0.0f, 0.0f);
-		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
-	}
-	// 下矢印キーが押されている？
-	if (KeyInput::GetKeyDown(DownArrow))
-	{
-		Vector3 addVec = Vector3(0.0f, -1.0f, 0.0f);
-		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
-	}
-	// 右矢印キーが押されている？
-	if (KeyInput::GetKeyDown(RightArrow))
-	{
-		Vector3 addVec = Vector3(1.0f, 0.0f, 0.0f);
-		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+		if (KeyInput::GetKeyDown(UpArrow))
+		{
+			Vector3 addVec = Vector3(0.0f, 1.0f, 0.0f);
+			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+		}
+		// 左矢印キーが押されている？
+		if (KeyInput::GetKeyDown(LeftArrow))
+		{
+			Vector3 addVec = Vector3(-1.0f, 0.0f, 0.0f);
+			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+		}
+		// 下矢印キーが押されている？
+		if (KeyInput::GetKeyDown(DownArrow))
+		{
+			Vector3 addVec = Vector3(0.0f, -1.0f, 0.0f);
+			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+		}
+		// 右矢印キーが押されている？
+		if (KeyInput::GetKeyDown(RightArrow))
+		{
+			Vector3 addVec = Vector3(1.0f, 0.0f, 0.0f);
+			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+		}
 	}
 
 	// ----- カメラ回転 ----- //
