@@ -85,7 +85,8 @@ void Ctlan::PublicSystem::Camera::ReflectPosition()
 {
 	m_eye = transform->position;
 	Vector3 focusPos = m_focus;
-	focusPos += transform->position - lateTransform.position;
+	Vector3 addVec = Vector3(0.0f, 0.0f, 10.0f);
+	focusPos = transform->position + addVec.Rotate(transform->rotation);
 	m_focus = focusPos;
 }
 
@@ -182,7 +183,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while(!IsHit && ((rayPoint.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (rayPoint.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
+	while(!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (raySpeed.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
 
 	if (HitObjects.empty())
 		return nullptr;
@@ -271,7 +272,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while (!IsHit && ((rayPoint.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (rayPoint.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
+	while (!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (raySpeed.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
 
 	if (HitObjects.empty())
 		return nullptr;
