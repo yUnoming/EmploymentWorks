@@ -1,14 +1,14 @@
 #pragma once
 /**
-* @file		Manipulator_MoveY.h
-* @brief	Manipulator_MoveYクラスのヘッダーファイル
+* @file		PositionYGizmo.h
+* @brief	PositionYGizmoクラスのヘッダーファイル
 * @author	Kojima, Kosei
 * @date		2023.12.31
 */
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "Manipulator.h"
+#include "PositionGizmo.h"
 
 /// <summary>
 ///	エンジン群	</summary>
@@ -17,15 +17,15 @@ namespace Ctlan
 	namespace EngineObject
 	{
 		/// <summary>
-		///	マニピュレーター群	</summary>
-		namespace Manipulator
+		///	ギズモ群	</summary>
+		namespace Gizmo
 		{
 			/// <summary>
-			///	Y座標方向の移動マニピュレーター	</summary>
-			class Manipulator_MoveY : public Manipulator
+			///	Y軸移動ギズモ	</summary>
+			class PositionYGizmo : public PositionGizmo
 			{
 				public:
-					Manipulator_MoveY(SceneBase* nowScene) : Manipulator(nowScene) {};
+					PositionYGizmo(SceneBase* nowScene) : PositionGizmo(nowScene) {};
 
 					void Init()
 					{

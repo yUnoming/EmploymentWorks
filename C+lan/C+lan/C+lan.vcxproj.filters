@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\C+lan\EngineScene">
       <UniqueIdentifier>{e6ea9ee8-28f7-4fb0-a818-e2f516124191}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\C+lan\EngineObject\Manipulator">
-      <UniqueIdentifier>{ab7f1030-f648-4c41-ac4f-9d412773cf84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\C+lan\PrivateSystem\EachFunction">
       <UniqueIdentifier>{fd88b160-6c1b-4aa6-b59a-1e0bdfbf8634}</UniqueIdentifier>
     </Filter>
@@ -58,9 +55,6 @@
     <Filter Include="ヘッダー ファイル\C+lan\PublicSystem">
       <UniqueIdentifier>{d4a35022-9791-4f3b-b7c7-4575b640ce19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\C+lan\EngineObject\Manipulator">
-      <UniqueIdentifier>{0013dc41-055d-4759-847d-a3574e3847b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\C+lan\PrivateSystem\EachFunction">
       <UniqueIdentifier>{e5794ff4-b402-4e80-a001-94e0e92383a1}</UniqueIdentifier>
     </Filter>
@@ -72,6 +66,12 @@
     </Filter>
     <Filter Include="ソース ファイル\C+lan\PrivateSystem\NetWork">
       <UniqueIdentifier>{8663be31-91a4-41fb-848f-202eea568e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\C+lan\EngineObject\Gizmo">
+      <UniqueIdentifier>{ab7f1030-f648-4c41-ac4f-9d412773cf84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\C+lan\EngineObject\Gizmo">
+      <UniqueIdentifier>{0013dc41-055d-4759-847d-a3574e3847b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -129,17 +129,17 @@
     <ClCompile Include="LaunchSceneInformation.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Manipulator.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClCompile Include="PositionGizmo.cpp">
+      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClCompile>
-    <ClCompile Include="Manipulator_MoveX.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClCompile Include="PositionXGizmo.cpp">
+      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClCompile>
-    <ClCompile Include="Manipulator_MoveY.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClCompile Include="PositionYGizmo.cpp">
+      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClCompile>
-    <ClCompile Include="Manipulator_MoveZ.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClCompile Include="PositionZGizmo.cpp">
+      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\C+lan\PublicSystem\EachFunction</Filter>
@@ -314,17 +314,17 @@
     <ClInclude Include="LaunchSceneInformation.h">
       <Filter>ヘッダー ファイル\C+lan\PrivateSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Manipulator.h">
-      <Filter>ヘッダー ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClInclude Include="PositionGizmo.h">
+      <Filter>ヘッダー ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClInclude>
-    <ClInclude Include="Manipulator_MoveX.h">
-      <Filter>ヘッダー ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClInclude Include="PositionXGizmo.h">
+      <Filter>ヘッダー ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClInclude>
-    <ClInclude Include="Manipulator_MoveY.h">
-      <Filter>ヘッダー ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClInclude Include="PositionYGizmo.h">
+      <Filter>ヘッダー ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClInclude>
-    <ClInclude Include="Manipulator_MoveZ.h">
-      <Filter>ヘッダー ファイル\C+lan\EngineObject\Manipulator</Filter>
+    <ClInclude Include="PositionZGizmo.h">
+      <Filter>ヘッダー ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>ヘッダー ファイル\C+lan\PublicSystem\EachFunction</Filter>

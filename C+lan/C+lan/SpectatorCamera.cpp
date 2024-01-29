@@ -102,7 +102,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 		GameObject* tmpClickedObject;
 
 		// エディットシーンを参照して、クリックされたオブジェクトを取得
-		tmpClickedObject = GetComponent<Camera>()->GetScreenPointManipulator(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
+		tmpClickedObject = GetComponent<Camera>()->GetScreenPointGizmo(ScreenInput::GetScreenPosition(MouseInput::GetCursorPosition()));
 		// オブジェクトがクリックされた？
 		if (tmpClickedObject)
 		{

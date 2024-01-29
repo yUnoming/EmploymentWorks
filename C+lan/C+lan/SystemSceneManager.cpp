@@ -29,6 +29,7 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemSceneManager::m_editScene;
 std::unordered_map<std::string, Ctlan::PrivateSystem::SceneBase*> Ctlan::PrivateSystem::SystemManager::SystemSceneManager::m_scenePool;
 Ctlan::PrivateSystem::Information::LaunchSceneInformation Ctlan::PrivateSystem::SystemManager::SystemSceneManager::m_launchSceneInfo;
+bool Ctlan::PrivateSystem::SystemManager::SystemSceneManager::isSave;
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 {
@@ -361,10 +362,15 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 #if _DEBUG
 	// エディットシーンの終了処理
 	m_editScene->Uninit();
-	// 現在のシーン状態をセーブ
-	SaveSceneData();
-	// 起動するシーン情報をセーブ
-	m_launchSceneInfo.Save();
+
+	// セーブする？
+	if (isSave)
+	{
+		// 現在のシーン状態をセーブ
+		SaveSceneData();
+		// 起動するシーン情報をセーブ
+		m_launchSceneInfo.Save();
+	}
 
 	// マネージャーの終了処理
 	SystemManager::SystemGameObjectManager::Uninit();

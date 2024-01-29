@@ -11,9 +11,9 @@
 #include "SceneBase.h"
 
 #include "SpectatorCamera.h"
-#include "Manipulator_MoveX.h"
-#include "Manipulator_MoveY.h"
-#include "Manipulator_MoveZ.h"
+#include "PositionXGizmo.h"
+#include "PositionYGizmo.h"
+#include "PositionZGizmo.h"
 
 #include "Camera.h"
 
@@ -46,14 +46,14 @@ namespace Ctlan
 				///	エディット時に使用するカメラ	</summary>
 				Ctlan::EngineObject::SpectatorCamera* m_spectatorCamera;
 				/// <summary>
-				///	X方向への移動マニピュレーター	</summary>
-				Ctlan::EngineObject::Manipulator::Manipulator_MoveX* m_manipulator_MoveX;
+				///	X軸移動ギズモ	</summary>
+				Ctlan::EngineObject::Gizmo::PositionXGizmo* m_positionXGizmo;
 				/// <summary>
-				///	Y方向への移動マニピュレーター	</summary>
-				Ctlan::EngineObject::Manipulator::Manipulator_MoveY* m_manipulator_MoveY;
+				///	Y軸移動ギズモ	</summary>
+				Ctlan::EngineObject::Gizmo::PositionYGizmo* m_positionYGizmo;
 				/// <summary>
-				///	Z方向への移動マニピュレーター	</summary>
-				Ctlan::EngineObject::Manipulator::Manipulator_MoveZ* m_manipulator_MoveZ;
+				///	Z軸移動ギズモ	</summary>
+				Ctlan::EngineObject::Gizmo::PositionZGizmo* m_positionZGizmo;
 
 				// デモプレイ中かどうか
 				bool isDemoPlay;

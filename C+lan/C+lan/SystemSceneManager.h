@@ -33,6 +33,9 @@ namespace Ctlan
 					/// <summary>
 					///	起動するシーン情報	</summary>
 					static Ctlan::PrivateSystem::Information::LaunchSceneInformation m_launchSceneInfo;
+					/// <summary>
+					///	セーブするかどうか	</summary>
+					static bool isSave;
 
 					// ----- functions / 関数 ----- //
 					/// <summary>
@@ -82,6 +85,8 @@ namespace Ctlan
 					/// <summary>
 					///	現在シーンの描画処理	</summary>
 					static void DrawScene();
+
+					static void SaveScene() { isSave = true; };
 
 					/// <summary>
 					///	新規シーンを作成	</summary>

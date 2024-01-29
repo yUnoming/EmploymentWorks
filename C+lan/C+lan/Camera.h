@@ -65,10 +65,10 @@ namespace Ctlan
 				/// スクリーン座標	</param>
 				PrivateSystem::GameObject* GetScreenPointObject(Vector2 screenPoint);
 				/// <summary>
-				/// 引数に指定したスクリーン座標にある一番近いマニピュレーターを取得	</summary>
+				/// 引数に指定したスクリーン座標にある一番近いギズモを取得	</summary>
 				/// <param name="screenPoint">
 				/// スクリーン座標	</param>
-				PrivateSystem::GameObject* GetScreenPointManipulator(Vector2 screenPoint);
+				PrivateSystem::GameObject* GetScreenPointGizmo(Vector2 screenPoint);
 		};
 	}
 }
