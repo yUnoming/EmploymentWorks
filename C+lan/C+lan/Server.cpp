@@ -57,36 +57,40 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				{
 					// ----- 通信相手をリストに格納 ----- //
 					// 通信相手の情報を保存する
-					CommunicationUserData comUser;
-					comUser.userRank = (ServerRank)m_sendData.message.header.userRank;
-					int userNo = 1;
-					bool success = true;
+					CommunicationUserData comUser;						// 通信ユーザー情報
+					comUser.userRank =									// ユーザーランク
+						(ServerRank)m_sendData.message.header.userRank;
+					int userNo = 1;										// ユーザー番号(１番から確認)
+					bool success = true;								// ユーザー番号が決まったかどうか
+
+					// ユーザー番号が決まるまでループ
 					do
 					{
 						success = true;
-						for (const CommunicationUserData data : m_comUserList)
+						// 現在ログインしているユーザー分ループ
+						for (const CommunicationUserData& data : m_comUserList)
 						{
+							// ユーザー番号が他ユーザーと被った？
 							if (data.userNo == userNo)
 							{
-								userNo++;
-								success = false;
+								userNo++;		// 番号を加算
+								success = false;// 再度ループするように変更
 								break;
 							}
 						}
 					} while (!success);
 
+					// 値代入
 					m_sendData.message.header.userRank = User;
 					m_sendData.message.header.userNo = userNo;
 					comUser.userNo = userNo;
 					comUser.address = m_sendAddress;
-
 					// リストに格納
 					m_comUserList.push_back(comUser);
 
 					// ----- 相手に通信成功を伝える ----- //
 					m_sendData.message.header.type = MessageType::CommunicationSuccess;
 					SendMessageData(m_sendData);
-					m_myServerNo = 0;
 					break;
 				}
 				//----------//
@@ -192,7 +196,6 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 							break;
 						}
 					}
-
 					// まだロックされていないオブジェクト？
 					if (!isRocked)
 					{
@@ -203,7 +206,8 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 						rockObjectData.rockUserNo = m_receiveData.message.header.userNo;
 						m_rockObjectList.push_back(rockObjectData);
 					}
-					SendMessageOtherUser();
+
+					SendMessageOtherUser();	// 他ユーザーにメッセージ送信
 					break;
 				}
 				//------------------//

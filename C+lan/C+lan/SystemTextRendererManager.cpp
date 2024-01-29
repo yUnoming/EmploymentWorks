@@ -277,17 +277,33 @@ void Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::Input(int k
 	if (text)
 	{
 		// ===== テキストに文字入力 ===== //
+		// キーコードをスキャンコードに変換
+		int scanCode = MapVirtualKey(keyCode, MAPVK_VK_TO_VSC);
 		// スキャンコードを文字列に変換
 		wchar_t typeChar[256];
-		int result = GetKeyNameTextW(keyCode << 16, typeChar, sizeof(typeChar) / sizeof(wchar_t));
+		int result = GetKeyNameTextW(scanCode << 16, typeChar, sizeof(typeChar) / sizeof(wchar_t));
 
 		// 文字として扱えるキーが入力された
 		if (result == 1)
 		{
 			// シフトキーが押されていない？
-			if(KeyInput::GetKeyUp(LeftShift) && KeyInput::GetKeyUp(RightShift))
+			if (KeyInput::GetKeyUp(LeftShift) && KeyInput::GetKeyUp(RightShift))
+			{
 				// 大文字を小文字に変換
 				std::transform(typeChar, typeChar + result, typeChar, toLower);
+			}
+			// シフトキーが押されている
+			else
+			{
+				// ----- 記号キーの入力確認 ----- //
+				switch (keyCode)
+				{
+					// セミコロンのキーが押されている？
+					case KeyName::Semicolon:
+						text->AddText("+");		// セミコロンキー+SHIFTなので、”＋”を追加
+						return;
+				}
+			}
 
 			// バッファサイズの取得
 			int bufferSize = WideCharToMultiByte(CP_UTF8, 0, std::wstring(typeChar).c_str(), -1, nullptr, 0, nullptr, nullptr);
@@ -295,7 +311,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::Input(int k
 			char* charBuffer = new char[bufferSize];
 			// ワイド文字列からマルチバイト文字列に変換
 			WideCharToMultiByte(CP_UTF8, 0, std::wstring(typeChar).c_str(), -1, charBuffer, bufferSize, nullptr, nullptr);
-			
+
 			// テキストに文字を追加
 			text->AddText(charBuffer);
 			return;

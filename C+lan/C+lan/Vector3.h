@@ -64,6 +64,10 @@ namespace Ctlan
 				///	どれだけ回転させるかを示す値	</param>
 				Vector3 Rotate(const Vector3 &rotation);
 
+				/// <summary>
+				///	ベクトルを正規化する	</summary>
+				void Normalize();
+
 				// ----- 演算子のオーバーロード群 ----- //
 				//**  assignment / 代入  **//
 				/// <summary>

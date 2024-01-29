@@ -109,29 +109,35 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	Vector2 Center_To_Point_Length = screenPoint - Screen_CenterPosition;
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
-	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
+	// 引数の値を原点からの最遠描画地点の座標位置に割り当てる
 	DirectX::XMFLOAT3 worldPointPosition;
-	worldPointPosition.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
-	worldPointPosition.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
+	worldPointPosition.x = ViewScreen_Wide.x * LengthRate.x;
+	worldPointPosition.y = ViewScreen_Wide.y * LengthRate.y * -1.0f;
 	worldPointPosition.z = farClip;
-
+	
 	// カメラの回転に合わせて位置を調整
-	DirectX::XMMATRIX mtxRotation = 
+	DirectX::XMMATRIX mtxRotation =
 		DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(transform->rotation.z)) *
 		DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x)) *
 		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y));
-
+	
+	// 最遠描画距離を回転行列に沿って変換
 	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&worldPointPosition);
 	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRotation);
 	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
+	// 現在のカメラ座標を加える
+	Vector3 transformWorldPoint = worldPointPosition;
+	transformWorldPoint += transform->position;
+
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SceneManager::GetSceneObjectAll();	// 現在シーン内のオブジェクト情報	
-	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.01f;	// レイの速度
-	Vector3 rayPoint = transform->position;											// レイの移動後の座標
-	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
-	bool IsHit = false;																// 当たったかどうかを表す
-	std::list<PrivateSystem::GameObject*> HitObjects;								// 当たったオブジェクトを入れるためのリスト
+	Vector3 raySpeed = transformWorldPoint - transform->position;	// レイの速度
+	raySpeed.Normalize();											// 正規化
+	Vector3 rayPoint = transform->position;							// レイの移動後の座標
+	Vector3 lateRayPoint = transform->position;						// レイの移動前の座標
+	bool IsHit = false;												// 当たったかどうかを表す
+	std::list<PrivateSystem::GameObject*> HitObjects;				// 当たったオブジェクトを入れるためのリスト
 
 	// ===== ヒット処理 ===== //
 	do
@@ -183,10 +189,12 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while(!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (raySpeed.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
+	while(!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > transformWorldPoint.z) || (raySpeed.z >= 0.0f && rayPoint.z < transformWorldPoint.z)));
 
+	// 何にも当たらなかった？
 	if (HitObjects.empty())
 		return nullptr;
+	// 何かに当たった場合、リストの０要素目に入っているオブジェクトを返す
 	return HitObjects.front();
 }
 
@@ -209,10 +217,10 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 	Vector2 Center_To_Point_Length = screenPoint - Screen_CenterPosition;
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
-	// 引数の値をカメラの最遠描画地点の座標位置に割り当てる
+	// 引数の値を原点からの最遠描画地点の座標位置に割り当てる
 	DirectX::XMFLOAT3 worldPointPosition;
-	worldPointPosition.x = transform->position.x + ViewScreen_Wide.x * LengthRate.x;
-	worldPointPosition.y = transform->position.y + ViewScreen_Wide.y * LengthRate.y * -1.0f;
+	worldPointPosition.x = ViewScreen_Wide.x * LengthRate.x;
+	worldPointPosition.y = ViewScreen_Wide.y * LengthRate.y * -1.0f;
 	worldPointPosition.z = farClip;
 
 	// カメラの回転に合わせて位置を調整
@@ -221,17 +229,23 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 		DirectX::XMMatrixRotationX(DirectX::XMConvertToRadians(transform->rotation.x)) *
 		DirectX::XMMatrixRotationY(DirectX::XMConvertToRadians(transform->rotation.y));
 
+	// 最遠描画距離を回転行列に沿って変換
 	DirectX::XMVECTOR rotatedWorldPointPosition = DirectX::XMLoadFloat3(&worldPointPosition);
 	rotatedWorldPointPosition = DirectX::XMVector3TransformCoord(rotatedWorldPointPosition, mtxRotation);
 	DirectX::XMStoreFloat3(&worldPointPosition, rotatedWorldPointPosition);
 
+	// 現在のカメラ座標を加える
+	Vector3 transformWorldPoint = worldPointPosition;
+	transformWorldPoint += transform->position;
+
 	// ----- ヒット処理の前準備 ----- //
 	std::array<std::list<PrivateSystem::GameObject*>, 4> SceneObjects = SystemManager::SystemSceneManager::GetEditScene()->GetAllSceneObjects();	// 現在シーン内のオブジェクト情報	
-	Vector3 raySpeed = (Vector3(worldPointPosition) - transform->position) * 0.01f;	// レイの速度
-	Vector3 rayPoint = transform->position;											// レイの移動後の座標
-	Vector3 lateRayPoint = transform->position;										// レイの移動前の座標
-	bool IsHit = false;																// 当たったかどうかを表す
-	std::list<PrivateSystem::GameObject*> HitObjects;								// 当たったオブジェクトを入れるためのリスト
+	Vector3 raySpeed = transformWorldPoint - transform->position;	// レイの速度
+	raySpeed.Normalize();											// 正規化
+	Vector3 rayPoint = transform->position;							// レイの移動後の座標
+	Vector3 lateRayPoint = transform->position;						// レイの移動前の座標
+	bool IsHit = false;												// 当たったかどうかを表す
+	std::list<PrivateSystem::GameObject*> HitObjects;				// 当たったオブジェクトを入れるためのリスト
 
 	// ===== ヒット処理 ===== //
 	do
@@ -245,9 +259,20 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 			// リスト内のオブジェクト取得
 			for (auto& object : SceneObjects[i])
 			{
-				if (!object->isActive)
+				if (object->GetComponent<Text>())
+				{
+					Text text = *object->GetComponent<Text>();
+					Vector3 rightTop = Vector3(text.leftTopPoint.x + text.fontSize.x * text.GetTextLength(), text.leftTopPoint.y + text.fontSize.y);
+					Vector3 leftBottom = Vector3(text.leftTopPoint.x, text.leftTopPoint.y);
+					// テキストとカーソル座標が当たっている？
+					if (CalculationHit::PointToQuadrangle(screenPoint, rightTop, leftBottom))
+					{
+						HitObjects.push_front(object);	// 当たったオブジェクトをリストに格納
+						IsHit = true;					// 当たったことを伝える
+					}
 					continue;
-				if (object->GetComponent<Text>() || !object->GetComponent<ModelRenderer>())
+				}
+				else if (!object->isActive || !object->GetComponent<ModelRenderer>())
 					continue;
 
 				// 頂点データ取得
@@ -272,9 +297,11 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 	}
 	// ①IsHitがtrue（オブジェクトと当たった）②進んだ距離がカメラの描画最遠距離より大きい
 	// 上記のいずれかが当てはまれば、ループを抜ける
-	while (!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > worldPointPosition.z) || (raySpeed.z >= 0.0f && rayPoint.z < worldPointPosition.z)));
+	while (!IsHit && ((raySpeed.z <= 0.0f && rayPoint.z > transformWorldPoint.z) || (raySpeed.z >= 0.0f && rayPoint.z < transformWorldPoint.z)));
 
+	// 何にも当たらなかった？
 	if (HitObjects.empty())
 		return nullptr;
+	// 何かに当たった場合、リストの０要素目に入っているオブジェクトを返す
 	return HitObjects.front();
 	}

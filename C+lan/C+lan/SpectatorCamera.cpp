@@ -23,51 +23,73 @@ void Ctlan::EngineObject::SpectatorCamera::Init()
 void Ctlan::EngineObject::SpectatorCamera::Update()
 {
 	// ===== カメラの操作 ===== //
-	// ----- マウスでカメラ移動 ----- //
-	// ホイールボタンが押されている？
-	if (MouseInput::GetMouseDown(ScrollWheelButton))
+	// オブジェクトを選択していない？（オブジェクトを選択していない場合、カメラの操作が行える）
+	if (m_clickedObject == nullptr)
 	{
-		Vector2 moveAmount = MouseInput::GetCursorMoveAmount();
-		Vector3 addVec = Vector3(moveAmount.x, moveAmount.y, 0.0f);
-		transform->position += addVec.Rotate(transform->rotation) * 0.01f;
-	}
-	else
-	{
-		// ----- キー入力でカメラ移動 ----- //
-	// 上矢印キーが押されている？
-		if (KeyInput::GetKeyDown(UpArrow))
+		// ----- マウスでカメラ移動 ----- //
+		// ホイールボタンが押されている？
+		if (MouseInput::GetMouseDown(ScrollWheelButton))
 		{
-			Vector3 addVec = Vector3(0.0f, 1.0f, 0.0f);
+			Vector2 moveAmount = MouseInput::GetCursorMoveAmount();
+			Vector3 addVec = Vector3(moveAmount.x, moveAmount.y, 0.0f);
 			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
 		}
-		// 左矢印キーが押されている？
-		if (KeyInput::GetKeyDown(LeftArrow))
+		// ホイールボタンが回転された？
+		else if (MouseInput::GetWheelRotation())
 		{
-			Vector3 addVec = Vector3(-1.0f, 0.0f, 0.0f);
-			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			// 前方回転された？
+			if (MouseInput::GetWheelRotationForward())
+			{
+				// 前方に移動
+				Vector3 addVec = Vector3(0.0f, 0.0f, 10.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
+			// 後方回転された
+			else
+			{
+				// 後方に移動
+				Vector3 addVec = Vector3(0.0f, 0.0f, -10.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
 		}
-		// 下矢印キーが押されている？
-		if (KeyInput::GetKeyDown(DownArrow))
+		else
 		{
-			Vector3 addVec = Vector3(0.0f, -1.0f, 0.0f);
-			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			// ----- キー入力でカメラ移動 ----- //
+			// 上矢印キーが押されている？
+			if (KeyInput::GetKeyDown(UpArrow))
+			{
+				Vector3 addVec = Vector3(0.0f, 1.0f, 0.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
+			// 左矢印キーが押されている？
+			if (KeyInput::GetKeyDown(LeftArrow))
+			{
+				Vector3 addVec = Vector3(-1.0f, 0.0f, 0.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
+			// 下矢印キーが押されている？
+			if (KeyInput::GetKeyDown(DownArrow))
+			{
+				Vector3 addVec = Vector3(0.0f, -1.0f, 0.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
+			// 右矢印キーが押されている？
+			if (KeyInput::GetKeyDown(RightArrow))
+			{
+				Vector3 addVec = Vector3(1.0f, 0.0f, 0.0f);
+				transform->position += addVec.Rotate(transform->rotation) * 0.01f;
+			}
 		}
-		// 右矢印キーが押されている？
-		if (KeyInput::GetKeyDown(RightArrow))
-		{
-			Vector3 addVec = Vector3(1.0f, 0.0f, 0.0f);
-			transform->position += addVec.Rotate(transform->rotation) * 0.01f;
-		}
-	}
 
-	// ----- カメラ回転 ----- //
-	// 右クリックが押されている？
-	if (MouseInput::GetMouseDown(RightButton))
-	{
-		// カーソルの移動量に合わせてカメラを回転
-		Vector2 moveAmount = PublicSystem::MouseInput::GetCursorMoveAmount();
-		transform->rotation.x -= moveAmount.y * 0.01f * PublicSystem::Time::DeltaTime;
-		transform->rotation.y += moveAmount.x * 0.01f * PublicSystem::Time::DeltaTime;
+		// ----- カメラ回転 ----- //
+		// 右クリックが押されている？
+		if (MouseInput::GetMouseDown(RightButton))
+		{
+			// カーソルの移動量に合わせてカメラを回転
+			Vector2 moveAmount = PublicSystem::MouseInput::GetCursorMoveAmount();
+			transform->rotation.x -= moveAmount.y * 0.01f * PublicSystem::Time::DeltaTime;
+			transform->rotation.y += moveAmount.x * 0.01f * PublicSystem::Time::DeltaTime;
+		}
 	}
 
 	// ===== クリックしたオブジェクトを取得 ===== //
