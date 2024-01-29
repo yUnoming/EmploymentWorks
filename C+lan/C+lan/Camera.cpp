@@ -151,6 +151,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 			// リスト内のオブジェクト取得
 			for (auto& object : SceneObjects[i])
 			{
+				// テキスト？
 				if (object->GetComponent<Text>())
 				{
 					Text text = *object->GetComponent<Text>();
@@ -198,7 +199,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	return HitObjects.front();
 }
 
-Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointManipulator(Vector2 screenPoint)
+Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointGizmo(Vector2 screenPoint)
 {
 	// ===== 引数で受け取ったスクリーン座標をワールド座標に変換する処理 ===== //
 	// カメラの最遠描画地点の幅を求める
@@ -259,6 +260,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointMan
 			// リスト内のオブジェクト取得
 			for (auto& object : SceneObjects[i])
 			{
+				// テキスト？
 				if (object->GetComponent<Text>())
 				{
 					Text text = *object->GetComponent<Text>();

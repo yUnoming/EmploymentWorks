@@ -40,9 +40,9 @@ void Ctlan::EngineScene::EditScene::Init()
 
 	// ===== マニピュレーター用オブジェクトの生成 ===== //
 	// ----- 移動 ----- //
-	m_manipulator_MoveX = AddSceneObject<Ctlan::EngineObject::Manipulator::Manipulator_MoveX>(1, "Manipulator_MoveX");
-	m_manipulator_MoveY = AddSceneObject<Ctlan::EngineObject::Manipulator::Manipulator_MoveY>(1, "Manipulator_MoveY");
-	m_manipulator_MoveZ = AddSceneObject<Ctlan::EngineObject::Manipulator::Manipulator_MoveZ>(1, "Manipulator_MoveZ");
+	m_positionXGizmo = AddSceneObject<Ctlan::EngineObject::Gizmo::PositionXGizmo>(1, "PositionXGizmo");
+	m_positionYGizmo = AddSceneObject<Ctlan::EngineObject::Gizmo::PositionYGizmo>(1, "PositionYGizmo");
+	m_positionZGizmo = AddSceneObject<Ctlan::EngineObject::Gizmo::PositionZGizmo>(1, "PositionZGizmo");
 }
 
 void Ctlan::EngineScene::EditScene::Uninit()
@@ -78,28 +78,28 @@ void Ctlan::EngineScene::EditScene::Update()
 			// ===== マニピュレーターの表示処理 ===== //
 			// ----- 移動 ----- //
 			// X軸方向
-			m_manipulator_MoveX->isActive = true;
-			m_manipulator_MoveX->transform->parent = m_spectatorCamera->GetClickedObject();
+			m_positionXGizmo->isActive = true;
+			m_positionXGizmo->transform->parent = m_spectatorCamera->GetClickedObject();
 			// Y軸方向
-			m_manipulator_MoveY->isActive = true;
-			m_manipulator_MoveY->transform->parent = m_spectatorCamera->GetClickedObject();
+			m_positionYGizmo->isActive = true;
+			m_positionYGizmo->transform->parent = m_spectatorCamera->GetClickedObject();
 			// Z軸方向
-			m_manipulator_MoveZ->isActive = true;
-			m_manipulator_MoveZ->transform->parent = m_spectatorCamera->GetClickedObject();
+			m_positionZGizmo->isActive = true;
+			m_positionZGizmo->transform->parent = m_spectatorCamera->GetClickedObject();
 		}
 		else
 		{
 			// ===== マニピュレーターの非表示処理 ===== //
 			// ----- 移動 ----- //
 			// X軸方向
-			m_manipulator_MoveX->isActive = false;
-			m_manipulator_MoveX->transform->parent = nullptr;
+			m_positionXGizmo->isActive = false;
+			m_positionXGizmo->transform->parent = nullptr;
 			// Y軸方向
-			m_manipulator_MoveY->isActive = false;
-			m_manipulator_MoveY->transform->parent = nullptr;
+			m_positionYGizmo->isActive = false;
+			m_positionYGizmo->transform->parent = nullptr;
 			// Z軸方向
-			m_manipulator_MoveZ->isActive = false;
-			m_manipulator_MoveZ->transform->parent = nullptr;
+			m_positionZGizmo->isActive = false;
+			m_positionZGizmo->transform->parent = nullptr;
 		}
 	}
 	else
@@ -107,14 +107,14 @@ void Ctlan::EngineScene::EditScene::Update()
 		// ===== マニピュレーターの非表示処理 ===== //
 		// ----- 移動 ----- //
 		// X軸方向
-		m_manipulator_MoveX->isActive = false;
-		m_manipulator_MoveX->transform->parent = nullptr;
+		m_positionXGizmo->isActive = false;
+		m_positionXGizmo->transform->parent = nullptr;
 		// Y軸方向
-		m_manipulator_MoveY->isActive = false;
-		m_manipulator_MoveY->transform->parent = nullptr;
+		m_positionYGizmo->isActive = false;
+		m_positionYGizmo->transform->parent = nullptr;
 		// Z軸方向
-		m_manipulator_MoveZ->isActive = false;
-		m_manipulator_MoveZ->transform->parent = nullptr;
+		m_positionZGizmo->isActive = false;
+		m_positionZGizmo->transform->parent = nullptr;
 	}
 
 	// F1キーが押された？

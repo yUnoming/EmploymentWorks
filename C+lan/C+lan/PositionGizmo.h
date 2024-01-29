@@ -1,7 +1,7 @@
 #pragma once
 /**
-* @file		Manipulator.h
-* @brief	Manipulatorクラスのヘッダーファイル
+* @file		PositionGizmo.h
+* @brief	PositionGizmoクラスのヘッダーファイル
 * @author	Kojima, Kosei
 * @date		2023.12.31
 */
@@ -26,12 +26,12 @@ namespace Ctlan
 	namespace EngineObject
 	{
 		/// <summary>
-		///	マニピュレーター群	</summary>
-		namespace Manipulator
+		///	ギズモ群	</summary>
+		namespace Gizmo
 		{
 			/// <summary>
-			///	マニピュレーターの親オブジェクト	</summary>
-			class Manipulator : public Ctlan::PrivateSystem::GameObject
+			///	TransformのPosition用ギズモの親オブジェクト	</summary>
+			class PositionGizmo : public Ctlan::PrivateSystem::GameObject
 			{
 				protected:
 					/// <summary>
@@ -50,7 +50,7 @@ namespace Ctlan
 				public:
 					/// <summary>
 					///	コンストラクタ	</summary>
-					Manipulator() : GameObject()
+					PositionGizmo() : GameObject()
 					{
 						// モデル追加
 						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
@@ -65,7 +65,7 @@ namespace Ctlan
 					///	引数付きコンストラクタ	</summary>
 					/// <param name="nowScene">
 					///	オブジェクトが生成されたシーン	</param>
-					Manipulator(SceneBase* nowScene) : GameObject(nowScene)
+					PositionGizmo(SceneBase* nowScene) : GameObject(nowScene)
 					{
 						// モデル追加
 						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");

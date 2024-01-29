@@ -1,14 +1,14 @@
 #pragma once
 /**
-* @file		Manipulator_MoveZ.h
-* @brief	Manipulator_MoveZクラスのヘッダーファイル
+* @file		PositionZGizmo.h
+* @brief	PositionZGizmoクラスのヘッダーファイル
 * @author	Kojima, Kosei
 * @date		2024.1.3
 */
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　　ファイルのインクルード　　 //
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
-#include "Manipulator.h"
+#include "PositionGizmo.h"
 
 
 /// <summary>
@@ -18,15 +18,15 @@ namespace Ctlan
 	namespace EngineObject
 	{
 		/// <summary>
-		///	マニピュレーター群	</summary>
-		namespace Manipulator
+		///	ギズモ群	</summary>
+		namespace Gizmo
 		{
 			/// <summary>
-			///	Z座標方向の移動マニピュレーター	</summary>
-			class Manipulator_MoveZ : public Manipulator
+			///	Z軸移動ギズモ	</summary>
+			class PositionZGizmo : public PositionGizmo
 			{
 			public:
-				Manipulator_MoveZ(SceneBase* nowScene) : Manipulator(nowScene) {};
+				PositionZGizmo(SceneBase* nowScene) : PositionGizmo(nowScene) {};
 
 				void Init()
 				{

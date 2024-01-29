@@ -184,6 +184,12 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
             // 終了確認で「OK」が押された？
             if (MessageBox(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
             {
+                // セーブ確認で「OK」が押された？
+                if (MessageBox(NULL, L"現在の変更をセーブしますか？", L"セーブ確認", MB_OKCANCEL) == IDOK)
+                {
+                    // セーブすることを伝える
+                    Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveScene();
+                }
                 // ウィンドウを閉じる
                 DestroyWindow(hWnd);
             }
