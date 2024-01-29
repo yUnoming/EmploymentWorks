@@ -21,6 +21,11 @@ namespace Ctlan
 		{
 			public:
 				// ----- functions / 関数 ----- //
+				
+				/// <summary>
+				///	デストラクタ	</summary>
+				~BoxCollider();
+
 				/// <summary>
 				/// 当たり判定の計算	</summary>
 				/// <param name="other">

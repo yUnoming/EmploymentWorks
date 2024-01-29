@@ -155,4 +155,6 @@ void Ctlan::EngineScene::EditScene::Draw()
 				object->DrawBase();	// •`‰æˆ—
 		}
 	}
+
+
 }

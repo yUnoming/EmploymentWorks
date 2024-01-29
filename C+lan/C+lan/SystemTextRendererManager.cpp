@@ -236,7 +236,7 @@ ID3D11Buffer* Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::Ge
 	bufDesc.Usage = D3D11_USAGE_DYNAMIC;
 	bufDesc.ByteWidth = sizeof(vertex);
 	bufDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+	bufDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA subData;
 	ZeroMemory(&subData, sizeof(subData));

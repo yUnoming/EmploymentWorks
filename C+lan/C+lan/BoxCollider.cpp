@@ -5,6 +5,13 @@
 #include "Transform.h"
 #include "Vector3.h"
 
+#include "SystemCollisionManager.h"
+
+
+Ctlan::PublicSystem::BoxCollider::~BoxCollider()
+{
+	PrivateSystem::SystemManager::SystemCollisionManager::Erase(this);
+}
 
 void Ctlan::PublicSystem::BoxCollider::CalcCollision(BoxCollider *other)
 {

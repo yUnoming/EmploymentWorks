@@ -51,7 +51,7 @@ void ModelRenderer::Draw()
 		Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0 );
 	}
 
-// エンジン使用時のみ有効
+// デバッグ時
 #if _DEBUG
 	// ===== 輪郭線の表示処理 ===== //
 	// カメラ取得
