@@ -6,6 +6,7 @@
 * @date		2023.11.05
 */
 
+
 namespace Ctlan
 {
 	namespace PublicSystem
@@ -19,235 +20,268 @@ namespace Ctlan
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝//
 			/// <summary>
 			/// Aキー	</summary>
-			A = 30,
+			A = 65,
 			/// <summary>
 			/// Bキー	</summary>
-			B = 48,
+			B = 66,
 			/// <summary>
 			/// Cキー	</summary>
-			C = 46,
+			C = 67,
 			/// <summary>
 			/// Dキー	</summary>
-			D = 32,
+			D = 68,
 			/// <summary>
 			/// Eキー	</summary>
-			E = 18,
+			E = 69,
 			/// <summary>
 			/// Fキー	</summary>
-			F = 33,
+			F = 70,
 			/// <summary>
 			/// Gキー	</summary>
-			G = 34,
+			G = 71,
 			/// <summary>
 			/// Hキー	</summary>
-			H = 35,
+			H = 72,
 			/// <summary>
 			/// Iキー	</summary>
-			I = 23,
+			I = 73,
 			/// <summary>
 			/// Jキー	</summary>
-			J = 36,
+			J = 74,
 			/// <summary>
 			/// Kキー	</summary>
-			K = 37,
+			K = 75,
 			/// <summary>
 			/// Lキー	</summary>
-			L = 38,
+			L = 76,
 			/// <summary>
 			/// Mキー	</summary>
-			M = 50,
+			M = 77,
 			/// <summary>
 			/// Nキー	</summary>
-			N = 49,
+			N = 78,
 			/// <summary>
 			/// Oキー	</summary>
-			O = 24,
+			O = 79,
 			/// <summary>
 			/// Pキー	</summary>
-			P = 25,
+			P = 80,
 			/// <summary>
 			/// Qキー	</summary>
-			Q = 16,
+			Q = 81,
 			/// <summary>
 			/// Rキー	</summary>
-			R = 19,
+			R = 82,
 			/// <summary>
 			/// Sキー	</summary>
-			S = 31,
+			S = 83,
 			/// <summary>
 			/// Tキー	</summary>
-			T = 20,
+			T = 84,
 			/// <summary>
 			/// Uキー	</summary>
-			U = 22,
+			U = 85,
 			/// <summary>
 			/// Vキー	</summary>
-			V = 47,
+			V = 86,
 			/// <summary>
 			/// Wキー	</summary>
-			W = 17,
+			W = 87,
 			/// <summary>
 			/// Xキー	</summary>
-			X = 45,
+			X = 88,
 			/// <summary>
 			/// Yキー	</summary>
-			Y = 21,
+			Y = 89,
 			/// <summary>
 			/// Zキー	</summary>
-			Z = 44,
+			Z = 90,
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝//
 			//  NumericKey / テンキー・数字キー  //
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝//
 			/// <summary>
 			/// 1キー	</summary>
-			Number1 = 2,
+			Number1 = 49,
 			/// <summary>
 			/// 2キー	</summary>
-			Number2 = 3,
+			Number2 = 50,
 			/// <summary>
 			/// 3キー	</summary>
-			Number3 = 4,
+			Number3 = 51,
 			/// <summary>
 			/// 4キー	</summary>
-			Number4 = 5,
+			Number4 = 52,
 			/// <summary>
 			/// 5キー	</summary>
-			Number5 = 6,
+			Number5 = 53,
 			/// <summary>
 			/// 6キー	</summary>
-			Number6 = 7,
+			Number6 = 54,
 			/// <summary>
 			/// 7キー	</summary>
-			Number7 = 8,
+			Number7 = 55,
 			/// <summary>
 			/// 8キー	</summary>
-			Number8 = 9,
+			Number8 = 56,
 			/// <summary>
 			/// 9キー	</summary>
-			Number9 = 10,
+			Number9 = 57,
 			/// <summary>
 			/// 0キー	</summary>
-			Number0 = 11,
+			Number0 = 48,
+			// ＝＝＝＝＝＝＝＝＝＝＝ //
+			//  SymbolKey / 記号キー  //
+			// ＝＝＝＝＝＝＝＝＝＝＝ //
+			/// <summary>
+			///	セミコロン	</summary>
+			Semicolon = 187,
+
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 			//  FunctionKey / ファンクションキー  //
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 			/// <summary>
 			/// F1キー	</summary>
-			F1 = 59,
+			F1 = 112,
 			/// <summary>
 			/// F2キー	</summary>
-			F2 = 60,
+			F2 = 113,
 			/// <summary>
 			/// F3キー	</summary>
-			F3 = 61,
+			F3 = 114,
 			/// <summary>
 			/// F4キー	</summary>
-			F4 = 62,
+			F4 = 115,
 			/// <summary>
 			/// F5キー	</summary>
-			F5 = 63,
+			F5 = 116,
 			/// <summary>
 			/// F6キー	</summary>
-			F6 = 64,
+			F6 = 117,
 			/// <summary>
 			/// F7キー	</summary>
-			F7 = 65,
+			F7 = 118,
 			/// <summary>
 			/// F8キー	</summary>
-			F8 = 66,
+			F8 = 119,
 			/// <summary>
 			/// F9キー	</summary>
-			F9 = 67,
+			F9 = 120,
+			/// F10キー	</summary>
+			F10 = 121,
 			/// <summary>
 			/// F11キー	</summary>
-			F11 = 87,
+			F11 = 122,
 			/// <summary>
 			/// F12キー	</summary>
-			F12 = 88,
+			F12 = 123,
+			/// F13キー	</summary>
+			F13 = 124,
+			/// F14キー	</summary>
+			F14 = 125,
+			/// F15キー	</summary>
+			F15 = 126,
+			/// F16キー	</summary>
+			F16 = 127,
+			/// F17キー	</summary>
+			F17 = 128,
+			/// F18キー	</summary>
+			F18 = 129,
+			/// F19キー	</summary>
+			F19 = 130,
+			/// F20キー	</summary>
+			F20 = 131,
+			/// F21キー	</summary>
+			F21 = 132,
+			/// F22キー	</summary>
+			F22 = 133,
+			/// F23キー	</summary>
+			F23 = 134,
+			/// F24キー	</summary>
+			F24 = 135,
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝//
 			//		OtherKey / その他のキー	     //
 			// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝//
 			/// <summary>
 			///	エスケープキー／Esc	</summary>
-			Escape = 1,
+			Escape = 27,
 			/// <summary>
 			/// バックスペースキー／BackSpace	</summary>
-			BackSpace = 14,
+			BackSpace = 8,
 			/// <summary>
 			/// タブキー／Tab	</summary>
-			Tab = 15,
+			Tab = 9,
 			/// <summary>
 			///	エンターキー／Enter	</summary>
-			Enter = 28,
+			Enter = 13,
 			/// <summary>
-			///	「左側」にあるシフトキー／Shift	</summary>
-			LeftShift = 42,
+			///	左側にあるシフトキー／Shift	</summary>
+			LeftShift = 16,
 			/// <summary>
-			///	「右側」にあるシフトキー／Shift	</summary>
-			RightShift = 310,
+			///	右側にあるシフトキー／Shift	</summary>
+			RightShift = 16,
 			/// <summary>
-			///	「左側」にあるコントロールキー／Ctrl	</summary>
-			LeftControl = 29,
+			///	左側にあるコントロールキー／Ctrl	</summary>
+			LeftControl = 17,
 			/// <summary>
-			///	「右側」にあるコントロールキー／Ctrl	</summary>
-			RightControl = 285,
+			///	右側にあるコントロールキー／Ctrl	</summary>
+			RightControl = 17,
 			/// <summary>
 			/// 半角/全角漢字キー	</summary>
-			Hankaku = 41,
+			Hankaku = 229,
 			/// <summary>
 			///	半角/全角漢字キー	</summary>
-			Zenkaku = 41,
+			Zenkaku = 229,
 			/// <summary>
 			/// スペースキー	</summary>
-			Space = 57,
+			Space = 32,
 			/// <summary>
 			///	変換キー	</summary>
-			Henkann = 121,
+			Henkann = 28,
 			/// <summary>
 			/// 無変換キー	</summary>
-			MuHenkann = 123,
+			MuHenkann = 229,
 			/// <summary>
 			///	CapsLockキー	</summary>
 			CapsLock = 58,
 			/// <summary>
 			///	Homeキー	</summary>
-			Home = 327,
+			Home = 36,
 			/// <summary>
 			///	PageUpキー	</summary>
-			PageUp = 329,
+			PageUp = 33,
 			/// <summary>
 			///	PageDownキー	</summary>
-			PageDown = 337,
+			PageDown = 34,
 			/// <summary>
 			/// Endキー	</summary>
-			End = 335,
+			End = 35,
 			/// <summary>
 			///	上矢印キー／↑	</summary>
-			UpArrow = 328,
+			UpArrow = 38,
 			/// <summary>
 			///	左矢印キー／←	</summary>
-			LeftArrow = 331,
+			LeftArrow = 37,
 			/// <summary>
 			/// 下矢印キー／↓</summary>
-			DownArrow = 336,
+			DownArrow = 40,
 			/// <summary>
 			///	右矢印キー／→	</summary>
-			RightArrow = 333,
+			RightArrow = 39,
 			/// <summary>
 			/// Deleteキー	</summary>
-			Delete = 339,
+			Delete = 46,
 			/// <summary>
 			///	Windowsキー	</summary>
-			Windows = 347,
+			Windows = 91,
 			/// <summary>
 			/// カタカナひらがなローマ字キー</summary>
-			Katakana = 16496,
+			Katakana = 229,
 			/// <summary>
 			/// カタカナひらがなローマ字キー</summary>
-			Hiragana = 16496,
+			Hiragana = 229,
 			/// <summary>
 			/// カタカナひらがなローマ字キー</summary>
-			Romaji = 16496,
+			Romaji = 229,
 		};
 
 

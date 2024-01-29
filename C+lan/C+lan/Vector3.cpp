@@ -26,6 +26,19 @@ Ctlan::PublicSystem::Vector3 Ctlan::PublicSystem::Vector3::Rotate(const Vector3 
     return *this;
 }
 
+void Ctlan::PublicSystem::Vector3::Normalize()
+{
+    // ベクトルの長さを求める
+    float length = sqrtf(x * x + y * y + z * z);
+    // 長さが0でない場合、各値を長さで割る
+    if (length != 0.0f)
+    {
+        x /= length;
+        y /= length;
+        z /= length;
+    }
+}
+
 Ctlan::PublicSystem::Vector3 Ctlan::PublicSystem::Vector3::operator=(const Vector3& vec)
 {
     x = vec.x;

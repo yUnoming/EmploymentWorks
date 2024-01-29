@@ -204,14 +204,7 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
         case WM_KEYDOWN:
         {
             // 押されているキーを取得
-            WORD KeyID = HIWORD(lParam);
-
-            // 求めた値が大きすぎる
-            if (KeyID > 10000)
-                KeyID -= 49152;  // 欲しい値に修正する
-            // 求めた値がまだ大きすぎる
-            if (KeyID > 10000)
-                KeyID -= 32768;  // 欲しい値にさらに修正する
+            WORD KeyID = LOWORD(wParam);
 
             // 押されたキーを保存する関数を実行
             Ctlan::PrivateSystem::SystemManager::SystemKeyInputManager::SetKeyDown(KeyID);
@@ -222,14 +215,7 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
         case WM_KEYUP:
         {
             // 押されているキーを取得
-            WORD KeyID = HIWORD(lParam);
-
-            // 求めた値が大きすぎる
-            if (KeyID > 10000)
-                KeyID -= 49152;  // 欲しい値に修正する
-            // 求めた値がまだ大きすぎる
-            if (KeyID > 10000)
-                KeyID -= 32768;  // 欲しい値にさらに修正する
+            WORD KeyID = LOWORD(wParam);
 
             // 離されたキーを保存する関数を実行
             Ctlan::PrivateSystem:: SystemManager::SystemKeyInputManager::SetKeyUp(KeyID);

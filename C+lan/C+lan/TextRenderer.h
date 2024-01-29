@@ -71,7 +71,7 @@ namespace Ctlan
 				/// <param name="text"> 
 				///	描画する文字	</param>
 				/// <param name="textNum">
-				/// 何文字目か	</param>
+				/// 何文字目か	</param>ee
 				/// <returns>
 				/// 作成したテキスト情報	</returns>
 				TextInfo CreateTextWithoutVertexBuffer(char text, int textNum);
@@ -80,7 +80,7 @@ namespace Ctlan
 				//  ----- variables / 変数 ----- //
 				/// <summary>
 				/// 表示するテキスト </summary>
-				const char* text;
+				const char* text = "";
 				/// <summary>
 				///	テキストの内容変更などで使う仮テキスト	</summary>
 				char dummyText[101] = {};

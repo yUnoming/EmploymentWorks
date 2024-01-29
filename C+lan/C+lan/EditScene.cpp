@@ -122,7 +122,10 @@ void Ctlan::EngineScene::EditScene::Update()
 	{
 		isDemoPlay = isDemoPlay ? false : true;	// デモプレイ状態を切り替える
 	}
+	// デモプレイ中ならオブジェクトの更新は行わない
+	if (isDemoPlay)return;
 
+	// ===== エディットシーンオブジェクトの更新処理 ===== //
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_sceneObjectList)
 	{
@@ -138,6 +141,9 @@ void Ctlan::EngineScene::EditScene::Update()
 
 void Ctlan::EngineScene::EditScene::Draw()
 {
+	// デモプレイ中ならオブジェクトの描画は行わない
+	if (isDemoPlay)return;
+
 	// 各スレッド内のオブジェクトリスト取得
 	for (auto& objectList : m_sceneObjectList)
 	{

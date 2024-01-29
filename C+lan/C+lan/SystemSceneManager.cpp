@@ -354,13 +354,6 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::InitScene()
 #endif	
 	// 初期シーンのロード
 	LoadScene();
-	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
-	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
-	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
-	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
-	//m_loadedScene->AddSceneObject<Meteor>(1, "Meteor");
-	//Text* textCom = m_loadedScene->AddSceneObject<Test2>(3, "Text")->GetComponent<Text>();
-	//textCom->text = "Press Any Key";
 }
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()

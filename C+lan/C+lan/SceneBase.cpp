@@ -1,8 +1,10 @@
 #include "SystemNetWorkManager.h"
 #include "SystemGameObjectManager.h"
 #include "SystemCollisionManager.h"
+#include "SystemSceneManager.h"
 
 #include "SceneBase.h"
+#include "EditScene.h"
 #include "Camera.h"
 #include "Message.h"
 
@@ -102,9 +104,14 @@ void Ctlan::PrivateSystem::SceneBase::Draw()
 		{
 // デバッグ時の処理
 #if _DEBUG
-			// カメラコンポーネントを持っている？
-			if (object->GetComponent<Camera>())
-				continue;	// 次のオブジェクトに遷移
+			// デモプレイ中ではない？
+			if(!dynamic_cast<EngineScene::EditScene*>(SystemManager::SystemSceneManager::GetEditScene())->IsDemoPlay())
+			{
+				// カメラコンポーネントを持っている？
+				if (object->GetComponent<Camera>())
+					continue;	// 次のオブジェクトに遷移
+			}
+
 #endif
 // 通常の処理
 			// アクティブ状態？
