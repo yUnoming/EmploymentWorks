@@ -69,11 +69,11 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 				char objectType[30] = "GameObject";
 				strcpy_s(baseObjectType, typeid(*object).name());
 				char* context;
-				char* token = strtok_s(baseObjectType, "::", &context);
+				char* token = strtok_s(baseObjectType, " ::", &context);
 				while (token)
 				{
 					strcpy_s(objectType, token);
-					token = strtok_s(NULL, "::", &context);
+					token = strtok_s(NULL, " ::", &context);
 				}
 
 				// ----- オブジェクト名情報取得 ----- //
@@ -383,8 +383,25 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UpdateScene()
 {
 #if _DEBUG
+	// 現状のデモプレイ状態を保存
+	bool lateIsDemoPlay = dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay();
 	// エディットシーンの更新処理
 	m_editScene->Update();
+
+	// デモプレイが開始された？
+	if (!lateIsDemoPlay && dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay())
+		// シーンのセーブ
+		SaveSceneData();
+	// デモプレイが終了した？
+	else if (lateIsDemoPlay && !dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay())
+	{
+		// リロードするシーン名を保存
+		const char* reloadSceneName = m_loadedScene->GetSceneName();
+		// デモプレイ中のシーンを終了
+		m_loadedScene->Uninit();
+		// シーンをリロード
+		LoadSceneData(reloadSceneName);
+	}
 #endif
 	// 現在シーンの更新処理
 	m_loadedScene->Update();

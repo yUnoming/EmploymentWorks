@@ -113,6 +113,8 @@ void Ctlan::PrivateSystem::GameObject::UninitBase()
 	m_componentList.clear();
 	m_lateComponentList.clear();
 
+	// オブジェクト情報を削除
+	SystemManager::SystemGameObjectManager::DeleteObjectNameData(m_name);
 	// オブジェクトの終了処理
 	Uninit();
 }

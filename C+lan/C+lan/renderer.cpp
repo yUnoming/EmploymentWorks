@@ -153,7 +153,6 @@ void Ctlan::PrivateSystem::Renderer::Init(Application* ap)
 
 
 
-
 	// デプスステンシルステート設定
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
 	depthStencilDesc.DepthEnable = TRUE;
