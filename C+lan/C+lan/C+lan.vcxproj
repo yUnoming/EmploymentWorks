@@ -76,7 +76,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\directxtk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\directxtk\lib\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -194,6 +194,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="C+lan.h" />
     <ClInclude Include="CalculationHit.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />

@@ -181,6 +181,8 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
     {
         // ウィンドウを閉じるアクションが発生した場合
         case WM_CLOSE:
+// デバッグ時
+#if _DEBUG
             // 終了確認で「OK」が押された？
             if (MessageBox(NULL, L"終了しますか？", L"終了確認", MB_OKCANCEL) == IDOK)
             {
@@ -192,7 +194,7 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
                 }
                 // ウィンドウを閉じる
                 DestroyWindow(hWnd);
-            }
+            }  
             // 終了確認で「CANCEL」が押された
             else
             {
@@ -200,7 +202,11 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
                 msg = WM_NULL;
             }
             break;
-
+// リリース時
+#else
+            // ウィンドウを閉じる
+            DestroyWindow(hWnd);
+#endif
         // ウィンドウが閉じた場合
         case WM_DESTROY:
             PostQuitMessage(0);

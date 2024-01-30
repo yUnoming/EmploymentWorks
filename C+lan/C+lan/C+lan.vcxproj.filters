@@ -392,5 +392,8 @@
     <ClInclude Include="ShortCutKey.h">
       <Filter>ヘッダー ファイル\C+lan\PrivateSystem</Filter>
     </ClInclude>
+    <ClInclude Include="C+lan.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
