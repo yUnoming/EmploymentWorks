@@ -139,7 +139,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 								// 他ユーザーのロック状態を解除
 								m_receiveData.message.header.type = MessageType::ClickObject;
 								m_receiveData.message.body.object.CopyName(nullptr);
-								SendMessageOtherUser();
+								SendMessageOtherUser(m_receiveData);
 							}
 
 							// ユーザーリストから除外
@@ -176,7 +176,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 						// 各値を代入
 						*text = Text(m_receiveData.message.body.text);
 					}
-					SendMessageOtherUser();
+					SendMessageOtherUser(m_receiveData);
 					break;
 				//------------------//
 				// オブジェクト選択 //
@@ -207,7 +207,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 						m_rockObjectList.push_back(rockObjectData);
 					}
 
-					SendMessageOtherUser();	// 他ユーザーにメッセージ送信
+					SendMessageOtherUser(m_receiveData);	// 他ユーザーにメッセージ送信
 					break;
 				}
 				//------------------//
@@ -215,7 +215,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				case MessageType::ObjectDelete:
 					// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
 					Ctlan::PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
-					SendMessageOtherUser();
+					SendMessageOtherUser(m_receiveData);
 					break;
 				//--------------//
 				// キューブ作成 //
@@ -226,7 +226,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					// メッセージからTransform情報を取得し、代入
 					// ※作成した際、座標以外は一定の値なので、代入しない
 					cubeObject->transform->position = m_receiveData.message.body.transform.position;
-					SendMessageOtherUser();
+					SendMessageOtherUser(m_receiveData);
 					break;
 				}
 				//--------------//
@@ -235,7 +235,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				{
 					// テキストを作成
 					Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateText>(3, "Text");
-					SendMessageOtherUser();
+					SendMessageOtherUser(m_receiveData);
 					break;
 				}
 			}
@@ -281,7 +281,7 @@ void Server::CommunicationStartThread()
 	return;
 }
 
-void Server::SendMessageOtherUser()
+void Server::SendMessageOtherUser(MessageData& sendMessage)
 {
 	// 自身がサーバーを開いた？
 	if (m_myServerRank == Owner)
@@ -293,10 +293,10 @@ void Server::SendMessageOtherUser()
 			for (const CommunicationUserData& data : m_comUserList)
 			{
 				// 送信元ユーザーではないユーザー？
-				if (data.userNo != m_receiveData.message.header.userNo)
+				if (data.userNo != sendMessage.message.header.userNo)
 				{
 					m_sendAddress = data.address;	// アドレス設定
-					SendMessageData(m_receiveData);	// メッセージ送信
+					SendMessageData(sendMessage);	// メッセージ送信
 				}
 			}
 		}
@@ -418,8 +418,8 @@ void Server::OpenServer()
  
 void Server::CloseServer()
 {
-	// データの通信を行っている？
-	if (m_isCommunicationData)
+	// オーナーとして、データの通信を行っている？
+	if (m_isCommunicationData && m_myServerRank == Owner)
 	{
 		// ===== 通信終了を相手に通知 ===== //
 		// 通信相手がいる？
@@ -428,7 +428,7 @@ void Server::CloseServer()
 			// メッセージ送信
 			MessageData messageData;
 			messageData.message.header.type = MessageType::CommunicationEnd;
-			SendMessageData(messageData);
+			SendMessageOtherUser(messageData);
 		}
 		
 		// ===== サーバークローズ処理 ===== //
@@ -451,10 +451,16 @@ void Server::CloseServer()
 
 		MessageBoxW(NULL, L"サーバーを閉じました", L"システム通知", MB_OK);
 	}
+	else
+	{
+		// メッセージ表示
+		MessageBoxW(NULL, L"あなたはサーバーを開いていません", L"システム通知", MB_OK);
+	}
 }
 
 void Server::LoginServer()
 {
+	// 通信を行っていない？
 	if (!m_isCommunicationData && !m_isCommunicationDuring)
 	{
 		WSADATA wsaData;	// WinSockの初期化データを格納
@@ -511,19 +517,6 @@ void Server::LoginServer()
 		if(!m_receiveThread.joinable())
 			// 受信スレッド生成
 			m_receiveThread = std::thread(&Server::ReceiveThread, this);
-
-		//// 通信開始スレッドが生成されていない？
-		//if (!m_comStartThread.joinable())
-		//	// 通信開始スレッド生成
-		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
-		//// 通信開始スレッドが生成されている
-		//else
-		//{
-		//	// スレッド終了を待つ
-		//	m_comStartThread.join();
-		//	// 通信開始スレッド生成
-		//	m_comStartThread = std::thread(&Server::CommunicationStartThread, this);
-		//}
 		// 相手に通信開始通知を送る
 		m_sendData.message.header.type = MessageType::CommunicationStart;
 		SendMessageData(m_sendData);
@@ -532,8 +525,8 @@ void Server::LoginServer()
 
 void Server::LogoutServer()
 {
-	// 通信を行っている？
-	if (m_isCommunicationData)
+	// ユーザーとして、通信を行っている？
+	if (m_isCommunicationData && m_myServerRank == User)
 	{
 		// ===== 通信終了を相手に通知 ===== //
 		MessageData messageData;
@@ -556,8 +549,15 @@ void Server::LogoutServer()
 
 		// WINSOCKの終了処理
 		WSACleanup();
+
+		// メッセージ表示
+		MessageBoxW(NULL, L"サーバーからログアウトしました", L"システム通知", MB_OK);
 	}
-	MessageBoxW(NULL, L"サーバーからログアウトしました", L"システム通知", MB_OK);
+	else
+	{
+		// メッセージ表示
+		MessageBoxW(NULL, L"あなたはサーバーにログインしていません", L"システム通知", MB_OK);
+	}
 }
 
 void Server::SendData()
@@ -607,17 +607,41 @@ void Server::SendMessageData(MessageData& messageData)
 		}
 
 		// ===== 送信処理 ===== //
-		// データの送信時、エラーが発生した？
-		if (sendto(
-			m_mySocket,							// ソケット番号
-			messageData.data,					// 送信データ
-			sizeof(messageData.data),			// 送信データ長
-			0,									// フラグ
-			(sockaddr*)&m_sendAddress,			// 送信先アドレス
-			sizeof(sockaddr))					// アドレス構造体のバイト長
-			== SOCKET_ERROR)
+		// 1対1で通信を行っている？
+		if (m_comUserList.size() <= 1)
 		{
-			std::cout << "データの送信に失敗しました" << std::endl;
+			// データの送信時、エラーが発生した？
+			if (sendto(
+				m_mySocket,							// ソケット番号
+				messageData.data,					// 送信データ
+				sizeof(messageData.data),			// 送信データ長
+				0,									// フラグ
+				(sockaddr*)&m_sendAddress,			// 送信先アドレス
+				sizeof(sockaddr))					// アドレス構造体のバイト長
+				== SOCKET_ERROR)
+			{
+				std::cout << "データの送信に失敗しました" << std::endl;
+			}
+		}
+		// 複数人と通信を行っている
+		else
+		{
+			// 通信しているユーザー分ループ
+			for (const CommunicationUserData& data : m_comUserList)
+			{
+				// データの送信時、エラーが発生した？
+				if (sendto(
+					m_mySocket,							// ソケット番号
+					messageData.data,					// 送信データ
+					sizeof(messageData.data),			// 送信データ長
+					0,									// フラグ
+					(sockaddr*)&data.address,			// 送信先アドレス
+					sizeof(sockaddr))					// アドレス構造体のバイト長
+					== SOCKET_ERROR)
+				{
+					std::cout << "データの送信に失敗しました" << std::endl;
+				}
+			}
 		}
 	}
 }

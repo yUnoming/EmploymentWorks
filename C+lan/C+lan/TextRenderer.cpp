@@ -1,11 +1,10 @@
 #include "SystemSceneManager.h"
 #include "SystemNetWorkManager.h"
-#include "SpectatorCamera.h"
-
-#include "TextRenderer.h"
 #include "SystemTextRendererManager.h"
-#include "Transform.h"
+#include "SpectatorCamera.h"
 #include <WICTextureLoader.h>
+
+#include "C+lan.h"
 
 
 void TextRenderer::Init()

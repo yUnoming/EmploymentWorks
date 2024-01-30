@@ -86,6 +86,9 @@ void Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::SetObjectName
 
 void Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::DeleteObjectNameData(const char* name)
 {
+	// リストに要素が入っていない？
+	if (m_objectNameList.empty())	return;	//処理を終了
+
 	// 引数の値と同じオブジェクト名の情報を削除
 	m_objectNameList.erase(
 		std::find_if(

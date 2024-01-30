@@ -119,7 +119,7 @@ namespace Ctlan
 
 				/// <summary>
 				///	他ユーザーにメッセージを送る	</summary>
-				void SendMessageOtherUser();
+				void SendMessageOtherUser(MessageData& sendMessage);
 
 			public:
 				// ----- functions / 関数 ----- //
