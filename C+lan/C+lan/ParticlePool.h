@@ -29,6 +29,8 @@ class ParticlePool : public Ctlan::PrivateSystem::GameObject
 			int generateNum = rand() % 3 + 3;
 			int generateCount = 0;
 
+			if (particlePool.empty())return;
+
 			for (Particle* particle : particlePool)
 			{
 				if (particle->isActive == false)

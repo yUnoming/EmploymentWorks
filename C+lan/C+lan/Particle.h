@@ -28,8 +28,8 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 
 		void Init()
 		{
-			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
 			mat = AddComponent<Material>();
+			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets/Models\\templateCube.obj");
 			transform->position.z = 5.0f;
 			transform->scale *= 0.1f;
 

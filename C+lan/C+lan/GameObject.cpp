@@ -135,29 +135,36 @@ bool Ctlan::PrivateSystem::GameObject::UpdateBase()
 		// デモプレイ中？
 		Ctlan::EngineScene::EditScene* editScene = (EngineScene::EditScene*)SystemManager::SystemSceneManager::GetEditScene();
 		if (editScene->IsDemoPlay())
-			com->Update();	// 更新処理
-		// テキストコンポーネント？
-		else if ((Text*)com)
-			com->Update();	// 更新処理
-		// エディット用のオブジェクト？
-		else if (editScene == m_myScene)
-			com->Update();	// 更新処理
-
-		// エディット用のオブジェクトではない？
-		if (editScene != m_myScene)
 		{
-			// オブジェクトがロックされていない？
-			if (!SystemManager::SystemNetWorkManager::GetServer()->IsRockObject(GetName()))
-				// 値が更新されていたらメッセージを送る
-				SystemManager::SystemComponentManager::SendMessageBasedOnType(*std::next(m_lateComponentList.begin(), index), com);
-
-			// 現在の値を保存
-			SystemManager::SystemComponentManager::SetVariableValue(*std::next(m_lateComponentList.begin(), index), com);
+			com->Update();	// 更新処理
 		}
-#endif
-// 通常処理		
+		// デモプレイ中ではない
+		else
+		{
+			// テキストコンポーネント？
+			if (dynamic_cast<Text*>(com) != nullptr)
+				com->Update();	// 更新処理
+			// エディット用のオブジェクト？
+			else if (editScene == m_myScene)
+				com->Update();	// 更新処理
+
+			// エディット用のオブジェクトではない？
+			if (editScene != m_myScene)
+			{
+				// オブジェクトがロックされていない？
+				if (!SystemManager::SystemNetWorkManager::GetServer()->IsRockObject(GetName()))
+					// 値が更新されていたらメッセージを送る
+					SystemManager::SystemComponentManager::SendMessageBasedOnType(*std::next(m_lateComponentList.begin(), index), com);
+
+				// 現在の値を保存
+				SystemManager::SystemComponentManager::SetVariableValue(*std::next(m_lateComponentList.begin(), index), com);
+			}
+			index++;		// カウントを増やす
+		}
+#else
+		// 通常処理		
 		com->Update();	// 更新処理
-		index++;		// カウントを増やす
+#endif
 	}
 // デバッグ時の処理
 #if _DEBUG

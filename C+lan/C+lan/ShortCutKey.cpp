@@ -12,10 +12,11 @@ void Ctlan::PrivateSystem::ApplicationSystem::ShortCutKey::Run(int key)
 		case Ctlan::PublicSystem::Delete:
 		{
 			// オブジェクトを選択している？
-			Ctlan::EngineObject::SpectatorCamera specCamera = *SystemManager::SystemSceneManager::GetEditScene()->GetSceneObject<Ctlan::EngineObject::SpectatorCamera>("SpectatorCamera");
-			if (specCamera.GetClickedObject() != nullptr)
+			Ctlan::EngineObject::SpectatorCamera* spectatorCamera = SystemManager::SystemSceneManager::GetEditScene()->GetSceneObject<Ctlan::EngineObject::SpectatorCamera>("SpectatorCamera");
+			if (spectatorCamera->GetClickedObject() != nullptr)
 			{
-				specCamera.GetClickedObject()->Destroy();	// 選択中のオブジェクトを削除
+				spectatorCamera->GetClickedObject()->Destroy();	// 選択中のオブジェクトを削除
+				spectatorCamera->ReleaseClickedObject();
 			}
 		}
 	}

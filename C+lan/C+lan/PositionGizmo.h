@@ -58,7 +58,7 @@ namespace Ctlan
 						// マテリアル追加
 						mat = AddComponent<Material>();
 						// モデル追加
-						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
+						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\PositionGizmo.obj");
 						// エディットカメラ取得
 						spectatorCamera = Ctlan::PrivateSystem::SystemManager::SystemSceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 						// サイズ調整
@@ -75,7 +75,7 @@ namespace Ctlan
 						// マテリアル追加
 						mat = AddComponent<Material>();
 						// モデル追加
-						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
+						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\PositionGizmo.obj");
 						// エディットカメラ取得
 						spectatorCamera = Ctlan::PrivateSystem::SystemManager::SystemSceneManager::GetEditScene()->GetSceneObject<EngineObject::SpectatorCamera>("SpectatorCamera");
 						// サイズ調整

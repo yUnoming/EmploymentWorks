@@ -36,9 +36,7 @@ namespace Ctlan
 				///	シーンをロードする	</summary>
 				/// <param name="sceneName">
 				///	ロードするシーン名	</param>
-				/// <returns>
-				/// ロードするシーンがあればシーン情報、無ければnullptr	</returns>
-				static SceneBase* LoadScene(const char* sceneName);
+				static void LoadScene(const char* sceneName);
 		};
 	};
 }

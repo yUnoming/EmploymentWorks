@@ -58,6 +58,7 @@ void Ctlan::PrivateSystem::SceneBase::Uninit()
 		//リストのクリア
 		objectList.clear();
 	}
+	SystemManager::SystemCollisionManager::Uninit();
 }
 
 void Ctlan::PrivateSystem::SceneBase::Update()

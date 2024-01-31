@@ -39,9 +39,9 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 
 		void Init()
 		{
-			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
-			AddComponent<Ctlan::PublicSystem::BoxCollider>();
 			AddComponent<Ctlan::PublicSystem::Material>()->materialColor = Color(0.698f, 0.133f, 0.133f, 1.0f);
+			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\templateCube.obj");
+			AddComponent<Ctlan::PublicSystem::BoxCollider>();
 			
 			transform->position.z = 8.5f;
 			transform->scale *= 0.7f;

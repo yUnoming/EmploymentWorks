@@ -12,6 +12,10 @@
 #include "Text.h"
 #include "SpectatorCamera.h"
 
+#include "Player.h"
+#include "SceneLoader.h"
+#include "Timer.h"
+
 #include "TemplateCube.h"
 #include "TemplateText.h"
 
@@ -30,6 +34,7 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 std::unordered_map<std::string, Ctlan::PrivateSystem::SceneBase*> Ctlan::PrivateSystem::SystemManager::SystemSceneManager::m_scenePool;
 Ctlan::PrivateSystem::Information::LaunchSceneInformation Ctlan::PrivateSystem::SystemManager::SystemSceneManager::m_launchSceneInfo;
 bool Ctlan::PrivateSystem::SystemManager::SystemSceneManager::isSave;
+char Ctlan::PrivateSystem::SystemManager::SystemSceneManager::loadSceneName[30];
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 {
@@ -37,7 +42,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 	char* sceneName = m_loadedScene->GetSceneName();
 
 	// シーンファイル名を取得
-	char sceneFileName[30] = { "Assets\\" };
+	char sceneFileName[30] = { "Assets/Scenes/" };
 	strcat_s(sceneFileName, sizeof(sceneFileName), sceneName);
 	strcat_s(sceneFileName, sizeof(sceneFileName), ".dat");
 
@@ -104,11 +109,11 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 					char componentType[30] = "Component";
 					strcpy_s(baseComponentType, typeid(*component).name());
 					char* context{};
-					char* token = strtok_s(baseComponentType, "::", &context);
+					char* token = strtok_s(baseComponentType, " ::", &context);
 					while (token)
 					{
 						strcpy_s(componentType, token);
-						token = strtok_s(NULL, "::", &context);
+						token = strtok_s(NULL, " ::", &context);
 					}
 					
 					// 書き込み処理
@@ -154,6 +159,13 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 						fprintf(file, writeData);
 						fprintf(file, "\r\n");
 					}
+					else if (strcmp(componentType, "SceneLoader") == 0)
+					{
+						SceneLoader castSceneLoader = *dynamic_cast<SceneLoader*>(component);
+						sprintf_s(writeData, "%s", castSceneLoader.loadSceneName);
+						fprintf(file, writeData);
+						fprintf(file, "\r\n");
+					}
 				}
 			}
 			layerNo++;	// レイヤー番号を進める
@@ -172,7 +184,7 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 	m_loadedScene = loadScene;
 
 	// シーンファイル名を取得
-	char sceneFileName[30] = { "Assets/" };
+	char sceneFileName[100] = {"Assets/Scenes/"};
 	strcat_s(sceneFileName, sizeof(sceneFileName), loadSceneName);
 	strcat_s(sceneFileName, sizeof(sceneFileName), ".dat");
 
@@ -306,6 +318,27 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 						if (!addedObject->GetComponent<Ctlan::PublicSystem::Camera>())
 							addedObject->AddComponent<Ctlan::PublicSystem::Camera>();
 					}
+					else if (strcmp(componentType, "Player") == 0)
+					{
+						if (!addedObject->GetComponent<Player>())
+							addedObject->AddComponent<Player>();
+					}
+					else if (strcmp(componentType, "Timer") == 0)
+					{
+						if (!addedObject->GetComponent<Timer>())
+							addedObject->AddComponent<Timer>();
+					}
+					else if (strcmp(componentType, "SceneLoader") == 0)
+					{
+						if (!addedObject->GetComponent<SceneLoader>())
+							addedObject->AddComponent<SceneLoader>();
+
+						char loadSceneName[30];
+						fscanf_s(file, "%s", &loadSceneName, 30);
+
+						SceneLoader* sceneLoader = addedObject->GetComponent<SceneLoader>();
+						strcpy_s(sceneLoader->loadSceneName, loadSceneName);
+					}
 				}
 			}
 			addedObject = nullptr;
@@ -323,20 +356,45 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::LoadScene()
 {
-	// 起動するシーン情報をロード
-	m_launchSceneInfo.Load();
+	// 開始シーンのロード？
+	if (!m_loadedScene)
+	{
+		// 起動するシーン情報をロード
+		m_launchSceneInfo.Load();
 
-	// 起動するシーンが存在しない？
-	if (!m_launchSceneInfo.GetLaunchSceneName())
-		// 初期シーン作成
-		CreateNewScene("SampleScene");
-	// 起動するシーンが存在する
+		// 起動するシーンが存在しない？
+		if (!m_launchSceneInfo.GetLaunchSceneName())
+			// 初期シーン作成
+			CreateNewScene("SampleScene");
+		// 起動するシーンが存在する
+		else
+			// 起動時に開くシーンをロード
+			LoadSceneData(m_launchSceneInfo.GetLaunchSceneName());
+	}
 	else
-		// 起動時に開くシーンをロード
-		LoadSceneData(m_launchSceneInfo.GetLaunchSceneName());
-	
-	// ロードしたシーンの初期化
-	m_loadedScene->Init();
+	{
+		// 既にシーンがロードされている？
+		if (m_scenePool.count(loadSceneName) > 0 && (m_editScene && !dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay()))
+		{
+			m_loadedScene = m_scenePool[std::string(loadSceneName)];	// シーンを変更する
+			ZeroMemory(loadSceneName, sizeof(loadSceneName));
+			return;
+		}
+		// シーンがロードされていない
+		else
+		{
+			// 現在シーンの終了処理
+			m_loadedScene->Uninit();
+
+			// ロードするシーンが存在しない？
+			if (LoadSceneData(loadSceneName) == nullptr)
+			{
+				// システム通知を表示
+				MessageBoxW(NULL, L"シーンが存在しませんでした", L"エラーメッセージ", MB_OK);
+			}
+		}
+		ZeroMemory(loadSceneName, sizeof(loadSceneName));
+	}
 }
 
 Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SystemSceneManager()
@@ -344,15 +402,15 @@ Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SystemSceneManager()
 	m_loadedScene = nullptr;
 }
 
-#include "MeteorPool.h"
-#include "ParticlePool.h"
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::InitScene()
 {
+// デバッグ時
 #if _DEBUG
 	// エディットシーンのロード
 	m_editScene = new Ctlan::EngineScene::EditScene();
 	m_editScene->Init();
 #endif	
+// 通常処理
 	// 初期シーンのロード
 	LoadScene();
 }
@@ -392,21 +450,26 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UpdateScene()
 
 	// デモプレイが開始された？
 	if (!lateIsDemoPlay && dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay())
+	{
 		// シーンのセーブ
 		SaveSceneData();
+		// ロードするシーン名を保存
+		strcpy_s(loadSceneName, m_loadedScene->GetSceneName());
+		// シーンをリロード
+		LoadScene();
+	}
 	// デモプレイが終了した？
 	else if (lateIsDemoPlay && !dynamic_cast<EngineScene::EditScene*>(m_editScene)->IsDemoPlay())
 	{
-		// リロードするシーン名を保存
-		const char* reloadSceneName = m_loadedScene->GetSceneName();
-		// デモプレイ中のシーンを終了
-		m_loadedScene->Uninit();
 		// シーンをリロード
-		LoadSceneData(reloadSceneName);
+		LoadSceneData(m_launchSceneInfo.GetLaunchSceneName());
+		ZeroMemory(loadSceneName, sizeof(loadSceneName));
 	}
 #endif
 	// 現在シーンの更新処理
 	m_loadedScene->Update();
+	if (strlen(loadSceneName) > 0)
+		LoadScene();
 }
 
 

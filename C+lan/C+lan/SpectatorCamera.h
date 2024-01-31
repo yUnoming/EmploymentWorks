@@ -58,7 +58,7 @@ namespace Ctlan
 			GameObject* GetClickedManipulator() const;
 			/// <summary>
 			///	ƒNƒŠƒbƒNó‘Ô‚ğ‰ğœ	</summary>
-			void ReleaseClickedObject() { m_clickedObject = nullptr; };
+			void ReleaseClickedObject() { m_clickedObject = nullptr;};
 		};
 	}
 }
