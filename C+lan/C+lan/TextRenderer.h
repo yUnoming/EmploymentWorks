@@ -31,9 +31,6 @@ namespace Ctlan
 					/// 使用するフォントのテクスチャ	</summary>
 					ID3D11Texture2D* fontTexture;
 					/// <summary>
-					/// 頂点バッファ </summary>
-					ID3D11Buffer* vertexBuffer;
-					/// <summary>
 					///	シェーダーがアクセスできるサブリソース	</summary>
 					ID3D11ShaderResourceView* shaderResourceView;
 				};
@@ -49,11 +46,11 @@ namespace Ctlan
 
 				/// <summary>
 				/// 前回表示されていたテキスト </summary>
-				char m_lateText[101];
+				char m_lateText[101]{};
 
 				/// <summary>
 				///	テキストの長さ（文字数）	</summary>
-				int m_textLength;
+				int m_textLength = 0;
 
 				// ----- functions / 関数 ----- //
 				/// <summary>

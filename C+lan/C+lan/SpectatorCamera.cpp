@@ -24,7 +24,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 {
 	// ===== カメラの操作 ===== //
 	// オブジェクトを選択していない？（オブジェクトを選択していない場合、カメラの操作が行える）
-	if (m_clickedObject == nullptr)
+	if (m_clickedObject == nullptr || m_clickedObject != nullptr && m_clickedObject->GetComponent<PublicSystem::Text>() == nullptr)
 	{
 		// ----- マウスでカメラ移動 ----- //
 		// ホイールボタンが押されている？
@@ -107,7 +107,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 		if (tmpClickedObject)
 		{
 			m_clickedManipulator = tmpClickedObject;	// クリックされたオブジェクトを代入
-			return;	// 更新処理終了
+			return;										// 更新処理終了
 		}
 
 		// 現在のシーンを参照して、クリックされたオブジェクトを取得

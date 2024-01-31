@@ -18,7 +18,7 @@ namespace Ctlan
 				// ----- variables / 変数 ----- //
 				/// <summary>
 				///	デルタタイム	</summary>
-				static double DeltaTime;
+				static float DeltaTime;
 		};
 	}
 }

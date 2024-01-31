@@ -23,6 +23,13 @@ void Ctlan::PrivateSystem::SystemManager::SystemNetWorkManager::Init()
 	m_Server = new Server();
 }
 
+void Ctlan::PrivateSystem::SystemManager::SystemNetWorkManager::Update()
+{
+	// ログインしていたサーバーがシャットダウンされた？
+	if (m_Server->IsServerShutdown())
+		m_Server->LogoutServer();	// ログアウト処理
+}
+
 void Ctlan::PrivateSystem::SystemManager::SystemNetWorkManager::Uninit()
 {
 	// サーバーの削除

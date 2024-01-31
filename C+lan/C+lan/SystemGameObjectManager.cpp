@@ -18,8 +18,8 @@ void Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::Uninit()
 
 const char* Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::CheckObjectName(const char* name)
 {
-	char returnName[50];		// 戻り値として扱う変数
-	ObjectNameData objNameData;	// オブジェクト名情報
+	char newObjName[50]{};							// 戻り値として扱う変数
+	ObjectNameData objNameData = ObjectNameData();	// オブジェクト名情報
 
 	// 引数の名称と同じオブジェクトがあれば取得
 	auto result = std::find_if(
@@ -32,7 +32,7 @@ const char* Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::CheckO
 	{
 		// ----- オブジェクト名情報をリストに格納 ----- //
 		// インスタンス生成
-		ObjectNameData newObjNameData;
+		ObjectNameData newObjNameData = ObjectNameData();
 		strcpy_s(newObjNameData.baseName, name);	// 番号を付与する前の名前
 		strcpy_s(newObjNameData.myName, name);		// 現在の名前
 		newObjNameData.number = 0;					// オブジェクト番号
@@ -45,22 +45,22 @@ const char* Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::CheckO
 	{
 		objNameData = *result;
 		// オブジェクト名に番号を連結
-		sprintf_s(returnName, "%s%d", objNameData.baseName, ++objNameData.number);
+		sprintf_s(newObjName, "%s%d", objNameData.baseName, ++objNameData.number);
 
 		result = std::find_if(m_objectNameList.begin(),
 			m_objectNameList.end(),
-			[&returnName](ObjectNameData nameData) {return strcmp(nameData.myName, returnName) == 0; });
+			[&newObjName](ObjectNameData nameData) {return strcmp(nameData.myName, newObjName) == 0; });
 	}
 
 	// ----- オブジェクト名情報をリストに格納 ----- //
 	// インスタンス生成
-	ObjectNameData newObjNameData;
+	ObjectNameData newObjNameData = ObjectNameData();
 	strcpy_s(newObjNameData.baseName, objNameData.baseName);	// 番号を付与する前の名前
-	strcpy_s(newObjNameData.myName, returnName);				// 現在の名前
+	strcpy_s(newObjNameData.myName, newObjName);				// 現在の名前
 	newObjNameData.number = objNameData.number;					// オブジェクト番号
 	// リストに格納
 	m_objectNameList.push_back(newObjNameData);
-	return returnName;
+	return newObjNameData.myName;
 }
 
 Ctlan::PrivateSystem::SystemManager::SystemGameObjectManager::ObjectNameData

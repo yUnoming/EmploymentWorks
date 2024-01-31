@@ -20,11 +20,14 @@ using namespace DirectX::SimpleMath;
 std::unordered_map<std::string, MODEL*> ModelRenderer::m_ModelPool;
 std::unordered_map<std::string, std::vector<VERTEX_3D>> ModelRenderer::m_verticesPool;
 
-void ModelRenderer::Draw()
+void Ctlan::PrivateSystem::ModelRenderer::Init()
 {
 	// マテリアルを取得
-	Material* material = GetComponent<Material>();
+	m_material = GetComponent<Material>();
+}
 
+void ModelRenderer::Draw()
+{
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
@@ -40,7 +43,7 @@ void ModelRenderer::Draw()
 	for( unsigned int i = 0; i < m_Model->SubsetNum; i++ )
 	{
 		// マテリアル設定
-		m_Model->SubsetArray[i].Material.Material.Diffuse = material->materialColor;
+		m_Model->SubsetArray[i].Material.Material.Diffuse = m_material->materialColor;
 		Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
 		// テクスチャ設定
@@ -70,18 +73,21 @@ void ModelRenderer::Draw()
 		for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
 		{
 			// マテリアル設定
-			m_Model->SubsetArray[i].Material.Material.Diffuse = material->materialColor;
+			m_Model->SubsetArray[i].Material.Material.Diffuse = m_material->materialColor;
 			Renderer::SetMaterial(m_Model->SubsetArray[i].Material.Material);
 
 			// 定数バッファの作成
-			ID3D11Buffer* constantBuffer;
+			ID3D11Buffer* constantBuffer{};
 			DirectX::XMFLOAT4 color = Ctlan::PublicSystem::Color::GetColor((Ctlan::PublicSystem::Color::ColorType)SystemManager::SystemNetWorkManager::GetServer()->GetRockUserNo(gameObject->GetName()));
 			CD3D11_BUFFER_DESC constantBufferDesc(sizeof(color), D3D11_BIND_CONSTANT_BUFFER);
-			Renderer::GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, &constantBuffer);
-			// バッファにデータをセット
-			Renderer::GetDeviceContext()->UpdateSubresource(constantBuffer, 0, nullptr, &color, 0, 0);
-			// シェーダーに定数バッファをセット
-			Renderer::GetDeviceContext()->PSSetConstantBuffers(0, 1, &constantBuffer);
+			if (FAILED(Renderer::GetDevice()->CreateBuffer(&constantBufferDesc, nullptr, &constantBuffer))){}
+			else
+			{
+				// バッファにデータをセット
+				Renderer::GetDeviceContext()->UpdateSubresource(constantBuffer, 0, nullptr, &color, 0, 0);
+				// シェーダーに定数バッファをセット
+				Renderer::GetDeviceContext()->PSSetConstantBuffers(0, 1, &constantBuffer);
+			}
 
 			// テクスチャ設定
 			if (m_Model->SubsetArray[i].Material.Texture)
@@ -89,6 +95,9 @@ void ModelRenderer::Draw()
 
 			// ポリゴン描画
 			Renderer::GetDeviceContext()->DrawIndexed(m_Model->SubsetArray[i].IndexNum, m_Model->SubsetArray[i].StartIndex, 0);
+
+			if (constantBuffer)
+				constantBuffer->Release();
 		}
 		// カリングモード切り替え
 		Renderer::SetCullingMode(D3D11_CULL_NONE);
@@ -107,7 +116,7 @@ void ModelRenderer::Preload(const char *FileName)
 	LoadModel(FileName, model);
 
 	m_ModelPool[FileName] = model;
-
+	delete model;
 }
 
 
@@ -261,7 +270,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 	MODEL_MATERIAL	*materialArray = nullptr;
 	unsigned int	materialNum = 0;
 
-	char str[256];
+	char str[256]{};
 	char *s;
 	char c;
 
@@ -275,7 +284,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 	//要素数カウント
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 		if( feof( file ) != 0 )
 			break;
@@ -302,7 +311,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 			do
 			{
-				fscanf( file, "%s", str );
+				fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 				vertexNum++;
 				in++;
 				c = fgetc( file );
@@ -350,7 +359,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 		if( feof( file ) != 0 )
 			break;
@@ -358,7 +367,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 		if( strcmp( str, "mtllib" ) == 0 )
 		{
 			//マテリアルファイル
-			fscanf( file, "%s", str );
+			fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 			char path[256];
 			strcpy( path, dir );
@@ -370,29 +379,29 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 		else if( strcmp( str, "o" ) == 0 )
 		{
 			//オブジェクト名
-			fscanf( file, "%s", str );
+			fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 		}
 		else if( strcmp( str, "v" ) == 0 )
 		{
 			//頂点座標
-			fscanf( file, "%f", &position->x );
-			fscanf( file, "%f", &position->y );
-			fscanf( file, "%f", &position->z );
+			fscanf_s( file, "%f", &position->x );
+			fscanf_s( file, "%f", &position->y );
+			fscanf_s( file, "%f", &position->z );
 			position++;
 		}
 		else if( strcmp( str, "vn" ) == 0 )
 		{
 			//法線
-			fscanf( file, "%f", &normal->x );
-			fscanf( file, "%f", &normal->y );
-			fscanf( file, "%f", &normal->z );
+			fscanf_s( file, "%f", &normal->x );
+			fscanf_s( file, "%f", &normal->y );
+			fscanf_s( file, "%f", &normal->z );
 			normal++;
 		}
 		else if( strcmp( str, "vt" ) == 0 )
 		{
 			//テクスチャ座標
-			fscanf( file, "%f", &texcoord->x );
-			fscanf( file, "%f", &texcoord->y );
+			fscanf_s( file, "%f", &texcoord->x );
+			fscanf_s( file, "%f", &texcoord->y );
 			texcoord->x = 1.0f - texcoord->x;
 			texcoord->y = 1.0f - texcoord->y;
 			texcoord++;
@@ -400,7 +409,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 		else if( strcmp( str, "usemtl" ) == 0 )
 		{
 			//マテリアル
-			fscanf( file, "%s", str );
+			fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 			if( sc != 0 )
 				ModelObj->SubsetArray[ sc - 1 ].IndexNum = ic - ModelObj->SubsetArray[ sc - 1 ].StartIndex;
@@ -431,7 +440,7 @@ void ModelRenderer::LoadObj( const char *FileName, MODEL_OBJ *ModelObj )
 
 			do
 			{
-				fscanf( file, "%s", str );
+				fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 				s = strtok( str, "/" );	
 				ModelObj->VertexArray[vc].Position = positionArray[ atoi( s ) - 1 ];
@@ -496,7 +505,7 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 
 
 
-	char str[256];
+	char str[256]{};
 
 	FILE *file;
 	file = fopen( FileName, "rt" );
@@ -508,7 +517,7 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 	//要素数カウント
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 		if( feof( file ) != 0 )
 			break;
@@ -532,7 +541,7 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 
 	while( true )
 	{
-		fscanf( file, "%s", str );
+		fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 		if( feof( file ) != 0 )
 			break;
@@ -540,10 +549,10 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 
 		if( strcmp( str, "newmtl" ) == 0 )
 		{
-			//マテリアル名
 			mc++;
-			fscanf( file, "%s", materialArray[ mc ].Name );
-			strcpy( materialArray[ mc ].TextureName, "" );
+			//マテリアル名
+			fscanf_s( file, "%s", &materialArray[mc].Name, static_cast<unsigned int>(sizeof(materialArray[mc].Name) / sizeof(materialArray[mc].Name[0])));
+			strcpy_s( materialArray[mc].TextureName, "" );
 
 			materialArray[mc].Material.Emission.x = 0.0f;
 			materialArray[mc].Material.Emission.y = 0.0f;
@@ -553,41 +562,41 @@ void ModelRenderer::LoadMaterial( const char *FileName, MODEL_MATERIAL **Materia
 		else if( strcmp( str, "Ka" ) == 0 )
 		{
 			//アンビエント
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.x );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.y );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Ambient.z );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Ambient.x );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Ambient.y );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Ambient.z );
 			materialArray[ mc ].Material.Ambient.w = 1.0f;
 		}
 		else if( strcmp( str, "Kd" ) == 0 )
 		{
 			//ディフューズ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.x );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.y );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.z );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Diffuse.x );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Diffuse.y );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Diffuse.z );
 			materialArray[ mc ].Material.Diffuse.w = 1.0f;
 		}
 		else if( strcmp( str, "Ks" ) == 0 )
 		{
 			//スペキュラ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.x );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.y );
-			fscanf( file, "%f", &materialArray[ mc ].Material.Specular.z );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Specular.x );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Specular.y );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Specular.z );
 			materialArray[ mc ].Material.Specular.w = 1.0f;
 		}
 		else if( strcmp( str, "Ns" ) == 0 )
 		{
 			//スペキュラ強度
-			fscanf( file, "%f", &materialArray[ mc ].Material.Shininess );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Shininess );
 		}
 		else if( strcmp( str, "d" ) == 0 )
 		{
 			//アルファ
-			fscanf( file, "%f", &materialArray[ mc ].Material.Diffuse.w );
+			fscanf_s( file, "%f", &materialArray[ mc ].Material.Diffuse.w );
 		}
 		else if( strcmp( str, "map_Kd" ) == 0 )
 		{
 			//テクスチャ
-			fscanf( file, "%s", str );
+			fscanf_s( file, "%s", str, static_cast<unsigned int>(sizeof(str)));
 
 			char path[256];
 			strcpy( path, dir );

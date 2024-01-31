@@ -56,6 +56,9 @@ namespace Ctlan
 			/// <returns>
 			///	オブジェクトがあればオブジェクト情報、なければnullptrを返す	</returns>
 			GameObject* GetClickedManipulator() const;
+			/// <summary>
+			///	クリック状態を解除	</summary>
+			void ReleaseClickedObject() { m_clickedObject = nullptr; };
 		};
 	}
 }

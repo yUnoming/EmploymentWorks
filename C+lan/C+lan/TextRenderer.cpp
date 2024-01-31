@@ -29,7 +29,7 @@ void TextRenderer::Update()
 	{
 		// ===== テキスト情報の作成 ===== //
 		// テキストの長さ（文字数）
-		m_textLength = strlen(text);
+		m_textLength = (int)strlen(text);
 		strncpy_s(dummyText, text, strlen(text));
 
 		// テキストの長さ分ループ
@@ -38,8 +38,8 @@ void TextRenderer::Update()
 			// 既に別のテキストが格納されている？
 			if (m_TextInfoList.size() - i > 0)
 			{
-				// 頂点バッファ以外のテキスト情報を作成
-				TextInfo textInfo = CreateTextWithoutVertexBuffer(text[i], i);
+				// テキスト情報を作成
+				TextInfo textInfo = CreateText(text[i], i);
 
 				// 作成した情報をセット
 				m_TextInfoList[i].fontTexture = textInfo.fontTexture;
@@ -68,8 +68,8 @@ void TextRenderer::Draw()
 		// 頂点バッファ設定
 		UINT stride = sizeof(VERTEX_3D);
 		UINT offset = 0;
-		m_TextInfoList[i].vertexBuffer = SystemManager::SystemTextRendererManager::GetVertexBuffer(*this, i);
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_TextInfoList[i].vertexBuffer, &stride, &offset);
+		ID3D11Buffer* vertexBuffer = SystemManager::SystemTextRendererManager::GetVertexBuffer(*this, i);
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
 		// テクスチャ描画に必要な情報を設定
 		Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_TextInfoList[i].shaderResourceView);
@@ -80,6 +80,7 @@ void TextRenderer::Draw()
 
 		// 描画
 		Renderer::GetDeviceContext()->Draw(4, 0);
+		vertexBuffer->Release();
 	}
 
 // デバッグ時
@@ -92,7 +93,7 @@ void TextRenderer::Draw()
 	if (spectatorCamera && gameObject == spectatorCamera->GetClickedObject() ||
 		SystemManager::SystemNetWorkManager::GetServer()->IsRockObject(gameObject->GetName()))
 	{
-		ID3D11ShaderResourceView* texture{};
+		static ID3D11ShaderResourceView* texture{};
 		DirectX::CreateWICTextureFromFile(
 			Renderer::GetDevice(),
 			L"Assets/Textures/nullTexture.png",
@@ -144,16 +145,17 @@ void TextRenderer::Draw()
 		// 頂点バッファの作成
 		D3D11_BUFFER_DESC vertexBufferDesc = {};
 		ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
-		vertexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+		vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 		vertexBufferDesc.ByteWidth = sizeof(vertex);
 		vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		D3D11_SUBRESOURCE_DATA initData = {};
-		ZeroMemory(&initData, sizeof(initData));
-		initData.pSysMem = vertex;
+		D3D11_SUBRESOURCE_DATA subData = {};
+		ZeroMemory(&subData, sizeof(subData));
+		subData.pSysMem = vertex;
 
-		ID3D11Buffer* vertexBuffer;
-		HRESULT result = Renderer::GetDevice()->CreateBuffer(&vertexBufferDesc, &initData, &vertexBuffer);
+		static ID3D11Buffer* vertexBuffer;
+		Renderer::GetDevice()->CreateBuffer(&vertexBufferDesc, &subData, &vertexBuffer);
 
 		// 頂点バッファの設定
 		UINT stride = sizeof(VERTEX_3D);
@@ -167,6 +169,8 @@ void TextRenderer::Draw()
 		Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		// 描画
 		Renderer::GetDeviceContext()->Draw(8, 0);
+		texture->Release();
+		vertexBuffer->Release();
 	}
 #endif
 }
@@ -199,15 +203,11 @@ TextRenderer::TextInfo TextRenderer::CreateText(char text, int textNum)
 	// シェーダーリソースビュー
 	ID3D11ShaderResourceView* shaderResourceView;
 	shaderResourceView = SystemManager::SystemTextRendererManager::GetShaderResourceView(fontTexture);
-	// 頂点バッファ
-	ID3D11Buffer* vertexBuffer;
-	vertexBuffer = SystemManager::SystemTextRendererManager::GetVertexBuffer(*this, textNum);
 
 	// ===== テキスト情報をセット ===== //
 	TextInfo textInfo;
 	textInfo.fontTexture = fontTexture;
 	textInfo.shaderResourceView = shaderResourceView;
-	textInfo.vertexBuffer = vertexBuffer;
 	
 	// テキスト情報を返す
 	return textInfo;

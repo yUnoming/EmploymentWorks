@@ -202,9 +202,9 @@ bool Ctlan::PublicSystem::Vector2::operator!=(const Vector2& vec)
 
 Ctlan::PublicSystem::Vector2::operator tagPOINT() const
 {
-    tagPOINT newVec;
-    newVec.x = x;
-    newVec.y = y;
+    tagPOINT newVec = tagPOINT();
+    newVec.x = (LONG)x;
+    newVec.y = (LONG)y;
     return newVec;
 }
 

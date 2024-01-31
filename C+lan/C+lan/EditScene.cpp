@@ -121,6 +121,25 @@ void Ctlan::EngineScene::EditScene::Update()
 	if (KeyInput::GetKeyDownTrigger(KeyName::F1))
 	{
 		isDemoPlay = isDemoPlay ? false : true;	// デモプレイ状態を切り替える
+		
+		// デモプレイに切り替わった？
+		if (isDemoPlay)
+		{
+			// ===== マニピュレーターの非表示処理 ===== //
+			// ----- 移動 ----- //
+			// X軸方向
+			m_positionXGizmo->isActive = false;
+			m_positionXGizmo->transform->parent = nullptr;
+			// Y軸方向
+			m_positionYGizmo->isActive = false;
+			m_positionYGizmo->transform->parent = nullptr;
+			// Z軸方向
+			m_positionZGizmo->isActive = false;
+			m_positionZGizmo->transform->parent = nullptr;
+
+			// クリック状態を解除
+			m_spectatorCamera->ReleaseClickedObject();
+		}
 	}
 	// デモプレイ中ならオブジェクトの更新は行わない
 	if (isDemoPlay)return;

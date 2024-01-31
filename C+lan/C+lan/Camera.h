@@ -24,9 +24,9 @@ namespace Ctlan
 		{
 			private:
 				// ----- variables / ïœêî ----- //
-				DirectX::XMFLOAT3 m_eye;
-				DirectX::XMFLOAT3 m_focus;
-				DirectX::XMFLOAT3 m_up;
+				DirectX::XMFLOAT3 m_eye = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+				DirectX::XMFLOAT3 m_focus = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+				DirectX::XMFLOAT3 m_up = DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 				Transform lateTransform;
 

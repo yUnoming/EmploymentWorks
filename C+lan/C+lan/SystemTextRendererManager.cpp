@@ -21,6 +21,13 @@ std::vector<Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::Font
 int Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::m_nowFontIndex;
 
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		参考元ソース	 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// GetFontTexture()内全般
+// https://hakase0274.hatenablog.com/entry/2018/11/17/170918
+
+
 ID3D11Texture2D* Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::GetFontTexture(char text, int textNum)
 {
 	// ===== 既に作成されているかどうか確認 ==== //
@@ -145,7 +152,7 @@ ID3D11Texture2D* Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager:
 	int PosX, PosY;											// 座標
 	DWORD Alpha, Color;										// 色・α値
 
-	memset(Bits, 0, Mapped_SubResource.RowPitch * tm.tmHeight);
+	memset(Bits, 0, static_cast<int>(Mapped_SubResource.RowPitch) * static_cast<int>(tm.tmHeight));
 
 	// ===== テクスチャにフォントビットマップを書き込む処理 ===== //
 	for (PosY = Write_PosY; PosY < Write_PosY + Bitmap_Height; PosY++)
@@ -172,6 +179,7 @@ ID3D11Texture2D* Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager:
 	fontTextureData.fontTexture = Texture2D;
 	m_fontTextureDatas.push_back(fontTextureData);
 
+	delete[] Byte;
 	return Texture2D;
 }
 
@@ -314,6 +322,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemTextRendererManager::Input(int k
 
 			// テキストに文字を追加
 			text->AddText(charBuffer);
+			delete[] charBuffer;
 			return;
 		}
 

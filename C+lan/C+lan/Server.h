@@ -65,7 +65,7 @@ namespace Ctlan
 				// ----- variables / 変数 ----- //
 				/// <summary>
 				///	自身のソケット情報	</summary>
-				SOCKET m_mySocket;
+				SOCKET m_mySocket = SOCKET();
 				/// <summary>
 				///	自身のアドレス	</summary>
 				sockaddr_in m_myAddress{};
@@ -89,17 +89,20 @@ namespace Ctlan
 
 				/// <summary>
 				/// データの通信状態 </summary>
-				bool m_isCommunicationData;
+				bool m_isCommunicationData = false;
 				/// <summary>
 				///	通信開始の最中かどうか	</summary>
-				bool m_isCommunicationDuring;
+				bool m_isCommunicationDuring = false;
+				/// <summary>
+				///	サーバーがシャットダウンされたかどうか	</summary>
+				bool m_isServerShutdown = false;
 
 				/// <summary>
 				///	自身のサーバーでの地位	</summary>
-				ServerRank m_myServerRank;
+				ServerRank m_myServerRank = Owner;
 				/// <summary>
 				///	自身のサーバーで付与された番号	</summary>
-				int m_myServerNo;
+				int m_myServerNo = 0;
 
 				/// <summary>
 				///	通信ユーザーリスト	</summary>
@@ -161,6 +164,12 @@ namespace Ctlan
 				/// <returns>
 				///	ロックされていたらtrue、されていなければfalseを返す	</returns>
 				bool IsRockObject(const char* objectName);
+
+				/// <summary>
+				///	サーバーがシャットダウンされたかどうか取得	</summary>
+				/// <returns>
+				///	シャットダウンされたらTrue、そうでなければFalse	</returns>
+				bool IsServerShutdown() { return m_isServerShutdown; };
 		};
 	}
 }

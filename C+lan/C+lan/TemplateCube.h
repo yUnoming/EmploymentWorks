@@ -29,9 +29,9 @@ namespace Ctlan
 				///	コンストラクタ	</summary>
 				TemplateCube() : GameObject()
 				{
+					AddComponent<Material>();
 					AddComponent<PrivateSystem::ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
 					AddComponent<BoxCollider>();
-					AddComponent<Material>();
 
 					transform->position.x = 0.0f;
 					transform->position.z = 3.0f;
@@ -42,9 +42,9 @@ namespace Ctlan
 				///	オブジェクトが生成されたシーン	</param>
 				TemplateCube(SceneBase* nowScene) : GameObject(nowScene)
 				{
+					AddComponent<Material>();
 					AddComponent<PrivateSystem::ModelRenderer>()->Load("Assets/Models\\yUno_TemplateBox.obj");
 					AddComponent<BoxCollider>();
-					AddComponent<Material>();
 
 					transform->position.x = 0.0f;
 					transform->position.z = 3.0f;

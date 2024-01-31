@@ -24,7 +24,7 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 
 	public:
 		Vector3 velocity;
-		bool isCalcVelocity;
+		bool isCalcVelocity = false;
 		int lateCount = 0;
 		int count = 0;
 

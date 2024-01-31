@@ -68,7 +68,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 				char baseObjectType[50];
 				char objectType[30] = "GameObject";
 				strcpy_s(baseObjectType, typeid(*object).name());
-				char* context;
+				char* context{};
 				char* token = strtok_s(baseObjectType, " ::", &context);
 				while (token)
 				{
@@ -90,7 +90,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 				// 現在取得しているオブジェクトのコンポーネントを全取得
 				std::list<Component*> componentList = object->GetComponentAll();
 
-				int componentNum = componentList.size();
+				int componentNum = static_cast<int>(componentList.size());
 				char componentNumData[2] = {};
 				sprintf_s(componentNumData, "%d", componentNum);
 				fprintf(file, componentNumData);
@@ -103,7 +103,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::SaveSceneData()
 					char baseComponentType[50] = {};
 					char componentType[30] = "Component";
 					strcpy_s(baseComponentType, typeid(*component).name());
-					char* context;
+					char* context{};
 					char* token = strtok_s(baseComponentType, "::", &context);
 					while (token)
 					{
@@ -359,6 +359,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::InitScene()
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 {
+// デバッグ時
 #if _DEBUG
 	// エディットシーンの終了処理
 	m_editScene->Uninit();
@@ -371,13 +372,14 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 		// 起動するシーン情報をセーブ
 		m_launchSceneInfo.Save();
 	}
-
 	// マネージャーの終了処理
 	SystemManager::SystemGameObjectManager::Uninit();
+	delete[] m_editScene;
 #endif
+// 通常時
 	// 現在シーンの終了処理
 	m_loadedScene->Uninit();
-	delete m_loadedScene;
+	delete[] m_loadedScene;
 }
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UpdateScene()

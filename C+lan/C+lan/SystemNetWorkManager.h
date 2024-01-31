@@ -34,6 +34,9 @@ namespace Ctlan
 					///	‰Šú‰»	</summary>
 					static void Init();
 					/// <summary>
+					///	XV	</summary>
+					static void Update();
+					/// <summary>
 					/// I—¹	</summary>
 					static void Uninit();
 

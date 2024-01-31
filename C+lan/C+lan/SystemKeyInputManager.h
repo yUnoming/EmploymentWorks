@@ -46,7 +46,7 @@ namespace Ctlan
 						KeyStatus keyState = NoStatus;
 						/// <summary>
 						///	Œ»İ‚Ì“ü—Íó‘Ô‚É‚È‚Á‚Ä‚©‚ç‚ÌŒo‰ßŠÔ	</summary>
-						double nowStateElapsedTime = 0.0;
+						float nowStateElapsedTime = 0.0;
 					};
 
 					/// <summary>
@@ -58,7 +58,7 @@ namespace Ctlan
 						std::vector<int> keyType[400];
 						/// <summary>
 						///	”»’è’†‚ÌƒL[‚Ìí—Ş	</summary>
-						int keyIndex;
+						int keyIndex = 0;
 					};
 
 					// ----- variables / •Ï” ----- //

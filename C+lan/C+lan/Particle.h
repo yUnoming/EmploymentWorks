@@ -12,9 +12,9 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 	private:
 		Vector2 weight;
 		Vector3 addRotation;
-		float elapsedTime;
+		float elapsedTime = 0.0f;
 
-		Material* mat;
+		Material* mat = nullptr;
 
 	public:
 		/// <summary>
@@ -47,7 +47,7 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 			float GravitySpeed = 0.0098f;		// d—Í‰Á‘¬“x
 			float x = InitialSpeed * weight.x * 0.7f;
 			float y = InitialSpeed * weight.y;
-			y = (y * elapsedTime - 0.5 * GravitySpeed * (elapsedTime * elapsedTime));
+			y = (y * elapsedTime - 0.5f * GravitySpeed * (elapsedTime * elapsedTime));
 
 			transform->position.x += x;
 			transform->position.y += y;

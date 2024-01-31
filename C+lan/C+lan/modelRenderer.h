@@ -9,26 +9,26 @@
 #include <string>
 #include <unordered_map>
 #include "EachFunction.h"
+#include "Material.h"
 #include "utftosjisconv.h"
 #include "renderer.h"
 
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
-	char						Name[256];
+	char						Name[256]{};
 	MATERIAL					Material;
-	char						TextureName[256];
-	ID3D11ShaderResourceView*	Texture;
-
+	char						TextureName[256]{};
+	ID3D11ShaderResourceView*	Texture = nullptr;
 };
 
 
 // 描画サブセット構造体
 struct SUBSET
 {
-	unsigned int	StartIndex;
-	unsigned int	IndexNum;
-	MODEL_MATERIAL	Material;
+	unsigned int	StartIndex = 0;
+	unsigned int	IndexNum = 0;
+	MODEL_MATERIAL	Material = MODEL_MATERIAL();
 };
 
 
@@ -74,6 +74,7 @@ namespace Ctlan
 				std::vector<VERTEX_3D> m_vertices;
 
 				MODEL* m_Model{};
+				Material* m_material{};
 
 			public:
 
@@ -82,6 +83,7 @@ namespace Ctlan
 
 				void Load(const char* FileName);
 
+				void Init() override;
 				void Draw() override;
 
 				std::vector<VERTEX_3D> GetModelVertices() { return m_vertices; };
