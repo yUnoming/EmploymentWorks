@@ -2,6 +2,8 @@
 #include "SceneManager.h"
 #include "Text.h"
 #include "KeyInput.h"
+#include "TemplateCube.h"
+#include "Player.h"
 
 void Ctlan::EngineScene::EditScene::Init()
 {
@@ -11,7 +13,7 @@ void Ctlan::EngineScene::EditScene::Init()
 	// ===== ロード処理 ===== //
 	// シーンファイルを開く
 	FILE* file;
-	fopen_s(&file, "Assets\\SceneEditor.dat", "rb");
+	fopen_s(&file, "Assets/Scenes/SceneEditor.dat", "rb");
 
 	// 開くことが出来た？
 	if (file)
@@ -54,7 +56,7 @@ void Ctlan::EngineScene::EditScene::Uninit()
 
 	// シーンファイルを開く
 	FILE* file;
-	fopen_s(&file, "Assets\\SceneEditor.dat", "wb");
+	fopen_s(&file, "Assets/Scenes/SceneEditor.dat", "wb");
 
 	// 開くことが出来た？
 	if (file)

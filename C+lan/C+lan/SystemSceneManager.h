@@ -55,6 +55,10 @@ namespace Ctlan
 					///	シーン一覧	</summary>
 					static std::unordered_map<std::string, SceneBase*> m_scenePool;
 
+					/// <summary>
+					///	ロードするシーン名	</summary>
+					static char loadSceneName[30];
+
 					// ----- functions / 関数 ----- //
 					/// <summary>
 					///	シーン情報をロード	</summary>

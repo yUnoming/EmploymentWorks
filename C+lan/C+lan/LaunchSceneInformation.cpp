@@ -13,7 +13,7 @@ void Ctlan::PrivateSystem::Information::LaunchSceneInformation::Load()
 {
 	// シーンファイルを開く
 	FILE* file;
-	fopen_s(&file, "Assets\\LaunchScene.info", "rb");
+	fopen_s(&file, "Assets/Scenes/LaunchScene.info", "rb");
 
 	// 開くことが出来た？
 	if (file)
@@ -31,7 +31,7 @@ void Ctlan::PrivateSystem::Information::LaunchSceneInformation::Save()
 
 	// シーンファイルを開く
 	FILE* file;
-	fopen_s(&file, "Assets\\LaunchScene.info", "wb");
+	fopen_s(&file, "Assets/Scenes/LaunchScene.info", "wb");
 
 	// 開くことが出来た？
 	if (file)

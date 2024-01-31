@@ -34,3 +34,9 @@
 #include "Time.h"			// 時間
 #include "Vector2.h"		// ベクトル2
 #include "Vector3.h"		// ベクトル3
+
+
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　		C++標準ライブラリ 　	//
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include <string>

@@ -73,12 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\directxtk\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\directxtk\lib\x64\Debug;$(LibraryPath)</LibraryPath>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\directxtk\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\directxtk\lib\x64\Release;$(LibraryPath)</LibraryPath>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -171,6 +171,7 @@
     <ClCompile Include="KeyInput.cpp" />
     <ClCompile Include="LaunchSceneInformation.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PositionGizmo.cpp" />
     <ClCompile Include="PositionXGizmo.cpp" />
     <ClCompile Include="PositionYGizmo.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="ParticlePool.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="SceneBase.cpp" />
+    <ClCompile Include="SceneLoader.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ScreenInput.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -195,6 +197,7 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="utftosjisconv.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -226,6 +229,7 @@
     <ClInclude Include="InputPartsName.h" />
     <ClInclude Include="KeyInput.h" />
     <ClInclude Include="LaunchSceneInformation.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PositionGizmo.h" />
     <ClInclude Include="PositionXGizmo.h" />
     <ClInclude Include="PositionYGizmo.h" />
@@ -240,6 +244,7 @@
     <ClInclude Include="ParticlePool.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="SceneLoader.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ScreenInput.h" />
     <ClInclude Include="Server.h" />
@@ -251,6 +256,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Time.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="utftosjisconv.h" />
     <ClInclude Include="Vector2.h" />

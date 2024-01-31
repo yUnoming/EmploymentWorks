@@ -108,13 +108,7 @@ void Ctlan::PrivateSystem::ApplicationSystem::WindowMenu::Run(WORD menuID)
             printf("\nシーン名を入力してください（アルファベットのみ）\n");
             rewind(stdin);
             int r = scanf_s("%[^\n]", sceneName, 30);	// 改行以外を読み込む
-
-            // シーンをロード出来なかった？
-            if (!SceneManager::LoadScene(sceneName))
-            {
-                // システム通知を表示
-                MessageBoxW(NULL, L"シーンが存在しませんでした", L"エラーメッセージ", MB_OK);
-            }
+            SceneManager::LoadScene(sceneName);
             break;
         }
         // ===== 作成タブの処理 ===== //
