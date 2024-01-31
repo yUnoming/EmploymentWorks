@@ -30,12 +30,12 @@ struct VERTEX_3D
 // ƒ}ƒeƒŠƒAƒ‹
 struct MATERIAL
 {
-	DirectX::XMFLOAT4	Ambient;
-	DirectX::XMFLOAT4	Diffuse;
-	DirectX::XMFLOAT4	Specular;
-	DirectX::XMFLOAT4	Emission;
-	float		Shininess;
-	BOOL		TextureEnable;
+	DirectX::XMFLOAT4	Ambient = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	DirectX::XMFLOAT4	Diffuse = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	DirectX::XMFLOAT4	Specular = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	DirectX::XMFLOAT4	Emission = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
+	float		Shininess = 0;
+	BOOL		TextureEnable = false;
 	float		Dummy[2]{};
 };
 

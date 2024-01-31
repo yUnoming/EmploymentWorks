@@ -53,12 +53,12 @@ void Ctlan::PrivateSystem::SystemManager::SystemMainManager::Update()
     // ===== システムの更新処理 ===== //
     // 時間
     SystemTimeManager::Update();
-
     // キー入力
     SystemKeyInputManager::Update();
-
     // マウス入力
     SystemMouseInputManager::Update();
+    // ネットワーク
+    SystemNetWorkManager::Update();
 
     // ===== メインの更新処理 ===== //
     // ----- デモプレイの切り替え----- //

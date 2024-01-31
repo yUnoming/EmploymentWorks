@@ -110,48 +110,60 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				//----------//
 				// 通信終了 //
 				case MessageType::CommunicationEnd:
-					// 通信中のユーザー数だけループ
-					for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
+					// オーナーの場合
+					if (m_myServerRank == ServerRank::Owner)
 					{
-						CommunicationUserData comUser = *it;
-						// IPアドレスとポート番号が送信元と同じ？
-						if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
-							comUser.address.sin_port == m_sendAddress.sin_port)
+						// 削除するユーザーイテレーター
+						std::list<CommunicationUserData>::iterator eraseUser;
+
+						// 通信中のユーザー数だけループ
+						for (auto it = m_comUserList.begin(); it != m_comUserList.end(); it++)
 						{
-							// ===== ロック状態の解除 ===== //
-							std::list<std::list<RockObjectData>::iterator> eraseIteratorList;	// 削除する要素を格納しておくリスト
-
-							// ロックされているオブジェクト分ループ
-							for (auto it = m_rockObjectList.begin(); it != m_rockObjectList.end(); it++)
+							CommunicationUserData comUser = *it;
+							// IPアドレスとポート番号が送信元と同じ？
+							if (comUser.address.sin_addr.S_un.S_addr == m_sendAddress.sin_addr.S_un.S_addr &&
+								comUser.address.sin_port == m_sendAddress.sin_port)
 							{
-								RockObjectData rockObject = *it;
-								// ロックしているユーザーと送信元ユーザーが一致？
-								if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
+								// ===== ロック状態の解除 ===== //
+								std::list<std::list<RockObjectData>::iterator> eraseIteratorList;	// 削除する要素を格納しておくリスト
+
+								// ロックされているオブジェクト分ループ
+								for (auto it = m_rockObjectList.begin(); it != m_rockObjectList.end(); it++)
 								{
-									eraseIteratorList.push_back(it);	// 削除する要素として格納
+									RockObjectData rockObject = *it;
+									// ロックしているユーザーと送信元ユーザーが一致？
+									if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
+									{
+										eraseIteratorList.push_back(it);	// 削除する要素として格納
+									}
 								}
+								// 削除する要素分ループ
+								for (auto it : eraseIteratorList)
+								{
+									m_rockObjectList.erase(it);	// 要素を削除
+
+									// 他ユーザーのロック状態を解除
+									m_receiveData.message.header.type = MessageType::ClickObject;
+									m_receiveData.message.body.object.CopyName(nullptr);
+									SendMessageOtherUser(m_receiveData);
+								}
+
+								// 削除するユーザーのイテレーターを代入
+								eraseUser = it;
 							}
-							// 削除する要素分ループ
-							for (auto it : eraseIteratorList)
-							{
-								m_rockObjectList.erase(it);	// 要素を削除
-
-								// 他ユーザーのロック状態を解除
-								m_receiveData.message.header.type = MessageType::ClickObject;
-								m_receiveData.message.body.object.CopyName(nullptr);
-								SendMessageOtherUser(m_receiveData);
-							}
-
-							// ユーザーリストから除外
-							m_comUserList.erase(it);
-
-							// メッセージ通知
-							if (m_myServerRank == ServerRank::Owner)
-								MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
-							else if (m_myServerRank == ServerRank::User)
-								MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
-							break;
 						}
+						// ユーザーリストから除外
+						m_comUserList.erase(eraseUser);
+						// システム通知
+						MessageBoxW(NULL, L"ユーザーがログアウトしました", L"システム通知", MB_OK);
+					}
+					// ユーザーの場合
+					else if (m_myServerRank == ServerRank::User)
+					{
+						// シャットダウンされたことを記録
+						m_isServerShutdown = true;
+						// システム通知
+						MessageBoxW(NULL, L"サーバーが閉じました", L"システム通知", MB_OK);
 					}
 					break;
 				//--------------------//
@@ -424,11 +436,11 @@ void Server::CloseServer()
 		// ===== 通信終了を相手に通知 ===== //
 		// 通信相手がいる？
 		if (!m_comUserList.empty())
-		{
+		{ 
 			// メッセージ送信
 			MessageData messageData;
 			messageData.message.header.type = MessageType::CommunicationEnd;
-			SendMessageOtherUser(messageData);
+			SendMessageData(messageData);
 		}
 		
 		// ===== サーバークローズ処理 ===== //
@@ -465,7 +477,6 @@ void Server::LoginServer()
 	{
 		WSADATA wsaData;	// WinSockの初期化データを格納
 		WORD	verNo;		// バージョン指定
-		int sts;			// WinSockが正しく初期化されたか代入
 
 		verNo = MAKEWORD(2, 2);	// 2.2を要求
 
@@ -498,9 +509,9 @@ void Server::LoginServer()
 
 		printf("\n宛先IPアドレスを入力してください\n");
 
-		char str[256];
+		char str[256]{};
 		rewind(stdin);
-		int r = scanf_s("%s", str, 250);
+		int r = scanf_s("%s", str, 256);
 
 		// 宛先のアドレスを設定
 		m_sendAddress.sin_port = htons(PORTNO);	// ポート番号（16ビット）をネットワークバイトオーダーに変更
@@ -539,13 +550,16 @@ void Server::LogoutServer()
 			int errorCode = WSAGetLastError();
 			std::cout << "closesocket() Failed!!! ErrorCode：" << errorCode << std::endl;
 		}
-		// 通信の終了を設定
+		// 通信状態を初期化
 		m_isCommunicationData = false;
+		// シャットダウン状態を初期化
+		m_isServerShutdown = false;
 		// ロック状態の解除
 		m_rockObjectList.clear();
 
 		// スレッドの終了を待つ
-		m_receiveThread.join();
+		if(m_receiveThread.joinable())
+			m_receiveThread.join();
 
 		// WINSOCKの終了処理
 		WSACleanup();
@@ -569,13 +583,13 @@ void Server::SendData()
 		rewind(stdin);
 		int r = scanf_s("%[^\n]", m_sendData.data, 255);	// 改行以外を読み込む
 
-		size_t len = strlen(m_sendData.data);		// 送信文字列長を取得
+		size_t len = strlen(m_sendData.data);	// 送信文字列長を取得
 
 		// データの送信時、エラーが発生した？
 		if (sendto(
 			m_mySocket,							// ソケット番号
 			m_sendData.data,					// 送信データ
-			len,								// 送信データ長
+			(int)len,							// 送信データ長
 			0,									// フラグ
 			(sockaddr*)&m_sendAddress,			// 送信先アドレス
 			sizeof(sockaddr))					// アドレス構造体のバイト長
@@ -594,22 +608,7 @@ void Server::SendMessageData(MessageData& messageData)
 		// サーバーが送信元以外のユーザーにメッセージを送る？
 		if (m_myServerRank == Owner && messageData.message.header.userRank == User)
 		{
-			// この中を通る
-		}
-		// 通常処理
-		else
-		{
-			// 各値を代入
-			// ユーザーランク
-			messageData.message.header.userRank = m_myServerRank;
-			// ユーザー番号
-			messageData.message.header.userNo = m_myServerNo;
-		}
-
-		// ===== 送信処理 ===== //
-		// 1対1で通信を行っている？
-		if (m_comUserList.size() <= 1)
-		{
+			// ===== 送信処理 ===== //
 			// データの送信時、エラーが発生した？
 			if (sendto(
 				m_mySocket,							// ソケット番号
@@ -622,11 +621,23 @@ void Server::SendMessageData(MessageData& messageData)
 			{
 				std::cout << "データの送信に失敗しました" << std::endl;
 			}
+			return;	// 処理を終了
 		}
-		// 複数人と通信を行っている
+		// 通常処理
 		else
 		{
-			// 通信しているユーザー分ループ
+			// 各値を代入
+			// ユーザーランク
+			messageData.message.header.userRank = m_myServerRank;
+			// ユーザー番号
+			messageData.message.header.userNo = m_myServerNo;
+		}
+
+		// ===== 送信処理 ===== //
+		// 複数人のユーザーと通信している？
+		if (m_comUserList.size() > 1)
+		{
+			// ユーザー数だけループ
 			for (const CommunicationUserData& data : m_comUserList)
 			{
 				// データの送信時、エラーが発生した？
@@ -635,12 +646,27 @@ void Server::SendMessageData(MessageData& messageData)
 					messageData.data,					// 送信データ
 					sizeof(messageData.data),			// 送信データ長
 					0,									// フラグ
-					(sockaddr*)&data.address,			// 送信先アドレス
+					(sockaddr*)&m_sendAddress,			// 送信先アドレス
 					sizeof(sockaddr))					// アドレス構造体のバイト長
 					== SOCKET_ERROR)
 				{
 					std::cout << "データの送信に失敗しました" << std::endl;
 				}
+			}
+		}
+		else
+		{
+			// データの送信時、エラーが発生した？
+			if (sendto(
+				m_mySocket,							// ソケット番号
+				messageData.data,					// 送信データ
+				sizeof(messageData.data),			// 送信データ長
+				0,									// フラグ
+				(sockaddr*)&m_sendAddress,			// 送信先アドレス
+				sizeof(sockaddr))					// アドレス構造体のバイト長
+				== SOCKET_ERROR)
+			{
+				std::cout << "データの送信に失敗しました" << std::endl;
 			}
 		}
 	}

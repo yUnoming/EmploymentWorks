@@ -44,19 +44,19 @@ namespace Ctlan
 				SceneEditorData m_sceneEditorData;
 				/// <summary>
 				///	エディット時に使用するカメラ	</summary>
-				Ctlan::EngineObject::SpectatorCamera* m_spectatorCamera;
+				Ctlan::EngineObject::SpectatorCamera* m_spectatorCamera = nullptr;
 				/// <summary>
 				///	X軸移動ギズモ	</summary>
-				Ctlan::EngineObject::Gizmo::PositionXGizmo* m_positionXGizmo;
+				Ctlan::EngineObject::Gizmo::PositionXGizmo* m_positionXGizmo = nullptr;
 				/// <summary>
 				///	Y軸移動ギズモ	</summary>
-				Ctlan::EngineObject::Gizmo::PositionYGizmo* m_positionYGizmo;
+				Ctlan::EngineObject::Gizmo::PositionYGizmo* m_positionYGizmo = nullptr;
 				/// <summary>
 				///	Z軸移動ギズモ	</summary>
-				Ctlan::EngineObject::Gizmo::PositionZGizmo* m_positionZGizmo;
+				Ctlan::EngineObject::Gizmo::PositionZGizmo* m_positionZGizmo = nullptr;
 
 				// デモプレイ中かどうか
-				bool isDemoPlay;
+				bool isDemoPlay = false;
 
 			public:
 				// ----- functions / 関数 ----- //

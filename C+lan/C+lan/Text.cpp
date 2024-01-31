@@ -11,7 +11,7 @@ Ctlan::PublicSystem::Text::Text(const Text* other)
 void Ctlan::PublicSystem::Text::AddText(const char* addText)
 {
     // テキスト長を取得
-    int textLength = strlen(this->text);
+    int textLength = (int)strlen(this->text);
     // 値をコピー
     memcpy(dummyText, this->text, textLength);
 
@@ -30,7 +30,7 @@ void Ctlan::PublicSystem::Text::AddText(const char* addText)
 void Ctlan::PublicSystem::Text::ChangeText(const char* changeText)
 {
     // テキスト長を取得
-    int textLength = strlen(changeText);
+    size_t textLength = strlen(changeText);
     // 値の初期化
     ZeroMemory(dummyText, sizeof(dummyText));
     // 値をコピー
@@ -42,7 +42,7 @@ void Ctlan::PublicSystem::Text::ChangeText(const char* changeText)
 void Ctlan::PublicSystem::Text::DeleteText()
 {
     // テキスト長を取得
-    int textLength = strlen(this->text);
+    size_t textLength = strlen(this->text);
     
     // テキストが入っている？
     if(textLength >= 1)

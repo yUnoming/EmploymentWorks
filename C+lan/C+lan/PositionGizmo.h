@@ -46,12 +46,17 @@ namespace Ctlan
 					/// <summary>
 					///	クリックされたかどうか	</summary>
 					bool isClicked = false;
+					/// <summary>
+					///	マテリアルコンポーネント	</summary>
+					Material* mat;
 
 				public:
 					/// <summary>
 					///	コンストラクタ	</summary>
 					PositionGizmo() : GameObject()
 					{
+						// マテリアル追加
+						mat = AddComponent<Material>();
 						// モデル追加
 						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
 						// エディットカメラ取得
@@ -67,6 +72,8 @@ namespace Ctlan
 					///	オブジェクトが生成されたシーン	</param>
 					PositionGizmo(SceneBase* nowScene) : GameObject(nowScene)
 					{
+						// マテリアル追加
+						mat = AddComponent<Material>();
 						// モデル追加
 						AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\MoveManipulator.obj");
 						// エディットカメラ取得

@@ -32,22 +32,23 @@ Ctlan::PublicSystem::Color::Color(float r, float g, float b, float a) : r(r), g(
 
 Ctlan::PublicSystem::Color::operator DirectX::XMFLOAT4() const
 {
-	DirectX::XMFLOAT4 New_Param = DirectX::XMFLOAT4(r, g, b, a);
-	return New_Param;
+	DirectX::XMFLOAT4 newParam = DirectX::XMFLOAT4(r, g, b, a);
+	return newParam;
 }
 
 const Ctlan::PublicSystem::Color Ctlan::PublicSystem::Color::GetColor(ColorType colorType)
 {
+	// 色のタイプにより処理を分岐
 	switch (colorType)
 	{
 		case ColorType::Red:
 			return Color(1.0f, 0.0f, 0.0f, 1.0f);
 		case ColorType::Green:
-			return Color(0.0f, 1.01, 0.0f, 1.0f);
+			return Color(0.0f, 1.0f, 0.0f, 1.0f);
 		case ColorType::Blue:
-			return Color(0.0f, 0.01, 1.0f, 1.0f);
+			return Color(0.0f, 0.0f, 1.0f, 1.0f);
 		case ColorType::Yellow:
-			return Color(1.0f, 1.01, 0.0f, 1.0f);
+			return Color(1.0f, 1.0f, 0.0f, 1.0f);
 		case ColorType::Cyan:
 			return Color(0.0f, 1.0f, 1.0f, 1.0f);
 		case ColorType::Magenta:
@@ -55,10 +56,13 @@ const Ctlan::PublicSystem::Color Ctlan::PublicSystem::Color::GetColor(ColorType 
 		case ColorType::Orange:
 			return Color(1.0f, 0.5f, 0.0f, 1.0f);
 		case ColorType::Pink:
-			return Color(1.0f, 0.753f, 0.796, 1.0f);
+			return Color(1.0f, 0.753f, 0.796f, 1.0f);
 		case ColorType::White:
 			return Color(1.0f, 1.0f, 1.0f, 1.0f);
 		case ColorType::Black:
 			return Color(0.0f, 0.0f, 0.0f, 1.0f);
 	}
+	
+	// 色の種類にない値の場合、初期カラーを返す
+	return Color();
 }

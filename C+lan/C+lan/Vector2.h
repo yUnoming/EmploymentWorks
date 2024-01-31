@@ -44,7 +44,7 @@ namespace Ctlan
 			///	引数付きコンストラクタ	</summary>
 			/// <param name="point">
 			///	POINT型の値	</param>
-			Vector2(POINT point) : x(point.x), y(point.y) {};
+			Vector2(POINT point) : x(static_cast<float>(point.x)), y(static_cast<float>(point.y)) {};
 			/// <summary>
 			///	デストラクタ	</summary>
 			virtual ~Vector2() {};

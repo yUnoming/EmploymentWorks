@@ -30,15 +30,15 @@ namespace Ctlan
 
 				void Init()
 				{
-					// マテリアル追加
-					Material* mat = AddComponent<Material>();
+					// マテリアルカラー変更
 					mat->materialColor = Color(0.0f, 0.0f, 1.0f, 1.0f);
 					transform->rotation.x = 90.0f;
 				};
 
 				void ClickAction()
 				{
-					// ラジアン角に直す
+					// ラジアン角に直すa
+					float rotX = spectatorCamera->transform->rotation.x * 3.14f / 180.0f;
 					float rotY = spectatorCamera->transform->rotation.y * 3.14f / 180.0f;
 					// マウスの座標を元に移動量を計算
 					float addX = sinf(rotY) * (lateCursorPos.x - nowCursorPos.x) * 0.01f;

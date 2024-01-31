@@ -9,12 +9,12 @@ void Ctlan::PrivateSystem::SystemManager::SystemComponentManager::SetVariableVal
 	char baseComponentType[50] = {};
 	char componentType[30] = "Component";
 	strcpy_s(baseComponentType, typeid(*destComponent).name());
-	char* context;
-	char* token = strtok_s(baseComponentType, "::", &context);
+	char* context{};
+	char* token = strtok_s(baseComponentType, " ::", &context);
 	while (token)
 	{
 		strcpy_s(componentType, token);
-		token = strtok_s(NULL, "::", &context);
+		token = strtok_s(NULL, " ::", &context);
 	}
 
 	// メッセージデータ
@@ -47,12 +47,12 @@ void Ctlan::PrivateSystem::SystemManager::SystemComponentManager::SendMessageBas
 	char baseComponentType[50] = {};
 	char componentType[30] = "Component";
 	strcpy_s(baseComponentType, typeid(*lateComponent).name());
-	char* context;
-	char* token = strtok_s(baseComponentType, "::", &context);
+	char* context{};
+	char* token = strtok_s(baseComponentType, " ::", &context);
 	while (token)
 	{
 		strcpy_s(componentType, token);
-		token = strtok_s(NULL, "::", &context);
+		token = strtok_s(NULL, " ::", &context);
 	}
 
 	// メッセージデータ

@@ -45,12 +45,12 @@ namespace Ctlan
 				{
 					GetComponent<Ctlan::PublicSystem::Shader>()->Load("Assets\\Shaders\\unlitTextureVS.cso", "Assets\\Shaders\\unlitTexturePS.cso");
 					AddComponent<Material>();
-
-					transform->position.x = 0.0f;
-					transform->position.z = 3.0f;
 					Text* textComponent = AddComponent<Text>();
 					textComponent->text = "Input text...";
 					textComponent->fontSize = Vector2(20, 30);
+
+					transform->position.x = 0.0f;
+					transform->position.z = 3.0f;
 				};
 		};
 	}

@@ -8,18 +8,32 @@
 #include <tchar.h>
 
 
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// 　　		参考元ソース	 　　 //
+// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+// ReadTtfFile内フォントの生成、作成
+// https://hakase0274.hatenablog.com/entry/2018/11/17/170918
+
+
 void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 {
+	// バッファサイズの取得
+	int bufferSize = MultiByteToWideChar(CP_UTF8, 0, fontName, -1, nullptr, 0);
+	// バッファの確保
+	WCHAR* wideFontName = new WCHAR[bufferSize];
+	// マルチバイト文字列からワイド文字列に変換
+	MultiByteToWideChar(CP_UTF8, 0, fontName, -1, wideFontName, bufferSize);
+
 	// システムにフォントリソースを追加する
 	// 追加されたフォントの数を取得しておく
-	int Font_Num = AddFontResourceExW(
+	int fontNum = AddFontResourceExW(
 		filePath,				// 追加したいフォントの参照パス
 		FR_PRIVATE,				// 追加するフォントの特性
 		0						// 0指定でOK
 	);
 
 	// フォントが追加されなかった？
-	if (Font_Num == 0)
+	if (fontNum == 0)
 	{
 		std::cout << "Error!!! ErrorCode：" << GetLastError() << std::endl;
 	}
@@ -40,7 +54,7 @@ void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 		CLIP_DEFAULT_PRECIS,			// クリッピングの精度
 		PROOF_QUALITY,					// 出力品質
 		DEFAULT_PITCH | FF_DONTCARE,	// フォントのピッチとファミリ
-		*fontName						// フォントのタイプフェイス名
+		*wideFontName					// フォントのタイプフェイス名
 	};
 
 	// フォントの作成
@@ -54,4 +68,6 @@ void FileReader::ReadTtfFile(const wchar_t* filePath, const char* fontName)
 
 	// 作成したフォントを追加する
 	SystemManager::SystemTextRendererManager::SetFont(hFont);
+	// 削除
+	delete[] wideFontName;
 }

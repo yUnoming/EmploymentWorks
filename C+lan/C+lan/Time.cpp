@@ -1,3 +1,3 @@
 #include "Time.h"
 
-double Ctlan::PublicSystem::Time::DeltaTime;
+float Ctlan::PublicSystem::Time::DeltaTime;

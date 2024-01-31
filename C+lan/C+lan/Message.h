@@ -21,7 +21,7 @@ namespace Ctlan
 	namespace PrivateSystem
 	{
 		/// <summary>
-///	メッセージの種類	</summary>
+		///	メッセージの種類	</summary>
 		enum MessageType
 		{
 			// ----- 通信制御 ----- //
@@ -65,12 +65,15 @@ namespace Ctlan
 		///：メッセージの基礎的な情報が入っている	</summary>
 		struct Header
 		{
+			Header() {};
+			~Header() {};
+
 			/// <summary>
 			/// 送受信するメッセージの種類	</summary>
-			int type;
+			int type = 0;
 			/// <summary>
 			///	送信元ユーザーのランク	</summary>
-			int userRank;
+			int userRank = 0;
 			/// <summary>
 			///	送信元ユーザー番号	</summary>
 			int userNo = 0;
@@ -81,12 +84,15 @@ namespace Ctlan
 		/// メッセージの具体的な情報が入っている	</summary>
 		struct Body
 		{
+			Body() { transform = 0; text = 0; };
+			~Body() {};
+
 			/// <summary>
 			///	オブジェクト情報	</summary>
 			GameObject object;
 			/// <summary>
 			///	コンポーネントの種類	</summary>
-			char componentType[50];
+			char componentType[50]{};
 			/// <summary>
 			///	各コンポーネント情報	</summary>
 			union
@@ -100,6 +106,9 @@ namespace Ctlan
 		///	メッセージ内容	</summary>
 		struct Message
 		{
+			Message(){};
+			~Message(){};
+
 			/// <summary>
 			///	メッセージヘッダー	</summary>
 			Header header;
@@ -121,7 +130,7 @@ namespace Ctlan
 				Message message;
 				/// <summary>
 				///	送受信で扱う情報	</summary>
-				char data[sizeof(Message)];
+				char data[sizeof(Message)]{};
 			};
 		};
 	}

@@ -29,8 +29,7 @@ namespace Ctlan
 
 					void Init()
 					{
-						// マテリアル追加
-						Material* mat = AddComponent<Material>();
+						// マテリアルカラー変更
 						mat->materialColor = Color(0.0f, 1.0f, 0.0f, 1.0f);
 					};
 

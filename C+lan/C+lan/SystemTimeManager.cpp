@@ -32,7 +32,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemTimeManager::Update()
 	timeEndPeriod(1);				// 精度を元に戻す
 
 	// 現在時刻-前回時刻で求めた値をデルタタイムに代入
-	Ctlan::PublicSystem::Time::DeltaTime = nowTime - m_lastTime;
+	Ctlan::PublicSystem::Time::DeltaTime = static_cast<float>(nowTime - m_lastTime);
 
 	//＊-----デルタタイムの調整-----＊//
 	if (Ctlan::PublicSystem::Time::DeltaTime <= 0)	// デルタタイムが０以下？

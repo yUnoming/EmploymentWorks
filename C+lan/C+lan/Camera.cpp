@@ -105,7 +105,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointObj
 	GetClientRect(Ctlan::PrivateSystem::Application::GetWindow(), &rect);
 
 	// スクリーンの中心座標を計算
-	Vector2 Screen_CenterPosition = Vector2(rect.right / 2, rect.bottom / 2);
+	Vector2 Screen_CenterPosition = Vector2((float)rect.right / 2, (float)rect.bottom / 2);
 	Vector2 Center_To_Point_Length = screenPoint - Screen_CenterPosition;
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 
@@ -214,7 +214,7 @@ Ctlan::PrivateSystem::GameObject* Ctlan::PublicSystem::Camera::GetScreenPointGiz
 	GetClientRect(Ctlan::PrivateSystem::Application::GetWindow(), &rect);
 
 	// スクリーンの中心座標を計算
-	Vector2 Screen_CenterPosition = Vector2(rect.right / 2, rect.bottom / 2);
+	Vector2 Screen_CenterPosition = Vector2((float)rect.right / 2, (float)rect.bottom / 2);
 	Vector2 Center_To_Point_Length = screenPoint - Screen_CenterPosition;
 	Vector2 LengthRate = Center_To_Point_Length / Screen_CenterPosition;
 

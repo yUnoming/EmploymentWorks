@@ -70,9 +70,14 @@ void Ctlan::PrivateSystem::Renderer::Init(Application* ap)
 
 	// レンダーターゲットビュー作成
 	ID3D11Texture2D* renderTarget{};
-	m_SwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&renderTarget );
-	m_Device->CreateRenderTargetView( renderTarget, NULL, &m_RenderTargetView );
-	renderTarget->Release();
+	if (FAILED(m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&renderTarget))) {
+
+	}
+	else
+	{
+		m_Device->CreateRenderTargetView(renderTarget, NULL, &m_RenderTargetView);
+		renderTarget->Release();
+	}
 
 
 	// デプスステンシルバッファ作成
@@ -88,17 +93,17 @@ void Ctlan::PrivateSystem::Renderer::Init(Application* ap)
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	textureDesc.CPUAccessFlags = 0;
 	textureDesc.MiscFlags = 0;
-	m_Device->CreateTexture2D(&textureDesc, NULL, &depthStencile);
-
-	// デプスステンシルビュー作成
-	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
-	depthStencilViewDesc.Format = textureDesc.Format;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	depthStencilViewDesc.Flags = 0;
-	m_Device->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_DepthStencilView);
-	depthStencile->Release();
-
-
+	if(FAILED(m_Device->CreateTexture2D(&textureDesc, NULL, &depthStencile))){}
+	else
+	{
+		// デプスステンシルビュー作成
+		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
+		depthStencilViewDesc.Format = textureDesc.Format;
+		depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		depthStencilViewDesc.Flags = 0;
+		m_Device->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_DepthStencilView);
+		depthStencile->Release();
+	}
 	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
 

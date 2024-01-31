@@ -26,7 +26,9 @@ void Ctlan::PrivateSystem::GameObject::CheckAddComponent(Component* com)
 	// 当たり判定コンポーネントを追加する？
 	BoxCollider* colCom = dynamic_cast<BoxCollider*>(com);
 	if (colCom != nullptr)
+	{
 		Ctlan::PrivateSystem::SystemManager::SystemCollisionManager::Push(colCom);	// 格納処理
+	}
 }
 
 void Ctlan::PrivateSystem::GameObject::CheckDeleteComponent(Component* com)
@@ -34,7 +36,9 @@ void Ctlan::PrivateSystem::GameObject::CheckDeleteComponent(Component* com)
 	// 当たり判定コンポーネントを追加する？
 	BoxCollider* colCom = dynamic_cast<BoxCollider*>(com);
 	if (colCom != nullptr)
+	{
 		Ctlan::PrivateSystem::SystemManager::SystemCollisionManager::Erase(colCom);	// 除外処理
+	}
 }
 
 Ctlan::PrivateSystem::GameObject::GameObject()
