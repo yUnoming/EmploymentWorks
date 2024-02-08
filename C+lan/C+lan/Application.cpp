@@ -95,7 +95,7 @@ bool Ctlan::PrivateSystem::Application::InitWnd()
     rc.bottom = static_cast<LONG>(m_wndHeight);   // 縦幅
 
     // ウィンドウサイズを調整
-    auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+    auto style = WS_OVERLAPPED | WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SIZEBOX | WS_SYSMENU;
     AdjustWindowRect(&rc, style, FALSE);
 
     // ウィンドウを作成
@@ -210,6 +210,13 @@ LRESULT CALLBACK Ctlan::PrivateSystem::Application::WndProc(HWND hWnd, UINT msg,
         // ウィンドウが閉じた場合
         case WM_DESTROY:
             PostQuitMessage(0);
+            break;
+
+        // ウィンドウサイズが変更された場合
+        case WM_SIZE:
+            // 現在のウィンドウサイズ値を取得
+            m_wndWidth = LOWORD(lParam);    // 幅
+            m_wndHeight = HIWORD(lParam);   // 高さ
             break;
 
         // キーが押された場合
