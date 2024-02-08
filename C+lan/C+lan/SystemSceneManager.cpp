@@ -421,7 +421,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 // デバッグ時
 #if _DEBUG
 	// エディットシーンの終了処理
-	m_editScene->Uninit();
+	static_cast<EngineScene::EditScene*>(m_editScene)->Uninit(isSave);
 
 	// セーブする？
 	if (isSave)
@@ -431,6 +431,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
 		// 起動するシーン情報をセーブ
 		m_launchSceneInfo.Save();
 	}
+
 	// マネージャーの終了処理
 	SystemManager::SystemGameObjectManager::Uninit();
 	delete[] m_editScene;

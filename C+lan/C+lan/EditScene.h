@@ -61,7 +61,7 @@ namespace Ctlan
 			public:
 				// ----- functions / ä÷êî ----- //
 				void Init() override;
-				void Uninit() override;
+				void Uninit(bool isSave);
 				void Update() override;
 				void Draw() override;
 

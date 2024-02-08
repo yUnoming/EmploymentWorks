@@ -47,22 +47,27 @@ void Ctlan::EngineScene::EditScene::Init()
 	m_positionZGizmo = AddSceneObject<Ctlan::EngineObject::Gizmo::PositionZGizmo>(1, "PositionZGizmo");
 }
 
-void Ctlan::EngineScene::EditScene::Uninit()
+void Ctlan::EngineScene::EditScene::Uninit(bool isSave)
 {
-	// ===== セーブ処理 ===== //
-	// シーン編集に使うデータを作成
-	m_sceneEditorData.transformComponent = *m_spectatorCamera->transform;
-	m_sceneEditorData.cameraComponent = *m_spectatorCamera->GetComponent<Camera>();
-
-	// シーンファイルを開く
-	FILE* file;
-	fopen_s(&file, "Assets/Scenes/SceneEditor.dat", "wb");
-
-	// 開くことが出来た？
-	if (file)
+	// セーブする？
+	if (isSave)
 	{
-		fwrite(&m_sceneEditorData, sizeof(SceneEditorData), 1, file);
-		fclose(file);
+		// ===== セーブ処理 ===== //
+		// シーン編集に使うデータを作成
+		m_sceneEditorData.transformComponent = *m_spectatorCamera->transform;
+		m_sceneEditorData.cameraComponent = *m_spectatorCamera->GetComponent<Camera>();
+
+		// シーンファイルを開く
+		FILE* file;
+		fopen_s(&file, "Assets/Scenes/SceneEditor.dat", "wb");
+
+		// 開くことが出来た？
+		if (file)
+		{
+			fwrite(&m_sceneEditorData, sizeof(SceneEditorData), 1, file);
+			fclose(file);
+		}
+
 	}
 
 	// シーンの基本的な終了処理を実行
