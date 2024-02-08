@@ -91,6 +91,28 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					// ----- 相手に通信成功を伝える ----- //
 					m_sendData.message.header.type = MessageType::CommunicationSuccess;
 					SendMessageData(m_sendData);
+					
+					// ----- シーンデータを送る ----- //
+					// ファイルを開く
+					FILE* file = fopen("Assets/Scenes/DemoScene.dat", "r");
+					// ファイルを開いた？
+					if (file)
+					{
+						// ファイル読み込み
+						size_t readBytes = fread(m_sendData.data, 1, sizeof(m_sendData.data), file);
+						// 読み取るデータが無くなるまでループ
+						do
+						{
+							// 送信処理
+							SendData(m_sendData);
+							// ０クリア
+							ZeroMemory(m_sendData.data, sizeof(m_sendData.data));
+							// ファイル読み込み
+							readBytes = fread(m_sendData.data, 1, sizeof(m_sendData.data), file);
+						} while (readBytes > 0);
+						// ファイルを閉じる
+						fclose(file);
+					}
 					break;
 				}
 				//----------//
@@ -248,6 +270,18 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					// テキストを作成
 					Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateText>(3, "Text");
 					SendMessageOtherUser(m_receiveData);
+					break;
+				}
+				default:
+				{
+					// ファイルを開く（"a"で終端から書き込むようにする）
+					FILE* file = fopen("Assets/DemoScene.dat", "a");
+					// ファイルを開いた？
+					if (file)
+					{
+						fwrite(m_receiveData.data, 1, sts, file);
+						fclose(file);
+					}
 					break;
 				}
 			}
@@ -576,6 +610,24 @@ void Server::LogoutServer()
 		// メッセージ表示
 		MessageBoxW(NULL, L"あなたはサーバーにログインしていません", L"システム通知", MB_OK);
 	}
+}
+
+void Ctlan::PrivateSystem::Server::SendData(MessageData& data)
+{
+	// ===== 送信処理 ===== //
+	// データの送信時、エラーが発生した？
+	if (sendto(
+		m_mySocket,					// ソケット番号
+		data.data,					// 送信データ
+		sizeof(data.data),			// 送信データ長
+		0,							// フラグ
+		(sockaddr*)&m_sendAddress,	// 送信先アドレス
+		sizeof(sockaddr))			// アドレス構造体のバイト長
+		== SOCKET_ERROR)
+	{
+		std::cout << "データの送信に失敗しました" << std::endl;
+	}
+	return;	// 処理を終了
 }
 
 void Server::SendMessageData(MessageData& messageData)
