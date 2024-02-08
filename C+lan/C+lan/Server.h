@@ -141,6 +141,12 @@ namespace Ctlan
 				/// <summary>
 				///	サーバーからログアウトする	</summary>
 				void LogoutServer();
+
+				/// <summary>
+				///	データを送信する	</summary>
+				/// <param name="data">
+				///	送信するデータ	</param>
+				void SendData(MessageData& data);
 				/// <summary>
 				///	メッセージデータを送信する	</summary>
 				/// <param name="message">
