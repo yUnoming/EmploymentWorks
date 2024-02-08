@@ -20,6 +20,12 @@ namespace Ctlan
 		/// オブジェクトの色・質感などを表すクラス	</summary>
 		class Material : public EachFunction
 		{
+			private:
+				// ----- functions / 関数 ----- //
+				/// <summary>
+				/// 描画	</summary>
+				void Draw();
+
 			public:
 				// ----- variables / 変数 ----- //
 				/// <summary>
@@ -27,10 +33,6 @@ namespace Ctlan
 				Color materialColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 				// ----- functions / 関数 ----- //
-				/// <summary>
-				/// 描画	</summary>
-				void Draw();
-
 				/// <summary>
 				/// マテリアルの色を変更する	</summary>
 				/// <param name = "_colorParam">

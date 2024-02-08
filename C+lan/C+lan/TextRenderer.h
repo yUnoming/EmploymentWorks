@@ -73,6 +73,17 @@ namespace Ctlan
 				/// 作成したテキスト情報	</returns>
 				TextInfo CreateTextWithoutVertexBuffer(char text, int textNum);
 
+				// ----- functions / 関数 ----- //
+				/// <summary>
+				///	初期化	</summary>
+				void Init();
+				/// <summary>
+				///	更新	</summary>
+				void Update();
+				/// <summary>
+				///	描画	</summary>
+				void Draw();
+
 			public:
 				//  ----- variables / 変数 ----- //
 				/// <summary>
@@ -89,16 +100,6 @@ namespace Ctlan
 				Vector2 leftTopPoint = Vector2(0.f, 0.f);
 
 				// ----- functions / 関数 ----- //
-				/// <summary>
-				///	初期化	</summary>
-				void Init();
-				/// <summary>
-				///	更新	</summary>
-				void Update();
-				/// <summary>
-				///	描画	</summary>
-				void Draw();
-
 				/// <summary>
 				///	テキストの長さ（文字数）を取得	</summary>
 				int GetTextLength() { return m_textLength; };

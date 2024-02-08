@@ -21,7 +21,6 @@ namespace Ctlan
 		{
 			public:
 				// ----- functions / 関数 ----- //
-				
 				/// <summary>
 				///	デストラクタ	</summary>
 				~BoxCollider();

@@ -20,6 +20,12 @@ namespace Ctlan
 		///	位置・回転・大きさを表すクラス	</summary>
 		class Transform : public EachFunction
 		{
+			private:
+				// ----- functions / 関数 ----- //
+				/// <summary>
+				///	描画処理	</summary>
+				void Draw();
+
 			public:
 				// ----- variables / 変数 ----- //
 				/// <summary>
@@ -46,9 +52,6 @@ namespace Ctlan
 				/// 値コピー用オブジェクト	</param>
 				Transform(const Transform* other);
 
-				/// <summary>
-				///	描画処理	</summary>
-				void Draw();
 				/// <summary>
 				/// ワールド行列を取得	</summary>
 				/// <returns>ワールド行列</returns>

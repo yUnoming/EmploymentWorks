@@ -421,8 +421,10 @@ void Server::OpenServer()
 		// 地位を設定
 		m_myServerRank = Owner;
 
-		// 受信スレッド生成
-		m_receiveThread = std::thread(&Server::ReceiveThread, this);
+		// 受信スレッドが生成されていない？
+		if (!m_receiveThread.joinable())
+			// 受信スレッド生成
+			m_receiveThread = std::thread(&Server::ReceiveThread, this);
 
 		MessageBoxW(NULL, L"サーバーを開きました", L"システム通知", MB_OK);
 	}
@@ -452,6 +454,7 @@ void Server::CloseServer()
 		}
 		// 通信の終了を設定
 		m_isCommunicationData = false;
+		m_isCommunicationDuring = false;
 		// ロック状態の解除
 		m_rockObjectList.clear();
 
@@ -552,6 +555,7 @@ void Server::LogoutServer()
 		}
 		// 通信状態を初期化
 		m_isCommunicationData = false;
+		m_isCommunicationDuring = false;
 		// シャットダウン状態を初期化
 		m_isServerShutdown = false;
 		// ロック状態の解除
@@ -571,32 +575,6 @@ void Server::LogoutServer()
 	{
 		// メッセージ表示
 		MessageBoxW(NULL, L"あなたはサーバーにログインしていません", L"システム通知", MB_OK);
-	}
-}
-
-void Server::SendData()
-{
-	if (m_isCommunicationData)
-	{
-		// 送信データ作成
-		printf("\n送信データを入力してください（アルファベットのみ）\n");
-		rewind(stdin);
-		int r = scanf_s("%[^\n]", m_sendData.data, 255);	// 改行以外を読み込む
-
-		size_t len = strlen(m_sendData.data);	// 送信文字列長を取得
-
-		// データの送信時、エラーが発生した？
-		if (sendto(
-			m_mySocket,							// ソケット番号
-			m_sendData.data,					// 送信データ
-			(int)len,							// 送信データ長
-			0,									// フラグ
-			(sockaddr*)&m_sendAddress,			// 送信先アドレス
-			sizeof(sockaddr))					// アドレス構造体のバイト長
-			== SOCKET_ERROR)
-		{
-			std::cout << "データの送信に失敗しました" << std::endl;
-		}
 	}
 }
 

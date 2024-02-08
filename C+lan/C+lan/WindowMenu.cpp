@@ -72,9 +72,6 @@ void Ctlan::PrivateSystem::ApplicationSystem::WindowMenu::Create()
     mii.wID = ID_LogoutServer;
     mii.dwTypeData = (LPWSTR)(L"サーバーからログアウト");
     InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
-    mii.wID = ID_SendMessage;
-    mii.dwTypeData = (LPWSTR)(L"メッセージを送る");
-    InsertMenuItem(hSubMenu, ID_Server, FALSE, &mii);
 
     // ウィンドウにメニューを追加
     SetMenu(Application::GetWindow(), hMenu);
@@ -161,11 +158,6 @@ void Ctlan::PrivateSystem::ApplicationSystem::WindowMenu::Run(WORD menuID)
         // サーバーからログアウト //
         case WindowMenu::ID_LogoutServer:
             SystemManager::SystemNetWorkManager::GetServer()->LogoutServer();
-            break;
-        //------------------//
-        // メッセージを送る //
-        case WindowMenu::ID_SendMessage:
-            SystemManager::SystemNetWorkManager::GetServer()->SendData();
             break;
         //----------//
         // 上記以外 //

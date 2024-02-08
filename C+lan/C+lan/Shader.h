@@ -32,7 +32,6 @@ namespace Ctlan
 				///	頂点レイアウト	</summary>
 				ID3D11InputLayout* m_vertexLayout{};
 
-			public:
 				// ----- functions / 関数 ----- //
 				/// <summary>
 				/// 終了		</summary>
@@ -41,6 +40,8 @@ namespace Ctlan
 				/// 描画		</summary>
 				void Draw() override;
 
+			public:
+				// ----- functions / 関数 ----- //
 				/// <summary>
 				///	シェーダーを読み込む	</summary>
 				/// <param name="vertexShader">
