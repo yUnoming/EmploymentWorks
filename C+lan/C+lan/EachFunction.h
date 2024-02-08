@@ -20,6 +20,20 @@ namespace Ctlan
 		/// コンポーネントで使いたいものをまとめたクラス	</summary>
 		class EachFunction : public Component
 		{
+			private:
+				/// <summary>
+				///	初期化	</summary>
+				void Init() override {};
+				/// <summary>				
+				///	終了	</summary>
+				void Uninit() override {};
+				/// <summary>
+				///	更新	</summary>
+				void Update() override {};
+				/// <summary>
+				/// 描画	</summary>
+				void Draw() override {};
+
 			public:
 				// ----- variables / 変数 ----- //
 				//! 自身の親であるオブジェクト

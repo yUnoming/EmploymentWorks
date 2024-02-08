@@ -17,7 +17,7 @@
 void Ctlan::EngineObject::SpectatorCamera::Init()
 {
 	// コンポーネント追加
-	AddComponent<Camera>();
+	Camera* cam = AddComponent<Camera>();
 }
 
 void Ctlan::EngineObject::SpectatorCamera::Update()

@@ -43,7 +43,6 @@ namespace Ctlan
 						ID_CloseServer,
 						ID_LoginServer,
 						ID_LogoutServer,
-						ID_SendMessage,
 					};
 
 					// ----- functions / ä÷êî ----- //

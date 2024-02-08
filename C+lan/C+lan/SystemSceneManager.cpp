@@ -413,6 +413,7 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::InitScene()
 // 通常処理
 	// 初期シーンのロード
 	LoadScene();
+	m_loadedScene->Init();
 }
 
 void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::UninitScene()
