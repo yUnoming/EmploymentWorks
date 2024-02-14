@@ -1,0 +1,82 @@
+0 GameObject MainCamera 1
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Camera
+1 TemplateCube Cube 0
+5
+Transform
+-2.596038, 1.299999, 4.804939
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+ModelRenderer
+BoxCollider
+1 TemplateCube Cube 1
+5
+Transform
+-4.114317, -1.170000, 4.548899
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+ModelRenderer
+BoxCollider
+1 TemplateCube Cube 2
+5
+Transform
+-5.687023, 0.260000, 2.894615
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+ModelRenderer
+BoxCollider
+1 TemplateCube Cube 3
+5
+Transform
+-3.543171, -0.190000, 0.201560
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+ModelRenderer
+BoxCollider
+1 TemplateCube Cube 4
+5
+Transform
+0.134615, -0.020000, 2.319544
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+ModelRenderer
+BoxCollider
+3 TemplateText Text 0
+4
+Transform
+0.000000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+C+ textend
+74.438568, 111.657867
+3.000000, -4.000000
+3 TemplateText Text 1
+4
+Transform
+-0.190000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+lan textend
+54.813854, 82.220779
+63.000000, 59.000000
