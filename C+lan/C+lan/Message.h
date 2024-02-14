@@ -81,7 +81,7 @@ namespace Ctlan
 
 		/// <summary>
 		/// メッセージボディー
-		/// メッセージの具体的な情報が入っている	</summary>
+		/// ：メッセージの具体的な情報が入っている	</summary>
 		struct Body
 		{
 			Body() { transform = 0; text = 0; };
@@ -100,6 +100,18 @@ namespace Ctlan
 				Ctlan::PublicSystem::Transform transform;
 				Ctlan::PublicSystem::Text text;
 			};
+		};
+
+		/// <summary>
+		///	シーン情報送受信用ボディー	</summary>
+		struct BodyScene
+		{
+			/// <summary>
+			///	シーン名	</summary>
+			char sceneName[30]{};
+			/// <summary>
+			///	シーンデータ	</summary>
+			char sceneData[4096]{};
 		};
 
 		/// <summary>
