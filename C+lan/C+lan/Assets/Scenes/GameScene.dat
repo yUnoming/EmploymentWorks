@@ -1,0 +1,70 @@
+0 GameObject MainCamera 0
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Camera
+1 TemplateCube Player 0
+6
+Transform
+0.000000, 0.000000, 8.500000
+0.000000, 0.000000, 0.000000
+0.500000, 0.500000, 0.500000
+Shader
+Material
+ModelRenderer
+BoxCollider
+Player
+3 MeteorPool MeteorPool 0
+2
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+3 ParticlePool ParticlePool 0
+2
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+3 TemplateText Text 0
+4
+Transform
+-1.080000, 0.000000, 1.970000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+boost space textend
+16.189274, 24.283905
+1.000000, 31.000000
+3 TemplateText Text 1
+4
+Transform
+-0.100000, 0.000000, 3.040000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+move wasd textend
+17.975822, 26.963726
+11.000000, 9.000000
+3 TemplateText Timer 0
+5
+Transform
+0.000000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+0.00 textend
+37.816769, 56.725147
+807.000000, 3.000000
+Timer

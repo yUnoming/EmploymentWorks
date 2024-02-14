@@ -1,0 +1,55 @@
+0 GameObject MainCamera 0
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Camera
+3 MeteorPool MeteorPool 0
+2
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+3 ParticlePool ParticlePool 0
+2
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+3 TemplateText Text 0
+4
+Transform
+-0.150000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+Cubeor Avoider textend
+50.860123, 76.290199
+144.000000, 127.000000
+3 TemplateText Text 1
+4
+Transform
+-0.210000, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+Press Enter Key textend
+28.412300, 42.618443
+258.000000, 326.000000
+3 GameObject SceneLoader 0
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+SceneLoader
+GameScene

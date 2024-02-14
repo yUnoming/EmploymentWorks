@@ -1,0 +1,41 @@
+0 GameObject MainCamera 0
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Camera
+3 TemplateText Text 0
+4
+Transform
+-1.459999, 0.000000, 3.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+Game Clear textend
+67.671425, 101.507156
+160.000000, 113.000000
+3 TemplateText Text 1
+4
+Transform
+0.000000, 0.000000, 2.720000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+Material
+Text
+Press Enter Key textend
+30.940990, 46.411480
+254.000000, 319.000000
+3 GameObject SceneLoader 0
+3
+Transform
+0.000000, 0.000000, 0.000000
+0.000000, 0.000000, 0.000000
+1.000000, 1.000000, 1.000000
+Shader
+SceneLoader
+TitleScene
