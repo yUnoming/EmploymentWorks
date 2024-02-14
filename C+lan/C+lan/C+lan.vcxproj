@@ -123,8 +123,10 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy /y /e /i "$(ProjectDir)Assets\*" "$(TargetDir)Assets\"
-</Command>
+      <Command>xcopy /y /e /i "$(ProjectDir)Assets\Fonts*" "$(TargetDir)Assets\"
+xcopy /y /e /i "$(ProjectDir)Assets\Models*" "$(TargetDir)Assets\"
+xcopy /y /e /i "$(ProjectDir)Assets\Shaders*" "$(TargetDir)Assets\"
+xcopy /y /e /i "$(ProjectDir)Assets\Textures" "$(TargetDir)Assets\"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
