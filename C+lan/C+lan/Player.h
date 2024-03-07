@@ -1,6 +1,5 @@
 #pragma once
 #include "C+lan.h"
-#include "EachFunction.h"
 
 class Player : public EachFunction
 {

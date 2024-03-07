@@ -21,7 +21,7 @@ void Ctlan::PrivateSystem::SceneBase::Delete(GameObject* object)
 	MessageData messageData;
 	// 情報を代入
 	messageData.message.header.type = MessageType::ObjectDelete;	// メッセージ種別
-	messageData.message.body.object.SetName(object->GetName());		// オブジェクト名
+	messageData.message.bodyObject.object.SetName(object->GetName());		// オブジェクト名
 	// メッセージを送る
 	Ctlan::PrivateSystem::SystemManager::SystemNetWorkManager::GetServer()->SendMessageData(messageData);
 }

@@ -1,18 +1,9 @@
 #pragma once
-#include "GameObject.h"
-#include "Transform.h"
+#include "C+lan.h"
 #include "modelRenderer.h"
-#include "BoxCollider.h"
-#include "KeyInput.h"
-#include "Material.h"
-
 #include "ParticlePool.h"
-#include "SpectatorCamera.h"
-#include "SystemSceneManager.h"
 
-#include <stdlib.h>
-
-class Meteor : public Ctlan::PrivateSystem::GameObject
+class Meteor : public EachFunction
 {
 	private:
 		Vector3 speed;
@@ -20,7 +11,38 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 
 		Vector3 startPosition;
 
-		void MeteorInit();
+		void MeteorInit()
+		{
+			int pattern = rand() % 4;
+			switch (pattern)
+			{
+			case 0:
+				transform->position.x = 16.0f;
+				transform->position.y = (rand() % 1801 - 900) * 0.01f;
+				break;
+			case 1:
+				transform->position.x = -16.0f;
+				transform->position.y = (rand() % 1801 - 900) * 0.01f;
+				break;
+			case 2:
+				transform->position.x = (rand() % 3201 - 1600) * 0.01f;
+				transform->position.y = 9.0f;
+				break;
+			case 3:
+				transform->position.x = (rand() % 3201 - 1600) * 0.01f;
+				transform->position.y = -9.0f;
+				break;
+			}
+
+			GameObject* mainCamera = SceneManager::GetNowScene()->GetSceneObject("MainCamera");
+
+			speed = mainCamera->transform->position - transform->position;
+			speed *= (rand() % 100 + 1) * 0.03f;
+			speed.z = 0.f;
+			velocity = speed * 0.001f;
+
+			transform->rotation += addRotation;
+		}
 
 	public:
 		Vector3 velocity;
@@ -28,20 +50,9 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 		int lateCount = 0;
 		int count = 0;
 
-		/// <summary>
-		///	コンストラクタ	</summary>
-		Meteor() : GameObject() {};
-		/// <summary>
-		///	引数付きコンストラクタ	</summary>
-		/// <param name="nowScene">
-		///	オブジェクトが生成されたシーン	</param>
-		Meteor(SceneBase* nowScene) : GameObject(nowScene) {};
-
 		void Init()
 		{
-			AddComponent<Ctlan::PublicSystem::Material>()->materialColor = Color(0.698f, 0.133f, 0.133f, 1.0f);
-			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets\\Models\\templateCube.obj");
-			AddComponent<Ctlan::PublicSystem::BoxCollider>();
+			GetComponent<Ctlan::PublicSystem::Material>()->materialColor = Color(0.698f, 0.133f, 0.133f, 1.0f);
 			
 			transform->position.z = 8.5f;
 			transform->scale *= 0.7f;
@@ -72,15 +83,15 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 		void HitCollision(GameObject* other)
 		{
 			count++;
-			Meteor* otherMeteor = (Meteor*)other;
-			if (otherMeteor)
+			if (other->GetComponent<Meteor>())
 			{
+				Meteor* otherMeteor = other->GetComponent<Meteor>();
 				otherMeteor->count++;
 
 				if (!isCalcVelocity)
 				{
 					float e = 0.8f;
-
+	
 					float m1 = 1.0f;
 					float vx1 = velocity.x;
 					float vy1 = velocity.y;
@@ -111,7 +122,9 @@ class Meteor : public Ctlan::PrivateSystem::GameObject
 	
 					Vector3 vec = other->transform->position - transform->position;
 					Vector3 generatePos = transform->position + (vec * 0.5f);
-					Ctlan::PublicSystem::SceneManager::GetNowScene()->GetSceneObject<ParticlePool>("ParticlePool")->GenerateParticle(generatePos);
+
+					GameObject* particlePool = Ctlan::PublicSystem::SceneManager::GetNowScene()->GetSceneObject("ParticlePool");
+					particlePool->GetComponent<ParticlePool>()->GenerateParticle(generatePos);
 				}
 			}
 		}

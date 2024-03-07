@@ -32,6 +32,11 @@ namespace Ctlan
 				/// このコンポーネントが追加されているオブジェクト	</summary>
 				GameObject* gameObject = nullptr;
 
+				/// <summary>
+				/// コンポーネントのアクティブ状態
+				/// （true: アクティブ false: 非アクティブ）</summary>
+				bool isActive = true;
+
 				// ----- functions / 関数 ----- //
 				/// <summary>
 				/// コンストラクタ		</summary>

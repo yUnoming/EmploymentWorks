@@ -23,11 +23,17 @@ void Ctlan::PrivateSystem::SystemManager::SystemCollisionManager::CalculationCol
 			// ===== 当たり判定の計算 ===== //
 			for (int i = 0; i < m_collisionVector.size(); i++)
 			{
+				// 当たり判定が非アクティブなら次へ
+				if (!m_collisionVector[i]->isActive) continue;
+
 				for (int j = i + 1; j < m_collisionVector.size(); j++)
 				{
 					// 当たり判定を全て計算した？
-					if (j >= m_collisionVector.size())
-						return;	// 判定終了
+					if (j >= m_collisionVector.size()) return;	// 判定終了
+					// 当たり判定が非アクティブなら次へ
+					if (!m_collisionVector[j]->isActive) continue;
+
+					// 当たり判定の計算へ
 					m_collisionVector[i]->CalcCollision(m_collisionVector[j]);
 				}
 			}
@@ -40,10 +46,17 @@ void Ctlan::PrivateSystem::SystemManager::SystemCollisionManager::CalculationCol
 		// ===== 当たり判定の計算 ===== //
 		for (int i = 0; i < m_collisionVector.size(); i++)
 		{
+			// 当たり判定が非アクティブなら次へ
+			if (!m_collisionVector[i]->isActive) continue;
+
 			for (int j = i + 1; j < m_collisionVector.size(); j++)
 			{
 				// 当たり判定を全て計算した？
 				if (j >= m_collisionVector.size()) return;	// 判定終了
+				// 当たり判定が非アクティブなら次へ
+				if (!m_collisionVector[j]->isActive) continue;
+
+				// 当たり判定の計算へ
 				m_collisionVector[i]->CalcCollision(m_collisionVector[j]);
 			}
 		}

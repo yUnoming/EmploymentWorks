@@ -119,7 +119,7 @@ void Ctlan::PrivateSystem::ApplicationSystem::WindowMenu::Run(WORD menuID)
             // メッセージデータ作成
             MessageData messageData;
             messageData.message.header.type = MessageType::CreateCube;
-            messageData.message.body.transform.position = cubeObject->transform->position;
+            messageData.message.bodyObject.transform.position = cubeObject->transform->position;
             // メッセージを送る処理を実行
             SystemManager::SystemNetWorkManager::GetServer()->SendMessageData(messageData);
             break;

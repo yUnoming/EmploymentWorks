@@ -232,14 +232,6 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 			{
 				addedObject = loadScene->LoadSceneObject<EngineObject::TemplateText>(layerNo, objNameData.myName);
 			}
-			else if (strcmp(objectType, "MeteorPool") == 0)
-			{
-				addedObject = loadScene->LoadSceneObject<MeteorPool>(layerNo, objNameData.myName);
-			}
-			else if (strcmp(objectType, "ParticlePool") == 0)
-			{
-				addedObject = loadScene->LoadSceneObject<ParticlePool>(layerNo, objNameData.myName);
-			}
 			// ‚»‚êˆÈŠO
 			else
 			{
@@ -338,6 +330,16 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 
 						SceneLoader* sceneLoader = addedObject->GetComponent<SceneLoader>();
 						strcpy_s(sceneLoader->loadSceneName, loadSceneName);
+					}
+					else if (strcmp(componentType, "MeteorPool") == 0)
+					{
+						if (!addedObject->GetComponent<MeteorPool>())
+							addedObject->AddComponent<MeteorPool>();
+					}
+					else if (strcmp(componentType, "ParticlePool") == 0)
+					{
+						if (!addedObject->GetComponent<ParticlePool>())
+							addedObject->AddComponent<ParticlePool>();
 					}
 				}
 			}
