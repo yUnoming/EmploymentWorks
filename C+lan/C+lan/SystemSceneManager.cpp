@@ -180,8 +180,6 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 {
 	// ベースシーンの生成
 	SceneBase* loadScene = new SceneBase(loadSceneName);
-	// ロードしたシーンを代入
-	m_loadedScene = loadScene;
 
 	// シーンファイル名を取得
 	char sceneFileName[100] = {"Assets/Scenes/"};
@@ -195,6 +193,13 @@ Ctlan::PrivateSystem::SceneBase* Ctlan::PrivateSystem::SystemManager::SystemScen
 	// 開くことができた？
 	if (file)
 	{
+		// 別シーンがロードされている？
+		if(m_loadedScene)
+			// 現在シーンの終了処理
+			m_loadedScene->Uninit();
+		// ロードしたシーンを代入
+		m_loadedScene = loadScene;
+
 		// ===== ロード処理 ===== //
 		int layerNo = 0;
 		char objectType[100] = { 0 };
@@ -382,12 +387,9 @@ void Ctlan::PrivateSystem::SystemManager::SystemSceneManager::LoadScene()
 			ZeroMemory(loadSceneName, sizeof(loadSceneName));
 			return;
 		}
-		// シーンがロードされていない
+		// 該当シーンはロードされていないorシーンが存在しない
 		else
 		{
-			// 現在シーンの終了処理
-			m_loadedScene->Uninit();
-
 			// ロードするシーンが存在しない？
 			if (LoadSceneData(loadSceneName) == nullptr)
 			{
