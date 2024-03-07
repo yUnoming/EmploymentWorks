@@ -91,28 +91,6 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					// ----- 相手に通信成功を伝える ----- //
 					m_sendData.message.header.type = MessageType::CommunicationSuccess;
 					SendMessageData(m_sendData);
-					
-					// ----- シーンデータを送る ----- //
-					// ファイルを開く
-					FILE* file = fopen("Assets/Scenes/DemoScene.dat", "r");
-					// ファイルを開いた？
-					if (file)
-					{
-						// ファイル読み込み
-						size_t readBytes = fread(m_sendData.data, 1, sizeof(m_sendData.data), file);
-						// 読み取るデータが無くなるまでループ
-						do
-						{
-							// 送信処理
-							SendData(m_sendData);
-							// ０クリア
-							ZeroMemory(m_sendData.data, sizeof(m_sendData.data));
-							// ファイル読み込み
-							readBytes = fread(m_sendData.data, 1, sizeof(m_sendData.data), file);
-						} while (readBytes > 0);
-						// ファイルを閉じる
-						fclose(file);
-					}
 					break;
 				}
 				//----------//
@@ -166,7 +144,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 
 									// 他ユーザーのロック状態を解除
 									m_receiveData.message.header.type = MessageType::ClickObject;
-									m_receiveData.message.body.object.CopyName(nullptr);
+									m_receiveData.message.bodyObject.object.CopyName(nullptr);
 									SendMessageOtherUser(m_receiveData);
 								}
 
@@ -193,22 +171,22 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				case MessageType::UpdateComponent:
 					// ===== コンポーネントの種類によって処理を分岐 ===== //
 					// Transformコンポーネント
-					if (strcmp(m_receiveData.message.body.componentType, "Transform") == 0)
+					if (strcmp(m_receiveData.message.bodyObject.componentType, "Transform") == 0)
 					{
 						// コンポーネント取得
 						Transform* transform =
-							Ctlan::PublicSystem::SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->transform;
+							Ctlan::PublicSystem::SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.bodyObject.object.GetName())->transform;
 						// 各値を代入
-						*transform = Transform(m_receiveData.message.body.transform);
+						*transform = Transform(m_receiveData.message.bodyObject.transform);
 					}
 					// Textコンポーネント
-					else if (strcmp(m_receiveData.message.body.componentType, "Text") == 0)
+					else if (strcmp(m_receiveData.message.bodyObject.componentType, "Text") == 0)
 					{
 						// コンポーネント取得
 						Text* text =
-							SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.body.object.GetName())->GetComponent<Text>();
+							SceneManager::GetNowScene()->GetSceneObject(m_receiveData.message.bodyObject.object.GetName())->GetComponent<Text>();
 						// 各値を代入
-						*text = Text(m_receiveData.message.body.text);
+						*text = Text(m_receiveData.message.bodyObject.text);
 					}
 					SendMessageOtherUser(m_receiveData);
 					break;
@@ -225,7 +203,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 						if (rockObject.rockUserNo == m_receiveData.message.header.userNo)
 						{
 							// クリックされたオブジェクト名を代入
-							strcpy_s(rockObject.rockObjectName, m_receiveData.message.body.object.GetName());
+							strcpy_s(rockObject.rockObjectName, m_receiveData.message.bodyObject.object.GetName());
 							isRocked = true;	// 既にロックしていることを覚えておく
 							break;
 						}
@@ -236,7 +214,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 						// 登録処理
 						RockObjectData rockObjectData;
 						// クリックされたオブジェクト名を代入
-						strcpy_s(rockObjectData.rockObjectName, m_receiveData.message.body.object.GetName());
+						strcpy_s(rockObjectData.rockObjectName, m_receiveData.message.bodyObject.object.GetName());
 						rockObjectData.rockUserNo = m_receiveData.message.header.userNo;
 						m_rockObjectList.push_back(rockObjectData);
 					}
@@ -248,7 +226,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 				// オブジェクト削除 //
 				case MessageType::ObjectDelete:
 					// 受信データ内からオブジェクト名を取得し、そのオブジェクトを削除
-					Ctlan::PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.body.object.GetName());
+					Ctlan::PublicSystem::SceneManager::GetNowScene()->DeleteSceneObject(m_receiveData.message.bodyObject.object.GetName());
 					SendMessageOtherUser(m_receiveData);
 					break;
 				//--------------//
@@ -259,7 +237,7 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					GameObject* cubeObject = Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateCube>(1, "Cube");
 					// メッセージからTransform情報を取得し、代入
 					// ※作成した際、座標以外は一定の値なので、代入しない
-					cubeObject->transform->position = m_receiveData.message.body.transform.position;
+					cubeObject->transform->position = m_receiveData.message.bodyObject.transform.position;
 					SendMessageOtherUser(m_receiveData);
 					break;
 				}
@@ -270,18 +248,6 @@ void Ctlan::PrivateSystem::Server::ReceiveThread()
 					// テキストを作成
 					Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateText>(3, "Text");
 					SendMessageOtherUser(m_receiveData);
-					break;
-				}
-				default:
-				{
-					// ファイルを開く（"a"で終端から書き込むようにする）
-					FILE* file = fopen("Assets/DemoScene.dat", "a");
-					// ファイルを開いた？
-					if (file)
-					{
-						fwrite(m_receiveData.data, 1, sts, file);
-						fclose(file);
-					}
 					break;
 				}
 			}

@@ -6,20 +6,22 @@ Transform
 1.000000, 1.000000, 1.000000
 Shader
 Camera
-3 MeteorPool MeteorPool 0
-2
+3 GameObject MeteorPool 0
+3
 Transform
 0.000000, 0.000000, 0.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 Shader
-3 ParticlePool ParticlePool 0
-2
+MeteorPool
+3 GameObject ParticlePool 0
+3
 Transform
 0.000000, 0.000000, 0.000000
 0.000000, 0.000000, 0.000000
 1.000000, 1.000000, 1.000000
 Shader
+ParticlePool
 3 TemplateText Text 0
 4
 Transform

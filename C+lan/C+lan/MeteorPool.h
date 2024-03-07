@@ -1,25 +1,27 @@
 #pragma once
-#include "GameObject.h"
+#include "C+lan.h"
 #include "Meteor.h"
+#include "TemplateCube.h"
 
-class MeteorPool : public Ctlan::PrivateSystem::GameObject
+class MeteorPool : public EachFunction
 {
 	private:
-		std::list<Meteor*> MeteorPool;
+		std::list<GameObject*> meteorPool;
 
 	public:
 		void Init()
 		{
 			for (int i = 0; i < 7; i++)
 			{
-				Meteor* meteor = Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Meteor>(1, "Meteor");
-				MeteorPool.push_back(meteor);
+				GameObject* meteor = Ctlan::PublicSystem::SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateCube>(1, "Meteor");
+				meteor->AddComponent<Meteor>();
+				meteorPool.push_back(meteor);
 			}
 		}
 
 		void Uninit()
 		{
-			MeteorPool.clear();
+			meteorPool.clear();
 		}
 };
 

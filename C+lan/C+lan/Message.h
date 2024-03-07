@@ -80,12 +80,12 @@ namespace Ctlan
 		};
 
 		/// <summary>
-		/// メッセージボディー
+		/// オブジェクト関係のメッセージボディー
 		/// ：メッセージの具体的な情報が入っている	</summary>
-		struct Body
+		struct BodyObject
 		{
-			Body() { transform = 0; text = 0; };
-			~Body() {};
+			BodyObject() { transform = 0; text = 0; };
+			~BodyObject() {};
 
 			/// <summary>
 			///	オブジェクト情報	</summary>
@@ -103,15 +103,19 @@ namespace Ctlan
 		};
 
 		/// <summary>
-		///	シーン情報送受信用ボディー	</summary>
+		/// シーン関係のメッセージボディー
+		/// ：メッセージの具体的な情報が入っている	</summary>
 		struct BodyScene
 		{
+			BodyScene() {};
+			~BodyScene() {};
+
 			/// <summary>
 			///	シーン名	</summary>
 			char sceneName[30]{};
 			/// <summary>
 			///	シーンデータ	</summary>
-			char sceneData[4096]{};
+			char sceneData[1024]{};
 		};
 
 		/// <summary>
@@ -126,7 +130,11 @@ namespace Ctlan
 			Header header;
 			/// <summary>
 			///	メッセージボディー	</summary>
-			Body   body;
+			union
+			{
+				BodyObject   bodyObject;
+				BodyScene	 bodyScene;
+			};
 		};
 
 		/// <summary>

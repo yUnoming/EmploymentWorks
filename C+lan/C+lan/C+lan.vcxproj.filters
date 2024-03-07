@@ -67,33 +67,12 @@
     <Filter Include="ソース ファイル\C+lan\PrivateSystem\NetWork">
       <UniqueIdentifier>{8663be31-91a4-41fb-848f-202eea568e34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\C+lan\EngineObject\Gizmo">
-      <UniqueIdentifier>{ab7f1030-f648-4c41-ac4f-9d412773cf84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\C+lan\EngineObject\Gizmo">
       <UniqueIdentifier>{0013dc41-055d-4759-847d-a3574e3847b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Meteor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="MeteorPool.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticlePool.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SpectatorCamera.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateCube.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateText.cpp">
       <Filter>ソース ファイル\C+lan\EngineObject</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
@@ -111,9 +90,6 @@
     <ClCompile Include="Color.cpp">
       <Filter>ソース ファイル\C+lan\PublicSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>ソース ファイル\C+lan\PrivateSystem</Filter>
-    </ClCompile>
     <ClCompile Include="EditScene.cpp">
       <Filter>ソース ファイル\C+lan\EngineScene</Filter>
     </ClCompile>
@@ -128,18 +104,6 @@
     </ClCompile>
     <ClCompile Include="LaunchSceneInformation.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionGizmo.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionXGizmo.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionYGizmo.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="PositionZGizmo.cpp">
-      <Filter>ソース ファイル\C+lan\EngineObject\Gizmo</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>ソース ファイル\C+lan\PublicSystem\EachFunction</Filter>
@@ -167,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="Text.cpp">
       <Filter>ソース ファイル\C+lan\PublicSystem\EachFunction</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>ソース ファイル\C+lan\PublicSystem</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderer.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem\EachFunction</Filter>
@@ -222,23 +183,14 @@
     <ClCompile Include="SystemTimeManager.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem\SystemManager</Filter>
     </ClCompile>
-    <ClCompile Include="EachFunction.cpp">
-      <Filter>ソース ファイル\C+lan\PrivateSystem\EachFunction</Filter>
-    </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>ソース ファイル\C+lan\PrivateSystem\NetWork</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneLoader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\C+lan\PublicSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -39,4 +39,6 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 // 　		C++標準ライブラリ 　	//
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
+#include <stdlib.h>
 #include <string>
+#include <list>

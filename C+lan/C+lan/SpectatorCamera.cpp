@@ -139,7 +139,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.CopyName(m_clickedObject->GetName());
+			messageData.message.bodyObject.object.CopyName(m_clickedObject->GetName());
 			
 			// メッセージを送る処理を実行
 			PrivateSystem::SystemManager::SystemNetWorkManager::GetServer()->
@@ -159,7 +159,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.CopyName(m_clickedObject->GetName());
+			messageData.message.bodyObject.object.CopyName(m_clickedObject->GetName());
 
 			// メッセージを送る処理を実行
 			PrivateSystem::SystemManager::SystemNetWorkManager::GetServer()->
@@ -185,7 +185,7 @@ void Ctlan::EngineObject::SpectatorCamera::Update()
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::ClickObject;
 			// オブジェクト
-			messageData.message.body.object.CopyName(nullptr);
+			messageData.message.bodyObject.object.CopyName(nullptr);
 
 			// メッセージを送る処理を実行
 			PrivateSystem::SystemManager::SystemNetWorkManager::GetServer()->

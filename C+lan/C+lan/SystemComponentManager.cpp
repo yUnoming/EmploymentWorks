@@ -75,13 +75,13 @@ void Ctlan::PrivateSystem::SystemManager::SystemComponentManager::SendMessageBas
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::UpdateComponent;
 			// オブジェクト
-			messageData.message.body.object.CopyName(nowTransform.gameObject->GetName());
+			messageData.message.bodyObject.object.CopyName(nowTransform.gameObject->GetName());
 			// コンポーネントタイプ
-			strcpy_s(messageData.message.body.componentType,
-				sizeof(messageData.message.body.componentType),
+			strcpy_s(messageData.message.bodyObject.componentType,
+				sizeof(messageData.message.bodyObject.componentType),
 				componentType);
 			// コンポーネント情報
-			messageData.message.body.transform = nowTransform;
+			messageData.message.bodyObject.transform = nowTransform;
 			
 			// メッセージを送る処理を実行
 			SystemNetWorkManager::GetServer()->
@@ -105,13 +105,13 @@ void Ctlan::PrivateSystem::SystemManager::SystemComponentManager::SendMessageBas
 			// メッセージタイプ
 			messageData.message.header.type = MessageType::UpdateComponent;
 			// オブジェクト
-			messageData.message.body.object.CopyName(nowText.gameObject->GetName());
+			messageData.message.bodyObject.object.CopyName(nowText.gameObject->GetName());
 			// コンポーネントタイプ
-			strcpy_s(messageData.message.body.componentType,
-				sizeof(messageData.message.body.componentType),
+			strcpy_s(messageData.message.bodyObject.componentType,
+				sizeof(messageData.message.bodyObject.componentType),
 				componentType);
 			// コンポーネント情報
-			messageData.message.body.text = Text(nowText);
+			messageData.message.bodyObject.text = Text(nowText);
 
 			// メッセージを送る処理を実行
 			SystemNetWorkManager::GetServer()->

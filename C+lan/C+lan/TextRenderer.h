@@ -10,6 +10,7 @@
 // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ //
 #include "EachFunction.h"
 #include "renderer.h"
+#include "Vector2.h"
 
 #include <vector>
 
@@ -94,10 +95,10 @@ namespace Ctlan
 				char dummyText[101] = {};
 				/// <summary>
 				/// 文字サイズ </summary>
-				Vector2 fontSize;
+				Ctlan::PublicSystem::Vector2 fontSize;
 				/// <summary>
 				///	テキストの左上頂点位置	</summary>
-				Vector2 leftTopPoint = Vector2(0.f, 0.f);
+				Ctlan::PublicSystem::Vector2 leftTopPoint = Ctlan::PublicSystem::Vector2(0.f, 0.f);
 
 				// ----- functions / 関数 ----- //
 				/// <summary>

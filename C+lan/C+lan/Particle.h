@@ -1,13 +1,8 @@
 #pragma once
-#include "GameObject.h"
-#include "Transform.h"
+#include "C+lan.h"
 #include "modelRenderer.h"
-#include "Material.h"
-#include "Time.h"
 
-#include <stdlib.h>
-
-class Particle : public Ctlan::PrivateSystem::GameObject
+class Particle : public EachFunction
 {
 	private:
 		Vector2 weight;
@@ -17,19 +12,11 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 		Material* mat = nullptr;
 
 	public:
-		/// <summary>
-		///	コンストラクタ	</summary>
-		Particle() : GameObject() {};
-		/// <summary>
-		///	引数付きコンストラクタ	</summary>
-		/// <param name="nowScene">
-		///	オブジェクトが生成されたシーン	</param>
-		Particle(SceneBase* nowScene) : GameObject(nowScene) {};
 
 		void Init()
 		{
-			mat = AddComponent<Material>();
-			AddComponent<Ctlan::PrivateSystem::ModelRenderer>()->Load("Assets/Models\\templateCube.obj");
+			mat = GetComponent<Material>();
+			GetComponent<BoxCollider>()->isActive = false;
 			transform->position.z = 5.0f;
 			transform->scale *= 0.1f;
 
@@ -38,7 +25,7 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 			addRotation.z = (rand() % 11) * 0.5f;
 
 			ParticleInit();
-			isActive = false;
+			gameObject->isActive = false;
 		}
 
 		void Update()
@@ -57,7 +44,7 @@ class Particle : public Ctlan::PrivateSystem::GameObject
 			elapsedTime += Time::DeltaTime * 0.001f;
 
 			if (elapsedTime > 2.0f)
-				isActive = false;
+				gameObject->isActive = false;
 			else
 				mat->materialColor.a = (2.0f - elapsedTime) / 2.0f;
 			 

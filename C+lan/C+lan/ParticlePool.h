@@ -1,20 +1,19 @@
 #pragma once
-#include "GameObject.h"
+#include "C+lan.h"
 #include "Particle.h"
-#include "SceneManager.h"
-#include <list>
 
-class ParticlePool : public Ctlan::PrivateSystem::GameObject
+class ParticlePool : public EachFunction
 {
 	private:
-		std::list<Particle*> particlePool;
+		std::list<GameObject*> particlePool;
 	
 	public:
 		void Init()
 		{
 			for (int i = 0; i < 30; i++)
 			{
-				Particle* particle = SceneManager::GetNowScene()->AddSceneObject<Particle>(2, "Particle");
+				GameObject* particle = SceneManager::GetNowScene()->AddSceneObject<Ctlan::EngineObject::TemplateCube>(2, "Particle");
+				particle->AddComponent<Particle>();
 				particlePool.push_back(particle);
 			}
 		}
@@ -31,11 +30,11 @@ class ParticlePool : public Ctlan::PrivateSystem::GameObject
 
 			if (particlePool.empty())return;
 
-			for (Particle* particle : particlePool)
+			for (GameObject* particle : particlePool)
 			{
 				if (particle->isActive == false)
 				{
-					particle->ParticleInit();
+					particle->GetComponent<Particle>()->ParticleInit();
 					particle->transform->position.x = generatePosition.x;
 					particle->transform->position.y = generatePosition.y;
 					particle->isActive = true;
